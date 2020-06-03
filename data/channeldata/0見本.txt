@@ -1,6 +1,0 @@
-Lv
-MaxHP
-NowHP
-SRT
-DEF
-AGI
