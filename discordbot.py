@@ -328,4 +328,4 @@ async def on_message(message):
             print([int(i) for i in m])
 
 
-client.run(token)
+client.run(TOKEN)
