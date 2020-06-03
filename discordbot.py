@@ -8,7 +8,7 @@ import ast
 import traceback
 from datetime import datetime, timedelta, timezone
 JST = timezone(timedelta(hours=+9), 'JST')
-TOKEN = os.environ['DISCORD_BOT_TOKEN']
+TOKEN = os.environ['TOKEN']
 client = discord.Client()
 
 def randint(a,b):
