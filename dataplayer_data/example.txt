@@ -1,7 +1,0 @@
-lv
-MaxHP
-NowHP
-STR
-DEF
-AGI
-Exp
