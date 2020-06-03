@@ -24,7 +24,7 @@ class StatusCorr:
 
 status_set = StatusCorr()
 
-corr_path = "/Users/furuno/Desktop/DiscordBots/BitRPGbot/data/correction_value/dmg_corr.txt"
+corr_path = "/data/correction_value/dmg_corr.txt"
 with open(corr_path,mode="r") as f:
     dmg_corr_nums = f.readlines()
 
