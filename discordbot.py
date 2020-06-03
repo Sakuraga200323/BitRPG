@@ -34,7 +34,6 @@ status_set.min_dmg_corr = dmg_corr_nums[1]
 
 @client.event
 async def on_ready():
-
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
     LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bit起動ログ"]
@@ -52,6 +51,9 @@ async def on_ready():
             print("Error")
     print(desc)
 
+    path = f"/data/playerdata/log/startup/{NOW}txt"
+    with open(path,mode="w") as f:
+        f.write(f"startup\n{datetime.now(JST)}")
 
 @client.event
 async def on_message(message):
@@ -63,10 +65,10 @@ async def on_message(message):
     m_guild = message.guild
     m_author = message.author
 
-    path = f"/data/playerdata/{m_author.id}/data.txt"
-    flag_path = f"/data/playerdata/{m_author.id}/flag.txt"
-    path2 = f"/data/channeldata/{m_ch.id}/data.txt"
-    flag_path2 = f"/data/channeldata/{m_ch.id}/flag.txt"
+    path = f"/data/playerdata/{m_author.id}_data.txt"
+    flag_path = f"/data/playerdata/{m_author.id}_flag.txt"
+    path2 = f"/data/channeldata/{m_ch.id}_data.txt"
+    flag_path2 = f"/data/channeldata/{m_ch.id}_flag.txt"
 
 
     if m_ctt.startswith("^^reset"):
