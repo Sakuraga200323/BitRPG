@@ -35,12 +35,13 @@ status_set.min_dmg_corr = dmg_corr_nums[1]
 @client.event
 async def on_ready():
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
-    MEM = psutil.virtual_memory().percent
+    # MEM = psutil.virtual_memory().percent
     LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bit起動ログ"]
     desc = (f"\n+Bot\n{client.user}"
         + f"\n+BotID\n{client.user.id}"
         + f"\n+Prefix\n^^"
-        + f"\n+UseingMemory\n{MEM}%")
+        # + f"\n+UseingMemory\n{MEM}%"
+    )
     for ch in LOG_CHANNELS:
         try:
             embed = discord.Embed(
