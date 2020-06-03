@@ -24,7 +24,7 @@ class StatusCorr:
 
 status_set = StatusCorr()
 
-corr_path = "/data/correction_value/dmg_corr.txt"
+corr_path = "data/correction_value/dmg_corr.txt"
 with open(corr_path,mode="r") as f:
     dmg_corr_nums = f.readlines()
 
@@ -52,7 +52,7 @@ async def on_ready():
             print("Error")
     print(desc)
 
-    path = f"/data/playerdata/log/startup/{NOW}txt"
+    path = f"data/playerdata/log/startup/{NOW}txt"
     with open(path,mode="w") as f:
         f.write(f"startup\n{datetime.now(JST)}")
 
@@ -66,10 +66,10 @@ async def on_message(message):
     m_guild = message.guild
     m_author = message.author
 
-    path = f"/data/playerdata/{m_author.id}_data.txt"
-    flag_path = f"/data/playerdata/{m_author.id}_flag.txt"
-    path2 = f"/data/channeldata/{m_ch.id}_data.txt"
-    flag_path2 = f"/data/channeldata/{m_ch.id}_flag.txt"
+    path = f"data/playerdata/{m_author.id}_data.txt"
+    flag_path = f"data/playerdata/{m_author.id}_flag.txt"
+    path2 = f"data/channeldata/{m_ch.id}_data.txt"
+    flag_path2 = f"data/channeldata/{m_ch.id}_flag.txt"
 
 
     if m_ctt.startswith("^^reset"):
