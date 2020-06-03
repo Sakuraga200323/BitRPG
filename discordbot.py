@@ -4,7 +4,7 @@ import random
 import os
 import re
 import ast
-import psutil
+# import psutil
 import traceback
 from datetime import datetime, timedelta, timezone
 JST = timezone(timedelta(hours=+9), 'JST')
