@@ -1,0 +1,448 @@
+import discord
+import asyncio
+import math
+import random
+import os
+import re
+import ast
+import psutil
+import traceback
+from datetime import datetime, timedelta, timezone
+JST = timezone(timedelta(hours=+9), 'JST')
+token = "NzE1MjAzNTU4MzU3NTk4MjQw.Xs5zVA.eceKTCcU_LznN6LqztEIFX8Sp8c"
+client = discord.Client()
+
+def randint(a,b):
+    return random.randint(a,b)
+
+class FlagClass:
+    ch_dic = {}
+    player_list = []
+    battle_player_dic = {}
+
+box = FlagClass()
+
+admin_list = [
+    715192735128092713,
+    561836530398789641,
+    710207828303937626,
+]
+
+@client.event
+async def on_ready():
+
+    await client.change_presence(activity=discord.Game(name=f"^^help|{len(client.guilds)}の鯖が導入"))
+    NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
+    MEM = psutil.virtual_memory().percent
+    LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bit起動ログ"]
+    desc = (f"\n+Bot\n{client.user}"
+        + f"\n+BotID\n{client.user.id}"
+        + f"\n+Prefix\n^^"
+        + f"\n+UsingMemory\n{MEM}%")
+    for ch in LOG_CHANNELS:
+        try:
+            embed = discord.Embed(
+                title = "BitRPG起動ログ",
+                description = f"```diff\n{desc}```")
+            embed.timestamp = datetime.now(JST)
+            await ch.send(embed = embed)
+        except:
+            print("Error")
+    print(desc)
+
+
+@client.event
+async def on_message(message):
+
+    m_ctt = message.content
+    m_em = message.embeds
+    m_id = message.id
+    m_ch = message.channel
+    m_guild = message.guild
+    m_author = message.author
+    if m_author.bot:
+        return
+
+    if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
+        # 他のファイルに分離したい範囲開始地点
+        if m_author in box.player_list: 
+            print(f"※{m_author}が連投")
+            await m_ch.send(embed = discord.Embed(
+            description = f"処理が終了するのを待ってください。\n処理がいつまでも終わらない場合は`^^reset`と`^^revive`を試してください。"))
+            return
+
+        if m_author in box.battle_player_dic:
+
+            if box.battle_player_dic[m_author] != m_ch:
+                await m_ch.send(embed = discord.Embed(
+                    description = (
+                        f"{m_author.mention}は**{box.battle_player_dic[m_author].name}**"
+                        + f"({box.battle_player_dic[m_author].mention})で既に戦闘に参加しています。"
+                )))
+                return
+
+        with open(path, mode="r") as f:
+            P = f.readlines()
+            p_list = [int(i.strip()) for i in P]
+
+        # プレイヤーのHPが0だったらreturn
+        if p_list[2] <= 0:
+            print(f"{m_author}死亡済み(HP:{p_list[2]})")
+            await message.channel.send(f"{m_author.mention}は既に死亡しています。\n`^^reset`で戦闘から離脱可能です。\n戦闘に参加していない場合は`^^revive`")
+
+            if m_author in box.player_list:
+                box.player_list.remove(m_author)
+            return
+
+        if not m_ch in box.ch_dic:
+            box.ch_dic[m_ch] = [m_author,]
+
+        if not m_author in box.ch_dic[m_ch]:
+            box.ch_dic[m_ch].append(m_author)
+
+        if not m_author in box.player_list:
+            box.player_list.append(m_author)
+
+        if not m_author in box.battle_player_dic:
+            box.battle_player_dic[m_author] = m_ch
+
+        box.battle_player_dic[m_author] = m_ch
+
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+        if not os.path.exists(path2):
+            print(f"Add channel data:{m_ch.name}({m_ch.id})")
+
+            with open(path2, mode="w") as file:
+                file.write("1\n100\n100\n10\n10\n10\nFirstEnemy")
+                m_list = [1, 100, 100, 10, 10, 10]
+
+        elif os.path.exists(path2):
+
+            with open(path2, mode="r") as file:
+                M = file.readlines()
+            m_list = [ int(i.strip()) for i in M]
+            print(f"Lv{m_list[0]}, {m_ch.name}, {m_ch.id}")
+
+        if m_list[0] % 100 == 0:
+            get_exp = round(m_list[0] * 5)
+
+        elif m_list[0] % 10 == 0:
+            get_exp = round(m_list[0] * 1.5)
+
+        else:
+            get_exp = round(m_list[0])
+
+        be_moblv = m_list[0]
+
+        p_atk, p_def, p_agi = p_list[3:6]
+        print(f"PlayerStatus:STR{p_atk}, DEF{p_def}, AGI{p_agi}")
+
+        m_atk, m_def, m_agi = m_list[3:6]
+        print(f"MobStatus   :STR{m_atk}, DEF{m_def}, AGI{m_agi}")
+
+        dmg01 = dmg_calc(p_atk, m_def)
+        dmg02 = dmg_calc(m_atk, p_def)
+
+        if dmg01 <= 0:
+            dmg01 = 1
+        if dmg02 <= 0:
+            dmg02 = 1
+
+        dmg1 = round(dmg01)
+        dmg2 = round(dmg02)
+
+        print(f"Player -> Mob:{dmg1}")
+        print(f"Mob -> Player:{dmg2}")
+
+        msg = "```diff\n"
+        embed = None
+
+        # プレイヤーが先手
+        if p_agi >= m_list[5]:
+            msg += f"+ {m_author.name}の攻撃！"
+
+            if randint(0, 100) == 1:
+                m_list[2] -= dmg1*5
+                msg += ("クリティカルヒット！")
+
+            else:
+                m_list[2] -= dmg1
+            msg += f"Lv{m_list[0]}の敵に{dmg1}のダメージ！\n敵のHP[{m_list[2]}/{m_list[1]}]```"
+            print(f"Player attack")
+
+            # モンスターのHPが残っている
+            if m_list[2] > 0:
+                msg += (
+                    "```diff\n"
+                    + f"- Lv{m_list[0]}の敵の攻撃！")
+
+                if randint(0, 100) == 1:
+                    p_list[2] -= dmg2*5
+                    msg += "クリティカルヒット！"
+
+                else:
+                    p_list[2] -= dmg2
+
+                msg += (
+                    f"{m_author.name}に{dmg2}のダメージ！\n"
+                    + f" {m_author.name}のHP[{p_list[2]}/{p_list[1]}]"
+                    + "```")
+                print(f"Mob wasn't die")
+                print(f"Mob attack")
+
+                # モンスターの後手でプレイヤーのHPが0以下に成った時
+                if p_list[2] <= 0:
+                    msg = msg + (f"```ini\n[{m_author.name}は力尽きた…]```")
+                    print(f"Player was die")
+
+            # モンスターのHPが残っていない時
+            elif m_list[2] <= 0:
+                desc = f"Lv{m_list[0]}の敵を倒した。"
+
+                if m_ch.name.startswith("tokkun"):
+                    m_list[0] = 1
+
+                else:
+                    m_list[0] += 1
+
+                print("Players",[ f"{i}" for i in box.ch_dic[m_ch]])
+
+                for player in box.ch_dic[m_ch]:
+                    print(f"{player}の処理")
+                    PATH = f"/Users/furuno/Desktop/DiscordBots/BitRPGbot/data/playerdata/{player.id}.txt"
+
+                    with open(PATH, mode="r") as f:
+                        P = f.readlines()
+                        P_list = [int(i.strip()) for i in P]
+                        P_list[6] += get_exp
+                        P_list[7] += get_exp
+                        be_lv = P_list[0]
+
+                    while P_list[6] >= P_list[0]:
+                        P_list[6] -= P_list[0]
+                        P_list[0] += 1
+                        P_list[3] = 10 + 10*P_list[0] + P_list[10]
+                        P_list[4] = 10 + 10*P_list[0] + P_list[11]
+                        P_list[5] = 10 + 10*P_list[0] + P_list[12]
+                        P_list[1] = 100 + 10*P_list[0] + P_list[9]
+
+                        if P_list[0]%10 == 0:
+                            P_list[8] += 50
+
+                    P_list[2] = P_list[1]
+                    desc += f"\n{player.mention}は`{get_exp}Exp`獲得"
+
+                    if P_list[0] > be_lv:
+                        desc += f"\n{player.mention}はLvUP `{be_lv}->{P_list[0]}`"
+
+                    if randint(0,100) == 1:
+                        P_list[8] += m_list[0]
+                        em = discord.Embed(
+                            description = f"{player.mention}が魔石を発見！魔力が{player.mention}に流れ込んで行く…\nSTPが`{m_list[0]}`増加")
+                        em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
+                        await m_ch.send(embed = em)
+
+                    try:
+                        del box.battle_player_dic[m_author]
+
+                    except:
+                        await m_ch.send(embed = discord.Embed(
+                            description = f"{player.mention}の戦闘参加解除中にエラーが発生"))
+
+                    with open(PATH, mode="w") as f:
+                        L_P = [str(i) + "\n" for i in P_list]
+                        f.writelines(L_P)
+
+                embed = discord.Embed(
+                    title = "Result",
+                    description = desc,
+                )
+
+                try:
+                    del box.ch_dic[m_ch]
+
+                except:
+                    await m_ch.send(embed = discord.Embed(
+                        description = f"{m_ch.mention}の戦闘解除中にエラーが発生"))
+
+                print(f"Mob was die")
+
+        # モンスターが先手を取る時
+        elif p_agi < m_list[5]:
+            print(f"Mob -> Player")
+            msg += f"- Lv{m_list[0]}の敵の攻撃！"
+
+            if randint(0,100) == 1:
+                p_list[2] -= dmg2*5
+                msg += "クリティカルヒット！"
+
+            else:
+                p_list[2] -= dmg2
+
+            msg += (
+                f"{m_author.name}に{dmg2}のダメージ！\n"
+                + f" {m_author.name}のHP[{p_list[2]}/{p_list[1]}]"
+                + "```")
+            print(f"Mob attack")
+
+            # プレイヤーのHPが残っている時
+            if p_list[2] > 0:
+
+                if randint(0,100) == 1:
+                    m_list[2] -= dmg1*5
+                    msg = msg + ("```diff\n"
+                        + f"+ {m_author.name}の攻撃！クリティカルヒット"
+                        + f"Lv{m_list[0]}の敵に{dmg1}のダメージ！\n"
+                        + f" 敵[{m_list[2]}/{m_list[1]}]"
+                        + "```")
+
+                else:
+                    m_list[2] -= dmg1
+                    msg = msg + ("```diff\n"
+                        + f"+ {m_author.name}の攻撃！"
+                        + f"Lv{m_list[0]}の敵に{dmg1}のダメージ！\n"
+                        + f" 敵[{m_list[2]}/{m_list[1]}]"
+                        + "```")
+                print(f"Player wasn't die")
+                print(f"player attack")
+
+                # プレイヤーの後手でモンスターのHPが0以下に成った時
+                if m_list[2] <= 0:
+                    desc = f"Lv{m_list[0]}の敵を倒した。"
+
+                    if m_ch.name.startswith("tokkun"):
+                        m_list[0] = 1
+
+                    else:
+                        m_list[0] += 1
+                    print("EXP:",get_exp)
+                    print("Players",[ f"{i}" for i in box.ch_dic[m_ch]])
+
+                    for player in box.ch_dic[m_ch]:
+                        print(f"{player}の処理")
+                        PATH = f"/Users/furuno/Desktop/DiscordBots/BitRPGbot/data/playerdata/{player.id}.txt"
+
+                        with open(PATH, mode="r") as f:
+                            P = f.readlines()
+                            P_list = [int(i.strip()) for i in P]
+                            P_list[6] += get_exp
+                            P_list[7] += get_exp
+                            be_lv = P_list[0]
+
+                        while P_list[6] >= P_list[0]:
+                            P_list[6] -= P_list[0]
+                            P_list[0] += 1
+                            P_list[3] = 10 + 10*P_list[0] + P_list[10]
+                            P_list[4] = 10 + 10*P_list[0] + P_list[11]
+                            P_list[5] = 10 + 10*P_list[0] + P_list[12]
+                            P_list[1] = 100 + 10*P_list[0] + P_list[9]
+
+                            if P_list[0]%10 == 0:
+                                P_list[8] += 50
+
+                        P_list[2] = P_list[1]
+                        desc += f"\n{player.mention}は`{get_exp}Exp`獲得"
+
+                        if P_list[0] > be_lv:
+                            desc += f"\n{player.mention}はLvUP `{be_lv}->{P_list[0]}`"
+
+                        if randint(0,100) == 1:
+                            P_list[8] += m_list[0]
+                            em = discord.Embed(
+                                description = f"{player.mention}が魔石を発見！魔力が{player.mention}に流れ込んで行く…\n STPが`{m_list[0]}`増加")
+                            em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
+                            await m_ch.send(embed = em)
+
+                        try:
+                            del box.battle_player_dic[m_author]
+
+                        except:
+                            await m_ch.send(embed = discord.Embed(
+                                description = f"{player.mention}の戦闘参加解除中にエラーが発生"))
+
+                        with open(PATH, mode="w") as f:
+                            L_P = [str(i) + "\n" for i in P_list]
+                            f.writelines(L_P)
+
+                    embed = discord.Embed(
+                        title = "Result",
+                        description = desc,
+                    )
+
+                    try:
+                        del box.ch_dic[m_ch]
+
+                    except:
+                        await m_ch.send(embed = discord.Embed(
+                            description = f"{m_ch.mention}の戦闘解除中にエラーが発生"))
+
+                    print(f"Mob was die")
+
+            # プレイヤーのHPが残ってない時
+            elif p_list[2] <= 0:
+                msg += (f"```ini\n[{m_author.name}は力尽きた…]```")
+                print(f"Player was die")
+
+        with open(path, mode="w") as f:
+            L_P = [str(i) + "\n" for i in p_list]
+            f.writelines(L_P)
+
+        await m_ch.send(content = msg,embed = embed)
+
+        if m_ch.name.startswith("tokkun") and m_list[2] <= 0:
+            be_moblv = 0
+
+        if be_moblv < m_list[0]:
+            img_path = "/Users/furuno/Desktop/DiscordBots/BitRPGbot/data/NMob.txt"
+            agi_num = 1
+
+            if m_list[0] % 100 == 0:
+                img_path = "/Users/furuno/Desktop/DiscordBots/BitRPGbot/data/SSRMob.txt"
+                title = "FloorBoss"
+                BAIRITSU = 5
+                agi_num = -666
+                C = 000000
+
+            elif m_list[0] % 10 == 0:
+                title = "Formidable"
+                BAIRITSU = 1.5
+                C = discord.Color.red()
+
+            else:
+                title = "Normal"
+                BAIRITSU = 1
+                C = discord.Color.green()
+
+            st = int((10 * m_list[0]) * BAIRITSU)
+            m_list[3] = st
+            m_list[4] = st
+            m_list[5] = st * agi_num
+            m_list[1] = st
+            m_list[2] = m_list[1]
+
+            with open(img_path,mode="r",encoding="utf-8") as f:
+                url = random.choice(f.readlines()).split("|")
+
+            embed = discord.Embed(
+                title = f"[{title}] -{url[1].strip()}- draws near!",
+                description = f"Lv.{m_list[0]}\nHP.{m_list[2]}/{m_list[1]}",
+                color = C)
+            embed.set_image(url = url[0])
+            await m_ch.send(embed = embed)
+
+        with open(path2, mode="w") as f:
+            L_M = [str(i) + "\n" for i in m_list]
+            f.writelines(L_M)
+
+        with open(path2, mode="r") as f:
+            m = f.readlines()
+        if m_author in box.player_list:
+            box.player_list.remove(m_author)
+
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        # 他のファイルに分離したい範囲開始地点
+
+
+
+client.run(token)
