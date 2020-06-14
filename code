@@ -9,7 +9,7 @@ import psutil
 import traceback
 from datetime import datetime, timedelta, timezone
 JST = timezone(timedelta(hours=+9), 'JST')
-token = "NzE1MjAzNTU4MzU3NTk4MjQw.Xs5zVA.eceKTCcU_LznN6LqztEIFX8Sp8c"
+token = "Nzc"
 client = discord.Client()
 
 def randint(a,b):
