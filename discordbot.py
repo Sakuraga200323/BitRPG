@@ -34,7 +34,7 @@ async def on_message(message):
         result = re.search(pattern, m_ctt)
         if not result:
             return
-        msg_ctt = resutl.group(1)
+        msg_ctt = result.group(1)
         if m_ch.id in cclist:
             await m_ch.send("処理中")
             return
