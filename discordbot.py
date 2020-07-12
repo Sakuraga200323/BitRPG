@@ -15,7 +15,6 @@ mongo_url = "mongodb+srv://sakuraga200323:tsukumo0308@cluster0.vfmoe.mongodb.net
 cluster = MongoClient(mongo_url)
 db = cluster["BitRPG-DataBse"]
 collection = db["BitRPG-Player"]
-player_id = {"_id":msg.author.id
 cclist = []
 
 @client.event
