@@ -64,7 +64,8 @@ async def on_message(message):
             pattern = ['atk', 'attack','attacking']
             if not m_ctt in cmd_list:
                 return
-            import sub.battle（m_author,m_ch, m_ctt)
+            import sub.battle
+            sub.battle（m_author,m_ch, m_ctt)
                 
 
 
