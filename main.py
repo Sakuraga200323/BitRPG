@@ -73,3 +73,6 @@ async def on_message(message):
 
         if m_ch.id in cclist:
             cclist.remove(m_ch.id)
+
+            
+client.run(token)
