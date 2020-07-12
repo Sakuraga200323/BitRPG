@@ -20,7 +20,6 @@ async def on_ready():
     pass
 
 
-
 @client.event
 async def on_message(message):
     global cclist
