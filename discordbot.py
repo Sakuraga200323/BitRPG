@@ -68,7 +68,6 @@ async def on_message(message):
             sub.battle（m_author,m_ch, m_ctt)
                 
 
-
         #=====Command-e n d=====#
 
 
