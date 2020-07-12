@@ -12,7 +12,10 @@ JST = timezone(timedelta(hours=+9), 'JST')
 client = discord.Client()
 token = os.environ['TOKEN']
 mongo_url = "mongodb+srv://sakuraga200323:tsukumo0308@cluster0.vfmoe.mongodb.net/bitrpg-database?retryWrites=true&w=majority"
-
+cluster = MongoClient(mongo_url)
+db = cluster["BitRPG-DataBse"]
+collection = db["BitRPG-Player"]
+player_id = {"_id":msg.author.id
 cclist = []
 
 @client.event
