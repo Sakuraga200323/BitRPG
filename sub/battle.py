@@ -1,5 +1,4 @@
 import asyncio
-from bson.objectid import ObjectId
 from datetime import datetime, timedelta, timezone
 import discord
 import pymongo
