@@ -132,7 +132,7 @@ async def on_message(message):
             cur.execute(cmd)
             await m_ch.send("登録完了しました。")
             embed = discord.Embed(
-                description=f"{name}は`険者登録証明カード×1`を獲得した。",
+                description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
                 color=discord.Color.green())
             embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
             await m_ch.send(embed=embed)
