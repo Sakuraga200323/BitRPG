@@ -18,7 +18,6 @@ JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 conn = psycopg2.connect(dsn)
 cur = conn.cursor()
-cur.execute('select id from player_tb;')
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
