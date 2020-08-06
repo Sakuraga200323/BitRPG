@@ -87,7 +87,7 @@ async def on_message(message):
                     return 0
                 return 1
             try:
-                msg = await client.wait_for("message", timeout=60, check=check())
+                msg = await client.wait_for("message", timeout=60, check=check)
             except TimeoutError:
                 name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', m_author.name)
                 await m_ch.send(f"時間切れです。ユーザー名『{name}』をそのまま登録します。")
@@ -104,7 +104,7 @@ async def on_message(message):
                     return 0
                 return 1
             try:
-                msg2 = await client.wait_for("message", timeout=20, check=check2())
+                msg2 = await client.wait_for("message", timeout=20, check=check2)
                 if not msg2.content in ("0", "1", "１", "０"):
                     await m_ch.send("0か1の番号を送信してください")
             except TimeoutError:
