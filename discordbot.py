@@ -75,7 +75,7 @@ async def on_message(message):
     
     
     if m_ctt.startswith("^^"):
-        id_list = cur.execute('select id from player_tb;')
+        id_list = cur.execute('SELECT id FROM player_tb;')
         print([ str(i) for i in id_list])
         
         id = str(m_author.id)
