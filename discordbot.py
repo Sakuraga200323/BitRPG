@@ -113,19 +113,19 @@ async def on_message(message):
             else:
                 sex = msg2.content
                 if sex in ("0", "０"):
-                    sex = "男"
+                    sex = "男性"
                 if sex in ("1", "１"):
-                    sex = "女"
+                    sex = "女性"
                 if sex in ("3", "３"):
                     sex = "無記入"
                 await m_ch.send(f"『{sex}』で登録します。")
             embed = discord.Embed(color = discord.Color.green())
             embed.add_field(name = "Name", value = name)
-            embed.add_field(name = "Sex ", value = sex)
+            embed.add_field(name = "Sex", value = sex)
             await m_ch.send(embed=embed)
             cur.execute(f'''INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
             VALUES (
-                {name},{sex}
+                {name},{sex},
                 {id},1 ,
                 10 , 10,
                 1 ,1 ,
