@@ -25,6 +25,7 @@ admin_list = [
     548058577848238080,
 ]
 
+
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
