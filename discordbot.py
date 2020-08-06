@@ -74,7 +74,7 @@ async def on_message(message):
         conn = psycopg2.connect(dsn)
         cur = conn.cursor()
         cur.execute('select id from player_tb;')
-        id_list = cur.fetchone
+        id_list = cur.fetchone()
         id = m_author.id
         print(id, id_list)
         if not id in id_list or not id_list:
