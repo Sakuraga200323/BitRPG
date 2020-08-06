@@ -78,8 +78,7 @@ async def on_message(message):
     
     if m_ctt.startswith("^^"):
         if not m_author.id in cur.excute('select id from player_tb;'):
-
-            cur.excute('INSERT INTO player_tb (
+            cur.excute('''INSERT INTO player_tb (
                 name,
                 id,lv,
                 max_hp, now_hp,
@@ -97,7 +96,7 @@ async def on_message(message):
                 0,
                 0, 0, 0,
                 0, 0,
-                0, {"冒険の書1"});'
+                0, {"冒険の書1"});'''
             )
 
 
