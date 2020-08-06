@@ -143,15 +143,18 @@ async def on_message(message):
 
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
+            await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
         if not m_author.id in admin_list:
-            await m_ch.send("**プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
+            await m_ch.send("**貴方のクリアランスはLv1です。プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
             return
         else:
-            await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行。**")
+            await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行します。**")
             
         if m_ctt == "player_tb":
             for i in cur.execute('select * from player_tb;'):
                 await m_ch.send(i)
+                
+        await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
                 
                 
 '''
