@@ -73,30 +73,32 @@ async def loop():
 @client.event
 async def on_message(message):
     m_author = message.author
+    m_ctt = message.content
+    
+    
+    if m_ctt.startswith("^^"):
+        if not m_author.id in cur.excute('select id from player_tb;'):
 
-
-    if not m_author id in cur.excute('select id from player_tb;'):
-
-        cur.excute('INSERT INTO player_tb (
-            name,
-            id,lv,
-            max_hp, now_hp,
-            max_mp, now_mp,
-            str, def, agi,
-            stp,
-            str_stp, def_stp, agi_stp,
-            all_exp, now_exp,
-            money, items) VALUES (
-            m_author.name,
-            m_author.id, 1 ,
-            10 , 10,
-            1 ,1 ,
-            10, 10, 10,
-            0,
-            0, 0, 0,
-            0, 0,
-            0, {"冒険の書1"});'
-        )
+            cur.excute('INSERT INTO player_tb (
+                name,
+                id,lv,
+                max_hp, now_hp,
+                max_mp, now_mp,
+                str, def, agi,
+                stp,
+                str_stp, def_stp, agi_stp,
+                all_exp, now_exp,
+                money, items) VALUES (
+                m_author.name,
+                m_author.id, 1 ,
+                10 , 10,
+                1 ,1 ,
+                10, 10, 10,
+                0,
+                0, 0, 0,
+                0, 0,
+                0, {"冒険の書1"});'
+            )
 
 
 '''
