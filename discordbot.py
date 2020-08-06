@@ -119,7 +119,11 @@ async def on_message(message):
                 if sex in ("3", "３"):
                     sex = "無記入"
                 await m_ch.send(f"『{sex}』で登録します。")
-            cur.execute(f'''INSERT INTO player_tb (name,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
+            embed = discord.Embed(color = discord.Color.green())
+            embed.add_field(name = "Name", Value = name)
+            embed.add_field(name = "Sex ", Value = sex)
+            await m_ch.send()
+            cur.execute(f'''INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
             VALUES (
                 {name},{sex}
                 {id},1 ,
