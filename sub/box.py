@@ -1,5 +1,6 @@
 # ※全オブジェクトをidで管理するように!!
 
-cmd_players = []
-cbt_players = {}
-cbt_channels = {}
+cmd_user = []
+cbt_user = {}
+cbt_ch = {}
+cmd_ch = []
