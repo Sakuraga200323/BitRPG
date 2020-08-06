@@ -146,6 +146,9 @@ async def on_message(message):
         if not m_author.id in admin_list:
             await m_ch.send("**プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
             return
+        else:
+            await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行。**")
+            
         if m_ctt == "player_tb":
             for i in cur.execute('select * from player_tb;'):
                 await m_ch.send(i)
