@@ -105,7 +105,6 @@ where 列名 = 値;
 select 列名 from テーブル名
 where 列名 = 値;
 
-
 '''
 
 client.run(token)
