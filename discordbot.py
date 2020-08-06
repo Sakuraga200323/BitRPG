@@ -107,6 +107,7 @@ async def on_message(message):
                 msg2 = await client.wait_for("message", timeout=20, check=check2)
                 if not msg2.content in ("0", "1", "１", "０"):
                     await m_ch.send("0か1の番号を送信してください")
+                    return
             except TimeoutError:
                 sex = "無記入"
                 await m_ch.send(f"時間切れです。無記入として登録します。")
