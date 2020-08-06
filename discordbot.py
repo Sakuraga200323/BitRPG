@@ -108,5 +108,4 @@ where 列名 = 値;
 
 '''
 
-
 client.run(token)
