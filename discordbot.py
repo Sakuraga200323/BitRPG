@@ -16,8 +16,6 @@ import sub.box
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
-conn = psycopg2.connect(dsn)
-cur = conn.cursor()
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -71,6 +69,8 @@ async def on_message(message):
     
     
     if m_ctt.startswith("^^"):
+        conn = psycopg2.connect(dsn)
+        cur = conn.cursor()
         cur.execute('select id from player_tb;')
         id_list = cur.fetchone()
         id = m_author.id
