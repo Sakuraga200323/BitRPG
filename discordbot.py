@@ -123,8 +123,10 @@ async def on_message(message):
             embed.add_field(name = "Name", value = name)
             embed.add_field(name = "Sex", value = sex)
             await m_ch.send(embed=embed)
+            n = name
+            s = sex
             cur.execute(f'''INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
-            VALUES ({name},{sex},
+            VALUES ({n},{s},
                 {id},1 ,
                 10 , 10,
                 1 ,1 ,
