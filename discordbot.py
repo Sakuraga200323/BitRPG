@@ -87,7 +87,7 @@ async def on_message(message):
                 str_stp, def_stp, agi_stp,
                 all_exp, now_exp,
                 money, items) VALUES (
-                {m_author.name},
+                {re.sub(r'[\x00-\x1f\x7f-\x9f]', '', m_author.name)},
                 m_author.id, 1 ,
                 10 , 10,
                 1 ,1 ,
