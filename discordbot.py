@@ -57,14 +57,14 @@ async def on_ready():
 
     loop.start()
 
-    await client.change_presence(activity=discord.Game(name=f"^^help|{len(client.guilds)}の鯖が導入中"))
+    await client.change_presence(activity=discord.Game(name=f"^^help|Server：{len(client.guilds)}|Mem：{MEM} %"))
 
 
 
 @tasks.loop(seconds=1)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    await client.change_presence(activity=discord.Game(name=f"^^help｜{len(client.guilds)}の鯖が導入中"))
+    await client.change_presence(activity=discord.Game(name=f"^^help|Server：{len(client.guilds)}|Mem：{MEM} %"))
 
 
 
