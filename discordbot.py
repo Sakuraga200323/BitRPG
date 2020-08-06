@@ -142,7 +142,7 @@ async def on_message(message):
                 flag = True
 
     if m_ctt.startswith("SystemCall"):
-        m_ctt = m_ctt.split("SystemCall")[1].strip(")
+        m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         if not m_author.id in admin_list:
             await m_ch.send("**プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
             return
