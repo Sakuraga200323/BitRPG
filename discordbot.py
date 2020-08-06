@@ -133,6 +133,7 @@ async def on_message(message):
                     'INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) '
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');")
                 cur.execute(cmd)
+                
                 await m_ch.send("登録完了しました。")
                 embed = discord.Embed(
                     description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
@@ -140,6 +141,8 @@ async def on_message(message):
                 embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                 await m_ch.send(embed=embed)
                 flag = True
+
+
 
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
