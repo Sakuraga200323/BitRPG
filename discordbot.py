@@ -16,6 +16,9 @@ import sub.box
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
+conn = psycopg2.connect(dsn)
+cur = conn.cursor()
+cur.execute('select * from player_tb;')
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -28,10 +31,6 @@ admin_list = [
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
-
-    conn = psycopg2.connect(dsn)
-    cur = conn.cursor()
-    cur.execute('select * from player_tb;')
     for i in cur:
         print(i)
 
