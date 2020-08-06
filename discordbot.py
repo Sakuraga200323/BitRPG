@@ -125,7 +125,7 @@ async def on_message(message):
             await m_ch.send(embed=embed)
             n = name
             s = sex
-            cur.execute(f'''INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
+            cmd = (f'''INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) 
             VALUES ({n},{s},
                 {id},1 ,
                 10 , 10,
@@ -134,8 +134,8 @@ async def on_message(message):
                 0,
                 0, 0, 0,
                 0, 0,''' + '''
-                0, \'{"冒険者登録証明カード"}\');'''
-            )
+                0, \'{"冒険者登録証明カード"}\');''')
+            cur.execute(cmd)
             await m_ch.send("登録完了しました。")
             embed = discord.Embed(
                 description=f"{name}は`険者登録証明カード×1`を獲得した。",
