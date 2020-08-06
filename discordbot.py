@@ -76,6 +76,7 @@ async def on_message(message):
     
     if m_ctt.startswith("^^"):
         id_list = cur.execute('select id from player_tb;')
+        print(id_list)
         if not m_author.id in id_list:
             cur.execute('''INSERT INTO player_tb (
                 name,
