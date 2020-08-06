@@ -114,7 +114,7 @@ async def on_message(message):
                     sex = msg2.content
                     if not sex in ("0", "1", "１", "０", "2","２"):
                         await m_ch.send("0か1の番号を送信してください。")
-                            continue
+                        continue
                     if sex in ("0", "０"):
                         sex = "男性"
                     if sex in ("1", "１"):
