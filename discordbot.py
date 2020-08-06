@@ -139,6 +139,7 @@ async def on_message(message):
                     color=discord.Color.green())
                 embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                 await m_ch.send(embed=embed)
+                flag = True
 
     if m_ctt.startswith("SystemCall\n"):
         m_ctt = m_ctt.split("SystemCall\n")[1]
