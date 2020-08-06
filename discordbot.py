@@ -77,7 +77,7 @@ async def on_message(message):
         id_list = cur.fetchone()
         id = m_author.id
         print(id, id_list)
-        if not id in id_list:
+        if not id_list or not id in id_list:
             await m_ch.send(
                 f"{m_author.mention}さんの冒険者登録を開始。"
                 "\n登録名を1分以内に送信してください。`next`と送信すると、ユーザー名がそのまま使用されます。\n`あとから設定し直すことが可能です。\n特殊文字非対応。`"
