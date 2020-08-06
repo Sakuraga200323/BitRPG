@@ -1,9 +1,3 @@
 discord.py[voice]>=1.3.2
-Flask==1.0.0
-line-bot-sdk==1.5.0
-requests
 psutil
 psycopg2
-flask-sqlalchemy
-hamlish_jinja
-werkzeug
