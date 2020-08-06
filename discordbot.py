@@ -163,7 +163,8 @@ async def on_message(message):
         cur = conn.cursor()
         cur.execute('select id from player_tb;')
         if m_ctt == "^^player_tb":
-            for i in cur.execute('select * from player_tb;'):
+            cur.execute('select * from player_tb;')
+            for i in cur.fetchone():
                 await m_ch.send(i)
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
