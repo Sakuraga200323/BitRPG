@@ -111,6 +111,7 @@ async def on_message(message):
                 sex = "無記入"
                 await m_ch.send(f"時間切れです。無記入として登録します。")
             else:
+                sex = msg2.content
                 if sex in ("0", "０"):
                     sex = "男"
                 if sex in ("1", "１"):
