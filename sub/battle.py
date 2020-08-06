@@ -1,8 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
 import discord
-import pymongo
-from pymongo import MongoClient
 import random
 import re
 import traceback
