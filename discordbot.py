@@ -100,7 +100,7 @@ async def on_message(message):
                         await m_ch.send(f"ユーザー名『{name}』をそのまま登録します。")
                     else:
                         await m_ch.send(f"『{name}』で登録します。")
-                await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 3\n`半角全角は問いません。`")
+                await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
                 def check2(m):
                     if not m.author.id == id:
                         return 0
