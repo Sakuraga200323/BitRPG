@@ -1,78 +1,113 @@
+
+import math
+import ast
 import asyncio
 from datetime import datetime, timedelta, timezone
 import discord
+from discord.ext import tasks
+import glob
 import os
-import pymongo
-from pymongo import MongoClient
+import psutil
+import psycopg2
 import random
 import re
 import traceback
+import box
 
 JST = timezone(timedelta(hours=+9), 'JST')
+
+dsn = os.environ.get('DATABASE_URL')
+token = os.environ.get('TOKEN')
 client = discord.Client()
-token = os.environ['TOKEN']
-mongo_url = "mongodb+srv://sakuraga200323:tsukumo0308@cluster0.vfmoe.mongodb.net/bitrpg-database?retryWrites=true&w=majority"
-cluster = MongoClient(mongo_url)
-db = cluster["BitRPG-DataBse"]
-collection = db["BitRPG-Player"]
-cclist = []
+
+admin_list = [
+    715192735128092713,
+    710207828303937626,
+    548058577848238080,
+]
 
 @client.event
 async def on_ready():
-    pass
+    await client.change_presence(activity=discord.Game(name=f"起動中…"))
+
+    conn = psycopg2.connect(dsn)
+    cur = conn.cursor()
+    cur.excute('select * from player_tb;')
+    for i in cur:
+        print(i)
+
+    NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
+    MEM = psutil.virtual_memory().percent
+
+    LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bit起動ログ"]
+    desc = (f"\n+Bot\n{client.user}"
+        + f"\n+BotID\n{client.user.id}"
+        + f"\n+Prefix\n^^"
+        + f"\n+UsingMemory\n{MEM}%")
+
+    for ch in LOG_CHANNELS:
+        try:
+            embed = discord.Embed(
+                title = "BitRPG起動ログ",
+                description = f"```diff\n{desc}```")
+            embed.timestamp = datetime.now(JST)
+            await ch.send(embed = embed)
+        except:
+            print("Error")
+
+    print(desc)
+
+    loop.start()
+
+    await client.change_presence(activity=discord.Game(name=f"^^help|{len(client.guilds)}の鯖が導入中"))
+
+
+
+@tasks.loop(seconds=1)
+async def loop():
+    MEM = psutil.virtual_memory().percent
+    await client.change_presence(activity=discord.Game(name=f"^^help｜{len(client.guilds)}の鯖が導入中"))
+
 
 
 @client.event
 async def on_message(message):
-    global cclist
-    m_ch = message.channel
-    m_ctt = message.content
     m_author = message.author
-    m_guild = message.guild
 
 
-    if m_ctt.startswith("^^"):
-        pattern = r'^\^\^(.+)'
-        result = re.search(pattern, m_ctt)
-        if not result:
-            return
-        msg_ctt = result.group(1)
-        if m_ch.id in cclist:
-            await m_ch.send("処理中")
-            return
-        cclist.append(m_ch.id)
+    if not m_author id in cur.excute('select id from player_tb;'):
 
-        # データの追加
-        if collection.count_documents({}) == 0:
-            player_info = {
-                "_id": m_author.id,
-                "max_hp":10, "now_hp":10,
-                "max_mp":1, "now_mp":1,
-                "all_exp":0, "now_exp":0,
-                "now_stp":0,
-                "str":10, "def":10, "agi":10,
-                "str_p":0, "def_p":0, "agi_p":0,
-                "mp_p":0, "hp_p":0,
-                "magics":{}, "items":{}}
-            collection.insert_one(player_info)
-    
-
-        #=====Command-start=====#
-
-        if m_ctt.split()[0].startswith('at'):
-            m_ctt = m_ctt.split()[0]
-            pattern = ['atk', 'attack','attacking']
-            if not m_ctt in cmd_list:
-                return
-            import sub.battle
-            sub.battle(m_author, m_ch, m_ctt)
-                
-
-        #=====Command-e n d=====#
+        cur.excute('INSERT INTO player_tb (
+            name,
+            id,lv,
+            max_hp, now_hp,
+            max_mp, now_mp,
+            str, def, agi,
+            stp,
+            str_stp, def_stp, agi_stp,
+            all_exp, now_exp,
+            money, items) VALUES (
+            m_author.name,
+            m_author.id, 1 ,
+            10 , 10,
+            1 ,1 ,
+            10, 10, 10,
+            0,
+            0, 0, 0,
+            0, 0,
+            0, {"冒険の書1"});'
+        )
 
 
-        if m_ch.id in cclist:
-            cclist.remove(m_ch.id)
+'''
+update テーブル名 set 列名 = 値, 列名 = 値, ...
+where 列名 = 値;
 
-            
+select 列名 from テーブル名
+where 列名 = 値;
+
+
+'''
+
+
 client.run(token)
