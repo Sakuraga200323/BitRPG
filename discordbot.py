@@ -143,7 +143,7 @@ async def on_message(message):
             await m_ch.send("**プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
             return
         if m_ctt == "player_tb":
-            for i in cur.execute('select * from player_tb;');
+            for i in cur.execute('select * from player_tb;'):
                 await m_ch.send(i)
                 
                 
