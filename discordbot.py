@@ -31,7 +31,7 @@ async def on_ready():
 
     conn = psycopg2.connect(dsn)
     cur = conn.cursor()
-    cur.excute('select * from player_tb;')
+    cur.execute('select * from player_tb;')
     for i in cur:
         print(i)
 
@@ -77,7 +77,7 @@ async def on_message(message):
     
     if m_ctt.startswith("^^"):
         if not m_author.id in cur.excute('select id from player_tb;'):
-            cur.excute('''INSERT INTO player_tb (
+            cur.execute('''INSERT INTO player_tb (
                 name,
                 id,lv,
                 max_hp, now_hp,
