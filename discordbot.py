@@ -71,6 +71,10 @@ async def on_message(message):
     
     
     if m_ctt.startswith("^^"):
+        if m_ch.id in sub.box.cmd_ch:
+            await m_ch.send("【警告】処理が終了するまで待機してください。")
+            return
+        sub.box.cmd_ch.append(m_ch.id)
         conn = psycopg2.connect(dsn)
         cur = conn.cursor()
         cur.execute('select id from player_tb;')
@@ -142,6 +146,8 @@ async def on_message(message):
                 embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                 await m_ch.send(embed=embed)
                 flag = True
+            if  m_ch.id in sub.box.cmd_ch:
+                sub.box.cmd_ch.remove(m_ch.id)
 
 
 
