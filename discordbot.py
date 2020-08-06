@@ -167,7 +167,7 @@ async def on_message(message):
                 await m_ch.send(i)
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
-                
+            
                 
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
