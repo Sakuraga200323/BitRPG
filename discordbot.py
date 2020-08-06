@@ -77,7 +77,7 @@ async def on_message(message):
         id = m_author.id
         print(id, id_list)
         if not id in id_list:
-            cur.execute('''INSERT INTO player_tb (
+            cur.execute(f'''INSERT INTO player_tb (
                 name,
                 id,lv,
                 max_hp, now_hp,
@@ -87,7 +87,7 @@ async def on_message(message):
                 str_stp, def_stp, agi_stp,
                 all_exp, now_exp,
                 money, items) VALUES (
-                m_author.name,
+                {m_author.name},
                 m_author.id, 1 ,
                 10 , 10,
                 1 ,1 ,
@@ -95,7 +95,7 @@ async def on_message(message):
                 0,
                 0, 0, 0,
                 0, 0,
-                0, '{"冒険の書1"}');'''
+                0, \'{"冒険の書1"}\');'''
             )
 
 
