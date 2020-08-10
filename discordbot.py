@@ -167,6 +167,7 @@ async def on_message(message):
             
         cur.close()
         conn.commit()
+        conn.close()
 
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
@@ -187,6 +188,7 @@ async def on_message(message):
                 await m_ch.send(result)
             conn.commit()
             cur.close()
+            conn.close()
         
 
                 
