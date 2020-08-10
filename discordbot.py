@@ -186,7 +186,9 @@ async def on_message(message):
             cur.execute(cmd)
             sys.stdout.close()
             sys.stdout = sys.__stdout__
-            await m_ch.send(open("temp.txt","r").read())
+            with open("temp.text","r") as f:
+                result = f.read()
+                await m_ch.send(result)
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
