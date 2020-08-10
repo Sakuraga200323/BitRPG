@@ -170,7 +170,7 @@ async def on_message(message):
                     else:
                         if not msg.content in ("y","Y","n","N"):
                             await m_ch.send("y、nで答えてください。")
-                            if msg.content in ("y,"Y"):
+                            if msg.content in ("y","Y"):
                                 await m_ch.send(f"『{name}』で登録しま。")
                                 sex_flag = True
                             elif msg.content in ("n","N"):
