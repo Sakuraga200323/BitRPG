@@ -97,6 +97,13 @@ async def on_message(message):
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
         id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
+        id = m_ch.id
+        if not id_list or (not id in id_list):
+            import sub.N_Mob
+            mob_name = random.choice(sub.N_Mob.set)
+            url = sub.N_Mob.set[mob_name]
+            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ({name},1,10,10,10,10,10,{url});")
+        id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
         id = m_author.id
         if not id_list or (not id in id_list):
             player_num = len(id_list)
@@ -234,13 +241,13 @@ async def on_message(message):
                 embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの残り必要EXP]`")
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
                 await m_ch.send(embed=embed)
+
         else:
 
             if m_ctt in ("^^st","^^status"):
                 result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
-                print(result)
                 P_list = [ i for i in result[0] ]
-                embed = discord.Embed(title = "Plyer Status Board")
+                embed = discord.Embed(title = "Player Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
                 embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
@@ -252,6 +259,8 @@ async def on_message(message):
                 embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
                 await m_ch.send(embed = embed)
+
+
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
