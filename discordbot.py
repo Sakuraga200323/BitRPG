@@ -96,7 +96,9 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
+        id_list = [ i[0] for i in pg.execute("select id from player_tb;")]
         if not id_list or (not id in id_list):
+            player_num = len(id_list)
             flag = False
             while flag == False:
                 name_flag = False
