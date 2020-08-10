@@ -67,7 +67,7 @@ async def loop():
 
 @client.event
 async def on_message(message):
-    global cur
+    global cur, conn
     m_author = message.author
     m_ctt = message.content
     m_ch = message.channel
