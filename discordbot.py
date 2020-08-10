@@ -67,6 +67,7 @@ async def loop():
 
 @client.event
 async def on_message(message):
+    global cur, conn
     m_author = message.author
     m_ctt = message.content
     m_ch = message.channel
@@ -159,7 +160,6 @@ async def on_message(message):
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
             
-        cur.close()
         conn.commit()
         conn.close()
 
@@ -179,7 +179,6 @@ async def on_message(message):
                 result = cur.fetchone()
                 await m_ch.send(result)
             conn.commit()
-            cur.close()
             conn.close()
         
 
