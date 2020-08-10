@@ -161,7 +161,6 @@ async def on_message(message):
             sub.box.cmd_ch.remove(m_ch.id)
             
         conn.commit()
-        conn.close()
 
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
@@ -179,7 +178,6 @@ async def on_message(message):
                 result = cur.fetchone()
                 await m_ch.send(result)
             conn.commit()
-            conn.close()
         
 
                 
