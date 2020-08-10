@@ -16,8 +16,6 @@ import sub.box
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
-conn = psycopg2.connect(dsn)
-cur = conn.cursor()
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -78,6 +76,8 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
         sub.box.cmd_ch.append(m_ch.id)
+        conn = psycopg2.connect(dsn)
+        cur = conn.cursor()
         cur.execute('select id from player_tb;')
         id_list = cur.fetchone()
         id = m_author.id
@@ -177,6 +177,8 @@ async def on_message(message):
         else:
             await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行します。**")
         if m_ctt == "^^player_tb":
+            conn = psycopg2.connect(dsn)
+            cur = conn.cursor()
             cur.execute('select * from player_tb;')
             await m_ch.send(cur.fetchone())
                 
