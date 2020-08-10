@@ -182,8 +182,12 @@ async def on_message(message):
             cur = conn.cursor()
             await m_ch.send(f"`::DATABASE=> {cmd}`")
             cur.execute(cmd)
+            if "select" in cmd:
+                result = cur.fetchone()
+                await m_ch.send(cur.execute)
             conn.commit()
             cur.close()
+        
 
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
