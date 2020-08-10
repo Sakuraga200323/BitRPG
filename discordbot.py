@@ -71,15 +71,17 @@ async def on_message(message):
     m_author = message.author
     m_ctt = message.content
     m_ch = message.channel
-    
-    
+
+
     if m_ctt.startswith("^^"):
         if m_ch.id in sub.box.cmd_ch:
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
         sub.box.cmd_ch.append(m_ch.id)
+        conn = psycopg2.connect(dsn)
+        cur = conn.cursor()
         cur.execute('select id from player_tb;')
-        id_list = cur.fetchone()
+        id_list = cur.fetch()
         id = m_author.id
         print(id, id_list)
         if not id_list or (not id in id_list):
@@ -109,7 +111,7 @@ async def on_message(message):
                             await m_ch.send(f"ユーザー名『{name}』をそのまま登録します。")
                         else:
                             cur.execute('select name from player_tb;')
-                            name_list = cur.fetchone()
+                            name_list = cur.fetch()
                             if name_list and name in name_list:
                                 await m_ch.send(f"『{name}』は既に使用されています。")
                                 continue
@@ -151,17 +153,24 @@ async def on_message(message):
                     'INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) '
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');"
                 )
-                cur.execute(cmd)
-                embed = discord.Embed(
-                    description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
-                    color=discord.Color.green())
-                embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
+                try:
+                    cur.execute(cmd)
+                except Exception as e:
+                    await m_ch.send('type:' + str(type(e))
+                    + '\nargs:' + str(e.args)
+                    + '\ne自身:' + str(e))
+                else:
+                    embed = discord.Embed(
+                        description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
+                        color=discord.Color.green())
+                    embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
+                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
                 cur.execute('select id from player_tb;')
-                id_list = cur.fetchone()
+                id_list = cur.fetch()
+                print(id_list)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
-            
+
         conn.commit()
 
     if m_ctt.startswith("SystemCall"):
@@ -177,16 +186,16 @@ async def on_message(message):
             await m_ch.send(f"`::DATABASE=> {cmd}`")
             cur.execute(cmd)
             if "select" in cmd:
-                result = cur.fetchone()
+                result = cur.fetch()
                 await m_ch.send(result)
             conn.commit()
-        
 
-                
+
+
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
 
-    
+
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
 where 列名 = 値;
