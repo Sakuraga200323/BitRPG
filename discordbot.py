@@ -66,7 +66,6 @@ async def loop():
     await client.change_presence(activity=discord.Game(name=f"^^help║Server：{len(client.guilds)}║Mem：{MEM} %"))
 
 
-
 @client.event
 async def on_message(message):
     global cur, conn
