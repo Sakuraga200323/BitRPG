@@ -114,7 +114,7 @@ async def on_message(message):
                             cur.execute('select name from player_tb;')
                             name_list = cur.fetchone()
                             if name_list and name in name_list:
-                                await m_ch.send(f"『{name}』は既に使用されています。")
+                                await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
                             await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
                             try:
@@ -123,10 +123,10 @@ async def on_message(message):
                                 name_flag = True
                             else:
                                 if not msg.content in ("y","Y","n","N"):
-                                    await m_ch.send("y、nで答えてください。")
+                                    await m_ch.send("【警告】y、nで答えてください。")
                                     continue
                                 if msg.content in ("y","Y"):
-                                    await m_ch.send(f"『{name}』で登録しま。")
+                                    await m_ch.send(f"『{name}』で登録します。")
                                     name_flag = True
                                 elif msg.content in ("n","N"):
                                     await m_ch.send(f"名前を登録し直します。")
@@ -157,13 +157,13 @@ async def on_message(message):
                         sex_flag = True
                     else:
                         if not msg.content in ("y","Y","n","N"):
-                            await m_ch.send("y、nで答えてください。")
-                            if msg.content in ("y","Y"):
-                                await m_ch.send(f"『{name}』で登録します。")
-                                sex_flag = True
-                            elif msg.content in ("n","N"):
-                                await m_ch.send(f"性別を登録し直します。")
-                                continue
+                            await m_ch.send("【警告】y、nで答えてください。")
+                        if msg.content in ("y","Y"):
+                            await m_ch.send(f"『{name}』で登録します。")
+                            sex_flag = True
+                        elif msg.content in ("n","N"):
+                            await m_ch.send(f"性別を登録し直します。")
+                            continue
                 embed = discord.Embed(color = discord.Color.green())
                 embed.add_field(name = "Name", value = name)
                 embed.add_field(name = "Sex", value = sex)
