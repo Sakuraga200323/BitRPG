@@ -118,6 +118,7 @@ async def on_message(message):
                         await dm_ch.send(f"1分経過。『{name}』で登録します。")
                         name_flag = True
                     else:
+                        name = msg.content
                         if name == "next":
                             name = "Player" + str(player_num + 1)
                         else:
