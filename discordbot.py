@@ -210,6 +210,7 @@ async def on_message(message):
             await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行します。**")
         if m_ctt.startswith("^^psql "):
             cmd = m_ctt.split("^^psql ")[1]
+            pg = Postgres(dsn)
             await m_ch.send(f"`::DATABASE=> {cmd}`")
             if "select" in cmd:
                 result = pg.fetch(cmd)
