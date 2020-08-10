@@ -124,12 +124,13 @@ async def on_message(message):
                             else:
                                 if not msg.content in ("y","Y","n","N"):
                                     await m_ch.send("y、nで答えてください。")
-                                    if msg.content in ("y","Y"):
-                                        await m_ch.send(f"『{name}』で登録しま。")
-                                        name_flag = True
-                                    elif msg.content in ("n","N"):
-                                        await m_ch.send(f"名前を登録し直します。")
-                                        continue
+                                    continue
+                                if msg.content in ("y","Y"):
+                                    await m_ch.send(f"『{name}』で登録しま。")
+                                    name_flag = True
+                                elif msg.content in ("n","N"):
+                                    await m_ch.send(f"名前を登録し直します。")
+                                    continue
                                             
                 while sex_flag == False:
                     await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
