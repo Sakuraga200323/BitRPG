@@ -96,6 +96,7 @@ async def on_message(message):
         id = m_author.id
         print(id, id_list)
         if not id_list or (not id in id_list):
+            dm_ch = await m_author.create_dm()
             flag = False
             while flag == False:
                 name_flag = False
@@ -105,7 +106,7 @@ async def on_message(message):
                         return 0
                     return 1
                 while name_flag == False:
-                    await m_ch.send(
+                    await dm_ch.send(
                         f"{m_author.mention}さんの冒険者登録を開始。"
                         +"\n登録名を1分以内に送信してください。`next`と送信するか、1分経過すると、定型名で登録されます。\n"
                         +"`あとから設定し直すことが可能です。\n20文字以内。`"
@@ -114,7 +115,7 @@ async def on_message(message):
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
                         name = "Player" + str(player_num + 1)
-                        await m_ch.send(f"1分経過。『{name}』で登録します。")
+                        await dm_ch.send(f"1分経過。『{name}』で登録します。")
                         name_flag = True
                     else:
                         if name == "next":
@@ -122,10 +123,10 @@ async def on_message(message):
                         else:
                             name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
                             if name_list and name in name_list:
-                                await m_ch.send(f"【警告】『{name}』は既に使用されています。")
+                                await dm_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
                             if len(list(name)) > 20:
-                                await m_ch.send(f"【警告】『{name}』は20文字を{ len(list(name)) - 20}文字超過しています。20文字以内にしてください。")
+                                await dm_ch.send(f"【警告】『{name}』は20文字を{ len(list(name)) - 20}文字超過しています。20文字以内にしてください。")
                                 continue 
                             await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
                             try:
@@ -134,13 +135,13 @@ async def on_message(message):
                                 name_flag = True
                             else:
                                 if not msg.content in ("y","Y","n","N"):
-                                    await m_ch.send("【警告】y、nで答えてください。")
+                                    await dm_ch.send("【警告】y、nで答えてください。")
                                     continue
                                 if msg.content in ("y","Y"):
-                                    await m_ch.send(f"『{name}』で登録します。")
+                                    await dm_ch.send(f"『{name}』で登録します。")
                                     name_flag = True
                                 elif msg.content in ("n","N"):
-                                    await m_ch.send(f"名前を登録し直します。")
+                                    await dm_ch.send(f"名前を登録し直します。")
                                     continue
                                             
                 while sex_flag == False:
@@ -152,7 +153,7 @@ async def on_message(message):
                     else:
                         sex = msg2.content
                         if not sex in ("0", "1", "１", "０", "2","２"):
-                            await m_ch.send("0、1、2いずれかの番号を送信してください。")
+                            await dm_ch.send("0、1、2いずれかの番号を送信してください。")
                             continue
                         if sex in ("0", "０"):
                             sex = "男性"
@@ -160,20 +161,20 @@ async def on_message(message):
                             sex = "女性"
                         if sex in ("2", "２"):
                             sex = "無記入"
-                    await m_ch.send(f"『{sex}』で宜しいですか？\nyes -> y\nno -> n")
+                    await dm_ch.send(f"『{sex}』で宜しいですか？\nyes -> y\nno -> n")
                     try:
                         msg = await client.wait_for("message", timeout=10, check=check)
                     except asyncio.TimeoutError:
-                        await m_ch.send(f"10秒経過。『{sex}』で登録します。")
+                        await dm_ch.send(f"10秒経過。『{sex}』で登録します。")
                         sex_flag = True
                     else:
                         if not msg.content in ("y","Y","n","N"):
-                            await m_ch.send("【警告】y、nで答えてください。")
+                            await dm_ch.send("【警告】y、nで答えてください。")
                         if msg.content in ("y","Y"):
-                            await m_ch.send(f"『{name}』で登録します。")
+                            await dm_ch.send(f"『{name}』で登録します。")
                             sex_flag = True
                         elif msg.content in ("n","N"):
-                            await m_ch.send(f"性別を登録し直します。")
+                            await dm_ch.send(f"性別を登録し直します。")
                             continue
                 embed = discord.Embed(color = discord.Color.green())
                 embed.add_field(name = "Name", value = name)
@@ -191,7 +192,7 @@ async def on_message(message):
                 try:
                     pg.execute(cmd)
                 except Exception as e:
-                    await m_ch.send('type:' + str(type(e))
+                    await dm_ch.send('type:' + str(type(e))
                     + '\nargs:' + str(e.args)
                     + '\ne自身:' + str(e))
                 else:
@@ -199,7 +200,7 @@ async def on_message(message):
                         description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
                         color=discord.Color.green())
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
+                    await dm_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
 
