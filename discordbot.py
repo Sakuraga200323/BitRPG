@@ -106,19 +106,17 @@ async def on_message(message):
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
                         name = "Player" + str(player_num + 1)
-                        text = "60秒経過。"
                     else:
                         name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', msg.content)
                         if name == "next":
                             name = "Player" + str(player_num + 1)
-                            text = "登録がスキップされました。"
                         else:
                             cur.execute('select name from player_tb;')
                             name_list = cur.fetchone()
                             if name_list and name in name_list:
                                 await m_ch.send(f"『{name}』は既に使用されています。")
                                 continue
-                            await m_ch.send(f"{text}『{name}』で宜しいですか？\nyes -> y\nno -> n")
+                            await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
                             try:
                                 msg = await client.wait_for("message", timeout=10, check=check)
                             except asyncio.TimeoutError:
@@ -128,7 +126,7 @@ async def on_message(message):
                                 if not msg.content in ("y","Y","n","N"):
                                     await m_ch.send("y、nで答えてください。")
                                     if msg.content in ("y","Y"):
-                                        await m_ch.send(f"{text}『{name}』で登録しま。")
+                                        await m_ch.send(f"『{name}』で登録しま。")
                                         name_flag = True
                                     elif msg.content in ("n","N"):
                                         await m_ch.send(f"名前を登録し直します。")
