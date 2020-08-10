@@ -164,7 +164,8 @@ async def on_message(message):
                     await m_ch.send(embed=embed)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
-
+            
+        cur.close()
         conn.commit()
 
     if m_ctt.startswith("SystemCall"):
