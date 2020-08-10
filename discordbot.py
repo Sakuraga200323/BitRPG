@@ -157,6 +157,8 @@ async def on_message(message):
                     color=discord.Color.green())
                 embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                 await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
+                cur.execute('select id from player_tb;')
+                id_list = cur.fetchone()
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
             
