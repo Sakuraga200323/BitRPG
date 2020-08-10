@@ -17,7 +17,9 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
 conn = psycopg2.connect(dsn)
+conn.autocommit = True
 cur = conn.cursor()
+
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -171,7 +173,6 @@ async def on_message(message):
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
 
-        conn.commit()
 
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
@@ -188,7 +189,6 @@ async def on_message(message):
             if "select" in cmd:
                 result = cur.fetch()
                 await m_ch.send(result)
-            conn.commit()
 
 
 
