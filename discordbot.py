@@ -108,14 +108,15 @@ async def on_message(message):
                     await m_ch.send(
                         f"{m_author.mention}さんの冒険者登録を開始。"
                         +"\n登録名を1分以内に送信してください。`next`と送信するか、1分経過すると、定型名で登録されます。\n"
-                        +"`あとから設定し直すことが可能です。\n特殊文字非対応。`"
+                        +"`あとから設定し直すことが可能です。\n20文字以内。`"
                     )
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
                         name = "Player" + str(player_num + 1)
+                        await m_ch.send(f"1分経過。『{name}』で登録します。")
+                        name_flag = True
                     else:
-                        name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', msg.content)
                         if name == "next":
                             name = "Player" + str(player_num + 1)
                         else:
@@ -123,6 +124,9 @@ async def on_message(message):
                             if name_list and name in name_list:
                                 await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
+                            if len(list(name)) > 20:
+                                await m_ch.send(f"【警告】『{name}』は20文字を{ len(list(name)) - 20}文字超過しています。20文字以内にしてください。")
+                                continue 
                             await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
                             try:
                                 msg = await client.wait_for("message", timeout=10, check=check)
