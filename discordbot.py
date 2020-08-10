@@ -91,6 +91,7 @@ async def on_message(message):
 
 
     if m_ctt.startswith("^^"):
+        import sub.box
         if m_ch.id in sub.box.cmd_ch:
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
