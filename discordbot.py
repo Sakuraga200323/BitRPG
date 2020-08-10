@@ -103,7 +103,7 @@ async def on_message(message):
             import sub.N_Mob
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
-            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',1,10,10,10,10,10,'{url}');")
+            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
         id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
         id = m_author.id
         if not id_list or (not id in id_list):
