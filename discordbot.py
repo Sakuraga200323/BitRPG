@@ -16,6 +16,9 @@ import sub.box
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
+conn = psycopg2.connect(dsn)
+conn.autocommit(True)
+cur = conn.cursor()
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -75,8 +78,6 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
         sub.box.cmd_ch.append(m_ch.id)
-        conn = psycopg2.connect(dsn)
-        cur = conn.cursor()
         cur.execute('select id from player_tb;')
         id_list = cur.fetchone()
         id = m_author.id
@@ -138,7 +139,6 @@ async def on_message(message):
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');")
                 cur.execute(cmd)
                 cur.close()
-                conn.commit()
                 conn.close()
                 
                 await m_ch.send("登録完了しました。")
