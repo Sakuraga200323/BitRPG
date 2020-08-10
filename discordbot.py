@@ -138,6 +138,7 @@ async def on_message(message):
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');")
                 cur.execute(cmd)
                 conn.commit()
+                conn.close()
                 
                 await m_ch.send("登録完了しました。")
                 embed = discord.Embed(
