@@ -184,7 +184,7 @@ async def on_message(message):
             cur.execute(cmd)
             if "select" in cmd:
                 result = cur.fetchone()
-                await m_ch.send(cur.execute)
+                await m_ch.send(result)
             conn.commit()
             cur.close()
         
