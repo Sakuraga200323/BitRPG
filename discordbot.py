@@ -17,7 +17,6 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
 conn = psycopg2.connect(dsn)
-conn.autocommit(True)
 cur = conn.cursor()
 token = os.environ.get('TOKEN')
 client = discord.Client()
@@ -138,6 +137,7 @@ async def on_message(message):
                     'INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) '
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');")
                 cur.execute(cmd)
+                conn.commit()
                 cur.close()
                 conn.close()
                 
