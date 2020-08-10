@@ -16,9 +16,19 @@ import sub.box
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
-conn = psycopg2.connect(dsn)
-conn.autocommit = True
-cur = conn.cursor()
+
+class Postgres:
+    def __init__(self, dsn):
+        self.conn = psycopg2.connect(dsn)
+        self.conn.autocommit = True
+        self.cur = conn.cursor()
+
+    def execute(self, sql):
+        self.cur.execute(sql)
+
+    def fetch(self, sql):
+        self.cur.execute(sql)
+        return self.cur.fetchall()
 
 token = os.environ.get('TOKEN')
 client = discord.Client()
@@ -79,10 +89,9 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
         sub.box.cmd_ch.append(m_ch.id)
-        conn = psycopg2.connect(dsn)
-        cur = conn.cursor()
-        cur.execute('select id from player_tb;')
-        id_list = cur.fetchone()
+        pg = Postgres(dsn)
+        pg.execute("select id from player_tb;")
+        id_list = pg.fetch()
         if id_list:
             player_num = len(id_list)
         id = m_author.id
@@ -111,8 +120,8 @@ async def on_message(message):
                         if name == "next":
                             name = "Player" + str(player_num + 1)
                         else:
-                            cur.execute('select name from player_tb;')
-                            name_list = cur.fetchone()
+                            pg.execute('select name from player_tb;')
+                            name_list = pg.fetch()
                             if name_list and name in name_list:
                                 await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
@@ -178,8 +187,7 @@ async def on_message(message):
                 )
                 print(cmd)
                 try:
-                    cur.execute(cmd)
-                    conn.commit()
+                    pg.execute(cmd)
                 except Exception as e:
                     await m_ch.send('type:' + str(type(e))
                     + '\nargs:' + str(e.args)
@@ -190,9 +198,6 @@ async def on_message(message):
                         color=discord.Color.green())
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
-                cur.execute('select id from player_tb;')
-                id_list = cur.fetch()
-                print(id_list)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
 
@@ -209,6 +214,7 @@ async def on_message(message):
             cmd = m_ctt.split("^^psql ")[1]
             await m_ch.send(f"`::DATABASE=> {cmd}`")
             cur.execute(cmd)
+            conn.commit()
             if "select" in cmd:
                 result = cur.fetch()
                 await m_ch.send(result)
