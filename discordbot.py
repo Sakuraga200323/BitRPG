@@ -113,14 +113,13 @@ async def on_message(message):
                                 await m_ch.send(f"『{name}』は既に使用されています。")
                                 continue
                             await m_ch.send(f"『{name}』で登録します。")
-                        name_flag = True
-                            
-                await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
+                    name_flag = True
                 def check2(m):
                     if not m.author.id == id:
                         return 0
                     return 1
                 while sex_flag == False:
+                    await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
                     try:
                         msg2 = await client.wait_for("message", timeout=20, check=check2)
                     except asyncio.TimeoutError:
@@ -138,6 +137,7 @@ async def on_message(message):
                         if sex in ("2", "２"):
                             sex = "無記入"
                         await m_ch.send(f"『{sex}』で登録します。")
+                    sex_flag = True
                 embed = discord.Embed(color = discord.Color.green())
                 embed.add_field(name = "Name", value = name)
                 embed.add_field(name = "Sex", value = sex)
