@@ -103,7 +103,7 @@ async def on_message(message):
             import sub.N_Mob
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
-            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
+            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}','[]');")
         id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
         id = m_author.id
         if not id_list or (not id in id_list):
@@ -227,16 +227,13 @@ async def on_message(message):
                 embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
                 await m_ch.send(embed = embed)
-                embed = discord.Embed(
-                    title="ステータスの見方",
-                    description="基本的な使用方法を説明します"
-                )
+                embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
                 embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
                 embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
                 embed.add_field(name = f"Lv", value = f"*現在のLv*")
                 embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
                 embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
-                embed.add_field(name = f"STR", value = f"*攻撃力。戦闘時には強化量で補正*\n`[強化量]`")
+                embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値です。*\n`[強化量]`")
                 embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
                 embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
                 embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの残り必要EXP]`")
@@ -246,6 +243,7 @@ async def on_message(message):
         else:
 
             if m_ctt in ("^^st","^^status"):
+                # ステータスの表示 #
                 result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
                 P_list = [ i for i in result[0] ]
                 embed = discord.Embed(title = "Player Status Board")
@@ -259,7 +257,18 @@ async def on_message(message):
                 embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
                 embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
+                embed.set_thumbnail(url=m_athor.avatar_url)
                 await m_ch.send(embed = embed)
+
+            if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
+                # 戦闘コマンド #
+                if not m_ctt in ["^^atk","^^attack","^^attacking"]:
+                    pattern = r"^\^\^at(k|tack|tacking) "
+                    result = re.search(pattern,m_ctt)
+                    if not result:
+                        return
+                import sub.battle
+                sub.battle.cbt_proc(m_author,m_ch)
 
 
 
