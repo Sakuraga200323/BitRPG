@@ -237,9 +237,9 @@ async def on_message(message):
             return
 
         if m_ctt in ("^^st","^^status"):
-            result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id}")
+            result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
             print(result)
-            P_list = [ i[0] for i in pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id}") ]
+            P_list = [ i[0] for i in result ]
             embed = discord.Embed(title = "Plyer Status Board")
             embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
             embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
