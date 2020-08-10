@@ -179,7 +179,7 @@ async def on_message(message):
                 print(cmd)
                 try:
                     cur.execute(cmd)
-                    cunn.commit()
+                    conn.commit()
                 except Exception as e:
                     await m_ch.send('type:' + str(type(e))
                     + '\nargs:' + str(e.args)
