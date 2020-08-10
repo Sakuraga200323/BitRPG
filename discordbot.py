@@ -182,6 +182,7 @@ async def on_message(message):
             cmd = m_ctt.split("^^psql ")[1]
             conn = psycopg2.connect(dsn)
             cur = conn.cursor()
+            await m_ch.send(f"`::DATABASE=> {cmd}`")
             cur.execute(cmd)
             sys.stdout.close()
             sys.stdout = sys.__stdout__
