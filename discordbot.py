@@ -82,7 +82,7 @@ async def on_message(message):
         id_list = cur.fetchone()
         id = m_author.id
         print(id, id_list)
-        if not id_list or not id in id_list:
+        if not id_list or (not id in id_list):
             flag = False
             while flag == False:
                 name_flag = False
@@ -152,13 +152,11 @@ async def on_message(message):
                     + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');"
                 )
                 cur.execute(cmd)
-                await m_ch.send("冒険者登録に失敗しました。\n再度お試しください。")
-                await m_ch.send("登録完了しました。")
                 embed = discord.Embed(
                     description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
                     color=discord.Color.green())
                 embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                await m_ch.send(embed=embed)
+                await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
             
