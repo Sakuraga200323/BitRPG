@@ -173,9 +173,6 @@ async def on_message(message):
             return
         else:
             await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行します。**")
-        conn = psycopg2.connect(dsn)
-        cur = conn.cursor()
-        cur.execute('select id from player_tb;')
         if m_ctt == "^^player_tb":
             cur.execute('select * from player_tb;')
             await m_ch.send(cur.fetchone())
