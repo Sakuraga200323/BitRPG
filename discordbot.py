@@ -153,7 +153,7 @@ async def on_message(message):
                 )
                 try:
                     cur.execute(cmd)
-                excep:
+                except:
                     await m_ch.send("冒険者登録に失敗しました。\n再度お試しください。")
                 else:
                     await m_ch.send("登録完了しました。")
