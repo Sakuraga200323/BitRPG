@@ -97,7 +97,7 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
-        id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
+        id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
         id = m_ch.id
         if not id_list or (not id in id_list):
             import sub.N_Mob
