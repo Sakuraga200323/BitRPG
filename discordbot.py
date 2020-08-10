@@ -105,28 +105,34 @@ async def on_message(message):
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
                         name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', m_author.name)
-                        await m_ch.send(f"時間切れです。ユーザー名『{name}』をそのまま登録します。")
+                        text = "60秒経過。ユーザー名"
                     else:
                         name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', msg.content)
                         if name == "next":
                             name = re.sub(r'[\x00-\x1f\x7f-\x9f]', '・', m_author.name)
-                            await m_ch.send(f"ユーザー名『{name}』をそのまま登録します。")
                         else:
                             cur.execute('select name from player_tb;')
                             name_list = cur.fetchone()
                             if name_list and name in name_list:
                                 await m_ch.send(f"『{name}』は既に使用されています。")
                                 continue
-                            await m_ch.send(f"『{name}』で登録します。")
+                        name_ok = False
+                        while name_ok == False:
+                            await m_ch.send(f"{text}『{name}』で登録しても宜しいですか？\nyes -> y\nno -> n")
+                            try:
+                                msg = await client.wait_for("message", timeout=10, check=check)
+                            except asyncio.TimeoutError:
+                                await m_ch.send(f"一定時間経過しましたので、Yesと判断します。")
+                                name_ok = True
+                            else:
+                                if not msg.content in ("y","Y","n","N"):
+                                    await m_ch.send()
+                            
                     name_flag = True
-                def check2(m):
-                    if not m.author.id == id:
-                        return 0
-                    return 1
                 while sex_flag == False:
                     await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
                     try:
-                        msg2 = await client.wait_for("message", timeout=20, check=check2)
+                        msg2 = await client.wait_for("message", timeout=20, check=check)
                     except asyncio.TimeoutError:
                         sex = "無記入"
                         await m_ch.send(f"時間切れです。無記入として登録します。")
