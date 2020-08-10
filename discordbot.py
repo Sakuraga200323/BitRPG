@@ -90,8 +90,7 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
-        pg.execute("select id from player_tb;")
-        id_list = pg.fetch()
+        id_list = pg.fetch("select id from player_tb;")
         if id_list:
             player_num = len(id_list)
         id = m_author.id
@@ -120,8 +119,7 @@ async def on_message(message):
                         if name == "next":
                             name = "Player" + str(player_num + 1)
                         else:
-                            pg.execute('select name from player_tb;')
-                            name_list = pg.fetch()
+                            name_list = pg.fetch('select name from player_tb;')
                             if name_list and name in name_list:
                                 await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
