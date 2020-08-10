@@ -30,6 +30,8 @@ class Postgres:
         self.cur.execute(sql)
         return self.cur.fetchall()
 
+standerd_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
+    
 token = os.environ.get('TOKEN')
 client = discord.Client()
 
@@ -79,9 +81,13 @@ async def loop():
 @client.event
 async def on_message(message):
     global cur, conn
-    m_author = message.author
+
     m_ctt = message.content
+    m_em = message.embeds
+    m_id = message.id
     m_ch = message.channel
+    m_guild = message.guild
+    m_author = message.author
 
 
     if m_ctt.startswith("^^"):
@@ -200,7 +206,36 @@ async def on_message(message):
                         description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
                         color=discord.Color.green())
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed)
+                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+
+                P_list = [ i[0] for i in pg.fetch(f"select {standard_set} from player_tb when id = {m_author.id}") ]
+                embed = discord.Embed(title = "Plyer Status Board")
+                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
+                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
+                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
+                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[11]})`")
+                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[12]})`")
+                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[13]})`")
+                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[14]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
+                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10}*\n`[+1point -> +1]`")
+                await m_ch.send(embed = embed)
+                embed = discord.Embed(
+                    title="ステータスの見方",
+                    description="基本的な使用方法を説明します"
+                )
+                embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
+                embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
+                embed.add_field(name = f"Lv", value = f"*現在のLv*")
+                embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
+                embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
+                embed.add_field(name = f"STR", value = f"*攻撃力。戦闘時には強化量で補正*\n`[強化量]`")
+                embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
+                embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
+                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの残り必要EXP]`")
+                embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
+                await m_ch.send(embed=embed)
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
 
