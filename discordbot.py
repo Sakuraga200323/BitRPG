@@ -30,7 +30,7 @@ class Postgres:
         self.cur.execute(sql)
         return self.cur.fetchall()
 
-standerd_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
+standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
     
 token = os.environ.get('TOKEN')
 client = discord.Client()
