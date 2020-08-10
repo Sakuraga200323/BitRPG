@@ -257,7 +257,7 @@ async def on_message(message):
                 embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
                 embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
-                embed.set_thumbnail(url=m_athor.avatar_url)
+                embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
 
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
