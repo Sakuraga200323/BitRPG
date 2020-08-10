@@ -21,7 +21,7 @@ class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
-        self.cur = conn.cursor()
+        self.cur = self.conn.cursor()
 
     def execute(self, sql):
         self.cur.execute(sql)
