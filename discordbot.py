@@ -96,11 +96,6 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
-        id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
-        if id_list:
-            player_num = len(id_list)
-        id = m_author.id
-        print(id, id_list)
         if not id_list or (not id in id_list):
             flag = False
             while flag == False:
@@ -236,22 +231,22 @@ async def on_message(message):
                 embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの残り必要EXP]`")
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
                 await m_ch.send(embed=embed)
-                return
+            return
 
-            if m_ctt in ("^^st","^^status"):
-                P_list = [ i[0] for i in pg.fetch(f"select {standard_set} from player_tb when id = {m_author.id}") ]
-                embed = discord.Embed(title = "Plyer Status Board")
-                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
-                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
-                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
-                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
-                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
-                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
-                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
-                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
-                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
-                await m_ch.send(embed = embed)
+        if m_ctt in ("^^st","^^status"):
+            P_list = [ i[0] for i in pg.fetch(f"select {standard_set} from player_tb when id = {m_author.id}") ]
+            embed = discord.Embed(title = "Plyer Status Board")
+            embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
+            embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
+            embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+            embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
+            embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
+            embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
+            embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
+            embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
+            embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
+            embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
+            await m_ch.send(embed = embed)
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
