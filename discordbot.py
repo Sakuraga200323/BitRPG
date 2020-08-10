@@ -211,10 +211,8 @@ async def on_message(message):
         if m_ctt.startswith("^^psql "):
             cmd = m_ctt.split("^^psql ")[1]
             await m_ch.send(f"`::DATABASE=> {cmd}`")
-            cur.execute(cmd)
-            conn.commit()
             if "select" in cmd:
-                result = cur.fetch()
+                result = pg.fetch(cmd)
                 await m_ch.send(result)
 
 
