@@ -76,7 +76,7 @@ def cbt_proc(user,ch):
         if user_cbt_prace.id != ch.id:
             loop.create_task(ch.send(f"【警告】{user_name}は現在{user_cbt_prace.name}で戦闘中です。"))
             return
-    p_data = pg.fetchdict(f"select {standard_set} from player_tb where id = {m_author.id};")
+    p_data = pg.fetchdict(f"select {standard_set} from player_tb where id = {user.id};")
     m_data = pg.fetchdict(f"select {standard_mobset} from mob_tb where id = {ch.id};")
     if p_data["now_hp"] <= 0:
         loop.create_task(ch.send(f"【警告】{user_name}は既に死亡しています。"))
