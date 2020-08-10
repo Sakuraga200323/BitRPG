@@ -177,18 +177,12 @@ async def on_message(message):
         else:
             await m_ch.send("**Lv5クリアランスを認証。プロトコル[SystemCall]を実行します。**")
         if m_ctt.startswith("^^psql "):
-            import sys
-            sys.stdout = open("tmep.txt","w")
             cmd = m_ctt.split("^^psql ")[1]
             conn = psycopg2.connect(dsn)
             cur = conn.cursor()
             await m_ch.send(f"`::DATABASE=> {cmd}`")
             cur.execute(cmd)
-            sys.stdout.close()
-            sys.stdout = sys.__stdout__
-            with open("temp.text","r") as f:
-                result = f.read()
-                await m_ch.send(result)
+
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
