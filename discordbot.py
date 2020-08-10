@@ -85,10 +85,6 @@ async def on_message(message):
         if not id_list or not id in id_list:
             flag = False
             while flag == False:
-                await m_ch.send(
-                    f"{m_author.mention}さんの冒険者登録を開始。"
-                    "\n登録名を1分以内に送信してください。`next`と送信すると、ユーザー名がそのまま使用されます。\n`あとから設定し直すことが可能です。\n特殊文字非対応。`"
-                )
                 name_flag = False
                 sex_flag = False
                 def check(m):
@@ -96,6 +92,11 @@ async def on_message(message):
                         return 0
                     return 1
                 while name_flag == False:
+                    await m_ch.send(
+                        f"{m_author.mention}さんの冒険者登録を開始。"
+                        +"\n登録名を1分以内に送信してください。`next`と送信すると、ユーザー名がそのまま使用されます。\n"
+                        +"`あとから設定し直すことが可能です。\n特殊文字非対応。`"
+                    )
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
@@ -147,11 +148,9 @@ async def on_message(message):
                 i = '{"冒険者登録証明カード"}'
                 cmd = (
                     'INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) '
-                    + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');")
+                    + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');"
+                )
                 cur.execute(cmd)
-                conn.commit()
-                cur.close()
-                conn.close()
                 
                 await m_ch.send("登録完了しました。")
                 embed = discord.Embed(
@@ -162,6 +161,10 @@ async def on_message(message):
                 flag = True
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
+
+        conn.commit()
+        cur.close()
+        conn.close()
 
 
 
@@ -178,8 +181,10 @@ async def on_message(message):
             await m_ch.send(cur.fetchone())
                 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
-            
-                
+
+
+
+    
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
 where 列名 = 値;
