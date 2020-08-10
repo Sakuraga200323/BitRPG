@@ -113,7 +113,7 @@ async def on_message(message):
                             await m_ch.send(f"ユーザー名『{name}』をそのまま登録します。")
                         else:
                             cur.execute('select name from player_tb;')
-                            name_list = cur.fetch()
+                            name_list = cur.fetchone()
                             if name_list and name in name_list:
                                 await m_ch.send(f"『{name}』は既に使用されています。")
                                 continue
