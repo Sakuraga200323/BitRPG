@@ -116,7 +116,7 @@ def cbt_proc(user,ch):
         dmg1 = round(X * dmg1)
         m_data["now_hp"] -= dmg1
         log1_1 += str(dmg1)
-        log += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
+        log1_1 += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
         if m_data["now_hp"] <= 0:
             log2_1 = f'{m_data["name"]}を倒した！！'
             m_data["lv"] += 1
@@ -132,7 +132,7 @@ def cbt_proc(user,ch):
             dmg2 = round(X * dmg2)
             p_data["now_hp"] -= dmg2
             log2_1 += sdtr(dmg2)
-            log += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
+            log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 = f'{p_data["name"]}はやられてしまった！！'
 
