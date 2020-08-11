@@ -187,3 +187,4 @@ def cbt_proc(user,ch):
         battle_log = f"{log1_2} {log2_2}"
         embed = discord.Embed(title = "Result",description = desc,)
         loop.create_task(ch.send(content = battle_log,embed = embed))
+        print("Battle:" ,user.id, ch.id)
