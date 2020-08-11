@@ -113,7 +113,7 @@ def cbt_proc(user,ch):
             log1_1 += "強ダメージ！"; X = 1.5
         dmg1 = round(X * dmg1)
         m_data["now_hp"] -= dmg1
-        pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id'];")
+        pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
         log1_1 += str(dmg1)
         log1_1 += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
         if m_data["now_hp"] <= 0:
