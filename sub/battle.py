@@ -187,7 +187,7 @@ def cbt_proc(user,ch):
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
-    battle_log = f"{log1_2} {log2_2}"
+    battle_log = f"{log1_2}{log2_2}"
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
