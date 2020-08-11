@@ -75,7 +75,7 @@ def cbt_proc(user,ch):
     if user.id in sub.box.cbt_user:
         print(sub.box.cbt_user[user.id])
         user_cbt_prace = client.get_channel(sub.box.cbt_user[user.id])
-        if user_cbt_prace.id != ch.id:
+        if user_cbt_prace and user_cbt_prace.id != ch.id:
             loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
             return
     if p_data["now_hp"] <= 0:
