@@ -260,8 +260,7 @@ async def on_message(message):
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
 
-            if not m_author.id in admin_list:
-                return
+
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 # 戦闘コマンド #
                 if not m_ctt in ["^^atk","^^attack","^^attacking"]:
