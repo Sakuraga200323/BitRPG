@@ -70,16 +70,15 @@ loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
 def cbt_proc(user,ch):
-    user_name = pg.fetch(f"select name from player_tb where id = {user.id}")[0][0]
+    p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
+    m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if user.id in sub.box.cbt_user:
         user_cbt_prace = client.get_channel(sub.box.cbt_user[user.id])
         if user_cbt_prace.id != ch.id:
-            loop.create_task(ch.send(f"【警告】{user_name}は現在{user_cbt_prace.name}で戦闘中です。"))
+            loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
             return
-    p_data = pg.fetchdict(f"select {standard_set} from player_tb where id = {user.id};")
-    m_data = pg.fetchdict(f"select {standard_mobset} from mob_tb where id = {ch.id};")
     if p_data["now_hp"] <= 0:
-        loop.create_task(ch.send(f"【警告】{user_name}は既に死亡しています。"))
+        loop.create_task(ch.send(f"【警告】{p_data['name']}は既に死亡しています。"))
         return
     if not user.id in sub.box.cbt_user:
         sub.box.cbt_user[user.id] = ch.id
@@ -138,7 +137,7 @@ def cbt_proc(user,ch):
     if first_lv < m_data["lv"]:
         desc = ""
         for i in box.cbt_ch[ch.id]:
-            i_data = pg.fetchdict(f"select * from player_tb where id = {i}")
+            i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
             i_data["all_exp"] += get_exp
             i_data["now_exp"] += get_exp
