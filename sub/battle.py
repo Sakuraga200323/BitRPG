@@ -139,7 +139,7 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
-        for i in box.cbt_ch[ch.id]:
+        for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
             i_data["all_exp"] += get_exp
