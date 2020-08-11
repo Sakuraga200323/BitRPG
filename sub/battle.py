@@ -136,7 +136,7 @@ def cbt_proc(user,ch):
             if p_data["now_hp"] <= 0:
                 log2_1 = f'{p_data["name"]}はやられてしまった！！'
 
-    if first_lv < m_data["lv"]:
+    if first_mob_lv < m_data["lv"]:
         desc = ""
         for i in box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
