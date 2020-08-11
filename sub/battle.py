@@ -131,7 +131,7 @@ def cbt_proc(user,ch):
                 log2_1 += "強ダメージ！"; X = 1.5
             dmg2 = round(X * dmg2)
             p_data["now_hp"] -= dmg2
-            log2_1 += sdtr(dmg2)
+            log2_1 += str(dmg2)
             log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 = f'{p_data["name"]}はやられてしまった！！'
