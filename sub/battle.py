@@ -33,9 +33,9 @@ class Postgres:
 
     def fetchdict(self, sql):
         self.cur.execute (sql)
-        ans = self.cur.fetchall()
+        results = self.cur.fetchall()
         dict_result = []
-        for row in ans:
+        for row in results:
             dict_result.append(dict(row))
         return dict_result
 
