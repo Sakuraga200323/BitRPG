@@ -100,9 +100,6 @@ def cbt_proc(user,ch):
     dmg2 = sub.calc.dmg(m_data["str"], p_data["def"])
     log1_1 = ""
     log2_1 = ""
-    log1_2 = f"```diff\n{log1_1}```"
-    log2_2 = f"```diff\n{log2_1}```"
-    battle_log = f"{log1_2} {log2_2}"
     luck = random.randint(0, 100)
     if p_data["agi"] >= m_data["agi"]:
         log1_1 += f'+ {p_data["name"]}の攻撃！'
@@ -185,5 +182,8 @@ def cbt_proc(user,ch):
                 description = f"{player.mention}が魔石を発見！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
             em_list.append(em)
+        log1_2 = f"```diff\n{log1_1}```"
+        log2_2 = f"```diff\n{log2_1}```"
+        battle_log = f"{log1_2} {log2_2}"
         embed = discord.Embed(title = "Result",description = desc,)
         loop.create_task(ch.send(content = battle_log,embed = embed))
