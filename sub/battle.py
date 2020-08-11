@@ -8,7 +8,7 @@ import glob
 import os
 import psutil
 import psycopg2
-from psycopg2.extras import DictCursor
+import psycopg2.extras
 import random
 import re
 import traceback
