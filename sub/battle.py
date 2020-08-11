@@ -133,7 +133,8 @@ def cbt_proc(user,ch):
             log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 = f'{p_data["name"]}はやられてしまった！！'
-
+    embed = None
+    em = None
     if first_moblv < m_data["lv"]:
         desc = ""
         for i in box.cbt_ch[ch.id]:
@@ -183,9 +184,11 @@ def cbt_proc(user,ch):
                 description = f"{player.mention}が魔石を発見！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
             em_list.append(em)
+       embed = discord.Embed(title = "Result",description = desc,)
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
     battle_log = f"{log1_2} {log2_2}"
-    embed = discord.Embed(title = "Result",description = desc,)
     loop.create_task(ch.send(content = battle_log,embed = embed))
+    if em:
+        loop.create_task(ch.send(embed = em))
     print("Battle:" ,user.id, ch.id)
