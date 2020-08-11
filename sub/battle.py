@@ -73,6 +73,7 @@ def cbt_proc(user,ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if user.id in sub.box.cbt_user:
+        print(sub.box.cbt_user[user.id])
         user_cbt_prace = client.get_channel(sub.box.cbt_user[user.id])
         if user_cbt_prace.id != ch.id:
             loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
