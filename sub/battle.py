@@ -134,7 +134,7 @@ def cbt_proc(user,ch):
             log2_1 += str(dmg2)
             log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
-                log2_1 = f'{p_data["name"]}はやられてしまった！！'
+                log2_1 += f'{p_data["name"]}はやられてしまった！！'
     embed = None
     em = None
     if first_moblv < m_data["lv"]:
