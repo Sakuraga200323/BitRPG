@@ -106,6 +106,7 @@ def cbt_proc(user,ch):
     luck = random.randint(0, 100)
     if p_data["agi"] >= m_data["agi"]:
         log1_1 += f'+ {p_data["name"]}の攻撃！'
+        X = 1
         if luck >= 95:
             log1_1 += "極ダメージ！"; X = 3
         elif luck >= 90:
@@ -121,6 +122,7 @@ def cbt_proc(user,ch):
             m_data["lv"] += 1
         else:
             log2_1 += f'+ {m_data["name"]}の攻撃！'
+            X = 1
             if luck >= 95:
                 log2_1 += "極ダメージ！"; X = 3
             elif luck >= 90:
