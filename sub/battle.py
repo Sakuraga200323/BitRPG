@@ -184,7 +184,7 @@ def cbt_proc(user,ch):
                 description = f"{player.mention}が魔石を発見！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
             em_list.append(em)
-       embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
+        embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
     battle_log = f"{log1_2} {log2_2}"
