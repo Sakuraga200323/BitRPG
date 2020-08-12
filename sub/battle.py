@@ -164,7 +164,6 @@ def cbt_proc(user,ch):
         log1_1 += f'\n{p_data["name"]} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
         if p_data["now_hp"] <= 0:
             log2_1 = f'{p_data["name"]} はやられてしまった！！'
-            m_data["lv"] += 1
         else:
             log2_1 += f'+ {p_data["name"]} の攻撃！'
             t2 = "ダメージ" ; X = 1
@@ -182,6 +181,7 @@ def cbt_proc(user,ch):
             log2_1 += f'\n{m_data["name"]} のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 += f'{m_data["name"]} を倒した！！'
+                m_data["lv"] += 1
 
     embed = None
     em = None
@@ -248,7 +248,8 @@ def cbt_proc(user,ch):
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
-    import sub.mob
-    sub.mob.appear(m_data)
+    if first_moblv < m_data["lv"]:
+        import sub.mob
+        sub.mob.appear(m_data)
 
     print("Battle:" ,user.id, ch.id)
