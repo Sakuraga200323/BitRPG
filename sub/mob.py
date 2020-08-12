@@ -53,6 +53,7 @@ admin_list = [
 
 def appear(m_data):
     import sub.box,sub.calc
+    pg = Postgres(dsn)
     loop = asyncio.get_event_loop()
     agi_num = 1
     lv = m_data["lv"]       
