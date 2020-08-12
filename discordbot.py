@@ -283,7 +283,7 @@ async def on_message(message):
                         for i in sub.box.cbt_ch[ch.id]:
                             p_data = pg.fetch(f"select max_hp from player_tb where id = {user.id};")[0]
                             pg.execute(f"update into player_tb")
-                            if not i.if in sub.box.cbt_user:
+                            if not i.id in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i.id]
                         m_data = pg.fetch(f"select max_hp from mob_tb where id = {ch.id};")[0]
