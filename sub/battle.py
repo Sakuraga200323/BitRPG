@@ -186,7 +186,7 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
-        print(sub.box.cbt_ch[ch.id)
+        print(sub.box.cbt_ch[ch.id])
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
@@ -242,7 +242,8 @@ def cbt_proc(user,ch):
         rank = "Normal"
         color = discord.Color.blue()
         agi_num = 1
-        def get_mob_info(m_data):  
+        def appear_mob(m_data):
+            loop = asyncio.get_event_loop()
             agi_num = 1
             lv = m_data["lv"]       
             if lv % 1000 == 0:
@@ -277,6 +278,8 @@ def cbt_proc(user,ch):
                 color=color
             )
             embed.set_image(url=m_data["img_url"])
+            loop.create_tasks(client.get_channel(data['id']).send(embed = embed))
+           
         
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
@@ -284,4 +287,6 @@ def cbt_proc(user,ch):
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
+    appear_mob(m_data)
+
     print("Battle:" ,user.id, ch.id)
