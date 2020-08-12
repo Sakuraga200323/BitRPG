@@ -38,8 +38,10 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
+temp = Pistgres(dsn)
+temp.execute("ALTER TABLE player_tb ADD COLUMN cbt_ch_id bigint;")
 
-standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
+standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money,cbt_ch_id"
     
 token = os.environ.get('TOKEN')
 client = discord.Client()
@@ -279,9 +281,12 @@ async def on_message(message):
                         if m_authir.id in sub.box.cbt_ch[ch.id]
                             return
                         for i in sub.box.cbt_ch[ch.id]:
+                            p_data = pg.fetch(f"select max_hp from player_tb where id = {user.id};")[0]
+                            pg.execute(f"update into player_tb")
                             if not i.if in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i.id]
+                        m_data = pg.fetch(f"select max_hp from mob_tb where id = {ch.id};")[0]
                         await m_ch.send(f"『{m_ch.name}』での戦闘が解除されました。")
                     else:
                         await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
