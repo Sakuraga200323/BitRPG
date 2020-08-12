@@ -109,7 +109,7 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
-        id_list = [ i.items()[1] for i in pg.fetchdict("select * from mob_tb;").items()]
+        id_list = [ i[1] for i in pg.fetchdict("select * from mob_tb;").items()]
         print(id_list)
         id = m_ch.id
         if not id_list or (not id in id_list):
@@ -117,7 +117,7 @@ async def on_message(message):
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
             pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
-        id_list = [ i.items()[1] for i in pg.fetch("select id from player_tb;")]
+        id_list = [ i[1] for i in pg.fetch("select id from player_tb;")]
         id = m_author.id
         if not id_list or (not id in id_list):
             player_num = len(id_list)
