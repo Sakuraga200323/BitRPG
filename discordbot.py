@@ -276,7 +276,7 @@ async def on_message(message):
                 result = re.search(pattern, temp)
                 if result:
                     if m_ch.id in sub.box.cbt_ch:
-                        if m_author.id in sub.box.cbt_ch[m_ch.id]:
+                        if not m_author.id in sub.box.cbt_ch[m_ch.id]:
                             return
                         for i in sub.box.cbt_ch[m_ch.id]:
                             p_hp = pg.fetch(f"select max_hp from player_tb where id = {i};")[0]
