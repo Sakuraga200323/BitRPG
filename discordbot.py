@@ -8,6 +8,7 @@ import glob
 import os
 import psutil
 import psycopg2
+import psycopg2.extras
 import random
 import re
 import traceback
@@ -296,18 +297,19 @@ async def on_message(message):
                             if not i in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i]
-                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]
+                        m_hp = pg.fetch(f"select max_hp from player_tb where id = {m_ch.id};")[0][0]
+                        m_lv = pg.fetch(f"select lv from player_tb where id = {m_ch.id};")[0][0]
+                        pg.execute(f"update mob_tb set now_hp = {m_ph}")
                         await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
-                        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
                         rank = "Normal"
                         color = discord.Color.blue()
-                        if m_data["lv"] % 1000 == 0:
+                        if m_lv % 1000 == 0:
                             rank = "WorldEnd"
                             color = discord.Color.black()
-                        if m_data["lv"] % 100 == 0:
+                        if m_lv % 100 == 0:
                             rank = "Catastrophe"
                             color = discord.Color.red()
-                        if m_data["lv"] % 10 == 0:
+                        if m_lv % 10 == 0:
                             rank = "Elite"
                             color = discord.Color.yellow()
                         embed = discord.Embed(
