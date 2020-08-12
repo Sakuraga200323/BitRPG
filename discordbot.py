@@ -285,6 +285,7 @@ async def on_message(message):
                                 return
                             del sub.box.cbt_user[i]
                         m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")
+                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]
                         await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
                         pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']};")
                         rank = "Normal"
