@@ -87,7 +87,7 @@ def cbt_proc(user,ch):
         sub.box.cbt_ch[ch.id] = []
     if not user.id in sub.box.cbt_ch[ch.id]:
         sub.box.cbt_ch[ch.id].append(user.id)
-    pg.execute(f"update into player_tb set cbt_ch_id = {ch.id} where id = {user.id}")
+    pg.execute(f"update player_tb set cbt_ch_id = {ch.id} where id = {user.id}")
     if m_data["lv"] % 1000 == 0:
         get_exp = m_data["lv"]*100
     elif m_data["lv"] % 100 == 0:
