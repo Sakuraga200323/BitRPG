@@ -51,7 +51,8 @@ admin_list = [
     548058577848238080,
 ]
 
-def appear_mob(m_data):
+def appear(m_data):
+    import sub.box,sub.calc
     loop = asyncio.get_event_loop()
     agi_num = 1
     lv = m_data["lv"]       
