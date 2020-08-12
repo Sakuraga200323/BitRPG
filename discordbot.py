@@ -279,13 +279,32 @@ async def on_message(message):
                         if m_author.id in sub.box.cbt_ch[ch.id]:
                             return
                         for i in sub.box.cbt_ch[ch.id]:
-                            p_data = pg.fetch(f"select max_hp from player_tb where id = {user.id};")[0]
-                            pg.execute(f"update into player_tb")
+                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {user.id};")[0]
+                            pg.execute(f"update into player_tb set now_hp = {p_hp}")
                             if not i.id in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i.id]
-                        m_data = pg.fetch(f"select max_hp from mob_tb where id = {ch.id};")[0]
-                        await m_ch.send(f"『{m_ch.name}』での戦闘が解除されました。")
+                        m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
+                        await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
+                        pg.execute(f"update into player_tb set now_hp = {m_daga['max_hp']}")
+                        rank = "Normal"
+                        color = discord.Color.blue()
+                        if m_data["lv"] % 1000 == 0:
+                            rank = "WorldEnd"
+                            color = discord.Color.black()
+                        if m_data["lv"] % 100 == 0:
+                            rank = "Catastrophe"
+                            color = discord.Color.red()
+                        if m_data["lv"] % 10 == 0:
+                            rank = "Elite"
+                            color = discord.Color.yellow()
+                        embed = discord.Embed(
+                            title=f"<{rank}> {m_data['name']} appears !!",
+                            description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
+                            color=color
+                        )
+                        embed.set_image(url=m_data["img_url"])
+                        await m_ch.send(embed = embed)
                     else:
                         await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
                     
