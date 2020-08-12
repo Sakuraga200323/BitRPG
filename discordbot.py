@@ -275,7 +275,8 @@ async def on_message(message):
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 temp = m_ctt.split("^^")[1]
                 pattern = r"(atk|attack|atk (.+)|attack (.+))$"
-                if not result:
+                result = re.search(pattern, temp)
+                if result:
                     import sub.battle
                     sub.battle.cbt_proc(m_author,m_ch)
 
