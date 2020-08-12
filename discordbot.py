@@ -273,8 +273,9 @@ async def on_message(message):
             if m_ctt.startswith("^^reset"):
                 temp = m_cc.split("^^")[1]
                 pattern = r"(re|reset|reset (.+)|re (.+))$"
-                result = re.search(patterm, temp)
+                result = re.search(pattern, temp)
                 if result:
+
                     if ch.id in sub.box.cbt_ch:
                         if m_author.id in sub.box.cbt_ch[ch.id]:
                             return
