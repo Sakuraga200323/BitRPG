@@ -264,7 +264,7 @@ def reset(user, ch):
         if not user.id in sub.box.cbt_ch[ch.id]:
             return
         for i in sub.box.cbt_ch[ch.id]:
-            i_data = pg.fetchdict(f"select * from player_tb where id = {i.id};")[0]
+            i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
             pg.execute(f"update player_tb set now_hp = {i_data['max_hp']}")
             if not i in sub.box.cbt_user:
                 return
