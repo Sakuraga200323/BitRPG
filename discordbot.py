@@ -75,7 +75,7 @@ async def on_ready():
 @tasks.loop(seconds=1)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    await client.change_presence(activity=discord.Game(name=f"^^help║Server：{len(client.guilds)}║Mem：{MEM} %"))
+    await client.change_presence(activity=discord.Game(name=f"開発作業中║Server：{len(client.guilds)}║Mem：{MEM} %"))
 
 
 @client.event
