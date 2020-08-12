@@ -315,7 +315,6 @@ async def on_message(message):
             sub.box.cmd_ch.remove(m_ch.id)
 
 
-
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
 
