@@ -117,7 +117,7 @@ def cbt_proc(user,ch):
         pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
         log1_1 += str(dmg1)
         log1_1 += f"の{t}"
-        log1_1 += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
+        log1_1 += f'\n{m_data["name"]} のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
         if m_data["now_hp"] <= 0:
             log2_1 = f'{m_data["name"]} を倒した！！'
             m_data["lv"] += 1
@@ -136,7 +136,7 @@ def cbt_proc(user,ch):
             pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
             log2_1 += str(dmg2)
             log2_1 += f"の{t2}"
-            log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
+            log2_1 += f'\n{p_data["name"]} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 += f'{p_data["name"]} はやられてしまった！！'
 
