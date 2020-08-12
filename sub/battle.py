@@ -269,7 +269,7 @@ def reset(user, ch):
             if not i in sub.box.cbt_user:
                 return
             del sub.box.cbt_user[i]
-        pg.execute(f"update mob_tb set now_hp = {m_ph}")
+        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
         loop.create_task(ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
         rank = "Normal"
         color = discord.Color.blue()
