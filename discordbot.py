@@ -74,7 +74,7 @@ async def on_ready():
         except:
             print("Error")
 
-    print("【報告】起動完了。使用メモリー{MEM}%")
+    print(f"【報告】起動完了。\n使用メモリー{MEM}%")
 
     loop.start()
 
