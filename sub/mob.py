@@ -78,7 +78,7 @@ def appear(m_data):
         import sub.S_Mob
         name = random.choice(list(sub.S_Mob.set.keys()))
         url = sub.S_Mob.set[name]
-        color = discord.Color.yellow()
+        color = discord.Color.gold()
     else:
         rank = "Normal"
         num = 1
