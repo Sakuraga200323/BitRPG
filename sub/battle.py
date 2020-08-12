@@ -257,7 +257,7 @@ def cbt_proc(user,ch):
     print("Battle:" ,user.id, ch.id)
 
 
-
+@client.event
 async def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
