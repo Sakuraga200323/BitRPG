@@ -73,10 +73,10 @@ pg = Postgres(dsn)
 
 def cbt_proc(user,ch):
     import sub.box, sub.calc
+    print("Battle:" ,user.id, ch.id)
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if user.id in sub.box.cbt_user:
-        print(sub.box.cbt_user[user.id])
         user_cbt_prace = client.get_channel(sub.box.cbt_user[user.id])
         if user_cbt_prace and user_cbt_prace.id != ch.id:
             loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
@@ -189,14 +189,12 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
-        print(sub.box.cbt_ch[ch.id])
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
-            print(i_data)
+            print("前", i_data)
             be_lv = i_data["lv"]
             i_data["all_exp"] += get_exp
             i_data["now_exp"] += get_exp
-            print("Exp:" ,i_data["all_exp"] , i_data["now_exp"])
             while i_data["now_exp"] > i_data["lv"]:
                 i_data["now_exp"] -= i_data["lv"]
                 i_data["lv"] += 1
@@ -232,7 +230,7 @@ def cbt_proc(user,ch):
             except:
                 loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
-            print(i_data)
+            print("後",i_data)
         if luck >= 99:
             a = p_data["items"].append("魔石")
             pg.execute(
@@ -258,7 +256,6 @@ def cbt_proc(user,ch):
         import sub.mob
         sub.mob.appear(m_data)
 
-    print("Battle:" ,user.id, ch.id)
 
 
 def reset(user, ch):
