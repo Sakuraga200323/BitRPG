@@ -231,6 +231,8 @@ def cbt_proc(user,ch):
                     del sub.box.cbt_user[i]
             except:
                 loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
+            i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
+            print(i_data)
         if luck >= 99:
             a = p_data["items"].append("魔石")
             pg.execute(
