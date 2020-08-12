@@ -273,14 +273,11 @@ async def on_message(message):
 
 
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
-                # 戦闘コマンド #
-                if not m_ctt in ["^^atk","^^attack","^^attacking"]:
-                    pattern = r"^\^\^at(k|tack|tacking) "
-                    result = re.search(pattern,m_ctt)
-                    if not result:
-                        return
-                import sub.battle
-                sub.battle.cbt_proc(m_author,m_ch)
+                temp = m_ctt.split("^^")[1]
+                pattern = r"(atk|attack|atk (.+)|attack (.+))$"
+                if not result:
+                    import sub.battle
+                    sub.battle.cbt_proc(m_author,m_ch)
 
 
             if m_ctt.startswith("^^reset"):
