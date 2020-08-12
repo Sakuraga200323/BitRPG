@@ -311,7 +311,7 @@ async def on_message(message):
                         await m_ch.send(embed = embed)
                     else:
                         if not m_author.id in sub.box.cbt_user:
-                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {m_author.id};")[0]
+                            p_hp = pg.fetchdict(f"select * from player_tb where id = {m_author.id};")[0]['max_hp']
                             pg.execute(f"update player_tb set now_hp = {p_hp};")
                             await m_ch.send(f"HPを回復しました。")
                         await m_ch.send(f"【報告】『{m_ch.name}』で戦闘は実行されていません。")
