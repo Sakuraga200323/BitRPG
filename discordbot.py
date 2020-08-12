@@ -277,10 +277,6 @@ async def on_message(message):
                 if result:
                     if ch.id in sub.box.cbt_ch:
                         if m_author.id in sub.box.cbt_ch[ch.id]:
-                            if not m_author.id in sub.box.cbt_user:
-                                p_data = pg.fetchdict(f"select max_hp from player_tb where id = {user.id};")[0]
-                                pg.execute(f"update mob_tb set now_hp = {p_data['max_hp']}")
-                                await m_ch.send(f"HPを回復しました。")
                             return
                         for i in sub.box.cbt_ch[ch.id]:
                             p_hp = pg.fetch(f"select max_hp from player_tb where id = {i};")[0]
@@ -310,6 +306,10 @@ async def on_message(message):
                         embed.set_image(url=m_data["img_url"])
                         await m_ch.send(embed = embed)
                     else:
+                        if not m_author.id in sub.box.cbt_user:
+                            p_data = pg.fetchdict(f"select max_hp from player_tb where id = {user.id};")[0]
+                            pg.execute(f"update mob_tb set now_hp = {p_data['max_hp']}")
+                            await m_ch.send(f"HPを回復しました。")
                         await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
                     
 
