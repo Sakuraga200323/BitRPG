@@ -227,7 +227,7 @@ async def on_message(message):
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
-                P_list = [ i for i in pg.fetch(f"select * from player_tb where id = {m_author.id}")[0]
+                P_list = [ i for i in pg.fetch(f"select * from player_tb where id = {m_author.id}")[0]]
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
