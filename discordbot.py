@@ -257,19 +257,18 @@ async def on_message(message):
 
             if m_ctt in ("^^st","^^status"):
                 # ステータスの表示 #
-                result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
-                P_list = [ i for i in result[0] ]
+                P_list = pg.fetchdict(f"select * from player_tb where id = {m_ch.id};")[0]
                 embed = discord.Embed(title = "Player Status Board")
-                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
-                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
-                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
-                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
-                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
-                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
-                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
-                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
-                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
+                embed.add_field(name = f"Player", value = f"{P_list['name']}({m_author.mention})", inline = False)
+                embed.add_field(name = f"Sex", value = f"{P_list['sex']}", inline = False)
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list['lv']}*")
+                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list['now_hp']} / {P_list['max_hp']}*")
+                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list['now_hp']} / {P_list['max_mp']}*")
+                embed.add_field(name = f"STR (Strength)", value = f"*{P_list['str']}*\n`(+{P_list['str_stp']})`")
+                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list['def']}*\n`(+{P_list['def_stp']})`")
+                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list['agi']}*\n`(+{P_list['agi_stp']})`")
+                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list['all_exp']}*\n`[次のレベルまで後{P_list['now_exp'] - P_list['lv']}]`")
+                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list['stp']}*\n`[+1point -> +1]`")
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
 
