@@ -93,9 +93,4 @@ def appear(m_data):
         color=color
     )
     embed.set_image(url=m_data["img_url"])
-    print("chid:", m_data["id"])
-    ch = client.get_channel(m_data['id'])
-    if ch:
-        loop.create_task(ch.send(embed = embed))
-    else:
-        print(f"{m_data['id']}のチャンネルが見つかりません")
+    return embed
