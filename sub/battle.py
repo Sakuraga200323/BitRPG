@@ -270,7 +270,7 @@ def reset(user, ch):
             if not i in sub.box.cbt_user:
                 return
             del sub.box.cbt_user[i]
-        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
+        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id}")
         loop.create_task(ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
         rank = "Normal"
         color = discord.Color.blue()
@@ -292,7 +292,7 @@ def reset(user, ch):
         loop.create_task(ch.send(embed = embed))
     else:
         if not user.id in sub.box.cbt_user:
-            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}")
+            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {ch.id}")
             loop.create_task(ch.send(f"HPを回復しました。"))
         loop.create_task(ch.send(f"『{ch.name}』で戦闘は実行されていません。"))
                     
