@@ -35,8 +35,10 @@ class Postgres:
     def fetchdict(self, sql):
         self.cur.execute (sql)
         results = self.cur.fetchall()
+        print(results)
         dict_result = []
         for row in results:
+            print(row)
             dict_result.append(dict(row))
         return dict_result
 
