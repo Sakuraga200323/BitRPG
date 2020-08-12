@@ -283,7 +283,7 @@ def reset(user, ch):
             color = discord.Color.red()
         if m_data["lv"] % 10 == 0:
             rank = "Elite"
-            color = discord.Color.yellow()
+            color = discord.Color.gold()
         embed = discord.Embed(
             title=f"<{rank}> {m_data['name']} appears !!",
             description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
