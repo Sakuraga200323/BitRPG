@@ -271,7 +271,7 @@ async def on_message(message):
 
 
             if m_ctt.startswith("^^reset"):
-                temp = m_cc.split("^^")[1]
+                temp = m_ctt.split("^^")[1]
                 pattern = r"(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
