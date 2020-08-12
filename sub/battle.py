@@ -155,9 +155,9 @@ def cbt_proc(user,ch):
         if luck >= 95:
             t = "極ダメージ！"; X = 3
         elif luck >= 90:
-            t += "超ダメージ！"; X = 2
+            t = "超ダメージ！"; X = 2
         elif luck >= 85:
-            t += "強ダメージ！"; X = 1.5
+            t = "強ダメージ！"; X = 1.5
         dmg2 = round(X * dmg2)
         p_data["now_hp"] -= dmg2
         pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
