@@ -278,7 +278,7 @@ def reset(user, ch):
             color = discord.Color.black()
         if  m_data["lv"] % 100 == 0:
             rank = "Catastrophe"
-            color = discord.Color.red(
+            color = discord.Color.red()
         if m_data["lv"] % 10 == 0:
             rank = "Elite"
             color = discord.Color.yellow()
