@@ -239,46 +239,6 @@ def cbt_proc(user,ch):
         pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
         if ch.id in sub.box.cbt_ch:
             del sub.box.cbt_ch[ch.id]
-        rank = "Normal"
-        color = discord.Color.blue()
-        agi_num = 1
-        def appear_mob(m_data):
-            loop = asyncio.get_event_loop()
-            agi_num = 1
-            lv = m_data["lv"]       
-            if lv % 1000 == 0:
-                rank = "WorldEnd"
-                num = 5
-                agi_num = -666
-                name = "?????"
-                url = "None"
-            elif lv % 100 == 0:
-                rank = "Catastrophe"
-                num = 2
-                agi_num = -666
-                import sub.SS_Mob
-                name = random.choice(list(sub.SS_Mob.set.keys()))
-                url = sub.SS_Mob.set[name]
-            elif lv % 10 == 0:
-                rank = "Elite"
-                num = 1.5
-                import sub.S_Mob
-                name = random.choice(list(sub.S_Mob.set.keys()))
-                url = sub.S_Mob.set[name]
-            else:
-                rank = "Normal"
-                num = 1
-                import sub.N_Mob
-                name = random.choice(list(sub.N_Mob.set.keys()))
-                url = sub.N_Mob.set[name]
-            pg.execute(f"update mob_tb set name = {name},id = {m_data['id']},lv = {lv},max_hp = {100*(lv+1)*num},now_hp = {100*(lv+1)*num},str = {10*(lv+1)*num},def = {100*(lv+1)*num},agi = {100*(lv+1)*num*agi_num},img_url = {url};")
-            embed = discord.Embed(
-                title=f"<{rank}> {m_data['name']} appears !!",
-                description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
-                color=color
-            )
-            embed.set_image(url=m_data["img_url"])
-            loop.create_tasks(client.get_channel(data['id']).send(embed = embed))
            
         
     log1_2 = f"```diff\n{log1_1}```"
@@ -287,6 +247,7 @@ def cbt_proc(user,ch):
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
-    appear_mob(m_data)
+    import sub.mob
+    sub.mob.appear(m_data)
 
     print("Battle:" ,user.id, ch.id)
