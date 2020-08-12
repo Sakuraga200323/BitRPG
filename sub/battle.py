@@ -261,7 +261,7 @@ def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if ch.id in sub.box.cbt_ch:
-        if not m_author.id in sub.box.cbt_ch[ch.id]:
+        if not user.id in sub.box.cbt_ch[ch.id]:
             return
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i.id};")[0]
@@ -290,7 +290,7 @@ def reset(user, ch):
         embed.set_image(url=m_data["img_url"])
         loop.create_task(ch.send(embed = embed))
     else:
-        if not m_author.id in sub.box.cbt_user:
+        if not user.id in sub.box.cbt_user:
             pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}")
             loop.create_task(ch.send(f"HPを回復しました。"))
         loop.create_task(ch.send(f"『{ch.name}』で戦闘は実行されていません。"))
