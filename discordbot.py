@@ -311,6 +311,8 @@ async def on_message(message):
             if "select" in cmd:
                 result = pg.fetch(cmd)
                 await m_ch.send(result)
+        if m_ctt.startswith("reverse"):
+            sub.box.cmd_ch.remove(m_ch.id)
 
 
 
