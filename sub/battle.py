@@ -229,7 +229,7 @@ def cbt_proc(user,ch):
             except:
                 loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
-        if luck >= 1:
+        if luck >= 1000:
             a = p_data["items"]
             a.append('魔石')
             print(f'{a}')
