@@ -8,7 +8,6 @@ import glob
 import os
 import psutil
 import psycopg2
-import psycopg2.extras
 import random
 import re
 import traceback
@@ -18,12 +17,11 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
 
-
 class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
-        self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        self.cur = self.conn.cursor()
 
     def execute(self, sql):
         self.cur.execute(sql)
@@ -35,12 +33,11 @@ class Postgres:
     def fetchdict(self, sql):
         self.cur.execute (sql)
         results = self.cur.fetchall()
-        print(results)
         dict_result = []
         for row in results:
-            print(row)
             dict_result.append(dict(row))
         return dict_result
+
 
 standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money,cbt_ch_id"
     
@@ -109,15 +106,14 @@ async def on_message(message):
             return
         sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
-        id_list = [ i['id'] for i in pg.fetchdict("select * from mob_tb;")]
-        print(id_list)
+        id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
         id = m_ch.id
         if not id_list or (not id in id_list):
             import sub.N_Mob
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
             pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
-        id_list = [ i['id'] for i in pg.fetch("select id from player_tb;")]
+        id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
         id = m_author.id
         if not id_list or (not id in id_list):
             player_num = len(id_list)
@@ -146,7 +142,7 @@ async def on_message(message):
                         if name == "next":
                             name = "Player" + str(player_num + 1)
                         else:
-                            name_list = [ i['name'] for i in pg.fetch("select name from player_tb;")]
+                            name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
                             if name_list and name in name_list:
                                 await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                 continue
@@ -227,7 +223,7 @@ async def on_message(message):
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
-                P_list = [ i for i in pg.fetch(f"select * from player_tb where id = {m_author.id}")[0]]
+                P_list = [ i for i in pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id}")[0] ]
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
@@ -257,65 +253,21 @@ async def on_message(message):
 
             if m_ctt in ("^^st","^^status"):
                 # ステータスの表示 #
-                P_list = pg.fetchdict(f"select * from player_tb where id = {m_ch.id};")
-                print(P_list)
+                result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
+                P_list = [ i for i in result[0] ]
                 embed = discord.Embed(title = "Player Status Board")
-                embed.add_field(name = f"Player", value = f"{P_list['name']}({m_author.mention})", inline = False)
-                embed.add_field(name = f"Sex", value = f"{P_list['sex']}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list['lv']}*")
-                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list['now_hp']} / {P_list['max_hp']}*")
-                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list['now_hp']} / {P_list['max_mp']}*")
-                embed.add_field(name = f"STR (Strength)", value = f"*{P_list['str']}*\n`(+{P_list['str_stp']})`")
-                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list['def']}*\n`(+{P_list['def_stp']})`")
-                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list['agi']}*\n`(+{P_list['agi_stp']})`")
-                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list['all_exp']}*\n`[次のレベルまで後{P_list['now_exp'] - P_list['lv']}]`")
-                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list['stp']}*\n`[+1point -> +1]`")
+                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
+                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
+                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
+                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
+                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
+                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
+                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
+                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
-
-
-            if m_ctt.startswith("^^re"):
-                temp = m_ctt.split("^^")[1]
-                pattern = r"(re|reset|reset (.+)|re (.+))$"
-                result = re.search(pattern, temp)
-                if result:
-                    if m_ch.id in sub.box.cbt_ch:
-                        if not m_author.id in sub.box.cbt_ch[m_ch.id]:
-                            return
-                        for i in sub.box.cbt_ch[m_ch.id]:
-                            p_hp = pg.fetchdict(f"select * from player_tb where id = {i};")[0]['max_hp']
-                            pg.execute(f"update player_tb set now_hp = {p_hp};")
-                            if not i in sub.box.cbt_user:
-                                return
-                            del sub.box.cbt_user[i]
-                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]['max_hp']
-                        await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
-                        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']};")
-                        rank = "Normal"
-                        color = discord.Color.blue()
-                        if m_data["lv"] % 1000 == 0:
-                            rank = "WorldEnd"
-                            color = discord.Color.black()
-                        if m_data["lv"] % 100 == 0:
-                            rank = "Catastrophe"
-                            color = discord.Color.red()
-                        if m_data["lv"] % 10 == 0:
-                            rank = "Elite"
-                            color = discord.Color.yellow()
-                        embed = discord.Embed(
-                            title=f"<{rank}> {m_data['name']} appears !!",
-                            description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
-                            color=color
-                        )
-                        embed.set_image(url=m_data["img_url"])
-                        await m_ch.send(embed = embed)
-                    else:
-                        if not m_author.id in sub.box.cbt_user:
-                            p_hp = pg.fetchdict(f"select * from player_tb where id = {m_author.id};")[0]['max_hp']
-                            pg.execute(f"update player_tb set now_hp = {p_hp};")
-                            await m_ch.send(f"HPを回復しました。")
-                        await m_ch.send(f"【報告】『{m_ch.name}』で戦闘は実行されていません。")
-                    
 
 
 
@@ -360,10 +312,8 @@ async def on_message(message):
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
 where 列名 = 値;
-
 select 列名 from テーブル名
 where 列名 = 値;
-
 '''
 
 
