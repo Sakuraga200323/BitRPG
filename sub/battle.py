@@ -70,7 +70,6 @@ loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
 def cbt_proc(user,ch):
-    import sub.box.cbt_user,sub.box.cbt_ch
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if user.id in sub.box.cbt_user:
