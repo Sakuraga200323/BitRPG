@@ -277,16 +277,20 @@ async def on_message(message):
                 if result:
                     if ch.id in sub.box.cbt_ch:
                         if m_author.id in sub.box.cbt_ch[ch.id]:
+                            if not m_author.id in sub.box.cbt_user:
+                                p_data = pg.fetchdict(f"select max_hp from player_tb where id = {user.id};")[0]
+                                pg.execute(f"update mob_tb set now_hp = {p_data['max_hp']}")
+                                await m_ch.send(f"HPを回復しました。")
                             return
                         for i in sub.box.cbt_ch[ch.id]:
-                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {user.id};")[0]
+                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {i};")[0]
                             pg.execute(f"update player_tb set now_hp = {p_hp}")
-                            if not i.id in sub.box.cbt_user:
+                            if not i in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i.id]
                         m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
                         await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
-                        pg.execute(f"update player_tb set now_hp = {m_daga['max_hp']}")
+                        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
                         rank = "Normal"
                         color = discord.Color.blue()
                         if m_data["lv"] % 1000 == 0:
