@@ -250,6 +250,7 @@ def cbt_proc(user,ch):
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
     battle_log = f"{log1_2}{log2_2}"
+    print(type(p_data["items"]), p_data["items"])
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
