@@ -197,7 +197,7 @@ def cbt_proc(user,ch):
             i_data["all_exp"] += get_exp
             i_data["now_exp"] += get_exp
             print("Exp:" ,i_data["all_exp"] , i_data["now_exp"])
-            while i_data["now_exp"] < i_data["lv"]:
+            while i_data["now_exp"] > i_data["lv"]:
                 i_data["now_exp"] -= i_data["lv"]
                 i_data["lv"] += 1
                 if p_data["lv"] % 10 == 0:
