@@ -282,6 +282,50 @@ async def on_message(message):
                 sub.battle.cbt_proc(m_author,m_ch)
 
 
+            if m_ctt.startswith("^^reset"):
+                temp = m_ctt.split("^^")[1]
+                pattern = r"(re|reset|reset (.+)|re (.+))$"
+                result = re.search(pattern, temp)
+                if result:
+                    if m_ch.id in sub.box.cbt_ch:
+                        if not m_author.id in sub.box.cbt_ch[m_ch.id]:
+                            return
+                        for i in sub.box.cbt_ch[m_ch.id]:
+                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {i};")[0]
+                            pg.execute(f"update player_tb set now_hp = {p_hp}")
+                            if not i in sub.box.cbt_user:
+                                return
+                            del sub.box.cbt_user[i.id]
+                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]
+                        await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
+                        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
+                        rank = "Normal"
+                        color = discord.Color.blue()
+                        if m_data["lv"] % 1000 == 0:
+                            rank = "WorldEnd"
+                            color = discord.Color.black()
+                        if m_data["lv"] % 100 == 0:
+                            rank = "Catastrophe"
+                            color = discord.Color.red()
+                        if m_data["lv"] % 10 == 0:
+                            rank = "Elite"
+                            color = discord.Color.yellow()
+                        embed = discord.Embed(
+                            title=f"<{rank}> {m_data['name']} appears !!",
+                            description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
+                            color=color
+                        )
+                        embed.set_image(url=m_data["img_url"])
+                        await m_ch.send(embed = embed)
+                    else:
+                        if not m_author.id in sub.box.cbt_user:
+                            p_hp = pg.fetch(f"select max_hp from player_tb where id = {m_author.id};")[0]
+                            pg.execute(f"update player_tb set now_hp = {p_hp}")
+                            await m_ch.send(f"HPを回復しました。")
+                        await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
+                    
+
+
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
