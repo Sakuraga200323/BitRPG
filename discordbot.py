@@ -38,7 +38,7 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-temp = Pistgres(dsn)
+temp = Postgres(dsn)
 temp.execute("ALTER TABLE player_tb ADD COLUMN cbt_ch_id bigint;")
 
 standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money,cbt_ch_id"
