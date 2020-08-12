@@ -214,7 +214,7 @@ def cbt_proc(user,ch):
             try:
                 if i.id in sub.box.cbt_user:
                     del sub.box.cbt_user[user.id]
-            exception:
+            except:
                 await ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。")
         if luck >= 99:
             a = p_data["items"].append("魔石")
