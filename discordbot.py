@@ -281,7 +281,7 @@ async def on_message(message):
                     sub.battle.cbt_proc(m_author,m_ch)
 
 
-            if m_ctt.startswith("^^reset"):
+            if m_ctt.startswith("^^re"):
                 temp = m_ctt.split("^^")[1]
                 pattern = r"(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
