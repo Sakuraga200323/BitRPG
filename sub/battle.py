@@ -292,7 +292,7 @@ async def reset(user, ch):
         await m_ch.send(embed = embed)
     else:
         if not m_author.id in sub.box.cbt_user:
-            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']]}")
+            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}")
             await m_ch.send(f"HPを回復しました。")
         await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
                     
