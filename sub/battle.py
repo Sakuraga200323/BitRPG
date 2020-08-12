@@ -186,13 +186,14 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
+        print(sub.box.cbt_ch[ch.id)
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
             i_data["all_exp"] += get_exp
             i_data["now_exp"] += get_exp
             while i_data["now_exp"] < i_data["lv"]:
-                i_data["now_exp"] += i_data["lv"]
+                i_data["now_exp"] -= i_data["lv"]
                 i_data["lv"] += 1
                 if p_data["lv"] % 10 == 0:
                     p_data["stp"] += 50
@@ -238,6 +239,45 @@ def cbt_proc(user,ch):
         pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
         if ch.id in sub.box.cbt_ch:
             del sub.box.cbt_ch[ch.id]
+        rank = "Normal"
+        color = discord.Color.blue()
+        agi_num = 1
+        def get_mob_info(m_data):  
+            agi_num = 1
+            lv = m_data["lv"]       
+            if lv % 1000 == 0:
+                rank = "WorldEnd"
+                num = 5
+                agi_num = -666
+                name = "?????"
+                url = "None"
+            elif lv % 100 == 0:
+                rank = "Catastrophe"
+                num = 2
+                agi_num = -666
+                import sub.SS_Mob
+                name = random.choice(list(sub.SS_Mob.set.keys()))
+                url = sub.SS_Mob.set[name]
+            elif lv % 10 == 0:
+                rank = "Elite"
+                num = 1.5
+                import sub.S_Mob
+                name = random.choice(list(sub.S_Mob.set.keys()))
+                url = sub.S_Mob.set[name]
+            else:
+                rank = "Normal"
+                num = 1
+                import sub.N_Mob
+                name = random.choice(list(sub.N_Mob.set.keys()))
+                url = sub.N_Mob.set[name]
+            pg.execute(f"update mob_tb set name = {name},id = {m_data['id']},lv = {lv},max_hp = {100*(lv+1)*num},now_hp = {100*(lv+1)*num},str = {10*(lv+1)*num},def = {100*(lv+1)*num},agi = {100*(lv+1)*num*agi_num},img_url = {url};")
+            embed = discord.Embed(
+                title=f"<{rank}> {m_data['name']} appears !!",
+                description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
+                color=color
+            )
+            embed.set_image(url=m_data["img_url"])
+        
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
     battle_log = f"{log1_2}{log2_2}"
