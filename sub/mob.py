@@ -93,4 +93,5 @@ def appear(m_data):
         color=color
     )
     embed.set_image(url=m_data["img_url"])
+    print("chid:", m_data["id"])
     loop.create_task(client.get_channel(m_data['id']).send(embed = embed))
