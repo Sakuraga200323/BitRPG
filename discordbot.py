@@ -283,12 +283,12 @@ async def on_message(message):
                         if not m_author.id in sub.box.cbt_ch[m_ch.id]:
                             return
                         for i in sub.box.cbt_ch[m_ch.id]:
-                            p_hp = pg.fetchdict(f"select * from player_tb where id = {i};")[0].['max_hp']
+                            p_hp = pg.fetchdict(f"select * from player_tb where id = {i};")[0]['max_hp']
                             pg.execute(f"update player_tb set now_hp = {p_hp[0]};")
                             if not i in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i]
-                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0].['max_hp']
+                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]['max_hp']
                         await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
                         pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']};")
                         rank = "Normal"
