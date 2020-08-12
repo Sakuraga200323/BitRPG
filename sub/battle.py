@@ -104,17 +104,18 @@ def cbt_proc(user,ch):
     luck = random.randint(0, 100)
     if p_data["agi"] >= m_data["agi"]:
         log1_1 += f'+ {p_data["name"]}の攻撃！'
-        X = 1
+        temp = "ダメージ", ; X = 1
         if luck >= 95:
-            log1_1 += "極ダメージ！"; X = 3
+            temp = "極ダメージ！"; X = 3
         elif luck >= 90:
-            log1_1 += "超ダメージ！"; X = 2
+            temp += "超ダメージ！"; X = 2
         elif luck >= 85:
-            log1_1 += "強ダメージ！"; X = 1.5
+            temp += "強ダメージ！"; X = 1.5
         dmg1 = round(X * dmg1)
         m_data["now_hp"] -= dmg1
         pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
         log1_1 += str(dmg1)
+        log1_1 += f"の{temp}"
         log1_1 += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
         if m_data["now_hp"] <= 0:
             log2_1 = f'{m_data["name"]}を倒した！！'
