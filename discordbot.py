@@ -8,6 +8,7 @@ import glob
 import os
 import psutil
 import psycopg2
+import psycopg2.extras
 import random
 import re
 import traceback
