@@ -30,6 +30,15 @@ class Postgres:
         self.cur.execute(sql)
         return self.cur.fetchall()
 
+    def fetchdict(self, sql):
+        self.cur.execute (sql)
+        results = self.cur.fetchall()
+        dict_result = []
+        for row in results:
+            dict_result.append(dict(row))
+        return dict_result
+
+
 standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
     
 token = os.environ.get('TOKEN')
@@ -72,7 +81,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"^^help║Server：{len(client.guilds)}║Mem：{MEM} %"))
 
 
-@tasks.loop(seconds=1)
+@tasks.loop(seconds=10)
 async def loop():
     MEM = psutil.virtual_memory().percent
     await client.change_presence(activity=discord.Game(name=f"開発作業中║Server：{len(client.guilds)}║Mem：{MEM} %"))
@@ -259,6 +268,25 @@ async def on_message(message):
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
+
+
+            if m_ctt.startswith("^^reset"):
+                temp = mcc.split("^^")[1]
+                pattern = r"(re|reset|reset (.+)|re (.+))$"
+                result = re.search(patterm, temp)
+                if result:
+                    if ch.id in sub.box.cbt_ch:
+                        if m_authir.id in sub.box.cbt_ch[ch.id]
+                            return
+                        for i in sub.box.cbt_ch[ch.id]:
+                            if not i.if in sub.box.cbt_user:
+                                return
+                            del sub.box.cbt_user[i.id]
+                        await m_ch.send(f"『{m_ch.name}』での戦闘が解除されました。")
+                    else:
+                        await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
+                    
+
 
 
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
