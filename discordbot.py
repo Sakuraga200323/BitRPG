@@ -275,17 +275,16 @@ async def on_message(message):
                 pattern = r"(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-
-                    if ch.id in sub.box.cbt_ch:
-                        if m_author.id in sub.box.cbt_ch[ch.id]:
+                    if m_ch.id in sub.box.cbt_ch:
+                        if m_author.id in sub.box.cbt_ch[m_ch.id]:
                             return
-                        for i in sub.box.cbt_ch[ch.id]:
+                        for i in sub.box.cbt_ch[m_ch.id]:
                             p_hp = pg.fetch(f"select max_hp from player_tb where id = {i};")[0]
                             pg.execute(f"update player_tb set now_hp = {p_hp}")
                             if not i in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i.id]
-                        m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
+                        m_data = pg.fetchdict(f"select * from mob_tb where id = {m_ch.id};")[0]
                         await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
                         pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']}")
                         rank = "Normal"
