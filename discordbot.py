@@ -265,7 +265,7 @@ async def on_message(message):
                 embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
                 embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
                 embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
-                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[11]}*\n`[次のレベルまで後{P_list[3] - P_list[15]}]`")
+                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[15]}*\n`[次のレベルまで後{P_list[3] - P_list[16]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[10]}*\n`[+1point -> +1]`")
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
