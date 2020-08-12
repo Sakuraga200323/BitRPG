@@ -284,7 +284,7 @@ async def on_message(message):
                             return
                         for i in sub.box.cbt_ch[m_ch.id]:
                             p_hp = pg.fetchdict(f"select * from player_tb where id = {i};")[0]['max_hp']
-                            pg.execute(f"update player_tb set now_hp = {p_hp[0]};")
+                            pg.execute(f"update player_tb set now_hp = {p_hp};")
                             if not i in sub.box.cbt_user:
                                 return
                             del sub.box.cbt_user[i]
