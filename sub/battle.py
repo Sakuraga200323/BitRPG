@@ -105,18 +105,18 @@ def cbt_proc(user,ch):
     luck = random.randint(0, 100)
     if p_data["agi"] >= m_data["agi"]:
         log1_1 += f'+ {p_data["name"]} の攻撃！'
-        temp = "ダメージ", ; X = 1
+        t = "ダメージ", ; X = 1
         if luck >= 95:
-            temp = "極ダメージ！"; X = 3
+            t = "極ダメージ！"; X = 3
         elif luck >= 90:
-            temp += "超ダメージ！"; X = 2
+            t += "超ダメージ！"; X = 2
         elif luck >= 85:
-            temp += "強ダメージ！"; X = 1.5
+            t += "強ダメージ！"; X = 1.5
         dmg1 = round(X * dmg1)
         m_data["now_hp"] -= dmg1
         pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
         log1_1 += str(dmg1)
-        log1_1 += f"の{temp}"
+        log1_1 += f"の{t}"
         log1_1 += f'\n{m_data["name"]}のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
         if m_data["now_hp"] <= 0:
             log2_1 = f'{m_data["name"]} を倒した！！'
@@ -124,16 +124,18 @@ def cbt_proc(user,ch):
         else:
             log2_1 += f'+ {m_data["name"]} の攻撃！'
             X = 1
+            t2 = "ダメージ"
             if luck >= 95:
-                log2_1 += "極ダメージ！"; X = 3
+                t2 = "極ダメージ！"; X = 3
             elif luck >= 90:
-                log2_1 += "超ダメージ！"; X = 2
+                t2 = "超ダメージ！"; X = 2
             elif luck >= 85:
-                log2_1 += "強ダメージ！"; X = 1.5
+                t2 = "強ダメージ！"; X = 1.5
             dmg2 = round(X * dmg2)
             p_data["now_hp"] -= dmg2
             pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
             log2_1 += str(dmg2)
+            log2_1 += f"の{t2}"
             log2_1 += f'\n{p_data["name"]}のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 += f'{p_data["name"]} はやられてしまった！！'
@@ -141,35 +143,36 @@ def cbt_proc(user,ch):
 
     else:
         log1_1 += f'+ {m_data["name"]} の攻撃！'
-        temp = "ダメージ", ; X = 1
+        t = "ダメージ", ; X = 1
         if luck >= 95:
-            temp = "極ダメージ！"; X = 3
+            t = "極ダメージ！"; X = 3
         elif luck >= 90:
-            temp += "超ダメージ！"; X = 2
+            t += "超ダメージ！"; X = 2
         elif luck >= 85:
-            temp += "強ダメージ！"; X = 1.5
+            t += "強ダメージ！"; X = 1.5
         dmg2 = round(X * dmg2)
         p_data["now_hp"] -= dmg2
         pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
         log1_1 += str(dmg2)
-        log1_1 += f"の{temp}"
+        log1_1 += f"の{t}"
         log1_1 += f'\n{p_data["name"]} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
         if p_data["now_hp"] <= 0:
             log2_1 = f'{p_data["name"]} はやられてしまった！！'
             m_data["lv"] += 1
         else:
             log2_1 += f'+ {p_data["name"]} の攻撃！'
-            X = 1
+            t2 = "ダメージ" ; X = 1
             if luck >= 95:
-                log2_1 += "極ダメージ！"; X = 3
+                t2 = "極ダメージ！"; X = 3
             elif luck >= 90:
-                log2_1 += "超ダメージ！"; X = 2
+                t2 = "超ダメージ！"; X = 2
             elif luck >= 85:
-                log2_1 += "強ダメージ！"; X = 1.5
+                t2 = "強ダメージ！"; X = 1.5
             dmg1 = round(X * dmg1)
             M_data["now_hp"] -= dmg1
             pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
             log2_1 += str(dmg1)
+            log2_1 += f"の{t2}"
             log2_1 += f'\n{m_data["name"]} のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
             if p_data["now_hp"] <= 0:
                 log2_1 += f'{m_data["name"]} を倒した！！'
