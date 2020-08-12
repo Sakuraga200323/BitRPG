@@ -213,8 +213,8 @@ def cbt_proc(user,ch):
                     money = {i_data["money"] + (round(m_data["lv"]/len(box.cbt_ch[ch.id])))} where id = {i.id};'''
             )
             try:
-                if i.id in sub.box.cbt_user:
-                    del sub.box.cbt_user[user.id]
+                if i in sub.box.cbt_user:
+                    del sub.box.cbt_user[i]
             except:
                 loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
         if luck >= 99:
