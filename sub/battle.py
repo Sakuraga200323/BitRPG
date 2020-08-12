@@ -257,8 +257,7 @@ def cbt_proc(user,ch):
     print("Battle:" ,user.id, ch.id)
 
 
-@client.event
-async def reset(user, ch):
+def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if m_ch.id in sub.box.cbt_ch:
@@ -271,7 +270,7 @@ async def reset(user, ch):
                 return
             del sub.box.cbt_user[i]
         pg.execute(f"update mob_tb set now_hp = {m_ph}")
-        await m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
+        loop.create_task(v m_ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
         rank = "Normal"
         color = discord.Color.blue()
         if m_data["lv"] % 1000 == 0:
@@ -289,10 +288,10 @@ async def reset(user, ch):
             color=color
         )
         embed.set_image(url=m_data["img_url"])
-        await m_ch.send(embed = embed)
+        loop.create_task(m_ch.send(embed = embed))
     else:
         if not m_author.id in sub.box.cbt_user:
             pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}")
-            await m_ch.send(f"HPを回復しました。")
-        await m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。")
+            loop.create_task(m_ch.send(f"HPを回復しました。"))
+        loop.create_task(m_ch.send(f"『{m_ch.name}』で戦闘は実行されていません。"))
                     
