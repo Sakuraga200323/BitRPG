@@ -79,7 +79,7 @@ def cbt_proc(user,ch):
             loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
             return
     if p_data["now_hp"] <= 0:
-        loop.create_task(ch.send(f"【警告】{p_data['name']}は既に死亡しています。"))
+        loop.create_task(ch.send(f"【報告】{p_data['name']}は既に死亡しています。"))
         return
     if not user.id in sub.box.cbt_user:
         sub.box.cbt_user[user.id] = ch.id
