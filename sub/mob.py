@@ -82,7 +82,7 @@ def appear(m_data):
         import sub.N_Mob
         name = random.choice(list(sub.N_Mob.set.keys()))
         url = sub.N_Mob.set[name]
-    pg.execute(f"update mob_tb set name = '{name}',id = {m_data['id']},lv = {lv},max_hp = {100*(lv+1)*num},now_hp = {100*(lv+1)*num},str = {10*(lv+1)*num},def = {100*(lv+1)*num},agi = {100*(lv+1)*num*agi_num},img_url = '{url}';")
+    pg.execute(f"update mob_tb set name = '{name}',lv = {lv},max_hp = {100*(lv+1)*num},now_hp = {100*(lv+1)*num},str = {10*(lv+1)*num},def = {100*(lv+1)*num},agi = {100*(lv+1)*num*agi_num},img_url = '{url}';")
     embed = discord.Embed(
         title=f"<{rank}> {m_data['name']} appears !!",
         description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
