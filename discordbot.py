@@ -292,7 +292,6 @@ async def on_message(message):
                     sub.battle.reset(m_author, m_ch)
 
 
-
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
 
