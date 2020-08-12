@@ -35,6 +35,7 @@ class Postgres:
         results = self.cur.fetchall()
         dict_result = []
         for row in results:
+            print(row)
             dict_result.append(dict(row))
         return dict_result
 
