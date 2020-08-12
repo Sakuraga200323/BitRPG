@@ -176,7 +176,7 @@ def cbt_proc(user,ch):
             elif luck2 >= 85:
                 t2 = "強ダメージ！"; X = 1.5
             dmg1 = round(X * dmg1)
-            M_data["now_hp"] -= dmg1
+            m_data["now_hp"] -= dmg1
             pg.execute(f"update mob_tb set now_hp = {m_data['now_hp']} where id = {m_data['id']};")
             log2_1 += str(dmg1)
             log2_1 += f"の{t2}"
