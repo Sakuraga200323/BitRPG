@@ -255,7 +255,7 @@ def cbt_proc(user,ch):
         loop.create_task(ch.send(embed = em))
     if first_moblv < m_data["lv"]:
         import sub.mob
-        sub.mob.appear(m_data)
+        loop.create_task(ch.send(embed=sub.mob.appear(m_data)))
 
 
 
