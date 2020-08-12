@@ -232,10 +232,10 @@ def cbt_proc(user,ch):
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             print("後",i_data)
         if luck >= 99:
-            print(type(p_data["items"]), p_data["items"])
             a = p_data["items"].append("魔石")
+            a = f"{a}".split('[')[1].split(']')[0]
             pg.execute(
-                f'''update player_tb set items = "{a}";'''
+                f"""update player_tb set items = '{{a}}';"""
             )
             em = discord.Embed(
                 description = f"{p_data['name']} が魔石を発見！")
