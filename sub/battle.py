@@ -232,14 +232,14 @@ def cbt_proc(user,ch):
         if luck >= 1:
             a = p_data["items"]
             print(f'{a}')
-            a = f"{a}".split('[')[1].split(']')[0]
+            a = f"{a.append('魔石')}".split('[')[1].split(']')[0]
             pg.execute(
                 f"""update player_tb set items = '{{a}}';"""
             )
             em = discord.Embed(
                 description = f"{p_data['name']} が魔石を発見！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
-            em_list.append(em)
+            
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
         pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
         if ch.id in sub.box.cbt_ch:
