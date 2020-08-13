@@ -187,6 +187,10 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
+        now = datetime.now(JST)strftime("%H:%M")
+        if  now in ['23:18']
+            get_exp *= 16
+
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
