@@ -190,7 +190,7 @@ def cbt_proc(user,ch):
         now = datetime.now(JST)strftime("%H:%M")
         if  now in ['23:18']
             get_exp *= 16
-            loop.create_task(ch.send("幸運を。死したものより祝福を。"))
+            loop.create_task(ch.send(????『"幸運を。死したものより祝福を。』"))
 
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
