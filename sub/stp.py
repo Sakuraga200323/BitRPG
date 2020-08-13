@@ -78,6 +78,6 @@ def divid(user, ch, result):
     p_data[target] += point
     stp = target + "_stp"
     p_data[stp] += point
-    pg.execute(f"update player_tb set {target} =  {p_data[f'{target}']}, {stp} = {p_data[f'{stp}'} where id = {user.id};")
+    pg.execute(f"update player_tb set {target} =  {p_data[f'{target}']}, {stp} = {p_data[f'{stp}']} where id = {user.id};")
 
     loop.create_task(ch.send(f"【報告】{p_data['name']}の{target}を強化。強化量が+{p_data[f'{stp}'}になりました。"))
