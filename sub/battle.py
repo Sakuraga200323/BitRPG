@@ -292,7 +292,7 @@ def reset(user, ch):
         loop.create_task(ch.send(embed = embed))
     else:
         if not user.id in sub.box.cbt_user:
-            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {ch.id}")
+            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {user.id}")
             loop.create_task(ch.send(f"HPを回復しました。"))
         loop.create_task(ch.send(f"『{ch.name}』で戦闘は実行されていません。"))
                     
