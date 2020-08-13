@@ -70,8 +70,7 @@ loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
 def cbt_proc(user,ch):
-    import sub.box, sub.calc
-    print("Battle:" ,user.id, ch.id)
+    import sub.box, sub.calcv
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if user.id in sub.box.cbt_user:
@@ -186,6 +185,7 @@ def cbt_proc(user,ch):
     embed = None
     em = None
     if first_moblv < m_data["lv"]:
+        print("Battle:" ,user.id, ch.id)
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
         if  now in ['23:18']:
@@ -253,7 +253,6 @@ def cbt_proc(user,ch):
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
     battle_log = f"{log1_2}{log2_2}"
-    print(type(p_data["items"]), p_data["items"])
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
