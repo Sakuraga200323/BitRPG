@@ -187,7 +187,7 @@ def cbt_proc(user,ch):
     em = None
     if first_moblv < m_data["lv"]:
         desc = ""
-        now = datetime.now(JST)strftime("%H:%M")
+        now = datetime.now(JST).strftime("%H:%M")
         if  now in ['23:18']
             get_exp *= 16
             loop.create_task(ch.send(????『"幸運を。死したものより祝福を。』"))
