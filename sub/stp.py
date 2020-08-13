@@ -54,6 +54,7 @@ admin_list = [
 
 
 def divid(user, ch, result):
+    pg = Postgres(dsn)
     loop = asyncio.get_event_loop()
     print("Point:" ,user.id)
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
