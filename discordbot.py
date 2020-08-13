@@ -294,7 +294,7 @@ async def on_message(message):
                 result = re.search(pattern, m_ctt)
                 if result:
                     import sub.stp
-                    sub.stp.divide(m_author, m_ch, result)
+                    sub.stp.divid(m_author, m_ch, result)
 
 
         if  m_ch.id in sub.box.cmd_ch:
