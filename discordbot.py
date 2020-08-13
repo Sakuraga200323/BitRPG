@@ -290,7 +290,7 @@ async def on_message(message):
                     sub.battle.reset(m_author, m_ch)
 
             if m_ctt.startswith("^^point"):
-                pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$
+                pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result:
                     import sub.stp
