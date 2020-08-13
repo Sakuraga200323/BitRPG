@@ -71,7 +71,7 @@ def divid(user, ch, result):
     if p_data["stp"] == 0:
         loop.create_task(ch.send(f"【報告】{p_data['name']}はポイントを所持していません。ポイントはLvUP毎に10獲得可能です。"))
         return
-    elif p_data[8] < point:
+    elif p_data["stp"] < point:
         loop.create_task(ch.send(f"【警告】{p_data['name']}の所持ポイントを{point - p_data['stp']}超過しています。{p_data['stp']}以下にしてください。"))
         return
     p_data['stp'] -= point
