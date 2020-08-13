@@ -266,11 +266,11 @@ def reset(user, ch):
             return
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
-            pg.execute(f"update player_tb set now_hp = {i_data['max_hp']}")
+            pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
             if not i in sub.box.cbt_user:
                 return
             del sub.box.cbt_user[i]
-        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id}")
+        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
         loop.create_task(ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
         rank = "Normal"
         color = discord.Color.blue()
