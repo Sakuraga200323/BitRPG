@@ -179,7 +179,7 @@ def cbt_proc(user,ch):
             log2_1 += str(dmg1)
             log2_1 += f"の{t2}"
             log2_1 += f'\n{m_data["name"]} のHP[{m_data["now_hp"]}/{m_data["max_hp"]}]'
-            if p_data["now_hp"] <= 0:
+            if m_data["now_hp"] <= 0:
                 log2_1 += f'\n{m_data["name"]} を倒した！！'
                 m_data["lv"] += 1
 
