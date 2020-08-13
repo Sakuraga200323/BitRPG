@@ -63,7 +63,7 @@ def appear(m_data):
         agi_num = -666
         name = "?????"
         url = "None"
-        color = discord.Color.black()
+        color = discord.Color.from_rgb(0,0,0)
     elif lv % 100 == 0:
         rank = "Catastrophe"
         num = 2
@@ -78,14 +78,14 @@ def appear(m_data):
         import sub.S_Mob
         name = random.choice(list(sub.S_Mob.set.keys()))
         url = sub.S_Mob.set[name]
-        color = discord.Color.gold()
+        color = discord.Color.from_rgb(255,255,0)
     else:
         rank = "Normal"
         num = 1
         import sub.N_Mob
         name = random.choice(list(sub.N_Mob.set.keys()))
         url = sub.N_Mob.set[name]
-        color = discord.Color.blue()
+        color = discord.Color.green()
     pg.execute(f"update mob_tb set name = '{name}',lv = {lv},max_hp = {11*(lv+1)*num},now_hp = {11*(lv+1)*num},str = {10*(lv+1)*num},def = {10*(lv+1)*num},agi = {10*(lv+1)*num*agi_num},img_url = '{url}' where id = {m_data['id']};")
     m_data = pg.fetchdict(f"select * from mob_tb where id = {m_data['id']};")[0]
     embed = discord.Embed(
