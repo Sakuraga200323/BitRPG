@@ -289,6 +289,13 @@ async def on_message(message):
                     import sub.battle
                     sub.battle.reset(m_author, m_ch)
 
+            if m_ctt.startswith("^^point"):
+                pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$
+                result = re.search(pattern, m_ctt)
+                if result:
+                    import sub.stp
+                    sub.stp.divide(m_author, m_ch, result)
+
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
