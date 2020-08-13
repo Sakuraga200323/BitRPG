@@ -200,14 +200,14 @@ def cbt_proc(user,ch):
             while i_data["now_exp"] > i_data["lv"]:
                 i_data["now_exp"] -= i_data["lv"]
                 i_data["lv"] += 1
-                if p_data["lv"] % 10 == 0:
-                    p_data["stp"] += 50
+                if i_data["lv"] % 10 == 0:
+                    i_data["stp"] += 50
             desc += f'\n{i_data["name"]} が`{get_exp}Exp`獲得'
             if i_data["lv"] > be_lv:
-                i_data["str"] = 10*(i_data["lv"] + 1) + i_data["str_stp"]
-                i_data["def"] = 10*(i_data["lv"] + 1) + i_data["def_stp"]
-                i_data["agi"] = 10*(i_data["lv"] + 1) + i_data["agi_stp"]
-                i_data["max_hp"] = 10*(i_data["lv"] + 1)
+                i_data["str"] += 10
+                i_data["def"] += 10
+                i_data["agi"] += 10
+                i_data["max_hp"] += 10*(i_data["lv"] + 1)
                 i_data["now_hp"] = i_data["max_hp"]
                 i_data["now_mp"] = i_data["lv"]
                 desc += f"\n{i_data['name']} はLvUP `{be_lv}->{i_data['lv']}`"
