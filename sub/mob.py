@@ -87,6 +87,7 @@ def appear(m_data):
         url = sub.N_Mob.set[name]
         color = discord.Color.blue()
     pg.execute(f"update mob_tb set name = '{name}',lv = {lv},max_hp = {11*(lv+1)*num},now_hp = {11*(lv+1)*num},str = {10*(lv+1)*num},def = {10*(lv+1)*num},agi = {10*(lv+1)*num*agi_num},img_url = '{url}' where id = {m_data['id']};")
+    m_data = pg.fectdict(f"select * from mob_tb where id = {m_data['ch']};")
     embed = discord.Embed(
         title=f"<{rank}> {m_data['name']} appears !!",
         description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
