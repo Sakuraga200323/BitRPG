@@ -94,7 +94,7 @@ def cbt_proc(user,ch):
     elif m_data["lv"] % 100 == 0:
         get_exp = m_data["lv"]*5
     elif m_data["lv"] % 10 == 0:
-        get_exp = m_data["lv"] % 1.5
+        get_exp = m_data["lv"] * 1.5
     else:
         get_exp = m_data["lv"]
     get_exp = round(get_exp)
