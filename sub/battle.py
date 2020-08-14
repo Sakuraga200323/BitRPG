@@ -280,13 +280,13 @@ def reset(user, ch):
         color = discord.Color.blue()
         if m_data["lv"] % 1000 == 0:
             rank = "WorldEnd"
-            color = discord.Color.black()
+            color = discord.Color.from_rgb(0,0,0)
         if  m_data["lv"] % 100 == 0:
             rank = "Catastrophe"
             color = discord.Color.red()
         if m_data["lv"] % 10 == 0:
             rank = "Elite"
-            color = discord.Color.gold()
+            color = discord.Color.from_rgb(255,255,0)
         embed = discord.Embed(
             title=f"<{rank}> {m_data['name']} appears !!",
             description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
