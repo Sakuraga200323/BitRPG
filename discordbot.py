@@ -298,7 +298,7 @@ async def on_message(message):
                     sub.stp.divid(m_author, m_ch, result)
 
 
-            if m_ctt == "^^rank p":
+            if m_ctt == "^^rank m":
                 import sub.rank
                 page_count = 0
                 page_content_list = sub.rank.channel(m_ch)
