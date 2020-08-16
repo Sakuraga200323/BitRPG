@@ -93,5 +93,6 @@ def appear(m_data):
         description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
         color=color
     )
-    embed.set_image(url=m_data["img_url"])
+    if url != "None":
+        embed.set_image(url=url)
     return embed
