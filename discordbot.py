@@ -379,6 +379,7 @@ async def on_message(message):
 
 
 
+        
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
 where 列名 = 値;
