@@ -203,11 +203,11 @@ def cbt_proc(user,ch):
             desc += f'\n{i_data["name"]} が`{get_exp}Exp`獲得'
             if i_data["lv"] > be_lv:
                 num_temp = i_data["lv"] - be_lv
-                i_data["str"] += 10*num_temp 
-                i_data["def"] += 10*num_temp 
-                i_data["agi"] += 10*num_temp
-                i_data["stp"] += 10*num_temp 
-                i_data["max_hp"] += 10*num_temp 
+                i_data["str"] = 10*(i_data["lv"] + 1)
+                i_data["def"] = 10*(i_data["lv"] + 1) 
+                i_data["agi"] = 10*(i_data["lv"] + 1)
+                i_data["stp"] = 10*(i_data["lv"] + 1) 
+                i_data["max_hp"] = 10*(i_data["lv"] + 1) 
                 i_data["now_hp"] = i_data["max_hp"]
                 i_data["now_mp"] = i_data["lv"]
                 desc += f"\n{i_data['name']} はLvUP `{be_lv}->{i_data['lv']}`"
