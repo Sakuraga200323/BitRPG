@@ -207,7 +207,7 @@ def cbt_proc(user,ch):
                 i_data["def"] += 10*num_temp 
                 i_data["agi"] += 10*num_temp
                 i_data["stp"] += 10*num_temp 
-                i_data["max_hp"] += 10**num_temp 
+                i_data["max_hp"] += 10*num_temp 
                 i_data["now_hp"] = i_data["max_hp"]
                 i_data["now_mp"] = i_data["lv"]
                 desc += f"\n{i_data['name']} はLvUP `{be_lv}->{i_data['lv']}`"
@@ -280,13 +280,13 @@ def reset(user, ch):
         color = discord.Color.blue()
         if m_data["lv"] % 1000 == 0:
             rank = "WorldEnd"
-            color = discord.Color.from_rgb(0,0,0)
+            color = discord.Color.black()
         if  m_data["lv"] % 100 == 0:
             rank = "Catastrophe"
             color = discord.Color.red()
         if m_data["lv"] % 10 == 0:
             rank = "Elite"
-            color = discord.Color.from_rgb(255,255,0)
+            color = discord.Color.gold()
         embed = discord.Embed(
             title=f"<{rank}> {m_data['name']} appears !!",
             description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
