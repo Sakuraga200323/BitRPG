@@ -51,12 +51,12 @@ admin_list = [
     548058577848238080,
 ]
 
-clearance_lv4 = [
+clr_lv4 = [
     548058577848238080,
     561836530398789641
 ]
 
-clearance_lv5 = [
+clr_lv5 = [
     715192735128092713,
     710207828303937626
 ]
@@ -325,13 +325,13 @@ async def on_message(message):
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。\nクリアランスLv4未満のユーザーの不正接続を確認次第、即座に対象のデータを終了します。**")
-        if not m_author.id in clearance_lv4 and not m_author.id in clearance_lv5 :
+        if not m_author.id in clr_lv4 and not m_author.id in clr_lv5 :
             await m_ch.send("**貴方のクリアランスはLv4未満です。プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
             return
         else:
-            if m_author.id in clearance_lv4:
+            if m_author.id in clr_lv4:
                 c_lv = 4
-            elif m_author.id in clearance_lv5:
+            elif m_author.id in clr_lv5:
                 c_lv = 5
             await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を実行します。**")
         if m_ctt.startswith("^^psql "):
