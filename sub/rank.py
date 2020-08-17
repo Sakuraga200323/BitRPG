@@ -159,4 +159,4 @@ class RankClass:
                 description = text
             )
             em_list.append(em)
-        self.open_bord(ch, em_list)
+        self.open_bord(em_list)
