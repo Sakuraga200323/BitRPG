@@ -319,7 +319,6 @@ async def on_message(message):
                     try:
                         reaction, user = await client.wait_for('reaction_add', check=help_react_check, timeout=20.0)
                     except:
-                        await send_message.clear_reactions()
                         em = page_content_list[page_count]
                         em.set_footer(text="※ページ変更待機終了済み")
                         await send_message.edit(embed=em)
