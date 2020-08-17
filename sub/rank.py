@@ -106,7 +106,7 @@ class RankClass:
         page += 1
         for data_set in rank_list:
             junni += 1
-            text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
+            text += ( "\n" + f"[`{junni}位`]{data_set[0]} (`Lv:{data_set[1]})`")
         em = discord.Embed(
             title = f"ChannelRankingBord(page.{page})",
             description = text
