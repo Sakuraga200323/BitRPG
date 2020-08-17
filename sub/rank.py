@@ -96,11 +96,11 @@ class RankClass:
             channel = self.client.get_channel(id)
             if channel:
                 prace = channel.guild.id
+                rank_list.append((prace, lv))
+                print(prace, channel.guild.name)
             else:
                 self.pg.execute(f'delete from mob_tb where id = {id};')
                 continue
-            print(prace, channel.guild.name)
-            rank_list.append((prace, lv))
         rank_list = list(dict.fromkeys(rank_list))
         for i in rank_list:
             for i2 in rank_list:
