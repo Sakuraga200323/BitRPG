@@ -352,6 +352,7 @@ async def on_message(message):
             sub.box.cmd_ch.remove(m_ch.id)
 
 
+            
     if m_ctt.startswith("SystemCall"):
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。\nクリアランスLv4未満のユーザーの不正接続を確認次第、即座に対象のデータを終了します。**")
