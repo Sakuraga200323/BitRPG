@@ -160,3 +160,5 @@ class RankClass:
             )
             em_list.append(em)
         self.open_bord(em_list)
+
+        
