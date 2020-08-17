@@ -94,11 +94,11 @@ class RankClass:
             id = data["id"]
             lv = data["lv"]
             channel = self.client.get_channel(id)
-            print(id, channel)
             if channel:
                 prace = channel.guild.id
             else:
                 prace = "0"
+            print(prace, channel.guild.name)
             rank_list.append((prace, lv))
         rank_list = list(dict.fromkeys(rank_list))
         for i in rank_list:
