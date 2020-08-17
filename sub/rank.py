@@ -114,4 +114,3 @@ def channel(ch):
         em_list.append(em)
     return em_list
            
-client.run(token)
