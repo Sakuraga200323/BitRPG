@@ -333,7 +333,6 @@ async def on_message(message):
                             await send_message.delete()
                         if send_message:
                             em = page_content_list[page_count]
-                            em.set_author(name=f"Magic Dictionary (Page.{page_count + 1}/{len(page_content_list)})")
                             try:
                                 await send_message.edit(embed=em)
                             except:
