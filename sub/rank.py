@@ -108,7 +108,8 @@ class RankClass:
                     if i[1] > i2[1]:
                         rank_list.remove(i2)
                     elif i[1] < i2[1]:
-                        rank_list.remove(i)
+                        if i in rank_list:
+                            rank_list.remove(i)
         rank_list = rank_list[:20]
         junni = 0
         page = 0
