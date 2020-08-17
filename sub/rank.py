@@ -88,19 +88,23 @@ class RankClass:
 
     def channel(self, user, ch):
         rank_list = []
-        em_list = []
+        id_list = []
         result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
+        result.sort(reverse=True)
         for data in result:
             id = data["id"]
             lv = data["lv"]
             channel = self.client.get_channel(id)
             if channel:
                 prace = channel.guild.id
-                rank_list.append((prace, lv))
-                print(prace, channel.guild.name)
+                if not prace in name_list:
+                    rank_list.append((prace, lv))
+                    id_list.append(prace)
+                    print(prace, channel.guild.name)
             else:
                 self.pg.execute(f'delete from mob_tb where id = {id};')
                 continue
+        '''
         rank_list = list(dict.fromkeys(rank_list))
         for i in rank_list:
             for i2 in rank_list:
@@ -110,6 +114,7 @@ class RankClass:
                     elif i[1] < i2[1]:
                         if i in rank_list:
                             rank_list.remove(i)
+        '''
         rank_list = rank_list[:20]
         junni = 0
         page = 0
