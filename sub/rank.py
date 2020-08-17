@@ -97,9 +97,9 @@ class RankClass:
                     return 0
                 else:
                     return page_num
-        while not client.is_closed():
+        while not self.client.is_closed():
             try:
-                page_num = loop.create_task(client.wait_for('message', check=page_check, timeout=20.0))
+                page_num = loop.create_task(self.client.wait_for('message', check=page_check, timeout=20.0))
             except asyncio.TimeoutError:
                 loop.create_task(send_message.clear_reactions())
                 em = page_content_list[page_count]
@@ -132,14 +132,13 @@ class RankClass:
 
 
     def channel(self, ch):
-        pg = Postgres(dsn)
         rank_list = []
         em_list = []
-        result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
+        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
         for data in result:
             id = data["id"]
             lv = data["lv"]
-            channel = client.get_channel(id)
+            channel = self.client.get_channel(id)
             print(id, channel)
             if channel:
                 prace = channel.guild.name
