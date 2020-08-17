@@ -85,9 +85,9 @@ def open_bord(ch, em_list):
     page_count = 0
     page_content_list = em_list
     first_em = page_content_list[0]
-    send_message = await ch.send(embed=first_em)
-    await send_message.add_reaction("🔷")
-    await send_message.add_reaction("➕")
+    send_message = loop.create_task(ch.send(embed=first_em))
+    loop.create_task(send_message.add_reaction("🔷"))
+    loop.create_task(send_message.add_reaction("➕"))
     reactions = ["➖","🔷","➕"]
     def react_check(reaction, user):
         if reaction.message.id != send_message.id:
@@ -99,36 +99,36 @@ def open_bord(ch, em_list):
                 return reaction, user
     while not client.is_closed():
         try:
-            reaction, user = await client.wait_for('reaction_add', check=react_check, timeout=20.0)
+            reaction, user = loop.create_task(client.wait_for('reaction_add', check=react_check, timeout=20.0))
         except asyncio.TimeoutError:
-            await send_message.clear_reactions()
+            loop.create_task(send_message.clear_reactions())
             em = page_content_list[page_count]
             em.set_footer(text="※ページ変更待機終了済み")
-            await send_message.edit(embed=em)
+            loop.create_task(send_message.edit(embed=em))
         else:
             if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
                 page_count += 1
             if reaction.emoji == reactions[0] and page_count > 0:
                 page_count -= 1
             if reaction.emoji == reactions[1]:
-                await send_message.delete()
+                loop.create_task(send_message.delete())
             if send_message:
                 em = page_content_list[page_count]
                 try:
-                    await send_message.clear_reactions()
-                    await send_message.edit(embed=em)
+                    loop.create_task(send_message.clear_reactions())
+                    loop.create_task(send_message.edit(embed=em))
                 except:
-                    await ch.send("【報告】不明なエラーが発生。")
+                    loop.create_task(ch.send("【報告】不明なエラーが発生。")
                 else:
                     if page_count == 0:
                         for reaction in ["🔷","➕"]:
-                            await send_message.add_reaction(reaction)
+                            loop.create_task(send_message.add_reaction(reaction))
                     elif 0 < page_count and (len(page_content_list) - 1) > page_count:
                         for reaction in reactions:
-                            await send_message.add_reaction(reaction)
+                            loop.create_task(send_message.add_reaction(reaction))
                     elif page_count == len(page_content_list) - 1:
                         for reaction in ["➖","🔷"]:
-                            await send_message.add_reaction(reaction)
+                            loop.create_task(send_message.add_reaction(reaction))
 
 
 
