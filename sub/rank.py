@@ -108,7 +108,7 @@ def channel(ch):
             junni += 1
             text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
         em = discord.Embed(
-            title = f"PlayerRankBord(page.{page})",
+            title = f"ChannelRankingBord(page.{page})",
             description = text
         )
         em_list.append(em)
