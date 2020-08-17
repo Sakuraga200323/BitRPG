@@ -63,103 +63,104 @@ getmagic_list = [
     "004|DefRein",
     "005|AgiRein",
     "006|LifeConversion"
-
-
 ]
 
-loop = asyncio.get_event_loop()
-pg = Postgres(dsn)
 
 
-def split_list(l, n):
-    """
-    リストをサブリストに分割する
-    :param l: リスト
-    :param n: サブリストの要素数
-    :return:
-    """
-    for idx in range(0, len(l), n):
-        yield l[idx:idx + n]
+class RankClass:
+    def __init__(self, client):
+        self.client = client
+        self.loop = asyncio.get_event_loop()
+        self.pg = Postgres(dsn)
 
-def open_bord(ch, em_list):
-    page_count = 0
-    page_content_list = em_list
-    first_em = page_content_list[0]
-    send_message = loop.create_task(ch.send(embed=first_em))
-    loop.create_task(send_message.add_reaction("🔷"))
-    loop.create_task(send_message.add_reaction("➕"))
-    reactions = ["➖","🔷","➕"]
-    def react_check(reaction, user):
-        if reaction.message.id != send_message.id:
-            return 0
-        if reaction.emoji in reactions:
-            if user != m_author:
+
+    def split_list(l, n):
+        """
+        リストをサブリストに分割する
+        :param l: リスト
+        :param n: サブリストの要素数
+        :return:
+        """
+        for idx in range(0, len(l), n):
+            yield l[idx:idx + n]
+
+    def open_bord(user, ch, em_list):
+        page_count = 0
+        page_num_list = [ str(i) for i in list(xrange())]
+        page_content_list = em_list
+        first_em = page_content_list[0]
+        send_message = loop.create_task(ch.send(embed=first_em))
+        def react_check(message):
+            if message.channel.id != ch.id:
                 return 0
-            else:
-                return reaction, user
-    while not client.is_closed():
-        try:
-            reaction, user = loop.create_task(client.wait_for('reaction_add', check=react_check, timeout=20.0))
-        except asyncio.TimeoutError:
-            loop.create_task(send_message.clear_reactions())
-            em = page_content_list[page_count]
-            em.set_footer(text="※ページ変更待機終了済み")
-            loop.create_task(send_message.edit(embed=em))
-        else:
-            if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
-                page_count += 1
-            if reaction.emoji == reactions[0] and page_count > 0:
-                page_count -= 1
-            if reaction.emoji == reactions[1]:
-                loop.create_task(send_message.delete())
-            if send_message:
-                em = page_content_list[page_count]
-                try:
-                    loop.create_task(send_message.clear_reactions())
-                    loop.create_task(send_message.edit(embed=em))
-                except:
-                    loop.create_task(ch.send("【報告】不明なエラーが発生。"))
+            if message.content in page_num_list:
+                if message.author.id != user.id:
+                    return 0
                 else:
-                    if page_count == 0:
-                        for reaction in ["🔷","➕"]:
-                            loop.create_task(send_message.add_reaction(reaction))
-                    elif 0 < page_count and (len(page_content_list) - 1) > page_count:
-                        for reaction in reactions:
-                            loop.create_task(send_message.add_reaction(reaction))
-                    elif page_count == len(page_content_list) - 1:
-                        for reaction in ["➖","🔷"]:
-                            loop.create_task(send_message.add_reaction(reaction))
+                    return page_num
+        while not client.is_closed():
+            try:
+                page_num = loop.create_task(client.wait_for('message', check=page_check, timeout=20.0))
+            except asyncio.TimeoutError:
+                loop.create_task(send_message.clear_reactions())
+                em = page_content_list[page_count]
+                em.set_footer(text="※ページ変更待機終了済み")
+                loop.create_task(send_message.edit(embed=em))
+            else:
+                if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
+                    page_count = 1
+                if reaction.emoji == reactions[0] and page_count > 0:
+                    page_count -= 1
+                if reaction.emoji == reactions[1]:
+                    loop.create_task(send_message.delete())
+                if send_message:
+                    em = page_content_list[page_count]
+                    try:
+                        loop.create_task(send_message.clear_reactions())
+                        loop.create_task(send_message.edit(embed=em))
+                    except:
+                        loop.create_task(ch.send("【報告】不明なエラーが発生。"))
+                    else:
+                        if page_count == 0:
+                            for reaction in ["🔷","➕"]:
+                                loop.create_task(send_message.add_reaction(reaction))
+                        elif 0 < page_count and (len(page_content_list) - 1) > page_count:
+                            for reaction in reactions:
+                                loop.create_task(send_message.add_reaction(reaction))
+                        elif page_count == len(page_content_list) - 1:
+                            for reaction in ["➖","🔷"]:
+                                loop.create_task(send_message.add_reaction(reaction))
 
 
 
 
 
-def channel(ch):
-    rank_list = []
-    em_list = []
-    result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
-    for data in result:
-        id = data["id"]
-        lv = data["lv"]
-        channel = client.get_channel(id)
-        print(id, channel)
-        if channel:
-            prace = channel.guild.name
-        else:
-            prace = "データ破損"
-        rank_list.append((prace, lv))
-    junni = 0
-    rank_list = list(split_list(rank_list, 10))
-    page = 0
-    for i in rank_list:
-        text = ""
-        page += 1
-        for data_set in i:
-            junni += 1
-            text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
-        em = discord.Embed(
-            title = f"ChannelRankingBord(page.{page})",
-            description = text
-        )
-        em_list.append(em)
-    open_bord(ch, em_list)
+    def channel(ch):
+        rank_list = []
+        em_list = []
+        result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
+        for data in result:
+            id = data["id"]
+            lv = data["lv"]
+            channel = client.get_channel(id)
+            print(id, channel)
+            if channel:
+                prace = channel.guild.name
+            else:
+                prace = "データ破損"
+            rank_list.append((prace, lv))
+        junni = 0
+        rank_list = list(split_list(rank_list, 10))
+        page = 0
+        for i in rank_list:
+            text = ""
+            page += 1
+            for data_set in i:
+                junni += 1
+                text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
+            em = discord.Embed(
+                title = f"ChannelRankingBord(page.{page})",
+                description = text
+            )
+            em_list.append(em)
+        open_bord(ch, em_list)
