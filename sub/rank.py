@@ -88,6 +88,7 @@ def channel(ch):
     result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
     for id, lv in result:
         channel = client.get_channel(id)
+        print(id, channel)
         if channel:
             prace = channel.guild.name
         else:
@@ -95,12 +96,13 @@ def channel(ch):
         rank_list.append((prace, lv))
     junni = 0
     rank_list = list(split_list(rank_list, 10))
+    print(rank_list)
     page = 0
-    for i in rank_list:
+    for i in rank_list[0]:
         text = ""
         page += 1
         for data_set in i:
-            junni + 1
+            junni += 1
             text += ( "\n" + f"[{junni}位]{i[0]} (Lv:{i[1]})")
         em = discord.Embed(
             title = f"PlayerRankBord(page.{page})",
