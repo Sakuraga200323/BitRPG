@@ -111,6 +111,6 @@ class RankClass:
             title = f"ChannelRankingBord(page.{page})",
             description = text
         )
-        await ch.send(embed=em) 
+        loop.create_task(ch.send(embed=em)) 
 
         
