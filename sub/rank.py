@@ -97,7 +97,8 @@ class RankClass:
             if channel:
                 prace = channel.guild.id
             else:
-                prace = "0"
+                self.pg.execute(f'delete mob_tb where id = {id}')
+                continue
             print(prace, channel.guild.name)
             rank_list.append((prace, lv))
         rank_list = list(dict.fromkeys(rank_list))
