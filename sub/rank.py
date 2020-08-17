@@ -53,6 +53,7 @@ admin_list = [
 ]
 
 
+loop = asyncio.get_event_loop()
 
 
 getmagic_list = [
@@ -74,7 +75,6 @@ def split_list(l, n):
     """
     for idx in range(0, len(l), n):
         yield l[idx:idx + n]
-loop.create_task(send_message.clear_reactions())
 
 
 class RankClass:
@@ -103,6 +103,7 @@ class RankClass:
             try:
                 page_num = loop.create_task(self.client.wait_for('message', check=page_check, timeout=20.0))
             except asyncio.TimeoutError:
+                loop.create_task(send_message.clear_reactions())
                 em = page_content_list[page_count]
                 em.set_footer(text="※ページ変更待機終了済み")
                 loop.create_task(send_message.edit(embed=em))
