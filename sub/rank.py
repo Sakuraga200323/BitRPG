@@ -78,14 +78,13 @@ def split_list(l, n):
 def channel(ch):
     rank_list = []
     em_list = []
-    result = pg.fetchdict("select from mob_tb order by lv desc;")[0:20]
-    for i in result:
-        channel = client.get_channel(int(i["id"]))
+    result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
+    for id, lv in result:
+        channel = client.get_channel(id)
         if channel:
             prace = channel.guild.name
         else:
             prace = "データ破損"
-        lv = i["lv"]
         rank_list.append((prace, lv))
     junni = 0
     rank_list = list(split_list(rank_list, 10))
