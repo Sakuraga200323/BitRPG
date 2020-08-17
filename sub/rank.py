@@ -89,7 +89,7 @@ class RankClass:
     def channel(self, user, ch):
         rank_list = []
         em_list = []
-        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
+        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
         for data in result:
             id = data["id"]
             lv = data["lv"]
