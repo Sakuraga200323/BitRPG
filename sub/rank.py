@@ -89,24 +89,38 @@ class RankClass:
     def channel(self, user, ch):
         rank_list = []
         em_list = []
-        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
+        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
         for data in result:
             id = data["id"]
             lv = data["lv"]
             channel = self.client.get_channel(id)
             print(id, channel)
             if channel:
-                prace = channel.guild.name
+                prace = channel.guild.id
             else:
-                prace = "データ破損"
+                prace = "0"
             rank_list.append((prace, lv))
+        rank_list = list(dict.fromkeys(rank_list))
+        for i in rank_list:
+            for i2 in rank_list:
+                if i2[0] == i[0]:
+                    if i[1] > i2[1]:
+                        rank_list.remove(i2)
+                    elif i[1] < i2[1]:
+                        rank_list.remove(i)
+        rank_list = rank_list[:20]
         junni = 0
         page = 0
         text = ""
         page += 1
         for data_set in rank_list:
             junni += 1
-            text += ( "\n" + f"[`{junni}位`]{data_set[0]} (`Lv:{data_set[1]})`")
+            g = client.get_guild(data_set[0])
+            if g:
+                g_name = g.name
+            else:
+                g_name = "名前データ破損"
+            text += ( "\n" + f"[`{junni}位`]{g_name} (`Lv:{data_set[1]})`")
         em = discord.Embed(
             title = f"ChannelRankingBord(1~20)",
             description = text
