@@ -131,10 +131,8 @@ class RankClass:
                                 loop.create_task(send_message.add_reaction(reaction))
 
 
-
-
-
     def channel(self, ch):
+        pg = Postgres(dsn)
         rank_list = []
         em_list = []
         result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
