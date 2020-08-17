@@ -108,7 +108,7 @@ class RankClass:
             junni += 1
             text += ( "\n" + f"[`{junni}位`]{data_set[0]} (`Lv:{data_set[1]})`")
         em = discord.Embed(
-            title = f"ChannelRankingBord(page.{page})",
+            title = f"ChannelRankingBord(1~20)",
             description = text
         )
         loop.create_task(ch.send(embed=em)) 
