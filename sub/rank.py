@@ -45,7 +45,6 @@ standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_s
 standard_mobset = "name,id,lv,max_hp,now_hp,str,def,agi,img_url"
 
 token = os.environ.get('TOKEN')
-client = discord.Client()
 
 admin_list = [
     715192735128092713,
@@ -66,6 +65,15 @@ getmagic_list = [
 ]
 
 
+def split_list(l, n):
+    """
+    リストをサブリストに分割する
+    :param l: リスト
+    :param n: サブリストの要素数
+    :return:
+    """
+    for idx in range(0, len(l), n):
+        yield l[idx:idx + n]
 
 class RankClass:
     def __init__(self, client):
@@ -74,17 +82,8 @@ class RankClass:
         self.pg = Postgres(dsn)
 
 
-    def split_list(l, n):
-        """
-        リストをサブリストに分割する
-        :param l: リスト
-        :param n: サブリストの要素数
-        :return:
-        """
-        for idx in range(0, len(l), n):
-            yield l[idx:idx + n]
 
-    def open_bord(user, ch, em_list):
+    def open_bord(self, user, ch, em_list):
         page_count = 0
         page_num_list = [ str(i) for i in list(xrange())]
         page_content_list = em_list
@@ -135,7 +134,7 @@ class RankClass:
 
 
 
-    def channel(ch):
+    def channel(self, ch):
         rank_list = []
         em_list = []
         result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
@@ -163,4 +162,4 @@ class RankClass:
                 description = text
             )
             em_list.append(em)
-        open_bord(ch, em_list)
+        self.open_bord(ch, em_list)
