@@ -106,6 +106,6 @@ def channel(ch):
             title = f"PlayerRankBord(page.{page})",
             description = text
         )
-        em_llist.append(em)
+        em_list.append(em)
     return em_list
            
