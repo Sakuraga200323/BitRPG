@@ -81,12 +81,63 @@ def split_list(l, n):
     for idx in range(0, len(l), n):
         yield l[idx:idx + n]
 
+def open_bord(ch, em_list):
+    page_count = 0
+    page_content_list = em_list
+    first_em = page_content_list[0]
+    send_message = await ch.send(embed=first_em)
+    await send_message.add_reaction("🔷")
+    await send_message.add_reaction("➕")
+    reactions = ["➖","🔷","➕"]
+    def react_check(reaction, user):
+        if reaction.message.id != send_message.id:
+            return 0
+        if reaction.emoji in reactions:
+            if user != m_author:
+                return 0
+            else:
+                return reaction, user
+    while not client.is_closed():
+        try:
+            reaction, user = await client.wait_for('reaction_add', check=react_check, timeout=20.0)
+        except asyncio.TimeoutError:
+            await send_message.clear_reactions()
+            em = page_content_list[page_count]
+            em.set_footer(text="※ページ変更待機終了済み")
+            await send_message.edit(embed=em)
+        else:
+            if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
+                page_count += 1
+            if reaction.emoji == reactions[0] and page_count > 0:
+                page_count -= 1
+            if reaction.emoji == reactions[1]:
+                await send_message.delete()
+            if send_message:
+                em = page_content_list[page_count]
+                try:
+                    await send_message.clear_reactions()
+                    await send_message.edit(embed=em)
+                except:
+                    await ch.send("【報告】不明なエラーが発生。")
+                else:
+                    if page_count == 0:
+                        for reaction in ["🔷","➕"]:
+                            await send_message.add_reaction(reaction)
+                    elif 0 < page_count and (len(page_content_list) - 1) > page_count:
+                        for reaction in reactions:
+                            await send_message.add_reaction(reaction)
+                    elif page_count == len(page_content_list) - 1:
+                        for reaction in ["➖","🔷"]:
+                            await send_message.add_reaction(reaction)
+
+
+
+
 
 def channel(ch):
     rank_list = []
     em_list = []
     result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
-    print(result)
     for data in result:
         id = data["id"]
         lv = data["lv"]
@@ -99,7 +150,6 @@ def channel(ch):
         rank_list.append((prace, lv))
     junni = 0
     rank_list = list(split_list(rank_list, 10))
-    print(rank_list)
     page = 0
     for i in rank_list:
         text = ""
@@ -112,5 +162,4 @@ def channel(ch):
             description = text
         )
         em_list.append(em)
-    return em_list
-           
+    open_bord(ch, em_list)
