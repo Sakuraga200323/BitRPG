@@ -87,7 +87,7 @@ def channel(ch):
     em_list = []
     result = pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
     print(result)
-    for id, lv in result:
+    for id, lv in zip(result["id"], result["lv"]):
         channel = client.get_channel(id)
         print(id, channel)
         if channel:
