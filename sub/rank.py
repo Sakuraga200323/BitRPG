@@ -101,7 +101,7 @@ def channel(ch):
     rank_list = list(split_list(rank_list, 10))
     print(rank_list)
     page = 0
-    for i in rank_list[0]:
+    for i in rank_list:
         text = ""
         page += 1
         for data_set in i:
