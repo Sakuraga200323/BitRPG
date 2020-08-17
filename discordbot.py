@@ -51,6 +51,10 @@ admin_list = [
     548058577848238080,
 ]
 
+clearance~lv4 = [
+    548058577848238080,
+    561836530398789641
+]
 
 @client.event
 async def on_ready():
@@ -305,7 +309,7 @@ async def on_message(message):
             if m_ctt == "^^rank m":
                 import sub.rank
                 rank = sub.rank.RankClass(client)
-                rank.channel(m_ch)
+                rank.channel(m_author,m_ch)
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
