@@ -115,7 +115,7 @@ class RankClass:
         page += 1
         for data_set in rank_list:
             junni += 1
-            g = client.get_guild(data_set[0])
+            g = self.client.get_guild(data_set[0])
             if g:
                 g_name = g.name
             else:
