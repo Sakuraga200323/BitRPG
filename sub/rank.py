@@ -118,7 +118,7 @@ def open_bord(ch, em_list):
                     loop.create_task(send_message.clear_reactions())
                     loop.create_task(send_message.edit(embed=em))
                 except:
-                    loop.create_task(ch.send("【報告】不明なエラーが発生。")
+                    loop.create_task(ch.send("【報告】不明なエラーが発生。"))
                 else:
                     if page_count == 0:
                         for reaction in ["🔷","➕"]:
