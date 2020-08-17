@@ -185,7 +185,6 @@ def cbt_proc(user,ch):
     embed = None
     em = None
     if first_moblv < m_data["lv"]:
-        print("Battle:" ,user.id, ch.id)
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
         if  now in ['23:18']:
