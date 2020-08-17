@@ -131,7 +131,7 @@ class RankClass:
                                 loop.create_task(send_message.add_reaction(reaction))
 
 
-    def channel(self, ch):
+    def channel(self, user, ch):
         rank_list = []
         em_list = []
         result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
@@ -159,6 +159,6 @@ class RankClass:
                 description = text
             )
             em_list.append(em)
-        self.open_bord(em_list)
+        self.open_bord(user, ch, em_list)
 
         
