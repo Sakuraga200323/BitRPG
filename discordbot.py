@@ -252,6 +252,7 @@ async def on_message(message):
 
         else:
 
+            # ステータスの表示 #
             if m_ctt in ("^^st","^^status"):
                 # ステータスの表示 #
                 result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
@@ -271,7 +272,7 @@ async def on_message(message):
                 await m_ch.send(embed = embed)
 
 
-
+            # 戦闘 #
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 temp = m_ctt.split("^^")[1]
                 pattern = r"(atk|attack|atk (.+)|attack (.+))$"
@@ -281,6 +282,7 @@ async def on_message(message):
                     sub.battle.cbt_proc(m_author,m_ch)
 
 
+            # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
                 temp = m_ctt.split("^^")[1]
                 pattern = r"(re|reset|reset (.+)|re (.+))$"
@@ -290,6 +292,7 @@ async def on_message(message):
                     sub.battle.reset(m_author, m_ch)
 
 
+            # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
@@ -298,6 +301,7 @@ async def on_message(message):
                     sub.stp.divid(m_author, m_ch, result)
 
 
+            # チャンネルレベルランキングの表示 #
             if m_ctt == "^^rank m":
                 import sub.rank
                 sub.rank.channel(m_ch)
