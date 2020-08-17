@@ -304,7 +304,8 @@ async def on_message(message):
             # チャンネルレベルランキングの表示 #
             if m_ctt == "^^rank m":
                 import sub.rank
-                sub.rank.channel(m_ch)
+                rank = sub.rank.RankClass(client)
+                rank.channel(m_ch)
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
