@@ -85,7 +85,7 @@ class RankClass:
 
     def open_bord(self, user, ch, em_list):
         page_count = 0
-        page_num_list = [ str(i) for i in list(xrange())]
+        page_num_list = [ str(i) for i in list(xrange(len(em_list)))]
         page_content_list = em_list
         first_em = page_content_list[0]
         send_message = loop.create_task(ch.send(embed=first_em))
