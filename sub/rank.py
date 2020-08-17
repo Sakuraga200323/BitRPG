@@ -103,18 +103,14 @@ class RankClass:
                     print(prace, channel.guild.name)
             else:
                 self.pg.execute(f'delete from mob_tb where id = {id};')
-                continue
-        '''
-        rank_list = list(dict.fromkeys(rank_list))
-        for i in rank_list:
-            for i2 in rank_list:
-                if i2[0] == i[0]:
-                    if i[1] > i2[1]:
-                        rank_list.remove(i2)
-                    elif i[1] < i2[1]:
-                        if i in rank_list:
-                            rank_list.remove(i)
-        '''
+                continueao = list(dict.fromkeys(ao))
+        d = {}
+        for item in ao:
+           if not item[0] in d:
+               d[item[0]] = item[1]
+               continue
+           d[item[0]] = max(item[1], d[item[0]])
+        rank_list = list(d.items())
         rank_list = rank_list[:20]
         junni = 0
         page = 0
