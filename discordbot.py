@@ -300,53 +300,7 @@ async def on_message(message):
 
             if m_ctt == "^^rank m":
                 import sub.rank
-                page_count = 0
-                page_content_list = sub.rank.channel(m_ch)
-                first_em = page_content_list[0]
-                send_message = await m_ch.send(embed=first_em)
-                await send_message.add_reaction("🔷")
-                await send_message.add_reaction("➕")
-                reactions = ["➖","🔷","➕"]
-                def help_react_check(reaction, user):
-                    if reaction.message.id != send_message.id:
-                        return 0
-                    if reaction.emoji in reactions:
-                        if user != m_author:
-                            return 0
-                        else:
-                            return reaction, user
-                while not client.is_closed():
-                    try:
-                        reaction, user = await client.wait_for('reaction_add', check=help_react_check, timeout=20.0)
-                    except:
-                        em = page_content_list[page_count]
-                        em.set_footer(text="※ページ変更待機終了済み")
-                        await send_message.edit(embed=em)
-                    else:
-                        await send_message.clear_reactions()
-                        if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
-                            page_count += 1
-                        if reaction.emoji == reactions[0] and page_count > 0:
-                            page_count -= 1
-                        if reaction.emoji == reactions[1]:
-                            await send_message.delete()
-                        if send_message:
-                            em = page_content_list[page_count]
-                            try:
-                                await send_message.edit(embed=em)
-                            except:
-                                pass
-                            else:
-                                if page_count == 0:
-                                    for reaction in ["🔷","➕"]:
-                                        await send_message.add_reaction(reaction)
-                                elif 0 < page_count and (len(page_content_list) - 1) > page_count:
-                                    for reaction in reactions:
-                                        await send_message.add_reaction(reaction)
-                                elif page_count == len(page_content_list) - 1:
-                                    for reaction in ["➖","🔷"]:
-                                        await send_message.add_reaction(reaction)
-
+                sub.rank.channel(m_ch)
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
@@ -376,7 +330,9 @@ async def on_message(message):
 
         await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
-
+def get_ch(id):
+    ch = client.get_channel(id)
+    return ch
 
         
 '''
