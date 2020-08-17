@@ -85,43 +85,11 @@ class RankClass:
 
 
 
-    def open_bord(self, user, ch, em_list):
-        page_count = 0
-        page_num_list = [ str(i) for i in list(range(len(em_list)))]
-        page_content_list = em_list
-        first_em = page_content_list[0]
-        send_message = loop.create_task(ch.send(embed=first_em))
-        def page_check(message):
-            if message.channel.id != ch.id:
-                return 0
-            if message.content in page_num_list:
-                if message.author.id != user.id:
-                    return 0
-                else:
-                    return page_num
-        while not self.client.is_closed():
-            try:
-                page_num = loop.create_task(self.client.wait_for('message', check=page_check, timeout=20.0))
-            except asyncio.TimeoutError:
-                em = page_content_list[page_count]
-                em.set_footer(text="※ページ変更待機終了済み")
-                loop.create_task(send_message.edit(embed=em))
-            else:
-                page_count = page_num.content
-                if page_count == 0:
-                    loop.create_task(send_message.delete())
-                if send_message:
-                    em = page_content_list[page_count]
-                    try:
-                        loop.create_task(send_message.edit(embed=em))
-                    except:
-                        loop.create_task(ch.send("【報告】不明なエラーが発生。"))
-
 
     def channel(self, user, ch):
         rank_list = []
         em_list = []
-        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")[0:20]
+        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
         for data in result:
             id = data["id"]
             lv = data["lv"]
@@ -133,19 +101,16 @@ class RankClass:
                 prace = "データ破損"
             rank_list.append((prace, lv))
         junni = 0
-        rank_list = list(split_list(rank_list, 10))
         page = 0
-        for i in rank_list:
-            text = ""
-            page += 1
-            for data_set in i:
-                junni += 1
-                text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
-            em = discord.Embed(
-                title = f"ChannelRankingBord(page.{page})",
-                description = text
-            )
-            em_list.append(em)
-        self.open_bord(user, ch, em_list)
+        text = ""
+        page += 1
+        for data_set in rank_list:
+            junni += 1
+            text += ( "\n" + f"[{junni}位]{data_set[0]} (Lv:{data_set[1]})")
+        em = discord.Embed(
+            title = f"ChannelRankingBord(page.{page})",
+            description = text
+        )
+        await ch.send(embed=em) 
 
         
