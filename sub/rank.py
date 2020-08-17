@@ -91,7 +91,7 @@ class RankClass:
         page_content_list = em_list
         first_em = page_content_list[0]
         send_message = loop.create_task(ch.send(embed=first_em))
-        def react_check(message):
+        def page_check(message):
             if message.channel.id != ch.id:
                 return 0
             if message.content in page_num_list:
@@ -103,34 +103,19 @@ class RankClass:
             try:
                 page_num = loop.create_task(self.client.wait_for('message', check=page_check, timeout=20.0))
             except asyncio.TimeoutError:
-                loop.create_task(send_message.clear_reactions())
                 em = page_content_list[page_count]
                 em.set_footer(text="※ページ変更待機終了済み")
                 loop.create_task(send_message.edit(embed=em))
             else:
-                if reaction.emoji == reactions[2] and page_count < len(page_content_list) - 1:
-                    page_count = 1
-                if reaction.emoji == reactions[0] and page_count > 0:
-                    page_count -= 1
-                if reaction.emoji == reactions[1]:
+                page_count = page_num.content
+                if page_count == 0:
                     loop.create_task(send_message.delete())
                 if send_message:
                     em = page_content_list[page_count]
                     try:
-                        loop.create_task(send_message.clear_reactions())
                         loop.create_task(send_message.edit(embed=em))
                     except:
                         loop.create_task(ch.send("【報告】不明なエラーが発生。"))
-                    else:
-                        if page_count == 0:
-                            for reaction in ["🔷","➕"]:
-                                loop.create_task(send_message.add_reaction(reaction))
-                        elif 0 < page_count and (len(page_content_list) - 1) > page_count:
-                            for reaction in reactions:
-                                loop.create_task(send_message.add_reaction(reaction))
-                        elif page_count == len(page_content_list) - 1:
-                            for reaction in ["➖","🔷"]:
-                                loop.create_task(send_message.add_reaction(reaction))
 
 
     def channel(self, user, ch):
