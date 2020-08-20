@@ -96,7 +96,7 @@ class RankClass:
             channel = self.client.get_channel(id)
             if channel:
                 prace = channel.guild.id
-                if not prace in name_list:
+                if not prace in id_list:
                     rank_list.append((prace, lv))
                     id_list.append(prace)
                     print(prace, channel.guild.name)
