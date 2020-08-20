@@ -102,7 +102,7 @@ class RankClass:
                     print(prace, channel.guild.name)
             else:
                 self.pg.execute(f'delete from mob_tb where id = {id};')
-                continueao = list(dict.fromkeys(ao))
+                continue
         d = {}
         for item in rank_list:
            if not item[0] in d:
