@@ -104,7 +104,7 @@ class RankClass:
                 self.pg.execute(f'delete from mob_tb where id = {id};')
                 continueao = list(dict.fromkeys(ao))
         d = {}
-        for item in ao:
+        for item in rank_list:
            if not item[0] in d:
                d[item[0]] = item[1]
                continue
