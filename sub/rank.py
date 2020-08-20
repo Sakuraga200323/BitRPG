@@ -90,7 +90,6 @@ class RankClass:
         rank_list = []
         id_list = []
         result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
-        result.sort(reverse=True)
         for data in result:
             id = data["id"]
             lv = data["lv"]
