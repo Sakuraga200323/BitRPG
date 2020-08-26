@@ -23,6 +23,7 @@ class Postgres:
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
         self.cur = self.conn.cursor()
+        psycopg2.extras.register_hstore(self.cur)
 
     def execute(self, sql):
         self.cur.execute(sql)
