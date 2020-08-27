@@ -1,0 +1,32 @@
+テーブル一覧表示(viewやsequenceも含む)
+\d
+
+テーブル一覧表示
+\dt
+
+テーブルのスキーマの詳細を表示
+\d <TABLE_NAME>
+
+テーブルのアクセス権限表示
+\z <TABLE_NAME>
+
+viewの一覧を表示
+\dv
+
+viewの定義を表示
+select definition from pg_views where viewname = '<VIEW_NAME>';
+
+テーブル作成
+create table <TABLE_NAME>(<COLUMN_NAME> <data_type>);
+
+テーブル名変更
+alter table <CURRENT_DB_NAME> rename to <NEW_DB_NAME>;
+
+テーブルを削除
+drop table <TABLE_NAME>;
+
+列の情報を取得
+select <COLUMN_NAME|COLUMN_NAME1, COLUMN_NAME2|*> from <TABLE_NAME>;
+
+
+
