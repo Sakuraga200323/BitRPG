@@ -97,7 +97,7 @@ def cbt_proc(user,ch):
     else:
         get_exp = m_data["lv"]
     get_exp = round(get_exp)
-    if m_data["name"] = "古月":
+    if m_data["name"] == "古月":
         get_exp *= 100
     first_moblv = m_data["lv"]
     dmg1 = sub.calc.dmg(p_data["str"], m_data["def"])
