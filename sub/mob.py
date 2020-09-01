@@ -90,7 +90,7 @@ def appear(m_data):
         rank = "UltraRare"
         num = 1
         name = "古月"
-        url = "None"
+        url = "https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585"
         color = discord.Color.from_rgb(227,170,0)
     pg.execute(f"update mob_tb set name = '{name}',lv = {lv},max_hp = {11*(lv+1)*num},now_hp = {11*(lv+1)*num},str = {10*(lv+1)*num},def = {10*(lv+1)*num},agi = {10*(lv+1)*num*agi_num},img_url = '{url}' where id = {m_data['id']};")
     m_data = pg.fetchdict(f"select * from mob_tb where id = {m_data['id']};")[0]
