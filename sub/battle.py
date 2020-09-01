@@ -104,7 +104,7 @@ def cbt_proc(user,ch):
     dmg2 = sub.calc.dmg(m_data["str"], p_data["def"])
     if m_data["name"] == "古月":
         dmg2 *= 0.75
-        dmg2 = int(dmg*2)
+        dmg2 = int(dmg2*2)
     log1_1 = ""
     log2_1 = ""
     luck = random.randint(0, 100)
