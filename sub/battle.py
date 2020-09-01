@@ -102,7 +102,7 @@ def cbt_proc(user,ch):
     first_moblv = m_data["lv"]
     dmg1 = sub.calc.dmg(p_data["str"], m_data["def"])
     dmg2 = sub.calc.dmg(m_data["str"], p_data["def"])
-    if m_data["name"] = "古月":
+    if m_data["name"] == "古月":
         dmg *= 0.75
         dmg = int(dmg*2)
     log1_1 = ""
@@ -133,7 +133,7 @@ def cbt_proc(user,ch):
             m_data["lv"] += 1
         else:
             log2_1 += f'- {m_data["name"]} の攻撃！'
-            if m_data["name"] = "古月":
+            if m_data["name"] == "古月":
                    log2_1 += "デュアルミスリルパイプ!"
             X = 1
             t2 = "ダメージ"
@@ -147,7 +147,7 @@ def cbt_proc(user,ch):
             p_data["now_hp"] -= dmg2
             pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
             log2_1 += str(dmg2)
-            if m_data["name"] = "古月":
+            if m_data["name"] == "古月":
                 log2_1 += f"×2の{t2}"
             else:
                 log2_1 += f"の{t2}"
@@ -158,7 +158,7 @@ def cbt_proc(user,ch):
 
     else:
         log1_1 += f'- {m_data["name"]} の攻撃！'
-        if m_data["name"] = "古月":
+        if m_data["name"] == "古月":
                log2_1 += "デュアルミスリルパイプ!"
         t = "ダメージ" ; X = 1
         if luck >= 95:
@@ -171,7 +171,7 @@ def cbt_proc(user,ch):
         p_data["now_hp"] -= dmg2
         pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
         log2_1 += str(dmg2)
-        if m_data["name"] = "古月":
+        if m_data["name"] == "古月":
             log2_1 += f"×2の{t2}"
         else:
             log2_1 += f"の{t2}"
