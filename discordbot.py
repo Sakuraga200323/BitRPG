@@ -102,6 +102,7 @@ async def loop():
 
 @client.event
 async def on_message(message):
+    message_lock = asyncio.Lock()
     await message_lock.acquire()
     global cur, conn
 
