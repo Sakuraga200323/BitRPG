@@ -171,11 +171,11 @@ def cbt_proc(user,ch):
         p_data["now_hp"] -= dmg2
         pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
         if m_data["name"] == "古月":
-            log2_1 += str(dmg2/2)
-            log2_1 += f"×2の{t}"
+            log1_1 += str(dmg2/2)
+            log11_1 += f"×2の{t}"
         else:
-            log2_1 += str(dmg2)
-            log2_1 += f"の{t}"
+            log1_1 += str(dmg2)
+            log1_1 += f"の{t}"
         log1_1 += f"の{t}"
         log1_1 += f'\n{p_data["name"]} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
         if p_data["now_hp"] <= 0:
@@ -248,16 +248,12 @@ def cbt_proc(user,ch):
             except:
                 loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
-        if luck >= 1000:
-            a = p_data["items"]
-            a.append('魔石')
-            print(f'{a}')
-            b = f'{a}'.strip(']').strip('[')
+        if random.randint(0, 100) >= 99:
             pg.execute(
-                f"""update player_tb set items = '{{b}}';"""
+                f"""update player_tb set stp = {p_data['stp'] + m_data(lv)};"""
             )
             em = discord.Embed(
-                description = f"{p_data['name']} が魔石を発見！")
+                description = f"{p_data['name']} は{m_data[lv']}のSTPを獲得した！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
             
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
