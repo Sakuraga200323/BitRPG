@@ -253,7 +253,7 @@ def cbt_proc(user,ch):
                 f"""update player_tb set stp = {p_data['stp'] + m_data(lv)};"""
             )
             em = discord.Embed(
-                description = f"{p_data['name']} は{m_data[lv']}のSTPを獲得した！")
+                description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
             
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
