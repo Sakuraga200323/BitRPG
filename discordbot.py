@@ -218,10 +218,10 @@ async def on_message(message):
                     await m_ch.send(embed=embed)
                     n = name
                     s = sex
-                    i = '{"冒険者登録証明カード"}'
                     cmd = (
-                        'INSERT INTO player_tb (name,sex,id,lv,max_hp, now_hp,max_mp, now_mp,str, def, agi,stp,str_stp, def_stp, agi_stp,all_exp, now_exp,money, items) '
-                        + f"VALUES ('{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, " + f"'{i}');"
+                        f"INSERT INTO player_tb VALUES ("
+                        + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object('冒険者カード',1)"
+                        +");"
                     )
                     print(cmd)
                     try:
@@ -232,7 +232,7 @@ async def on_message(message):
                         + '\ne自身:' + str(e))
                     else:
                         embed = discord.Embed(
-                            description=f"{name}は`冒険者登録証明カード×1`を獲得した。",
+                            description=f"{name}は`冒険者カード×1`を獲得した。",
                             color=discord.Color.green())
                         embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                         await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
