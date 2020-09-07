@@ -90,7 +90,7 @@ async def on_ready():
 
     loop.start()
 
-    await client.change_presence(activity=discord.Game(name=f"^^help║Server：{len(client.guilds)}║Mem：{MEM} %"))
+    await client.change_presence(activity=discord.Game(name=f"^^help║Server：C║Mem：{MEM} %"))
 
 
 @tasks.loop(seconds=10)
@@ -99,6 +99,26 @@ async def loop():
     await client.change_presence(activity=discord.Game(name=f"開発作業中║Server：{len(client.guilds)}║Mem：{MEM} %"))
 
 
+@client.event
+async def on_guild_join(guild):
+    log_ch = client.get_channel(752551728553132102)
+    embed = discord.Embed(
+        title="BitRPG導入ログ"
+        description=f"{guild.name}({guild.id})が導入¥n現在の導入数：{len(client.guilds)}"
+    )
+    embed.timestamp=datetime.now(JST)
+    await log_ch.send(embed=embed)
+
+
+@client.event
+async def on_guild_remove(guild):
+    log_ch = client.get_channel(752551728553132102)
+    embed = discord.Embed(
+        title="BitRPG撤去ログ"
+        description=f"{guild.name}({guild.id})が撤去¥n現在の導入数：{len(client.guilds)}"
+    )
+    embed.timestamp=datetime.now(JST)
+    await log_ch.send(embed=embed)
 
 @client.event
 async def on_message(message):
