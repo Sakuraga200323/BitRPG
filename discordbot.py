@@ -104,7 +104,7 @@ async def on_guild_join(guild):
     log_ch = client.get_channel(752551728553132102)
     embed = discord.Embed(
         title="BitRPG導入ログ",
-        description=f"{guild.name}({guild.id})が導入¥n現在の導入数：{len(client.guilds)}"
+        description=f"{guild.name}({guild.id})が導入\n現在の導入数：{len(client.guilds)}"
     )
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
@@ -115,7 +115,7 @@ async def on_guild_remove(guild):
     log_ch = client.get_channel(752551728553132102)
     embed = discord.Embed(
         title="BitRPG撤去ログ",
-        description=f"{guild.name}({guild.id})が撤去¥n現在の導入数：{len(client.guilds)}"
+        description=f"{guild.name}({guild.id})が撤去\n現在の導入数：{len(client.guilds)}"
     )
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
