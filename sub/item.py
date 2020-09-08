@@ -54,7 +54,7 @@ def open(client, ch, user):
         title="Player Inventory Bord",
         description=f"**{text}**"
     )
-    loop.create.task(ch.send(embed=embed))
+    loop.create_task(ch.send(embed=embed))
 
 def use(client, ch, user, item):
     if not item in ITEMS:
