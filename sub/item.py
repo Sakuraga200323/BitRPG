@@ -48,7 +48,6 @@ loop = asyncio.get_event_loop()
 def open(client, ch, user):
     items_dtd = pg.fetchdict("select items from player_tb;")[0]["items"]
     text = ""
-    print(items_dtd)
     for item, num in items_dtd.items():
         text += f"{item}(`{num}`)\n"
     embed = discord.Embed(
@@ -63,6 +62,7 @@ def use(client, ch, user, item):
         return
     p_data = pg.fetchdict(f"SELECT * FROM player_tb;")[0]
     item_num = pg.fetchdict(f"SELECT items->'{item}' FROM player_tb;")[0]
+    print(item_num)
     if item_num <= 0:
         loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
         return
