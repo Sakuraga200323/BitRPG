@@ -13,6 +13,7 @@ import random
 import re
 import traceback
 import sub.box
+import sub.items
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -308,8 +309,8 @@ async def on_message(message):
 
                 # 戦闘 #
                 if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
-                    temp = m_ctt.split("^^")[1]
-                    pattern = r"(atk|attack|atk (.+)|attack (.+))$"
+                    temp = m_ctt
+                    pattern = r"(^^atk|^^attack|^^atk (.+)|^^attack (.+))$"
                     result = re.search(pattern, temp)
                     if result:
                         import sub.battle
@@ -341,6 +342,13 @@ async def on_message(message):
                     rank = sub.rank.RankClass(client)
                     rank.channel(m_author,m_ch)
 
+
+                if m_ctt.startswith("^^item"):
+                    if m_ctt == "^^item":
+                        sub.items.open(client, m_ch, m_author)
+                    if m_ctt.startswith("^^item "):
+                        sub.items.use(client, m_ch, m_author, m_ctt.sprit("^^item ")[1])
+                
             if  m_ch.id in sub.box.cmd_ch:
                 sub.box.cmd_ch.remove(m_ch.id)
 
