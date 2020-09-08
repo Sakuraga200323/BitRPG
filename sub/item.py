@@ -46,7 +46,28 @@ def use(client, ch, user, item):
     if not item in ITEMS:
         loop.create_task(ch.send(f"{item}と言うアイテムは存在しません。"))
         return
+    p_data = pg.fetchdict(f"SELECT * FROM player_tb;")[0]
+    item_num = pg.fetchdict(f"SELECT items->'{item}' FROM player_tb;")[0]
+    if items_num <= 0:
+        loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
+        return
+    item_num -= 1
+    pg.execute("update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb;")
 
     if item == "HP回復薬":
+        if p_data["max_hp"] > p_data["now_hp"]:
+            before_hp = p_data["now_hp"]
+            p_data["now_hp"] += int(p_data["max_hp"]*0.25)
+            if p_data["now_hp"] > p_data["max_hp"]:
+                p_data["now_hp"] = p_data["max_hp"]
+            cured_hp = p_data["now_hp"] - before_hp
+            pg.execute(f"update player_tb set now_hp = {p_data['now_hp']};")
+            loop.create_task(ch.send(f"HP回復薬を使用し、{p_data['name']}　のHPが{cured_hp}回復した！"))
+        else:
+            loop.create_task(ch.send(f"HP回復薬を使用したが、{p_data['name']}　のHPは満タンだった。"))
+            
     if item == "MP回復薬":
+        pass
+
     if item == "ドーピング薬":
+        pass
