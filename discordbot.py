@@ -13,7 +13,7 @@ import random
 import re
 import traceback
 import sub.box
-import sub.items
+import sub.item
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -345,9 +345,9 @@ async def on_message(message):
 
                 if m_ctt.startswith("^^item"):
                     if m_ctt == "^^item":
-                        sub.items.open(client, m_ch, m_author)
+                        sub.item.open(client, m_ch, m_author)
                     if m_ctt.startswith("^^item "):
-                        sub.items.use(client, m_ch, m_author, m_ctt.sprit("^^item ")[1])
+                        sub.item.use(client, m_ch, m_author, m_ctt.sprit("^^item ")[1])
                 
             if  m_ch.id in sub.box.cmd_ch:
                 sub.box.cmd_ch.remove(m_ch.id)
