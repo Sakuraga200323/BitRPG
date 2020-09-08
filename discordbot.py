@@ -310,7 +310,7 @@ async def on_message(message):
                 # 戦闘 #
                 if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                     temp = m_ctt
-                    pattern = r"(^^atk|^^attack|^^atk (.+)|^^attack (.+))$"
+                    pattern = r"(\^\^atk|\^\^attack|\^\^atk (.+)|\^\^attack (.+))$"
                     result = re.search(pattern, temp)
                     if result:
                         import sub.battle
