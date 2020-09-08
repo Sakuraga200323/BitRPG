@@ -46,7 +46,7 @@ pg = Postgres(dsn)
 loop = asyncio.get_event_loop()
 
 def open(client, ch, user):
-    items_dtd = pg.fetchdict("select items from player_tb;")[0]
+    items_dtd = pg.fetchdict("select items from player_tb;")[0]["items"]
     text = ""
     print(items_dtd)
     for item, num in zip(items_dtd.keys(), items_dtd.items()):
