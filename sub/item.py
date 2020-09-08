@@ -41,6 +41,7 @@ class Postgres:
 
 ITEMS = ["HP回復薬","MP回復薬","ドーピング薬",""]
 
+pg = Postgres(dsn)
 
 loop = asyncio.get_event_loop()
 
