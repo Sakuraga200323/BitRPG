@@ -255,9 +255,18 @@ def cbt_proc(user,ch):
             em = discord.Embed(
                 description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
-            
+        if random.randint(0,100) >= 50:
+            ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
+            item = random.choice(ITEMS)
+            item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
+            get_num = random.randint(0,3)
+            item_num += get_num
+            pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb;")
+            item_em = discord.Embed(
+                description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
         pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
+
         if ch.id in sub.box.cbt_ch:
             del sub.box.cbt_ch[ch.id]
            
@@ -268,6 +277,8 @@ def cbt_proc(user,ch):
     loop.create_task(ch.send(content = battle_log,embed = embed))
     if em:
         loop.create_task(ch.send(embed = em))
+    if item_em:
+        loop.create_task(ch.send(embed = item_em))
     if first_moblv < m_data["lv"]:
         import sub.mob
         loop.create_task(ch.send(embed=sub.mob.appear(m_data)))
