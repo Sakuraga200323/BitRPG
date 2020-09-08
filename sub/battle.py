@@ -256,7 +256,7 @@ def cbt_proc(user,ch):
             em = discord.Embed(
                 description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
-        if random.randint(0,100) >= 50:
+        if random.randint(0,100) >= 95:
             ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
             item = random.choice(ITEMS)
             item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
