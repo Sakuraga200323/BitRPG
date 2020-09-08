@@ -347,7 +347,7 @@ async def on_message(message):
                     if m_ctt == "^^item":
                         sub.item.open(client, m_ch, m_author)
                     if m_ctt.startswith("^^item "):
-                        sub.item.use(client, m_ch, m_author, m_ctt.sprit("^^item ")[1])
+                        sub.item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
                 
             if  m_ch.id in sub.box.cmd_ch:
                 sub.box.cmd_ch.remove(m_ch.id)
