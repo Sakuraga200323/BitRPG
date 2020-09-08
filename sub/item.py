@@ -41,8 +41,21 @@ class Postgres:
 
 ITEMS = ["HP回復薬","MP回復薬","ドーピング薬",""]
 
+
+loop = asyncio.get_event_loop()
+
+def open(client, ch, user):
+    items_dtd = pg.fetchdict("select items from player_tb;")[0]
+    text = ""
+    for item, num = zip(items_dtd.keys(), items_dtd.items()):
+        text += f"{item}(`{num}`)\n"
+    embed = discord.Embed(
+        title="Player Inventory Bord",
+        description=f"**{text}**"
+    )
+    loop.create.task(ch.send(embed=embed))
+
 def use(client, ch, user, item):
-    loop = asyncio.get_event_loop()
     if not item in ITEMS:
         loop.create_task(ch.send(f"{item}と言うアイテムは存在しません。"))
         return
