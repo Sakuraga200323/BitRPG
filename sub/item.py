@@ -67,7 +67,7 @@ def use(client, ch, user, item):
         loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
         return
     item_num -= 1
-    pg.execute("update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb;")
+    pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb;")
 
     if item == "HP回復薬":
         if p_data["max_hp"] > p_data["now_hp"]:
