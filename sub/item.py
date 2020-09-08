@@ -49,7 +49,7 @@ def open(client, ch, user):
     items_dtd = pg.fetchdict("select items from player_tb;")[0]["items"]
     text = ""
     print(items_dtd)
-    for item, num in zip(items_dtd.keys(), items_dtd.items()):
+    for item, num in item_dtd.items():
         text += f"{item}(`{num}`)\n"
     embed = discord.Embed(
         title="Player Inventory Bord",
