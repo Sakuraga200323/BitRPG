@@ -63,7 +63,7 @@ def use(client, ch, user, item):
         return
     p_data = pg.fetchdict(f"SELECT * FROM player_tb;")[0]
     item_num = pg.fetchdict(f"SELECT items->'{item}' FROM player_tb;")[0]
-    if items_num <= 0:
+    if item_num <= 0:
         loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
         return
     item_num -= 1
