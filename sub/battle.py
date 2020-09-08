@@ -201,6 +201,7 @@ def cbt_proc(user,ch):
 
     embed = None
     em = None
+    item_em = None
     if first_moblv < m_data["lv"]:
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
