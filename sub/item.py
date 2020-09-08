@@ -47,7 +47,7 @@ loop = asyncio.get_event_loop()
 def open(client, ch, user):
     items_dtd = pg.fetchdict("select items from player_tb;")[0]
     text = ""
-    for item, num = zip(items_dtd.keys(), items_dtd.items()):
+    for item, num in zip(items_dtd.keys(), items_dtd.items()):
         text += f"{item}(`{num}`)\n"
     embed = discord.Embed(
         title="Player Inventory Bord",
