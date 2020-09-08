@@ -46,8 +46,9 @@ pg = Postgres(dsn)
 loop = asyncio.get_event_loop()
 
 def open(client, ch, user):
-    items_dtd = pg.fetchdict("select items from player_tb;")[0][0][1]
+    items_dtd = pg.fetchdict("select items from player_tb;")[0]
     text = ""
+    print(items)
     for item, num in zip(items_dtd.keys(), items_dtd.items()):
         text += f"{item}(`{num}`)\n"
     embed = discord.Embed(
