@@ -39,7 +39,7 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-ITEMS = ["HP回復薬","MP回復薬","ドーピング薬",""]
+ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","冒険者カード"]
 
 pg = Postgres(dsn)
 
