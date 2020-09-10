@@ -90,15 +90,20 @@ def cbt_proc(user,ch):
     pg.execute(f"update player_tb set cbt_ch_id = {ch.id} where id = {user.id};")
     if m_data["lv"] % 1000 == 0:
         get_exp = m_data["lv"]*100
+        get_money = 10000
     elif m_data["lv"] % 100 == 0:
         get_exp = m_data["lv"]*5
+        get_money = 5000
     elif m_data["lv"] % 10 == 0:
         get_exp = m_data["lv"] * 1.5
+        get_money = 100
     else:
         get_exp = m_data["lv"]
+        get_money = random.randint(1, 10)
     get_exp = round(get_exp)
-    if m_data["name"] == "古月":
+    if m_data["rank"] == "UltraRare":
         get_exp *= 100
+        get_money = 100000
     first_moblv = m_data["lv"]
     dmg1 = sub.calc.dmg(p_data["str"], m_data["def"])
     dmg2 = sub.calc.dmg(m_data["str"], p_data["def"])
@@ -241,7 +246,7 @@ def cbt_proc(user,ch):
                     stp = {i_data["stp"]},
                     all_exp = {i_data["all_exp"]},
                     now_exp = {i_data["now_exp"]},
-                    money = {i_data["money"] + (round(m_data["lv"]/len(sub.box.cbt_ch[ch.id])))} where id = {i};'''
+                    money = {i_data["money"] + (get_money/len(sub.box.cbt_ch[ch.id])))} where id = {i};'''
             )
             try:
                 if i in sub.box.cbt_user:
