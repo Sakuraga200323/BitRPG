@@ -78,7 +78,7 @@ async def on_ready():
     desc = (
         f"\n+Prefix\n^^"
         + f"\n+UsingMemory\n{MEM}%"
-      　+ f"\n+Server\n{len(client.guilds)}")
+        + f"\n+Server\n{len(client.guilds)}")
 
     print(f"【報告】起動完了。\n使用メモリー{MEM}%")
 
