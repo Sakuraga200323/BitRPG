@@ -67,7 +67,10 @@ clr_lv5 = [
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
-
+    pg = Postres(dsn)
+    for ch_data in pg.fetchdict("select id from mob_tb;")[0]["id"]:
+        if not client.get_channel(ch_data):
+            pg.execute(f"delete from mob_tb where id = {ch_data}")
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
 
@@ -77,6 +80,11 @@ async def on_ready():
         + f"\n+UsingMemory\n{MEM}%"
        　+ f"\n+Server\n{len(client.guilds)}")
 
+    print(f"【報告】起動完了。\n使用メモリー{MEM}%")
+
+    loop.start()
+
+    await client.change_presence(activity=discord.Game(name=f"^^help║Server：C║Mem：{MEM} %"))
     for ch in LOG_CHANNELS:
         try:
             embed = discord.Embed(
@@ -86,13 +94,6 @@ async def on_ready():
             await ch.send(embed = embed)
         except:
             print("Error")
-
-    print(f"【報告】起動完了。\n使用メモリー{MEM}%")
-
-    loop.start()
-
-    await client.change_presence(activity=discord.Game(name=f"^^help║Server：C║Mem：{MEM} %"))
-
 
 @tasks.loop(seconds=10)
 async def loop():
