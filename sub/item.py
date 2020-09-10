@@ -40,7 +40,7 @@ class Postgres:
         return dict_result
 
 ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
-ITEMS2 = ("冒険者カード")
+ITEMS2 = ("冒険者カード",)
 
 pg = Postgres(dsn)
 
@@ -96,5 +96,6 @@ def use(client, ch, user, item):
         embed.add_field(name="Sex",value=f"**{p_data['sex']}**")
         embed.add_field(name="KillCount",value=f"**{p_data['kill_ct']}**")
         embed.add_field(name="Money",value=f"**{p_data['money']}**")
+        embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
         loop.create_task(ch.send(embed=embed))
