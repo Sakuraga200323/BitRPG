@@ -242,7 +242,7 @@ async def on_message(message):
                     jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                     cmd = (
                         f"INSERT INTO player_tb VALUES ("
-                        + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items})"
+                        + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}, 0)"
                         +");"
                     )
                     print(cmd)
