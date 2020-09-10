@@ -246,7 +246,8 @@ def cbt_proc(user,ch):
                     stp = {i_data["stp"]},
                     all_exp = {i_data["all_exp"]},
                     now_exp = {i_data["now_exp"]},
-                    money = {i_data["money"] + (get_money/len(sub.box.cbt_ch[ch.id]))} where id = {i};'''
+                    money = {i_data["money"] + (get_money/len(sub.box.cbt_ch[ch.id]))},
+                    kill_ct = {p_data["kill_ct"] + 1}where id = {i};'''
             )
             try:
                 if i in sub.box.cbt_user:
