@@ -67,7 +67,7 @@ def use(client, ch, user, item):
     if item_num <= 0:
         loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
         return
-    if not item in ITEMS2
+    if not item in ITEMS2:
         item_num -= 1
         pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
 
