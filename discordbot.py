@@ -68,7 +68,7 @@ clr_lv5 = [
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
     pg = Postgres(dsn)
-    for ch_data in pg.fetch("select id from mob_tb;")["id"]:
+    for ch_data in pg.fetch("select id from mob_tb;")[0]:
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
