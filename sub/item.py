@@ -61,7 +61,6 @@ def use(client, ch, user, item):
         loop.create_task(ch.send(f"{item}と言うアイテムは存在しません。"))
         return
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
-    print(p_data)
     item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
     print(item_num)
     if item_num <= 0:
@@ -88,3 +87,12 @@ def use(client, ch, user, item):
 
     if item == "ドーピング薬":
         pass
+
+    if item == "冒険者カード":
+        embed = discord.Embed(title="Adventure Info")
+        embed.add_field(name="Name",value=f"**{p_data['name']}**")
+        embed.add_field(name="Sex",value=f"**{p_data['sex']}**")
+        embed.add_field(name="KillCount",value=f"**{p_data['kill_ct']}**")
+        embed.add_field(name="Money",value=f"**{p_data['money']}**")
+        embed.time_stamp = datetime.now(JST)
+        loop.create_task(ch.send(embed=embed))
