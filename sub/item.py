@@ -94,5 +94,5 @@ def use(client, ch, user, item):
         embed.add_field(name="Sex",value=f"**{p_data['sex']}**")
         embed.add_field(name="KillCount",value=f"**{p_data['kill_ct']}**")
         embed.add_field(name="Money",value=f"**{p_data['money']}**")
-        embed.time_stamp = datetime.now(JST)
+        embed.timestamp = datetime.now(JST)
         loop.create_task(ch.send(embed=embed))
