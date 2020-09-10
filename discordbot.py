@@ -71,11 +71,11 @@ async def on_ready():
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
 
-    LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bit起動ログ"]
-    desc = (f"\n+Bot\n{client.user}"
-        + f"\n+BotID\n{client.user.id}"
-        + f"\n+Prefix\n^^"
-        + f"\n+UsingMemory\n{MEM}%")
+    LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bitrpg起動ログ"]
+    desc = (
+        f"\n+Prefix\n^^"
+        + f"\n+UsingMemory\n{MEM}%"
+       　+ f"\n+Server\n{len(client.guilds)}")
 
     for ch in LOG_CHANNELS:
         try:
