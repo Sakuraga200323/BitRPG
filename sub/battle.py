@@ -247,7 +247,7 @@ def cbt_proc(user,ch):
                     all_exp = {i_data["all_exp"]},
                     now_exp = {i_data["now_exp"]},
                     money = {i_data["money"] + (get_money/len(sub.box.cbt_ch[ch.id]))},
-                    kill_ct = {p_data["kill_ct"] + 1}where id = {i};'''
+                    kill_ct = {p_data["kill_ct"] + 1} where id = {i};'''
             )
             try:
                 if i in sub.box.cbt_user:
@@ -257,7 +257,7 @@ def cbt_proc(user,ch):
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
         if random.randint(0, 100) >= 99:
             pg.execute(
-                f"""update player_tb set stp = {p_data['stp'] + m_data['lv']};"""
+                f"""update player_tb set stp = {p_data['stp'] + m_data['lv']} where id = {p_data['id']};"""
             )
             em = discord.Embed(
                 description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
@@ -268,7 +268,7 @@ def cbt_proc(user,ch):
             item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
             get_num = random.randint(1,6)
             item_num += get_num
-            pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb;")
+            pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {p_data['id']};")
             item_em = discord.Embed(
                 description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
