@@ -39,7 +39,8 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","冒険者カード"]
+ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
+ITEMS2 = ("冒険者カード")
 
 pg = Postgres(dsn)
 
@@ -57,7 +58,7 @@ def open(client, ch, user):
     loop.create_task(ch.send(embed=embed))
 
 def use(client, ch, user, item):
-    if not item in ITEMS:
+    if not item in ITEMS+ITEMS2:
         loop.create_task(ch.send(f"{item}と言うアイテムは存在しません。"))
         return
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
@@ -66,8 +67,9 @@ def use(client, ch, user, item):
     if item_num <= 0:
         loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
         return
-    item_num -= 1
-    pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
+    if not item in ITEMS2
+        item_num -= 1
+        pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
 
     if item == "HP回復薬":
         print(p_data["now_hp"], "/", p_data["max_hp"])
