@@ -315,7 +315,7 @@ async def on_message(message):
                     result = re.search(pattern, temp)
                     if result:
                         import sub.battle
-                        sub.battle.cbt_proc(m_author,m_ch)
+                        await sub.battle.cbt_proc(m_author,m_ch)
 
 
                 # 戦闘から離脱 #
@@ -326,6 +326,7 @@ async def on_message(message):
                     if result:
                         import sub.battle
                         sub.battle.reset(m_author, m_ch)
+
 
 
                 # STPの振り分け #
