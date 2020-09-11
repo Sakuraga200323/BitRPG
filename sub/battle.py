@@ -70,7 +70,7 @@ loop = asyncio.get_event_loop()
 lock = asyncio.Lock()
 pg = Postgres(dsn)
 
-def cbt_proc(user,ch):
+await def cbt_proc(user,ch):
     async with lock:
         import sub.box, sub.calc
         p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
@@ -78,10 +78,10 @@ def cbt_proc(user,ch):
         if user.id in sub.box.cbt_user:
             user_cbt_prace = client.get_channel(sub.box.cbt_user[user.id])
             if user_cbt_prace and user_cbt_prace.id != ch.id:
-                loop.create_task(ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。"))
+                await ch.send(f"【警告】{p_data['name']}は現在『{user_cbt_prace.name}』で戦闘中です。")
                 return
         if p_data["now_hp"] <= 0:
-            loop.create_task(ch.send(f"【報告】{p_data['name']}は既に死亡しています。"))
+            await ch.send(f"【報告】{p_data['name']}は既に死亡しています。")
             return
         if not user.id in sub.box.cbt_user:
             sub.box.cbt_user[user.id] = ch.id
@@ -214,7 +214,7 @@ def cbt_proc(user,ch):
             now = datetime.now(JST).strftime("%H:%M")
             if  now in ['23:18']:
                 get_exp *= 16
-                loop.create_task(ch.send("????『幸運を。死したものより祝福を。』"))
+                await ch.send("????『幸運を。死したものより祝福を。』")
 
             for i in sub.box.cbt_ch[ch.id]:
                 i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
@@ -255,7 +255,7 @@ def cbt_proc(user,ch):
                     if i in sub.box.cbt_user:
                         del sub.box.cbt_user[i]
                 except:
-                    loop.create.tasks(ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。"))
+                    await ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。")
                 i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             if random.randint(0, 100) >= 99:
                 pg.execute(
@@ -283,14 +283,14 @@ def cbt_proc(user,ch):
         log1_2 = f"```diff\n{log1_1}```"
         log2_2 = f"```diff\n{log2_1}```"
         battle_log = f"{log1_2}{log2_2}"
-        loop.create_task(ch.send(content = battle_log,embed = embed))
+        await ch.send(content = battle_log,embed = embed)
         if em:
-            loop.create_task(ch.send(embed = em))
+            await ch.send(embed = em)
         if item_em:
-            loop.create_task(ch.send(embed = item_em))
+            await ch.send(embed = item_em)
         if first_moblv < m_data["lv"]:
             import sub.mob
-            loop.create_task(ch.send(embed=sub.mob.appear(m_data)))
+            await ch.send(embed=sub.mob.appear(m_data))
 
 
 
