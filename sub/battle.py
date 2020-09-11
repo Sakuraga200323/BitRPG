@@ -70,7 +70,7 @@ loop = asyncio.get_event_loop()
 lock = asyncio.Lock()
 pg = Postgres(dsn)
 
-await def cbt_proc(user,ch):
+async def cbt_proc(user,ch):
     async with lock:
         import sub.box, sub.calc
         p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
