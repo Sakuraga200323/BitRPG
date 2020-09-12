@@ -32,7 +32,7 @@ async def help(client, ch, user):
         remsg = await client.wait_for("message", timeout=20, check=check)
     except asyncio.TimeoutError:
         await ch.send("20秒経過、受付を終了します。")
-        sended_em[1].set_author(text="処理終了済み")
+        sended_em[1].set_footer(text="処理終了済み")
         await sended_em.edit(embed=sended_em[1])
     else:
         target = remsg.content
