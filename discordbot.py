@@ -286,6 +286,17 @@ async def on_message(message):
 
         else:
             try:
+                cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
+                if not m_ctt.split(" ")[0] in cmd_list:
+                    rate_result = {}
+                    for i in cmd_list:
+                        rate = difflib.SequenceMatcher(None, m_ctt.split(" ")[0], i).ratio()
+                        rate_result[i] = rate
+                    yosou = inverse_lookup(rate_result, max(list(rate_result.values())))
+                    await m_ch.send(f"`{m_ctt.split(" ")[0]}`というコマンドはありません。\nもしかして`{yosou}`では？")
+                    return
+
+
                 # ヘルプ #
                 if m_ctt == "^^help":
                     await help.help(client, m_ch, m_author)
