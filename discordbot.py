@@ -293,6 +293,7 @@ async def on_message(message):
             try:
                 # ヘルプ #
                 if m_ctt == "^^help":
+                    import sub.help
                     sub.help.help(m_ch, m_author)
 
 
