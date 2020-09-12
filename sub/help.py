@@ -42,8 +42,7 @@ async def help(client, ch, user):
             for i in target_list:
                 rate = difflib.SequenceMatcher(None, target, i).ratio()
                 rate_result[i] = rate
-            print(rate_result)
-            yosou = inverse_lookup(rate_result, list(rate_result.values()))
+            yosou = inverse_lookup(rate_result, max(list(rate_result.values())))
             await ch.send(f"{target}はHelpに登録されていません。コマンドの場合は省略形で入れている可能性があります。原形で探してみてください。\n`help, status, attack, result, item, point, rank, str, def, agi, stp, exp, player, mob, money`\n※独断と勝手な偏見で予想しましたが、もしかして探しているのは`{yosou}`ではないですか？")
             return
         
