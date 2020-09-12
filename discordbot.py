@@ -288,7 +288,7 @@ async def on_message(message):
             try:
                 # ヘルプ #
                 if m_ctt == "^^help":
-                    await help.help(m_ch, m_author)
+                    await help.help(client, m_ch, m_author)
 
 
                 # ステータスの表示 #
