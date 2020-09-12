@@ -4,7 +4,7 @@ from datetime import datetime
 import discord
 JST = timezone(timedelta(hours=+9), 'JST')
 
-await def send_em(ch, title, description, timestamp=False):
+async def send_em(ch, title, description, timestamp=False):
     embed=discord.Embed(title=title,description=description)
     if timestamp == True:
         embed.timestamp = datetime.now(JST)
@@ -15,7 +15,7 @@ def inverse_lookup(d, x):
         if x == v:
             return k
 
-def help(ch, user):
+async def help(ch, user):
     sended_em = await send_em(
         ch=ch,
         title="BitRPG Help Bord",
