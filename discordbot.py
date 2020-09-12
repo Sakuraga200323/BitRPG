@@ -278,7 +278,6 @@ async def on_message(message):
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[11]}*\n`[+1point -> +1]`")
                 embed.set_thumbnail(url=m_author.avatar_url)
                 await m_ch.send(embed = embed)
-                await m_ch.send(embed = embed)
                 embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
                 embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
                 embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
@@ -303,7 +302,7 @@ async def on_message(message):
                     yosou = inverse_lookup( rate_result, max( list( rate_result.values() ) ) )
                     if max( list( rate_result.values() ) ) >= 0.70:
                         print(max( list( rate_result.values() ) ))
-                        await m_ch.send(f"`{m_ctt.split(' ')[0]}`というコマンドはありません。\nもしかして`{yosou}`では？")
+                        await m_ch.send(f"`{m_ctt.split(' ')[0].mention_everyone}`というコマンドはありません。\nもしかして`{yosou}`では？")
                     return
 
 
