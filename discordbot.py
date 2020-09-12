@@ -295,7 +295,6 @@ async def on_message(message):
                     yosou = inverse_lookup(rate_result, max( list( rate_result.values() ) ))
                     await m_ch.send(
                         f"`{m_ctt.split(" ")[0]}`というコマンドはありません。\nもしかして`{yosou}`では？")
-                    )
                     return
 
 
