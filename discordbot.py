@@ -65,6 +65,11 @@ clr_lv5 = [
     710207828303937626
 ]
 
+def inverse_lookup(d, x):
+    for k,v in d.items():
+        if x == v:
+            return k
+
 
 @client.event
 async def on_ready():
