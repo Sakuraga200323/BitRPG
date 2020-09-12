@@ -353,7 +353,7 @@ async def on_message(message):
                         sub.item.open(client, m_ch, m_author)
                     if m_ctt.startswith("^^item "):
                         sub.item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
-            finaly:
+            finally:
                 locks[m_ch.id] = False
 
         if  m_ch.id in sub.box.cmd_ch:
