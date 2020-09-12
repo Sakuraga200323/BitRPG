@@ -95,7 +95,7 @@ def use(client, ch, user, item):
         embed.add_field(name="Name",value=f"**{p_data['name']}**")
         embed.add_field(name="Sex",value=f"**{p_data['sex']}**")
         embed.add_field(name="KillCount",value=f"**{p_data['kill_ct']}**")
-        embed.add_field(name="Money",value=f"**{p_data['money']}**")
+        embed.add_field(name="Money",value=f"**{p_data['money']}cell**")
         embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
         loop.create_task(ch.send(embed=embed))
