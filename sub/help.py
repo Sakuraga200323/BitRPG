@@ -20,7 +20,7 @@ async def help(client, ch, user):
     sended_em = await send_em(
         ch=ch,
         title="BitRPG Help Bord",
-        description="BitRPGに存在するコマンドや用語の解説をみることができます。以下から選び、同チャンネルに送信してください。また、`all`と送信すると、全ての解説を一気に表示することが出来ます。\n`help, status, attack, result, item, point, rank, str, def, agi, stp, exp, player, mob, money`"
+        description="BitRPGに存在するコマンドや用語の解説をみることができます。以下から選び、同チャンネルに送信してください。\n`help, status, attack, result, item, point, rank, str, def, agi, stp, exp, player, mob, money`\nまた、`all`と送信すると、全ての解説を一気に表示することが出来ます。"
     )
     target_list = ["help","status","attack","reset","item","point","rank","str","def","agi", "exp", "player", "mob", "stp", "money"]
     def check(m):
@@ -43,7 +43,7 @@ async def help(client, ch, user):
                 rate = difflib.SequenceMatcher(None, target, i).ratio()
                 rate_result[i] = rate
             yosou = inverse_lookup(rate_result, max(list(rate_result.values())))
-            await ch.send(f"{target}はHelpに登録されていません。コマンドの場合は省略形で入れている可能性があります。原形で探してみてください。\n`help, status, attack, result, item, point, rank, str, def, agi, stp, exp, player, mob, money`\n※独断と勝手な偏見で予想しましたが、もしかして探しているのは`{yosou}`ではないですか？")
+            await ch.send(f"`{target}`はHelpに登録されていません。コマンドの場合は省略形で入れている可能性があります。原形で探してみてください。\n※独断と勝手な偏見で予想しましたが、もしかして探しているのは`{yosou}`ではないですか？")
             return
         
          
