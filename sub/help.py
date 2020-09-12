@@ -23,7 +23,7 @@ async def help(ch, user):
     )
     taget_list = ["help","status","attack","reset","item","point","rank","str","def","agi", "exp", "player", "mob", "stp","money"]
     async def check(msg):
-        if msg.author.id=!user.id:
+        if msg.author.id != user.id:
             return
         if msg.channel.id != ch.id
             return
