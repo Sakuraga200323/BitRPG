@@ -126,7 +126,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cur, conn
+    global cur, conn, cmd_lock
 
     m_ctt = message.content
     m_em = message.embeds
@@ -354,7 +354,7 @@ async def on_message(message):
                     if m_ctt.startswith("^^item "):
                         sub.item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
             finally:
-                locks[m_ch.id] = False
+                cmd_lock[m_ch.id] = False
 
         if  m_ch.id in sub.box.cmd_ch:
             sub.box.cmd_ch.remove(m_ch.id)
