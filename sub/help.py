@@ -15,7 +15,7 @@ def inverse_lookup(d, x):
         if x == v:
             return k
 
-async def help(ch, user):
+async def help(client, ch, user):
     sended_em = await send_em(
         ch=ch,
         title="BitRPG Help Bord",
