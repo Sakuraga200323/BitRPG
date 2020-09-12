@@ -294,7 +294,7 @@ async def on_message(message):
                 # ヘルプ #
                 if m_ctt == "^^help":
                     import sub.help
-                    sub.help.help(m_ch, m_author)
+                    await sub.help.help(m_ch, m_author)
 
 
                 # ステータスの表示 #
