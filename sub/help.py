@@ -8,7 +8,8 @@ async def send_em(ch, title, description, timestamp=False):
     embed=discord.Embed(title=title,description=description)
     if timestamp == True:
         embed.timestamp = datetime.now(JST)
-    await ch.send(embed=embed)
+    returnawait ch.send(embed=embed)
+    
 
 def inverse_lookup(d, x):
     for k,v in d.items():
