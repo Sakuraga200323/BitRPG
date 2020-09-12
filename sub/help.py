@@ -22,7 +22,7 @@ async def help(client, ch, user):
         description="BitRPGに存在するコマンドや用語の解説をみることができます。以下から選び、同チャンネルに送信してください。また、`all`と送信すると、全ての解説を一気に表示することが出来ます。\n`help, status, attack, result, item, point, rank, str, def, agi, stp, exp, player, mob, money`"
     )
     target_list = ["help","status","attack","reset","item","point","rank","str","def","agi", "exp", "player", "mob", "stp","money"]
-    async def check(msg):
+    def check(msg):
         if msg.author.id != user.id:
             return
         if msg.channel.id != ch.id:
