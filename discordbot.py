@@ -247,7 +247,7 @@ async def on_message(message):
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
                     f"INSERT INTO player_tb VALUES ("
-                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}, 0)"
+                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items})"
                     +");"
                 )
                 print(f"NewPlayer：{m_author}({m_author.id}),{name},{sex}")
@@ -264,7 +264,7 @@ async def on_message(message):
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
-                P_list = [ i for i in pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id}") ]
+                P_list = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")[0]
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
@@ -276,6 +276,8 @@ async def on_message(message):
                 embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
                 embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[15]}*\n`[次のレベルまで後{P_list[3] - P_list[16]}]`")
                 embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[11]}*\n`[+1point -> +1]`")
+                embed.set_thumbnail(url=m_author.avatar_url)
+                await m_ch.send(embed = embed)
                 await m_ch.send(embed = embed)
                 embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
                 embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
