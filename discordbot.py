@@ -12,8 +12,7 @@ import psycopg2.extras
 import random
 import re
 import traceback
-import sub.box
-import sub.item
+from sub import box, item, battle, help
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -126,7 +125,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cur, conn, cmd_lock
+    global cmd_lock
 
     m_ctt = message.content
     m_em = message.embeds
@@ -136,14 +135,10 @@ async def on_message(message):
     m_author = message.author
 
     if m_ctt.startswith("^^"):
-        import sub.box
-        if m_ch.id in sub.box.cmd_ch:
+        if cmd_lock.get(m_ch.id) is True:
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
-        if cmd_lock.get(m_ch.id) is True:
-            return
         cmd_lock[m_ch.id] = True
-        sub.box.cmd_ch.append(m_ch.id)
         pg = Postgres(dsn)
         id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
         id = m_ch.id
@@ -293,8 +288,7 @@ async def on_message(message):
             try:
                 # ヘルプ #
                 if m_ctt == "^^help":
-                    import sub.help
-                    await sub.help.help(m_ch, m_author)
+                    await help.help(m_ch, m_author)
 
 
                 # ステータスの表示 #
@@ -333,8 +327,7 @@ async def on_message(message):
                     pattern = r"(re|reset|reset (.+)|re (.+))$"
                     result = re.search(pattern, temp)
                     if result:
-                        import sub.battle
-                        sub.battle.reset(m_author, m_ch)
+                        battle.reset(m_author, m_ch)
 
 
 
@@ -343,27 +336,23 @@ async def on_message(message):
                     pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                     result = re.search(pattern, m_ctt)
                     if result:
-                        import sub.stp
-                        sub.stp.divid(m_author, m_ch, result)
+                        stp.divid(m_author, m_ch, result)
 
 
                 # チャンネルレベルランキングの表示 #
                 if m_ctt == "^^rank m":
-                    import sub.rank
-                    rank = sub.rank.RankClass(client)
+                    rank = rank.RankClass(client)
                     rank.channel(m_author,m_ch)
 
 
                 if m_ctt.startswith("^^item"):
                     if m_ctt == "^^item":
-                        sub.item.open(client, m_ch, m_author)
+                        item.open(client, m_ch, m_author)
                     if m_ctt.startswith("^^item "):
-                        sub.item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
+                        item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
             finally:
                 cmd_lock[m_ch.id] = False
 
-        if  m_ch.id in sub.box.cmd_ch:
-            sub.box.cmd_ch.remove(m_ch.id)
 
 
 
