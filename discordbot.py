@@ -292,9 +292,9 @@ async def on_message(message):
                     for i in cmd_list:
                         rate = difflib.SequenceMatcher(None, m_ctt.split(" ")[0], i).ratio()
                         rate_result[i] = rate
-                    yosou = inverse_lookup(rate_result, max( list( rate_result.values() ) ))
+                    yosou = inverse_lookup( rate_result, max( list( rate_result.values() ) ) )
                     await m_ch.send(
-                        f"`{m_ctt.split(" ")[0]}`というコマンドはありません。\nもしかして`{yosou}`では？")
+                        f"`{m_ctt.split(' ')[0]}`というコマンドはありません。\nもしかして`{yosou}`では？")
                     return
 
 
