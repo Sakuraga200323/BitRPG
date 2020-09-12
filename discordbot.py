@@ -310,6 +310,9 @@ async def on_message(message):
                     embed.set_thumbnail(url=m_author.avatar_url)
                     await m_ch.send(embed = embed)
 
+                # ヘルプ #
+                if m_ctt == "^^help":
+                    import sub.help.help(m_ch, m_author)
 
                 # 戦闘 #
                 if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
