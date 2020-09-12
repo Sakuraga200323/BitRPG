@@ -25,7 +25,7 @@ async def help(ch, user):
     async def check(msg):
         if msg.author.id != user.id:
             return
-        if msg.channel.id != ch.id
+        if msg.channel.id != ch.id:
             return
         if not msg.content in target_list:
             rate_result = {}
