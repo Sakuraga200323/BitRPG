@@ -228,6 +228,7 @@ async def cbt_proc(user,ch):
                     i_data["stp"] += 50
             desc += f'\n{i_data["name"]} が`{get_exp}Exp`獲得'
             if i_data["lv"] > be_lv:
+                print("LvUP:", i_data["name"], i_data["lv"], "/", i_data["max_lv"])
                 num_temp = i_data["lv"] - be_lv
                 i_data["str"] = 10*(i_data["lv"] + 1) + i_data["str_stp"]
                 i_data["def"] = 10*(i_data["lv"] + 1)  + i_data["def_stp"]
