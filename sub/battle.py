@@ -220,7 +220,7 @@ async def cbt_proc(user,ch):
             be_lv = i_data["lv"]
             i_data["all_exp"] += get_exp
             i_data["now_exp"] += get_exp
-            while i_data["now_exp"] > i_data["lv"] and i_data["lv"] <= i_data["max_lv"]-1:
+            while i_data["now_exp"] > i_data["lv"] and i_data["lv"] < i_data["max_lv"]:
                 i_data["now_exp"] -= i_data["lv"]
                 i_data["lv"] += 1
                 if i_data["lv"] % 10 == 0:
