@@ -72,13 +72,17 @@ pg = Postgres(dsn)
 ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
 ITEMS2 = ("冒険者カード",)
 
-def kaihou_proc(client, ch, user):
+await def kaihou_proc(client, ch, user):
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
     item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb;")[0]["item_num"]
     print(item_num)
     if item_num <= 500:
         husoku = 500 - item_num 
-        loop.create_task(ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}"))
+        await ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}")
         return
     item_num -= ５００
+    while p_data["now_exp"] > p_data["lv"] and p_data["lv"] <= p_data["max_lv"]:
+        p_data["now_exp"] -= p_data["lv"]
+        p_data["lv"] += 1
     pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id}, max_lv += 1000;")
+    await ch.send(f"限界突破！！{p_data['name']}のレベル上限が{p_data['max_lv']}に上昇しました。")
