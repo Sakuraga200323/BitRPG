@@ -291,91 +291,86 @@ async def on_message(message):
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
                 await m_ch.send(embed=embed)
 
-        else:
-            if cmd_lock.get(m_ch.id) is True:
-                await m_ch.send("【警告】処理が終了するまで待機してください。")
+        try:
+            cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
+            if not m_ctt.split(" ")[0] in cmd_list:
+                rate_result = {}
+                for i in cmd_list:
+                    rate = difflib.SequenceMatcher(None, m_ctt.split(" ")[0], i).ratio()
+                    rate_result[i] = rate
+                yosou = inverse_lookup( rate_result, max( list( rate_result.values() ) ) )
+                if max( list( rate_result.values() ) ) >= 0.70:
+                    print(max( list( rate_result.values() ) ))
+                    await m_ch.send(f"`{m_ctt.split(' ')[0].mention_everyone}`というコマンドはありません。\nもしかして`{yosou}`では？")
                 return
-            cmd_lock[m_ch.id] = True
-            try:
-                cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
-                if not m_ctt.split(" ")[0] in cmd_list:
-                    rate_result = {}
-                    for i in cmd_list:
-                        rate = difflib.SequenceMatcher(None, m_ctt.split(" ")[0], i).ratio()
-                        rate_result[i] = rate
-                    yosou = inverse_lookup( rate_result, max( list( rate_result.values() ) ) )
-                    if max( list( rate_result.values() ) ) >= 0.70:
-                        print(max( list( rate_result.values() ) ))
-                        await m_ch.send(f"`{m_ctt.split(' ')[0].mention_everyone}`というコマンドはありません。\nもしかして`{yosou}`では？")
-                    return
 
 
-                # ヘルプ #
-                if m_ctt == "^^help":
-                    await help.help(client, m_ch, m_author)
+            # ヘルプ #
+            if m_ctt == "^^help":
+                await help.help(client, m_ch, m_author)
 
 
+            # ステータスの表示 #
+            if m_ctt in ("^^st","^^status"):
                 # ステータスの表示 #
-                if m_ctt in ("^^st","^^status"):
-                    # ステータスの表示 #
-                    result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
-                    P_list = [ i for i in result[0] ]
-                    embed = discord.Embed(title = "Plyer Status Board")
-                    embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
-                    embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                    embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
-                    embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
-                    embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
-                    embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
-                    embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
-                    embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
-                    embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[15]}*\n`[次のレベルまで後{P_list[3] - P_list[16]}]`")
-                    embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[11]}*\n`[+1point -> +1]`")
-                    embed.set_thumbnail(url=m_author.avatar_url)
-                    await m_ch.send(embed = embed)
+                result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
+                P_list = [ i for i in result[0] ]
+                embed = discord.Embed(title = "Plyer Status Board")
+                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
+                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
+                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
+                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
+                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
+                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
+                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[15]}*\n`[次のレベルまで後{P_list[3] - P_list[16]}]`")
+                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[11]}*\n`[+1point -> +1]`")
+                embed.set_thumbnail(url=m_author.avatar_url)
+                await m_ch.send(embed = embed)
 
 
-                # 戦闘 #
-                if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
-                    temp = m_ctt
-                    pattern = r"(\^\^atk|\^\^attack|\^\^atk (.+)|\^\^attack (.+))$"
-                    result = re.search(pattern, temp)
-                    if result:
-                        import sub.battle
-                        await sub.battle.cbt_proc(m_author,m_ch)
+            # 戦闘 #
+            if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
+                temp = m_ctt
+                pattern = r"(\^\^atk|\^\^attack|\^\^atk (.+)|\^\^attack (.+))$"
+                result = re.search(pattern, temp)
+                if result:
+                    import sub.battle
+                    await sub.battle.cbt_proc(m_author,m_ch)
 
 
-                # 戦闘から離脱 #
-                if m_ctt.startswith("^^re"):
-                    temp = m_ctt.split("^^")[1]
-                    pattern = r"(re|reset|reset (.+)|re (.+))$"
-                    result = re.search(pattern, temp)
-                    if result:
-                        battle.reset(m_author, m_ch)
+            # 戦闘から離脱 #
+            if m_ctt.startswith("^^re"):
+                temp = m_ctt.split("^^")[1]
+                pattern = r"(re|reset|reset (.+)|re (.+))$"
+                result = re.search(pattern, temp)
+                if result:
+                    battle.reset(m_author, m_ch)
 
 
 
-                # STPの振り分け #
-                if m_ctt.startswith("^^point"):
-                    pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
-                    result = re.search(pattern, m_ctt)
-                    if result:
-                        stp.divid(m_author, m_ch, result)
+            # STPの振り分け #
+            if m_ctt.startswith("^^point"):
+                pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
+                result = re.search(pattern, m_ctt)
+                if result:
+                    stp.divid(m_author, m_ch, result)
 
 
-                # チャンネルレベルランキングの表示 #
-                if m_ctt == "^^rank m":
-                    rank = rank.RankClass(client)
-                    rank.channel(m_author,m_ch)
+            # チャンネルレベルランキングの表示 #
+            if m_ctt == "^^rank m":
+                rank = rank.RankClass(client)
+                rank.channel(m_author,m_ch)
 
 
-                if m_ctt.startswith("^^item"):
-                    if m_ctt == "^^item":
-                        item.open(client, m_ch, m_author)
-                    if m_ctt.startswith("^^item "):
-                        item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
-            finally:
-                cmd_lock[m_ch.id] = False
+            if m_ctt.startswith("^^item"):
+                if m_ctt == "^^item":
+                    item.open(client, m_ch, m_author)
+                if m_ctt.startswith("^^item "):
+                    item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
+        finally:
+            cmd_lock[m_ch.id] = False
 
 
 
