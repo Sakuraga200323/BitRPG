@@ -264,11 +264,11 @@ async def on_message(message):
                     embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
-                P_list = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")[0]
+                P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[19]}*")
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[20]}*")
                 embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
                 embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
                 embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
@@ -302,12 +302,12 @@ async def on_message(message):
             # ステータスの表示 #
             if m_ctt in ("^^st","^^status"):
                 # ステータスの表示 #
-                result = pg.fetch(f"select {standard_set} from player_tb where id = {m_author.id};")
+                result = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                 P_list = [ i for i in result[0] ]
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[19]}*")
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[20]}*")
                 embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
                 embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
                 embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
