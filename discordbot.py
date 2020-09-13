@@ -247,7 +247,7 @@ async def on_message(message):
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
                     f"INSERT INTO player_tb VALUES ("
-                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items})"
+                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}), 1000"
                     +");"
                 )
                 print(f"NewPlayer：{m_author}({m_author.id}),{name},{sex}")
@@ -281,7 +281,7 @@ async def on_message(message):
                 embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
                 embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
                 embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
-                embed.add_field(name = f"Lv", value = f"*現在のLv*")
+                embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石消費で解放)*")
                 embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
                 embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
                 embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値です。*\n`[強化量]`")
