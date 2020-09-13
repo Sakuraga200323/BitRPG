@@ -274,7 +274,7 @@ async def cbt_proc(user,ch):
         if random.random() >= 0.95:
             ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
             item = random.choice(ITEMS)
-            item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
+            item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
             get_num = random.randint(1,6)
             item_num += get_num
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {p_data['id']};")
