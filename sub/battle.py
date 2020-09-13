@@ -100,7 +100,7 @@ async def cbt_proc(user,ch):
     else:
         get_exp = m_data["lv"]
         get_money = random.randint(1, 10)
-    get_exp *= 0.
+    get_exp *= 0.45
     get_exp = round(get_exp) + 1
     if m_data["rank"] == "UltraRare":
         get_exp *= 100
