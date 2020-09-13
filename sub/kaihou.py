@@ -86,5 +86,5 @@ await def kaihou_proc(client, ch, user):
         p_data["lv"] += 1
         if i_data["lv"] % 10 == 0:
             i_data["stp"] += 50 
-    pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id}, max_lv += 1000;")
+    pg.execute(f"update player_tb set lv = {p_data['lv']}, stp = {p_data['stp']}, now_exp = {p_data['now_exp']}, items = items::jsonb||json_build_object('{item}', {item_num})::jsonb, max_lv += 1000 where id = {user.id};")
     await ch.send(f"限界突破！！{p_data['name']}のレベル上限が{p_data['max_lv']}に上昇しました。")
