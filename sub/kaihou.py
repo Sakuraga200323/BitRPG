@@ -80,7 +80,7 @@ async def kaihou_proc(client, ch, user):
         husoku = 500 - item_num 
         await ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}")
         return
-    item_num -= ５００
+    item_num -= 500
     while p_data["now_exp"] > p_data["lv"] and p_data["lv"] <= p_data["max_lv"]:
         p_data["now_exp"] -= p_data["lv"]
         p_data["lv"] += 1
