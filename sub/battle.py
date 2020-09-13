@@ -214,6 +214,7 @@ async def cbt_proc(user,ch):
             get_exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
 
+                       
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
