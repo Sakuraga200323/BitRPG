@@ -270,7 +270,7 @@ async def cbt_proc(user,ch):
             item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb;")[0]["item_num"]
             item_num += 100
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('魔石', {item_num})::jsonb where id = {p_data['id']};")
-            item_em = discord.Embed(description = f"{p_data['name']} は魔石×{get_num}を獲得し！")
+            item_em = discord.Embed(description = f"{p_data['name']} は魔石×100を獲得した！")
         if random.random() >= 0.95:
             ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
             item = random.choice(ITEMS)
