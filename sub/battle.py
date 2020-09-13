@@ -267,7 +267,7 @@ async def cbt_proc(user,ch):
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
 
         if m_data["rank"] == "UltraRare":
-            item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb;")[0]["item_num"]
+            item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
             item_num += 100
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('魔石', {item_num})::jsonb where id = {p_data['id']};")
             item_em = discord.Embed(description = f"{p_data['name']} は魔石×100を獲得した！")
