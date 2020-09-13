@@ -353,6 +353,7 @@ async def on_message(message):
                 rank.channel(m_author,m_ch)
 
 
+            # アイテム系 #
             if m_ctt.startswith("^^item"):
                 if m_ctt == "^^item":
                     item.open(client, m_ch, m_author)
@@ -360,6 +361,7 @@ async def on_message(message):
                     item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
 
 
+            # Lv上限解放 #
             if m_ctt == "^^gentotsu":
                 await kaihou.kaihou_proc(client, m_ch, m_author)
 
