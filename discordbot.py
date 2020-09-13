@@ -268,7 +268,7 @@ async def on_message(message):
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[20]}*")
                 embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
                 embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
                 embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
@@ -287,23 +287,12 @@ async def on_message(message):
                 embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値です。*\n`[強化量]`")
                 embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
                 embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
-                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの残り必要EXP]`")
+                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
                 await m_ch.send(embed=embed)
 
         try:
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
-            if not m_ctt.split(" ")[0] in cmd_list:
-                rate_result = {}
-                for i in cmd_list:
-                    rate = difflib.SequenceMatcher(None, m_ctt.split(" ")[0], i).ratio()
-                    rate_result[i] = rate
-                yosou = inverse_lookup( rate_result, max( list( rate_result.values() ) ) )
-                if max( list( rate_result.values() ) ) >= 0.70:
-                    print(max( list( rate_result.values() ) ))
-                    await m_ch.send(f"`{m_ctt.split(' ')[0].mention_everyone}`というコマンドはありません。\nもしかして`{yosou}`では？")
-                return
-
 
             # ヘルプ #
             if m_ctt == "^^help":
@@ -369,6 +358,12 @@ async def on_message(message):
                     item.open(client, m_ch, m_author)
                 if m_ctt.startswith("^^item "):
                     item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
+
+
+            if m_ctt == "^^gentotsu":
+                await kaihou.kaihou_proc(client, m_ch, m_author)
+
+
         finally:
             cmd_lock[m_ch.id] = False
 
