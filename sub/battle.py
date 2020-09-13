@@ -255,22 +255,29 @@ async def cbt_proc(user,ch):
             except:
                 await ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。")
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
-        if random.randint(0, 100) >= 99:
+
+        if random.random() >= 0.99:
             pg.execute(
                 f"""update player_tb set stp = {p_data['stp'] + m_data['lv']} where id = {p_data['id']};"""
             )
             em = discord.Embed(
                 description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
             em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
-        if random.randint(0,100) >= 95:
+
+        if m_data["rank"] == "UltraRare":
+            item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb;")[0]["item_num"]
+            item_num += １００
+            pg.execute(f"update player_tb set items = items::jsonb||json_build_object('魔石', {item_num})::jsonb where id = {p_data['id']};")
+            item_em = discord.Embed(description = f"{p_data['name']} は魔石×{get_num}を獲得し！")
+        if random.random() >= 0.95:
             ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
             item = random.choice(ITEMS)
             item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb;")[0]["item_num"]
             get_num = random.randint(1,6)
             item_num += get_num
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {p_data['id']};")
-            item_em = discord.Embed(
-                description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
+            item_em = discord.Embed(description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
+
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
         pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
 
