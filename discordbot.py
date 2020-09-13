@@ -292,6 +292,10 @@ async def on_message(message):
                 await m_ch.send(embed=embed)
 
         else:
+            if cmd_lock.get(m_ch.id) is True:
+                await m_ch.send("【警告】処理が終了するまで待機してください。")
+                return
+            cmd_lock[m_ch.id] = True
             try:
                 cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
                 if not m_ctt.split(" ")[0] in cmd_list:
