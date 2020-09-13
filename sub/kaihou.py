@@ -72,7 +72,7 @@ pg = Postgres(dsn)
 ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
 ITEMS2 = ("冒険者カード",)
 
-await def kaihou_proc(client, ch, user):
+async def kaihou_proc(client, ch, user):
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
     item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb;")[0]["item_num"]
     print(item_num)
