@@ -21,6 +21,7 @@ dsn = os.environ.get('DATABASE_URL')
 
 cmd_lock = {}
 
+
 class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
