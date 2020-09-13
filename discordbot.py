@@ -307,7 +307,7 @@ async def on_message(message):
                 embed = discord.Embed(title = "Plyer Status Board")
                 embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
                 embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]}*")
+                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[20]}*")
                 embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
                 embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
                 embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
