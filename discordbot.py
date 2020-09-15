@@ -1,18 +1,17 @@
-import math
-import difflib
 import ast
 import asyncio
 from datetime import datetime, timedelta, timezone
-import discord
-from discord.ext import tasks
-import glob
+import math
 import os
-import psutil
-import psycopg2
-import psycopg2.extras
 import random
 import re
+
+import discord
+from discord.ext import tasks
+import psutil
+import psycopg2, psycopg2.extras
 import traceback
+
 from sub import box, item, battle, help, stp, kaihou, rank
 
 JST = timezone(timedelta(hours=+9), 'JST')
