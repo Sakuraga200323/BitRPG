@@ -139,7 +139,13 @@ async def on_message(message):
     m_ch = message.channel
     m_guild = message.guild
     m_author = message.author
-
+    if m_author.id == 302050872383242240:
+        if.message.embeds:
+            if message.embeds[0].description:
+                desc = message.embeds[0].description
+                if "表示順を" in desc:
+                    id = desc.split("<@")[1].split(">")[0]
+                    
     if m_ctt.startswith("^^"):
         if cmd_lock.get(m_ch.id) is True:
             await m_ch.send("【警告】処理が終了するまで待機してください。")
