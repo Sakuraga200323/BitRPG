@@ -182,7 +182,6 @@ async def cbt_proc(user,ch):
         else:
             log1_1 += str(dmg2)
             log1_1 += f"の{t}"
-        log1_1 += f"の{t}"
         log1_1 += f'\n{p_data["name"]} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]'
         if p_data["now_hp"] <= 0:
             log2_1 = f'\n{p_data["name"]} はやられてしまった！！'
@@ -305,38 +304,37 @@ async def cbt_proc(user,ch):
 def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
-    if ch.id in sub.box.cbt_ch:
-        if not user.id in sub.box.cbt_ch[ch.id]:
+    if not p_data["cbt_ch_id"]:
+        pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {user.id}")
+        loop.create_task(ch.send(f"HPを回復しました。"))
+        return
+    if not p_data["cbt_ch_id"] == ch.id:
+        loop.create_task(ch.send(f"{p_data["name"]} は『{ch.name}』で戦闘していません。"))
+        return
+    for i in sub.box.cbt_ch[ch.id]:
+        i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
+        pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
+        if not i in sub.box.cbt_user:
             return
-        for i in sub.box.cbt_ch[ch.id]:
-            i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
-            pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
-            if not i in sub.box.cbt_user:
-                return
-            del sub.box.cbt_user[i]
-        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
-        loop.create_task(ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
-        rank = "Normal"
-        color = discord.Color.blue()
-        if m_data["lv"] % 1000 == 0:
-            rank = "WorldEnd"
-            color = discord.Color.from_rgb(0,0,0)
-        if  m_data["lv"] % 100 == 0:
-            rank = "Catastrophe"
-            color = discord.Color.red()
-        if m_data["lv"] % 10 == 0:
-            rank = "Elite"
-            color = discord.Color.from_rgb(255,255,0)
-        embed = discord.Embed(
-            title=f"<{rank}> {m_data['name']} appears !!",
-            description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
-            color=color
-        )
-        embed.set_image(url=m_data["img_url"])
-        loop.create_task(ch.send(embed = embed))
-    else:
-        if not user.id in sub.box.cbt_user:
-            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {user.id}")
-            loop.create_task(ch.send(f"HPを回復しました。"))
-        loop.create_task(ch.send(f"『{ch.name}』で戦闘は実行されていません。"))
+        del sub.box.cbt_user[i]
+    pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
+    loop.create_task(ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。"))
+    rank = "Normal"
+    color = discord.Color.blue()
+    if m_data["lv"] % 1000 == 0:
+        rank = "WorldEnd"
+        color = discord.Color.from_rgb(0,0,0)
+    if  m_data["lv"] % 100 == 0:
+        rank = "Catastrophe"
+        color = discord.Color.red()
+    if m_data["lv"] % 10 == 0:
+        rank = "Elite"
+        color = discord.Color.from_rgb(255,255,0)
+    embed = discord.Embed(
+        title=f"<{rank}> {m_data['name']} appears !!",
+        description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
+        color=color
+    )
+    embed.set_image(url=m_data["img_url"])
+    loop.create_task(ch.send(embed = embed))
                     
