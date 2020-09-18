@@ -301,7 +301,7 @@ async def on_message(message):
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
 
             # InviteURL #
-            if m_ctt == "^^invite":
+            if m_ctt == "^^url":
                 await m_ch.send(embed=embed(
                     title="Invite & Other URL",
                     description=(
