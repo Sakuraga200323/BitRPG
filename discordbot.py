@@ -304,7 +304,7 @@ async def on_message(message):
 
             # InviteURL #
             if m_ctt == "^^url":
-                await m_ch.send(embed=embed(
+                await m_ch.send(embed=discord.Embed(
                     title="Invite & Other URL",
                     description=(
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
