@@ -297,8 +297,10 @@ async def on_message(message):
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint\n10LvUP毎に50獲得可能\n`[+1STP -> +1]`*\n")
                 await m_ch.send(embed=embed)
 
+
         try:
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
+
 
             # InviteURL #
             if m_ctt == "^^url":
@@ -307,7 +309,9 @@ async def on_message(message):
                     description=(
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
-                        + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"))
+                        + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"
+                    )
+                )
 
 
             # ヘルプ #
@@ -317,7 +321,6 @@ async def on_message(message):
 
             # ステータスの表示 #
             if m_ctt in ("^^st","^^status"):
-                # ステータスの表示 #
                 result = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                 P_list = [ i for i in result[0] ]
                 embed = discord.Embed(title = "Plyer Status Board")
