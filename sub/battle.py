@@ -309,7 +309,7 @@ def reset(user, ch):
         loop.create_task(ch.send(f"HPを回復しました。"))
         return
     if not p_data["cbt_ch_id"] == ch.id:
-        loop.create_task(ch.send(f"{p_data["name"]} は『{ch.name}』で戦闘していません。"))
+        loop.create_task(ch.send(f"{p_data['name']} は『{ch.name}』で戦闘していません。"))
         return
     for i in sub.box.cbt_ch[ch.id]:
         i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
