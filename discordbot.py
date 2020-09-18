@@ -300,7 +300,14 @@ async def on_message(message):
         try:
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
 
-
+            # InviteURL #
+            if m_ctt == "^^invite":
+                await m_ch.send(embed=embed(
+                    title="Invite & Other URL",
+                    description=(
+                        "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
+                        + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
+                        + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"))
 
 
             # ヘルプ #
