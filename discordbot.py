@@ -299,6 +299,7 @@ async def on_message(message):
 
         try:
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
+
             # InviteURL #
             if m_ctt == "^^invite":
                 await m_ch.send(embed=embed(
