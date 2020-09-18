@@ -311,7 +311,7 @@ async def on_message(message):
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
                         + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"
                     )
-                )
+                ))
 
 
             # ヘルプ #
