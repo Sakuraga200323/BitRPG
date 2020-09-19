@@ -1,11 +1,10 @@
 
 from collections import namedtuple
 
-Icon = namedtaple(Icon,[
+Item = namedtaple(Item,[
     "hp_potion",
     "mp_potion",
     "maseki",
     "doping_potion"
 ])
-
-icon = None
+item = None
