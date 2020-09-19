@@ -1,6 +1,8 @@
 import ast
 import asyncio
+from collections import namedtuple
 from datetime import datetime, timedelta, timezone
+from PIL import Image
 import math
 import os
 import random
@@ -12,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, item, battle, help, stp, kaihou, rank
+from sub import box, item, battle, help, stp, kaihou, rank, icon
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -20,6 +22,8 @@ dsn = os.environ.get('DATABASE_URL')
 
 cmd_lock = {}
 
+def get_icon(img, x, y):
+    return img.crop((x-1)*32+1,(y-1) , x*32, y*32))
 
 class Postgres:
     def __init__(self, dsn):
@@ -74,13 +78,27 @@ def inverse_lookup(d, x):
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
+
+    item_img = Image.open('image_files/game_icon.png')
+    icon.item = icon.Item(
+        get_icon(img,12,13)
+        get_icon(img,24,2),
+        get_icon(img,24,8),
+        get_icon(img,42,8),
+        get_icon(img,24,13)
+    )
+    
     pg = Postgres(dsn)
+
     for ch_data in pg.fetch("select id from mob_tb;")[0]:
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
+    for p_data in pg.fetch("select id from player_tb;")[0]:
+        if not client.get_user(p_data):
+            pg.execute(f"delete from player_tb where id = {p_data}")
+
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
-
     LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bitrpg起動ログ"]
     desc = (
         f"\n+Prefix\n^^"
@@ -105,7 +123,7 @@ async def on_ready():
 @tasks.loop(seconds=10)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    await client.change_presence(activity=discord.Game(name=f"開発作業中║Server：{len(client.guilds)}║Mem：{MEM} %"))
+    await client.change_presence(activity=discord.Game(name=f"^^url║Server：{len(client.guilds)}║Mem：{MEM} %"))
 
 
 @client.event
@@ -392,7 +410,7 @@ async def on_message(message):
 
 
 
-    if m_ctt.startswith("SystemCall"):
+    if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。\nクリアランスLv4未満のユーザーの不正接続を確認次第、即座に対象のデータを終了します。**")
         if not m_author.id in clr_lv4 and not m_author.id in clr_lv5 :
@@ -403,21 +421,46 @@ async def on_message(message):
                 c_lv = 4
             elif m_author.id in clr_lv5:
                 c_lv = 5
-            await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を実行します。**")
-        if m_ctt.startswith("^^psql "):
-            cmd = m_ctt.split("^^psql ")[1]
-            pg = Postgres(dsn)
-            await m_ch.send(f"`::DATABASE=> {cmd}`")
-            if "select" in cmd:
-                result = pg.fetch(cmd)
-                await m_ch.send(result)
+            await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を開始、命令文を待機中です。**")
+            await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+            def check(m):
+                if m.author.id != user.id:
+                    return 0
+                if m.channel.id != ch.id:
+                    return 0
+                return 1
+            try:
+                remsg = await client.wait_for("message", timeout=40, check=check)
+            except asyncio.TimeoutError:
+                await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+                await ch.send("プロトコル[SystemCall]を終了します。")
             else:
-                pg.execute(cmd)
-        if m_ctt.startswith("reverse"):
-            sub.box.cmd_ch.remove(m_ch.id)
+                ctt = remsg.content
+                try:
+                    if ctt.startswith("psql "):
+                        cmd = ctt.split("psql ")[1]
+                        pg = Postgres(dsn)
+                        await m_ch.send(f"`::DATABASE=> {cmd}`")
+                        result = None
+                        if "select" in cmd:
+                            result = pg.fetch(cmd)
+                            for i in result:
+                                result = f"\n{i}"
+                        else:
+                            try:
+                                pg.execute(cmd)
+                            except Exception as error:
+                                result = "{error}"
+                            else:
+                                result = "Completed!"
+                        await m_ch.send(f"```py{result}```")
 
-
-        await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
+                    if ctt == ("exit"):
+                        await m_ch.send("`Exit!`")
+                        sys.exit()
+                finally:
+                    await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+                    await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
         
 '''
