@@ -77,7 +77,7 @@ def inverse_lookup(d, x):
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
-
+    """
     item_img = Image.open('image_files/game_icon.png')
     icon.item = icon.Item(
         get_icon(img,12,13),
@@ -85,7 +85,7 @@ async def on_ready():
         get_icon(img,24,8),
         get_icon(img,42,8),
         get_icon(img,24,13)
-    )
+    )"""
     
     pg = Postgres(dsn)
 
