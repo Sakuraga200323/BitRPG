@@ -23,7 +23,7 @@ dsn = os.environ.get('DATABASE_URL')
 cmd_lock = {}
 
 def get_icon(img, x, y):
-    return img.crop((x-1)*32+1,(y-1) , x*32, y*32))
+    return img.crop((x-1)*32+1,(y-1) , x*32, y*32)
 
 class Postgres:
     def __init__(self, dsn):
