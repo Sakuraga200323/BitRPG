@@ -81,7 +81,7 @@ async def on_ready():
 
     item_img = Image.open('image_files/game_icon.png')
     icon.item = icon.Item(
-        get_icon(img,12,13)
+        get_icon(img,12,13),
         get_icon(img,24,2),
         get_icon(img,24,8),
         get_icon(img,42,8),
