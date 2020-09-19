@@ -87,7 +87,11 @@ async def cbt_proc(user,ch):
         sub.box.cbt_ch[ch.id] = []
     if not user.id in sub.box.cbt_ch[ch.id]:
         sub.box.cbt_ch[ch.id].append(user.id)
-    pg.execute(f"update player_tb set cbt_ch_id = {ch.id} where id = {user.id};")
+    if p_data["cbt_ch_id"] != ch.id:
+        pg.execute(f"update player_tb set cbt_ch_id = {ch.id} where id = {user.id};")
+
+
+    # 獲得経験値、お金計算処理 #
     if m_data["lv"] % 1000 == 0:
         get_exp = m_data["lv"]*100
         get_money = 10000
@@ -105,6 +109,9 @@ async def cbt_proc(user,ch):
     if m_data["rank"] == "UltraRare":
         get_exp *= 100
         get_money = 100000
+
+
+    # モンスターとの戦闘で使うダメージ、運の計算およびログの設定 #
     first_moblv = m_data["lv"]
     dmg1 = sub.calc.dmg(p_data["str"], m_data["def"])
     dmg2 = sub.calc.dmg(m_data["str"], p_data["def"])
@@ -115,6 +122,9 @@ async def cbt_proc(user,ch):
     log2_1 = ""
     luck = random.randint(0, 100)
     luck2 = random.randint(0, 100)
+
+
+    # 戦闘処理（Player先手） #
     if p_data["agi"] >= m_data["agi"]:
         log1_1 += f'+ {p_data["name"]} の攻撃！'
         t = "ダメージ"
@@ -162,6 +172,7 @@ async def cbt_proc(user,ch):
                 log2_1 += f'{p_data["name"]} はやられてしまった！！'
 
 
+    # 戦闘処理（Player後手） #
     else:
         log1_1 += f'- {m_data["name"]} の攻撃！'
         if m_data["name"] == "古月":
@@ -204,9 +215,8 @@ async def cbt_proc(user,ch):
                 log2_1 += f'\n{m_data["name"]} を倒した！！'
                 m_data["lv"] += 1
 
-    embed = None
-    em = None
-    item_em = None
+
+    embed = em = item_em = None
     if first_moblv < m_data["lv"]:
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
@@ -214,7 +224,7 @@ async def cbt_proc(user,ch):
             get_exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
 
-                       
+
         for i in sub.box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
             be_lv = i_data["lv"]
@@ -250,21 +260,17 @@ async def cbt_proc(user,ch):
                     all_exp = {i_data["all_exp"]},
                     now_exp = {i_data["now_exp"]},
                     money = {i_data["money"] + (get_money/len(sub.box.cbt_ch[ch.id]))},
+                    cbt_ch_id = Null,
                     kill_ct = {p_data["kill_ct"] + 1} where id = {i};''')
             try:
                 if i in sub.box.cbt_user:
                     del sub.box.cbt_user[i]
             except:
                 await ch.send(f"【注意】{i_data['name']} の戦闘離脱処理が正常に作動しなかった可能性が発生。")
-            i_data = pg.fetchdict(f"select * from player_tb where id = {i}")[0]
 
         if random.random() >= 0.99:
-            pg.execute(
-                f"""update player_tb set stp = {p_data['stp'] + m_data['lv']} where id = {p_data['id']};"""
-            )
-            em = discord.Embed(
-                description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
-            em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/720967442439864370/maseki.png")
+            pg.execute(f"""update player_tb set stp = {p_data['stp'] + m_data['lv']} where id = {p_data['id']};""")
+            em = discord.Embed(description = f"{p_data['name']} は{m_data['lv']}のSTPを獲得した！")
 
         if m_data["rank"] == "UltraRare":
             item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
@@ -281,7 +287,6 @@ async def cbt_proc(user,ch):
             item_em = discord.Embed(description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
 
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
-        pg.execute(f"update player_tb set cbt_ch_id = NULL where cbt_ch_id = {ch.id};")
 
         if ch.id in sub.box.cbt_ch:
             del sub.box.cbt_ch[ch.id]
@@ -309,7 +314,8 @@ def reset(user, ch):
         loop.create_task(ch.send(f"HPを回復しました。"))
         return
     if not p_data["cbt_ch_id"] == ch.id:
-        loop.create_task(ch.send(f"{p_data['name']} は『{ch.name}』で戦闘していません。"))
+        cbt_ch = client.get_channel(p_data["cbt_ch_id"])
+        loop.create_task(ch.send(f"{p_data['name']} は{ch.mention}ではなく{cbt_ch.mention}で戦闘中です。"))
         return
     for i in sub.box.cbt_ch[ch.id]:
         i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
