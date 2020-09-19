@@ -1,6 +1,5 @@
 import ast
 import asyncio
-from collections import namedtuple
 from datetime import datetime, timedelta, timezone
 import math
 import os
@@ -13,14 +12,12 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, item, battle, help, stp, kaihou, rank, icon
+from sub import box, item, battle, help, stp, kaihou, rank
 
 
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 cmd_lock = {}
-def get_icon(img, x, y):
-    return img.crop((x-1)*32+1,(y-1) , x*32, y*32)
 
 class Postgres:
     def __init__(self, dsn):
