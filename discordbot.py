@@ -2,7 +2,6 @@ import ast
 import asyncio
 from collections import namedtuple
 from datetime import datetime, timedelta, timezone
-from PIL import Image
 import math
 import os
 import random
