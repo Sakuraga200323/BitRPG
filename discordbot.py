@@ -15,12 +15,10 @@ import traceback
 
 from sub import box, item, battle, help, stp, kaihou, rank, icon
 
+
 JST = timezone(timedelta(hours=+9), 'JST')
-
 dsn = os.environ.get('DATABASE_URL')
-
 cmd_lock = {}
-
 def get_icon(img, x, y):
     return img.crop((x-1)*32+1,(y-1) , x*32, y*32)
 
