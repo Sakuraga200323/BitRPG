@@ -277,6 +277,7 @@ async def cbt_proc(user,ch):
             item_num += 100
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('魔石', {item_num})::jsonb where id = {p_data['id']};")
             item_em = discord.Embed(description = f"{p_data['name']} は魔石×100を獲得した！")
+            item_em.set_thumbnail(url = "https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png")
         if random.random() >= 0.95:
             ITEMS = ["HP回復薬","MP回復薬","ドーピング薬","魔石"]
             item = random.choice(ITEMS)
@@ -285,6 +286,15 @@ async def cbt_proc(user,ch):
             item_num += get_num
             pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {p_data['id']};")
             item_em = discord.Embed(description = f"{p_data['name']} は{item}×{get_num}を獲得した！")
+            if item == "HP回復薬":
+                url = "https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png"
+            if item == "MP回復薬":
+                url = "https://media.discordapp.net/attachments/719855399733428244/757449147321417779/mp_cure_potion.png"
+            if item == "ドーピング薬":
+                url = "https://media.discordapp.net/attachments/719855399733428244/757464460792168618/doping_potion.png"
+            if item == "魔石":
+                url = "https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png"
+            item_em.set_thumbnail(url=url)
 
         embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
 
