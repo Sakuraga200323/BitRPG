@@ -70,7 +70,7 @@ def inverse_lookup(d, x):
             return k
 
 def split_n(text, n):
-    return [ text[i*n:i*n+n] for i in xrange(len(text)/n) ]
+    return [ text[i*n:i*n+n] for i in range(len(text)/n) ]
 
 @client.event
 async def on_ready():
