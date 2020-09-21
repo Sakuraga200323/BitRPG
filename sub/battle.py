@@ -320,6 +320,8 @@ def reset(user, ch):
         cbt_ch = client.get_channel(p_data["cbt_ch_id"])
         loop.create_task(ch.send(f"{p_data['name']} は{ch.mention}ではなく{cbt_ch.mention}で戦闘中です。"))
         return
+    if not sub.box.cbt_ch[ch.id]:
+        await ch.send("【報告】処理中になんらかのバグが発生し、プレイヤーのデータベースに戦闘中チャンネルが登録されているにも関わらず、戦闘が行われているチャンネルのリストの中にチャンネルが存在しませんでした。")  
     for i in sub.box.cbt_ch[ch.id]:
         i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
         pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
