@@ -419,9 +419,9 @@ async def on_message(message):
             await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を開始、命令文を待機中です。**")
             await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
             def check(m):
-                if m.author.id != user.id:
+                if m.author.id != m_author.id:
                     return 0
-                if m.channel.id != ch.id:
+                if m.channel.id != m_ch.id:
                     return 0
                 return 1
             try:
