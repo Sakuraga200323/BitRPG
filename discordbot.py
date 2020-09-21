@@ -440,7 +440,7 @@ async def on_message(message):
                         if "select" in cmd:
                             result = pg.fetch(cmd)
                             for i in result:
-                                result = f"\n{i}"
+                                result += f"\n{i}"
                         else:
                             try:
                                 pg.execute(cmd)
