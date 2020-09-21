@@ -441,7 +441,7 @@ async def on_message(message):
                         result = None
                         if "select" in cmd:
                             result = pg.fetch(cmd)
-                            result += f"\n{result}"
+                            result = f"{result}"
                         else:
                             try:
                                 pg.execute(cmd)
@@ -449,12 +449,12 @@ async def on_message(message):
                                 result = "{error}"
                             else:
                                 result = "Completed!"
-                        if result > 2000:
+                        if len(result) > 2000:
                             result = split_n(result, 2000)
                             for i in result:
-                                await m_ch.send(f"```py{i}```")
+                                await m_ch.send(f"```py\n{i}```")
                         else:
-                            await m_ch.send(f"```py{i}```")
+                            await m_ch.send(f"```py\n{i}```")
 
                     if ctt == ("exit"):
                         await m_ch.send("`Exit!`")
