@@ -427,7 +427,7 @@ async def on_message(message):
             try:
                 remsg = await client.wait_for("message", timeout=40, check=check)
             except asyncio.TimeoutError:
-                await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+                await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                 await ch.send("プロトコル[SystemCall]を終了します。")
             else:
                 ctt = remsg.content
@@ -454,7 +454,7 @@ async def on_message(message):
                         await m_ch.send("`Exit!`")
                         sys.exit()
                 finally:
-                    await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+                    await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                     await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
         
