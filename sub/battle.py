@@ -307,6 +307,9 @@ async def cbt_proc(user,ch):
 
 
 def reset(user, ch):
+    if not user or not ch:
+        await ch.send("【報告】処理中になんらかのバグが発生し、プレイヤーもしくはチャンネルの情報が取得できませんでした。")  
+        rerturn
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
     if not p_data["cbt_ch_id"]:
