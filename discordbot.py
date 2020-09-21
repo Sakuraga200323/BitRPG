@@ -445,7 +445,7 @@ async def on_message(message):
                             try:
                                 pg.execute(cmd)
                             except Exception as error:
-                                result = "{error}"
+                                result = f"{error}"
                             else:
                                 result = "Completed!"
                         if len(result) > 2000:
