@@ -318,6 +318,9 @@ def reset(user, ch):
         return
     if not p_data["cbt_ch_id"] == ch.id:
         cbt_ch = client.get_channel(p_data["cbt_ch_id"])
+        if not cbt_ch:
+            print(f"reset:cbt_ch = {cbt_ch}")
+            return
         loop.create_task(ch.send(f"{p_data['name']} は{ch.mention}ではなく{cbt_ch.mention}で戦闘中です。"))
         return
     if not sub.box.cbt_ch[ch.id]:
