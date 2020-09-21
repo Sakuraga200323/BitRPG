@@ -417,7 +417,7 @@ async def on_message(message):
             elif m_author.id in clr_lv5:
                 c_lv = 5
             await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を開始、命令文を待機中です。**")
-            await m_ch.send("_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/")
+            await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
             def check(m):
                 if m.author.id != m_author.id:
                     return 0
@@ -427,7 +427,7 @@ async def on_message(message):
             try:
                 remsg = await client.wait_for("message", timeout=40, check=check)
             except asyncio.TimeoutError:
-                await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
+                await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                 await ch.send("プロトコル[SystemCall]を終了します。")
             else:
                 ctt = remsg.content
@@ -454,7 +454,7 @@ async def on_message(message):
                         await m_ch.send("`Exit!`")
                         sys.exit()
                 finally:
-                    await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
+                    await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                     await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
 
         
