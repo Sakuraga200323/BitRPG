@@ -372,7 +372,6 @@ async def on_message(message):
                     battle.reset(m_author, m_ch)
 
 
-
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
@@ -454,7 +453,7 @@ async def on_message(message):
                             for i in result:
                                 await m_ch.send(f"```py\n{i}```")
                         else:
-                            await m_ch.send(f"```py\n{i}```")
+                            await m_ch.send(f"```py\n{result}```")
 
                     if ctt == ("exit"):
                         await m_ch.send("`Exit!`")
