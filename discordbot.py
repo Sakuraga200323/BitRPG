@@ -69,6 +69,8 @@ def inverse_lookup(d, x):
         if x == v:
             return k
 
+def split_n(text, n):
+    return [ text[i*n:i*n+n] for i in xrange(len(text)/n) ]
 
 @client.event
 async def on_ready():
@@ -447,7 +449,12 @@ async def on_message(message):
                                 result = "{error}"
                             else:
                                 result = "Completed!"
-                        await m_ch.send(f"```py{result}```")
+                        if result > 2000:
+                            result = split_n(result, 2000)
+                            for i in result:
+                                await m_ch.send(f"```py{i}```")
+                        else:
+                            await m_ch.send(f"```py{i}```")
 
                     if ctt == ("exit"):
                         await m_ch.send("`Exit!`")
