@@ -428,7 +428,7 @@ async def on_message(message):
                 remsg = await client.wait_for("message", timeout=40, check=check)
             except asyncio.TimeoutError:
                 await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
-                await ch.send("プロトコル[SystemCall]を終了します。")
+                await m_ch.send("プロトコル[SystemCall]を終了します。")
             else:
                 ctt = remsg.content
                 try:
