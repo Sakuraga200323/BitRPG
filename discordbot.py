@@ -440,7 +440,7 @@ async def on_message(message):
                             await m_ch.send(f"`CommandError:bitrpg has no cmd to {cmd.split(' ')[0]}`")
                             return
                         if cmd.split(" ")[0] == "announce":
-                            ctt = cmd.split(" ")[1]
+                            ctt = cmd.split("announce ")[1]
                             embed = discord.Embed(
                                 title="Announcement!!",
                                 description="<@&719176372773453835>\n" + ctt
