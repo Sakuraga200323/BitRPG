@@ -61,7 +61,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"AGI (Agility)", value = f"*{p_data['agi'] + p_data['agi_stp']}*\n`(+{p_data['agi_stp']})`")
     embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data['stp']}*\n")
     def bar(x,y):
-        return my_round(x,y)*100*"■"
+        return round(x/y*100)*"■"
     s = f"*STR*：`{bar(p_data['str_stp'], all_stp)}`"
     d = f"*DEF*：`{bar(p_data['def_stp'], all_stp)}`"
     a = f"*AGI*：`{bar(p_data['agi_stp'], all_stp)}`"
