@@ -331,26 +331,18 @@ async def on_message(message):
 
             # ヘルプ #
             if m_ctt == "^^help":
+                await m_ch.send("未実装です")
+                return
                 await help.help(client, m_ch, m_author)
 
 
             # ステータスの表示 #
             if m_ctt in ("^^st","^^status"):
-                result = pg.fetch(f"select * from player_tb where id = {m_author.id};")
-                P_list = [ i for i in result[0] ]
-                embed = discord.Embed(title = "Plyer Status Board")
-                embed.add_field(name = f"Player", value = f"{P_list[0]}({m_author.mention})", inline = False)
-                embed.add_field(name = f"Sex", value = f"{P_list[1]}", inline = False)
-                embed.add_field(name = f"Lv (Level)", value = f"*{P_list[3]} / {P_list[21]}*")
-                embed.add_field(name = f"HP (HitPoint)", value = f"*{P_list[5]} / {P_list[4]}*")
-                embed.add_field(name = f"MP (MagicPoint)", value = f"*{P_list[7]} / {P_list[6]}*")
-                embed.add_field(name = f"STR (Strength)", value = f"*{P_list[8]}*\n`(+{P_list[12]})`")
-                embed.add_field(name = f"DEF (Defense)", value = f"*{P_list[9]}*\n`(+{P_list[13]})`")
-                embed.add_field(name = f"AGI (Agility)", value = f"*{P_list[10]}*\n`(+{P_list[14]})`")
-                embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{P_list[15]}*\n`[次のレベルまで後{P_list[3] - P_list[16]}]`")
-                embed.add_field(name = f"STP (StatusPoint)", value = f"*{P_list[11]}*\n`[+1point -> +1]`")
-                embed.set_thumbnail(url=m_author.avatar_url)
-                await m_ch.send(embed = embed)
+                temp = m_ctt
+                pattern = r"(\^\^st|\^\^status|\^\^st (.+)|\^\^status (.+))$"
+                result = re.search(pattern, temp)
+                if result:
+                    await status.send_bord(client, m_author, m_ch)
 
 
             # 戦闘 #
@@ -359,14 +351,13 @@ async def on_message(message):
                 pattern = r"(\^\^atk|\^\^attack|\^\^atk (.+)|\^\^attack (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    import sub.battle
-                    await sub.battle.cbt_proc(m_author,m_ch)
+                    await battle.cbt_proc(m_author,m_ch)
 
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
-                temp = m_ctt.split("^^")[1]
-                pattern = r"(re|reset|reset (.+)|re (.+))$"
+                temp = m_ctt
+                pattern = r"(\^\^re|\^\^reset|\^\^reset (.+)|\^\^re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
                     battle.reset(m_author, m_ch)
@@ -387,11 +378,15 @@ async def on_message(message):
 
 
             # アイテム系 #
-            if m_ctt.startswith("^^item"):
-                if m_ctt == "^^item":
+            if m_ctt.startswith("^^i"):
+                pattern = r"^\^\^i (.+)$|^\^\^item (.+)$"
+                pattern2 = r"^\^\^i$|^\^\^item$"
+                result = re.search(pattern, m_ctt)
+                result2 = re.search(pattern2, m_ctt)
+                if result:
+                    item.use(client, m_ch, m_author, result.group(2))
+                if result2:
                     item.open(client, m_ch, m_author)
-                if m_ctt.startswith("^^item "):
-                    item.use(client, m_ch, m_author, m_ctt.split("^^item ")[1])
 
 
             # Lv上限解放 #
