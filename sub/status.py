@@ -43,7 +43,7 @@ class Postgres:
 
 pg = Postgres(dsn)
 
-async def send_bord(client, ch, user):
+async def send_bord(client, user, ch):
       p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")
       print(p_data)
       embed = discord.Embed(title = "Player Status Board")
