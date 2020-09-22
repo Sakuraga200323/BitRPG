@@ -39,40 +39,54 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
-ITEMS2 = ("冒険者カード",)
+ITEMS = (
+    "HP回復薬",
+    "MP回復薬",
+    "ドーピング薬",
+    "魔石"
+)
 
+ITEMS2 = (
+    "冒険者カード",
+)
+
+ITEMS_IMG_URL = {
+    "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
+    "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449147321417779/mp_cure_potion.png",
+    "ドーピング薬":"https://media.discordapp.net/attachments/719855399733428244/757464460792168618/doping_potion.png",
+    "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png"
+}
+    
 pg = Postgres(dsn)
 
-loop = asyncio.get_event_loop()
 
 def open(client, ch, user):
     items_dtd = pg.fetchdict(f"select items from player_tb where id = {user.id};")[0]["items"]
     text = ""
     for item, num in items_dtd.items():
-        text += f"{item}(`{num}`)\n"
+        text += f"{item}：`{num}`\n"
     embed = discord.Embed(
         title="Player Inventory Bord",
         description=f"**{text}**"
     )
     loop.create_task(ch.send(embed=embed))
 
-def use(client, ch, user, item):
+async def use(client, ch, user, item):
     if not item in ITEMS+ITEMS2:
-        loop.create_task(ch.send(f"{item}と言うアイテムは存在しません。"))
+        await ch.send(f"{item}と言うアイテムは存在しません。")
         return
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
     item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     print(item_num)
     if item_num <= 0:
-        loop.create_task(ch.send(f"{p_data['name']}　は{item}を所有していません。"))
+        await ch.send(f"{p_data['name']}　は{item}を所有していません。")
         return
     if not item in ITEMS2:
         item_num -= 1
         pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
 
     if item == "HP回復薬":
-        print(p_data["now_hp"], "/", p_data["max_hp"])
+        print(”HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
         if p_data["max_hp"] > p_data["now_hp"]:
             before_hp = p_data["now_hp"]
             p_data["now_hp"] += int(p_data["max_hp"]*0.25)
@@ -80,9 +94,9 @@ def use(client, ch, user, item):
                 p_data["now_hp"] = p_data["max_hp"]
             cured_hp = p_data["now_hp"] - before_hp
             pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {user.id};")
-            loop.create_task(ch.send(f"HP回復薬を使用し、{p_data['name']}　のHPが{cured_hp}回復した！"))
+            item_logem = discord.Embed(description=f"HP回復薬を使用し、{p_data['name']} のHPが{cured_hp}回復した！")
         else:
-            loop.create_task(ch.send(f"HP回復薬を使用したが、{p_data['name']}　のHPは満タンだった。"))
+            item_logem = discord.Embed(description=f"HP回復薬を使用したが、{p_data['name']} のHPは満タンだった")
             
     if item == "MP回復薬":
         pass
@@ -101,4 +115,9 @@ def use(client, ch, user, item):
             embed.add_field(name="Battle",value=f"{cbt_ch.mention}")
         embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
-        loop.create_task(ch.send(embed=embed))
+        await ch.send(embed=embed)
+
+    if item_logem:
+        item_logem.set_thumbnail(url=ITEM_IMG_URL[item])
+        await ch.send(embed=item_logem)
+
