@@ -202,6 +202,7 @@ async def on_message(message):
                         name = msg.content
                         if name == "next":
                             name = "Player" + str(player_num + 1)
+                            name_flag = True
                         else:
                             name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
                             if name_list and name in name_list:
