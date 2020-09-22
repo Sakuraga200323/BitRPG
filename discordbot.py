@@ -428,6 +428,25 @@ async def on_message(message):
             else:
                 ctt = remsg.content
                 try:
+                    if ctt.startswith("activity guild "):
+                        cmd = ctt.split("activity guild ")[1]
+                        cmd_list = [
+                            "announce",
+                            "delete",
+                            "create",
+                            "update"
+                        ]
+                        if not cmd.split(" ")[0] in cmd_list:
+                            await m_ch.send(f"`CommandError:bitrpg has no cmd to {cmd.split(" ")[0]}`")
+                            return
+                        if cmd.split(" ")[0] == "announce":
+                            ctt = cmd.split(" ")[1]
+                            embed = discord.Embed(
+                                title="Announcement!!",
+                                description="<@&719176372773453835>\n" + ctt
+                            )
+                            await client.get_channel(726655141599510648).send(embed=embed)
+
                     if ctt.startswith("psql "):
                         cmd = ctt.split("psql ")[1]
                         pg = Postgres(dsn)
