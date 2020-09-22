@@ -189,7 +189,7 @@ async def cbt_proc(user,ch):
         pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {p_data['id']};")
         if m_data["name"] == "古月":
             log1_1 += str(dmg2/2)
-            log11_1 += f"×2の{t}"
+            log1_1 += f"×2の{t}"
         else:
             log1_1 += str(dmg2)
             log1_1 += f"の{t}"
@@ -334,6 +334,7 @@ async def reset(user, ch):
 
     if not ch.id in sub.box.cbt_ch:
         pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id};")
+        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
         await ch.send("【報告】処理中のなんらかのバグによるデータの矛盾を発見しました。強制的に戦闘解除、およびHPの回復を行いました。")
         return
 
