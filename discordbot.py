@@ -336,9 +336,9 @@ async def on_message(message):
 
 
             # ステータスの表示 #
-            if m_ctt in ("^^st","^^status"):
+            if m_ctt.startswith("^^st"):
                 temp = m_ctt
-                pattern = r"(\^\^st|\^\^status|\^\^st (.+)|\^\^status (.+))$"
+                pattern = r"\^\^(st|^status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
                 if result:
                     await status.send_bord(client, m_author, m_ch)
@@ -347,7 +347,7 @@ async def on_message(message):
             # 戦闘 #
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 temp = m_ctt
-                pattern = r"(\^\^atk|\^\^attack|\^\^atk (.+)|\^\^attack (.+))$"
+                pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
                 if result:
                     await battle.cbt_proc(m_author,m_ch)
@@ -356,7 +356,7 @@ async def on_message(message):
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
                 temp = m_ctt
-                pattern = r"(\^\^re|\^\^reset|\^\^reset (.+)|\^\^re (.+))$"
+                pattern = r"\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
                     await battle.reset(m_author, m_ch)
@@ -378,7 +378,7 @@ async def on_message(message):
 
             # アイテム系 #
             if m_ctt.startswith("^^i"):
-                pattern = r"^\^\^i (.+)$|^\^\^item (.+)$"
+                pattern = r"\^\^(i|item) (.+)"
                 pattern2 = r"^\^\^i$|^\^\^item$"
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
