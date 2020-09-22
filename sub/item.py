@@ -118,6 +118,6 @@ async def use(client, ch, user, item):
         await ch.send(embed=embed)
 
     if item_logem:
-        item_logem.set_thumbnail(url=ITEM_IMG_URL[item])
+        item_logem.set_thumbnail(url=ITEMS_IMG_URL[item])
         await ch.send(embed=item_logem)
 
