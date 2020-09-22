@@ -44,7 +44,8 @@ class Postgres:
 pg = Postgres(dsn)
 
 async def send_bord(client, ch, user):
-      p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
+      p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")
+      print(p_data)
       embed = discord.Embed(title = "Player Status Board")
       embed.add_field(name = f"Player", value = f"{p_data['name']}({user.mention})", inline = False)
       embed.add_field(name = f"Sex", value = f"{p_data['sex']}", inline = False)
