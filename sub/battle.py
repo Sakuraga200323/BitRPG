@@ -322,7 +322,7 @@ def reset(user, ch):
         rerturn
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
-    if not p_data["cbt_ch_id"]:
+    if not p_data["cbt_ch_id"] or (p_data["cbt_ch_id"] == ch.id and not ch.id in sub.box.cbt_ch):
         pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {user.id}")
         loop.create_task(ch.send(f"HPを回復しました。"))
         return
@@ -337,6 +337,7 @@ def reset(user, ch):
         loop.create_task(ch.send(
             "【報告】処理中になんらかのバグが発生し、プレイヤーのデータベースに戦闘中チャンネルが登録されているにも関わらず、戦闘が行われているチャンネルのリストの中にチャンネルが存在しませんでした。"
             + "対処法としてプレイヤー側の登録情報を強制的に変更しました。対処が正常に作動していれば、戦闘は解除されています。"
+            + ""
         ))
         pg.execute(f"update player_tb set cbt_ch_id = Null where id = {i};")
     for i in sub.box.cbt_ch[ch.id]:
