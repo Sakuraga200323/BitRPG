@@ -437,7 +437,7 @@ async def on_message(message):
                             "update"
                         ]
                         if not cmd.split(" ")[0] in cmd_list:
-                            await m_ch.send(f"`CommandError:bitrpg has no cmd to {cmd.split(" ")[0]}`")
+                            await m_ch.send(f"`CommandError:bitrpg has no cmd to {cmd.split(' ')[0]}`")
                             return
                         if cmd.split(" ")[0] == "announce":
                             ctt = cmd.split(" ")[1]
