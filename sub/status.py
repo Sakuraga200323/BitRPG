@@ -61,13 +61,14 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"AGI (Agility)", value = f"*{p_data['agi'] + p_data['agi_stp']}*\n`(+{p_data['agi_stp']})`")
     embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data['stp']}*\n")
     def bar(x,y):
-        return round(x/y*100)*"■"
+        return round(x/y*32)*"■"
     if not all_stp <= 0:
-        s = f"*STR*：`{bar(p_data['str_stp'], all_stp)}`"
-        d = f"*DEF*：`{bar(p_data['def_stp'], all_stp)}`"
-        a = f"*AGI*：`{bar(p_data['agi_stp'], all_stp)}`"
-        n = f"*REM*：`{bar(p_data['stp'], all_stp)}`"
-        embed.add_field(name = f"STPBalance (Max■×100, STPOnly)", value = f"{s}\n{d}\n{a}\n{n}")
+        s = f"*STR*：`{bar(p_data['str_stp'], all_stp)}`";print(s)
+        d = f"*DEF*：`{bar(p_data['def_stp'], all_stp)}`";print(d)
+        a = f"*AGI*：`{bar(p_data['agi_stp'], all_stp)}`";print(a)
+        r = f"*REM*：`{bar(p_data['stp'], all_stp)}`";print(r)
+                    
+        embed.add_field(name = f"STPBalance (Max■×100, STPOnly)", value = f"{s}\n{d}\n{a}\n{r}", inline = False)
     embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data['all_exp']}*\n`[次のレベルまで後{p_data['lv'] - p_data['now_exp']}]`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed = embed)
