@@ -86,7 +86,7 @@ async def use(client, ch, user, item):
         pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
 
     if item == "HP回復薬":
-        print(”HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
+        print("HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
         if p_data["max_hp"] > p_data["now_hp"]:
             before_hp = p_data["now_hp"]
             p_data["now_hp"] += int(p_data["max_hp"]*0.25)
