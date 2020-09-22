@@ -40,6 +40,7 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
+    
 
 pg = Postgres(dsn)
 
