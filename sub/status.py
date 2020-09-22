@@ -59,4 +59,4 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data['all_exp']}*\n`[次のレベルまで後{p_data['lv'] - p_data['now_exp']}]`")
     embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data['stp']}*\n")
     embed.set_thumbnail(url=user.avatar_url)
-    await m_ch.send(embed = embed)
+    await ch.send(embed = embed)
