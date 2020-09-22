@@ -60,7 +60,7 @@ ITEMS_IMG_URL = {
 pg = Postgres(dsn)
 
 
-def open(client, ch, user):
+async def open(client, ch, user):
     items_dtd = pg.fetchdict(f"select items from player_tb where id = {user.id};")[0]["items"]
     text = ""
     for item, num in items_dtd.items():
@@ -69,7 +69,7 @@ def open(client, ch, user):
         title="Player Inventory Bord",
         description=f"**{text}**"
     )
-    loop.create_task(ch.send(embed=embed))
+    await ch.send(embed=embed)
 
 async def use(client, ch, user, item):
     if not item in ITEMS+ITEMS2:
