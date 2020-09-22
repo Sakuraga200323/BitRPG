@@ -384,9 +384,9 @@ async def on_message(message):
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
                 if result:
-                    item.use(client, m_ch, m_author, result.group(2))
+                    await item.use(client, m_ch, m_author, result.group(2))
                 if result2:
-                    item.open(client, m_ch, m_author)
+                    await item.open(client, m_ch, m_author)
 
 
             # Lv上限解放 #
