@@ -362,6 +362,7 @@ async def reset(user, ch):
         description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
         color=color
     )
-    embed.set_image(url=m_data["img_url"])
+    if m_data["img_url"]:
+        embed.set_image(url=m_data["img_url"])
     await ch.send(embed = embed)
                     
