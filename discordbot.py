@@ -12,7 +12,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, item, battle, help, stp, kaihou, rank
+from sub import box, item, battle, help, stp, kaihou, rank, status
 
 
 
