@@ -325,8 +325,7 @@ async def on_message(message):
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
                         + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"
-                    )
-                ))
+                )))
 
 
             # ヘルプ #
@@ -360,7 +359,7 @@ async def on_message(message):
                 pattern = r"(\^\^re|\^\^reset|\^\^reset (.+)|\^\^re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    battle.reset(m_author, m_ch)
+                    await battle.reset(m_author, m_ch)
 
 
             # STPの振り分け #
