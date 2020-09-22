@@ -84,6 +84,8 @@ async def use(client, ch, user, item):
     if not item in ITEMS2:
         item_num -= 1
         pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
+                      
+    item_logem = None
 
     if item == "HP回復薬":
         print("HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
