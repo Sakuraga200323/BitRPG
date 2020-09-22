@@ -428,8 +428,8 @@ async def on_message(message):
             else:
                 ctt = remsg.content
                 try:
-                    if ctt.startswith("activity guild "):
-                        cmd = ctt.split("activity guild ")[1]
+                    if ctt.startswith("active guild "):
+                        cmd = ctt.split("active guild ")[1]
                         cmd_list = [
                             "announce",
                             "delete",
