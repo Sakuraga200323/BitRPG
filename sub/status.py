@@ -54,7 +54,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"MP (MagicPoint)", value = f"*{p_data['now_mp']} / {p_data['max_mp']}*")
     embed.add_field(name = f"STR (Strength)", value = f"*{p_data['str'] + p_data['str_stp']}*\n`(+{p_data['str_stp']})`")
     embed.add_field(name = f"DEF (Defense)", value = f"*{p_data['def'] + p_data['def_stp']}*\n`(+{p_data['def_stp']})`")
-    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data['agi'] + p_data['agir_stp']}*\n`(+{p_data['agi_stp']})`")
+    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data['agi'] + p_data['agi_stp']}*\n`(+{p_data['agi_stp']})`")
     embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data['all_exp']}*\n`[次のレベルまで後{p_data['lv'] - p_data['now_exp']}]`")
     embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data['stp']}*\n")
     embed.set_thumbnail(url=m_author.avatar_url)
