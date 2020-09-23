@@ -323,9 +323,10 @@ async def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
 
-    if not p_data["cbt_ch_id"]:
+    if not p_data["cbt_ch_id"] or (p_data["cbt_ch_id"] and not p_data["cbt_ch_id"] in sub.box.cbt_ch):
         pg.execute(f"update player_tb set now_hp = {p_data['max_hp']} where id = {user.id}")
         await ch.send(f"【報告】HPを回復しました。")
+        return
 
 
 
