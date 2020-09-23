@@ -105,13 +105,13 @@ async def use(client, ch, user, item):
 
     if item == "ドーピング薬":
         dmg = round(p_data["now_hp"]*0.2)
-        if p_data["now_hp"] - dmg <= 0:
+        if p_data["now_hp"]*0.2 <= 0:
             item_logem = discord.Embed(description=f"ドーピング薬を使用したが{p_data['name']} のHPは限界だ！体が拒絶して効果が出ない！", color=discord.Color.red())
-        else:
-            p_data["now_hp"] -= dmg
-            num = round(p_data["str"] * 1.1)
-            pg.execute(f"update player_tb set str = {num},def = {num},agi = {num}, now_hp = now_hp - {dmg} where id = {user.id};")
-            item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} のSTR、DEF、AGIが10%上昇、{dmg}のダメージをうけた!")
+            return
+        p_data["now_hp"] -= dmg
+        num = round(p_data["str"] * 1.1)
+        pg.execute(f"update player_tb set str = {num},def = {num},agi = {num}, now_hp = now_hp - {dmg} where id = {user.id};")
+        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} のSTR、DEF、AGIが10%上昇、{dmg}のダメージをうけた!")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
