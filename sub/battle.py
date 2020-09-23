@@ -329,7 +329,7 @@ async def reset(user, ch):
 
 
     if not p_data["cbt_ch_id"] == ch.id:
-        await ch.send(f"【警告】{p_data['name']} は{ch.mention}で戦闘していません。"
+        await ch.send(f"【警告】{p_data['name']} は{ch.mention}で戦闘していません。")
         if p_data["cbt_ch_id"] in sub.box.cbt_ch:
             pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id};")
             pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
