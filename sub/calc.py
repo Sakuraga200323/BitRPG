@@ -7,5 +7,5 @@ def dmg(STR,DEF):
     value = random.randint(80,120)
     dmg = ((value*STR) - (DEF*50))/100
     if dmg <= 0:
-        dmg = 
+        dmg = 0
     return dmg
