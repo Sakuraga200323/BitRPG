@@ -104,7 +104,7 @@ async def use(client, ch, user, item):
         pass
 
     if item == "ドーピング薬":
-        dmg = round(p_data["now_hp"]*0.2)
+        dmg = round(p_data["max_hp"]*0.2)
         if p_data["now_hp"]*0.2 <= 0:
             item_logem = discord.Embed(description=f"ドーピング薬を使用したが{p_data['name']} のHPは限界だ！体が拒絶して効果が出ない！", color=discord.Color.red())
             return
