@@ -110,7 +110,7 @@ async def use(client, ch, user, item):
         else:
             p_data["now_hp"] -= dmg
             num = round(p_data["str"] * 1.1)
-            pg.execute(f"update player_tb set str = {num},def = {num},agi = {num}, hp = hp - {dmg} where id = {user.id};")
+            pg.execute(f"update player_tb set str = {num},def = {num},agi = {num}, now_hp = now_hp - {dmg} where id = {user.id};")
             item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} のSTR、DEF、AGIが10%上昇、{dmg}のダメージをうけた!")
 
     if item == "冒険者カード":
