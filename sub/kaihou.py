@@ -76,7 +76,7 @@ async def kaihou_proc(client, ch, user):
     p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
     item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     print(item_num)
-    if item_num <= 500:
+    if item_num < 500:
         husoku = 500 - item_num 
         await ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}")
         return
