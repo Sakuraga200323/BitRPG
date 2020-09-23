@@ -104,7 +104,8 @@ async def use(client, ch, user, item):
         pass
 
     if item == "ドーピング薬":
-        pass
+        num = p_data["str"] * 1.1
+        pg.execute(f"update player_tb set str = {num},def = {num},agi = {num} where id = {user.id};")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
