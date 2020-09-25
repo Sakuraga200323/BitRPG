@@ -63,6 +63,12 @@
 				<td>通常敵の500%の性能</td>
 				<td>獲得可能経験値が通常敵の10000%</td>
 			</tr>
+			<tr>
+				<td>UltraRare</td>
+				<td>0.1%をひきあてる</td>
+				<td>なし</td>
+				<td>獲得可能経験値が通常敵の10000%</td>
+			</tr>		
 		</tbody>
 	</table>
  </details>
