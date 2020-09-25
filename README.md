@@ -28,6 +28,6 @@
 |  **\^\^gentotsu**  |  石を消費してレベル上限を解放。  |
 # [各システムの解説](#four)
 * [ ] Item-A
-* [x] Item-B
+* [ ] Item-B
     * [ ] Item-B-1
     * [ ] Item-B-2-a
