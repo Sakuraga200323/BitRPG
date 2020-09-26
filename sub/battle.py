@@ -14,6 +14,7 @@ import re
 import traceback
 import sub.box
 import sub.calc
+from sub import buff
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -215,6 +216,21 @@ async def cbt_proc(user,ch):
                 log2_1 += f'\n{m_data["name"]} を倒した！！'
                 m_data["lv"] += 1
 
+    log1_2 = f"```diff\n{log1_1}```"
+    log2_2 = f"```diff\n{log2_1}```"
+    battle_log = f"{log1_2}{log2_2}"
+
+
+    # バフのターンとかの確認 #
+    buff_text = ""
+    if user.id in buff.doping:  # ドーピング薬
+        buff.doping[user.id][0] -= 1
+        if buff.doping[user.id][0] <= 0:
+            p_data["now_hp"] -= buff.doping[user.id][1]
+            buff_text += f"- {p_data['name']} はドーピング薬の反動を受けた！{buff.doping[user.id][1]}のダメージ!\n"
+    buff_text += f"{p_data['name']} のHP[{p_data["now_hp"]}/{p_data["max_hp"]}]"
+    buff_log = f"```diff\n{buff_text}```"
+    battle_log += buff_log
 
     embed = em = item_em = None
     if first_moblv < m_data["lv"]:
@@ -300,11 +316,8 @@ async def cbt_proc(user,ch):
 
         if ch.id in sub.box.cbt_ch:
             del sub.box.cbt_ch[ch.id]
-
-
-    log1_2 = f"```diff\n{log1_1}```"
-    log2_2 = f"```diff\n{log2_1}```"
-    battle_log = f"{log1_2}{log2_2}"
+    
+    
     await ch.send(content = battle_log,embed = embed)
     if em:
         await ch.send(embed = em)
