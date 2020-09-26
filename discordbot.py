@@ -122,7 +122,7 @@ async def loop():
     MEM = psutil.virtual_memory().percent
     await client.change_presence(activity=discord.Game(name=f"^^url|Server：{len(client.guilds)}"))
     # print( psutil.virtual_memory().available/1000/1024/1024, "/", psutil.virtual_memory().total /1000/1024/1024, f"GB ({MEM}%)" )
-    print("Memory|","■"*(round(MEM)/10))
+    print("Memory|","■"*(round(MEM/10))
 
 
 @client.event
@@ -192,7 +192,7 @@ async def on_message(message):
                     await m_ch.send(
                         f"{m_author.mention}さんの冒険者登録を開始。"
                         +"\n登録名を1分以内に送信してください。`next`と送信するか、1分経過すると、定型名で登録されます。\n"
-                        +"`あとから設定し直すことが可能です。\n20文字以内。`"
+                        +"`後から一度だけ変更可能です。変更は公式鯖(^^url)にて申請を行ってください。それ以降も変更可能ですが二度目からはう有料となります。\n20文字以内。`"
                     )
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check)
