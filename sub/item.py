@@ -13,6 +13,7 @@ import random
 import re
 import traceback
 import sub.box, sub.calc
+from sub import buff
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -105,13 +106,11 @@ async def use(client, ch, user, item):
 
     if item == "ドーピング薬":
         dmg = round(p_data["max_hp"]*0.2)
-        if p_data["now_hp"]*0.2 <= 0:
-            item_logem = discord.Embed(description=f"ドーピング薬を使用したが{p_data['name']} のHPは限界だ！体が拒絶して効果が出ない！", color=discord.Color.red())
-            return
-        p_data["now_hp"] -= dmg
-        num = round(p_data["str"] * 1.1)
-        pg.execute(f"update player_tb set str = {num},def = {num},agi = {num}, now_hp = now_hp - {dmg} where id = {user.id};")
-        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} のSTR、DEF、AGIが10%上昇、{dmg}のダメージをうけた!")
+        pg.execute(f"update player_tb set now_hp = now_hp - {dmg} where id = {user.id};")
+        if not user.id in buff:
+            buff[user.id] = [3, 0]
+        buff[user.id][1] += dmg
+        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 3ターンの間攻撃力が10%上昇!")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
