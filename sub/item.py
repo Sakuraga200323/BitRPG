@@ -108,9 +108,9 @@ async def use(client, ch, user, item):
         dmg = round(p_data["max_hp"]*0.2)
         pg.execute(f"update player_tb set now_hp = now_hp - {dmg} where id = {user.id};")
         if not user.id in buff:
-            buff[user.id] = [3, 0]
-        buff[user.id][1] += dmg
-        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 3ターンの間攻撃力が10%上昇!")
+            buff.doping[user.id] = [3, 0]
+        buff.doping[user.id][1] += dmg
+        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} さ攻撃力が10%上昇!")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
