@@ -122,7 +122,7 @@ async def loop():
     MEM = psutil.virtual_memory().percent
     await client.change_presence(activity=discord.Game(name=f"^^url|Server：{len(client.guilds)}"))
     # print( psutil.virtual_memory().available/1000/1024/1024, "/", psutil.virtual_memory().total /1000/1024/1024, f"GB ({MEM}%)" )
-    print("Memory|","■"*(MEM/10))
+    print("Memory|","■"*(round(MEM)/10))
 
 
 @client.event
