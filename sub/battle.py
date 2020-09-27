@@ -230,7 +230,7 @@ async def cbt_proc(user,ch):
         buff.doping[user.id][0] -= 1
         if buff.doping[user.id][0] <= 0:
             p_data["now_hp"] -= buff.doping[user.id][1]
-            delet buff.doping[user.id]
+            del buff.doping[user.id]
             buff_text += f"- {p_data['name']} はドーピング薬の反動を受けた！{buff.doping[user.id][1]}のダメージ!\n"
         buff_text += f"{p_data['name']} のHP[{p_data['now_hp']}/{p_data['max_hp']}]"
         buff_log = f"```diff\n{buff_text}```"
