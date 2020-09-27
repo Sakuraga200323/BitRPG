@@ -110,7 +110,10 @@ async def use(client, ch, user, item):
         if not user.id in buff.doping:
             buff.doping[user.id] = [3, 0]
         buff.doping[user.id][1] += dmg
-        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} さ攻撃力が10%上昇!")
+        if random.random() >= 0.9999:
+            item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} さ攻撃力が10%上昇したんべ!")
+            return
+        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 攻撃力が10%上昇!")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
