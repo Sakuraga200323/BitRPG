@@ -459,9 +459,10 @@ async def on_message(message):
                         else:
                             await m_ch.send(f"```py\n{result}```")
 
-                    if ctt == ("exit"):
+                    if ctt == ("active bot exit"):
                         await m_ch.send("`Exit!`")
-                        sys.exit()
+                        await client.logout()
+                        sys.exit(0)
                 finally:
                     await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                     await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
