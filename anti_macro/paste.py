@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from anti_macro import rotateR
+from anti_macro import rotate
 
 def paste(fg, bg, mask_flg=True, random_flg=True):
     """
@@ -15,7 +15,7 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     # Load two images
     img1 = bg.copy()
     if random_flg:# ランダム回転
-        img2, _ = rotateR(fg, [-90, 90], 1.0)
+        img2, _ = rotate.rotateR(fg, [-90, 90], 1.0)
     else:
         img2 = fg.copy()
 
