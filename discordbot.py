@@ -394,7 +394,7 @@ async def on_message(message):
     if not m_author.bot:
         if m_ctt == '^^report':
             embed = discord.Embed(
-                title = '<Safe> -YUI- will help you!!'
+                title = '<Safe> -YUI- will help you!!',
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
                     +'\nレポート確認開始! 今から5分間待つから、その間にレポートをできるだけ詳しく書いて送信してね。'
@@ -425,7 +425,7 @@ async def on_message(message):
 
         if m_ctt == '^^repair':
             embed = discord.Embed(
-                title = '<Safe> -YUI- will help you!!'
+                title = '<Safe> -YUI- will help you!!',
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
                     +'\n私が来たからにはもう大丈夫!'
