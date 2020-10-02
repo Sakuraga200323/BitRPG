@@ -22,7 +22,7 @@ async def get_img(c):
         zip(
             [ i.attachments[0].url for i in temp],[ i.content for i in temp]))
     front_url = random.choice(imgs_front)
-    back_url = random.choice(imgs_back.keys())
+    back_url = random.choice(list(imgs_back.keys()))
     num =  imgs_back[back_url]
     # 画像をリクエストする
     def get_from_url(url):
