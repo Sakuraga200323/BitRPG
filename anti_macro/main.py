@@ -10,7 +10,8 @@ import discord
 client = None
 
 def get_img(client):
-    global client;client = client
+    global client
+    client = client
     channel = client.get_channel(761521730035646464)
     channel2 = client.get_channel(761522350248165486)
     imgs_front = [ i.attachments[0].url for i in channel.history()]
