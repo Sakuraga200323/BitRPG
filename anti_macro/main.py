@@ -16,7 +16,7 @@ def get_img(client):
     imgs_front = [ i.attachments[0].url for i in channel.history()]
     imgs_back = dict(
         zip(
-            [ i.attachments[0].url for i in channel2.history()],[ i.content for i in channel2.history()])
+            [ i.attachments[0].url for i in channel2.history()],[ i.content for i in channel2.history()]))
     front_url = random.choice(imgs_front)
     back_url = random.choice(imgs_front)
     num =  imgs_front[back_url]
