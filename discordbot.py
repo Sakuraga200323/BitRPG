@@ -327,7 +327,7 @@ async def on_message(message):
                         return 1
                     try:
                         answer = await client.wait_for('message', timeout=60, check=check)
-                    execute asyncio.TimeoutError:
+                    except asyncio.TimeoutError:
                         if num and not m_author.id in doubt_count:
                             doubt_count[m_authir.id] = 0
                         doubt_count[m_author.id] += 1
