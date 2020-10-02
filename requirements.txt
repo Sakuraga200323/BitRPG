@@ -3,3 +3,4 @@ psutil
 psycopg2
 opencv-python
 requests
+matplotlib
