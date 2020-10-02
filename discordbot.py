@@ -14,12 +14,16 @@ import psycopg2, psycopg2.extras
 import traceback
 
 from sub import box, item, battle, help, stp, kaihou, rank, status
+from anti_macro import main
 
 
 
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 cmd_lock = {}
+macro_checking = []
+doubt_count = {}
+
 
 class Postgres:
     def __init__(self, dsn):
@@ -150,7 +154,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cmd_lock
+    global cmd_lock, macro_checking, doubt_count
 
     m_ctt = message.content
     m_em = message.embeds
@@ -166,7 +170,7 @@ async def on_message(message):
                 if "表示順を" in desc:
                     id = desc.split("<@")[1].split(">")[0]
                     
-    if m_ctt.startswith("^^"):
+    if m_ctt.startswith("^^") and not m_author.id in macro_checking:
         if cmd_lock.get(m_ch.id) is True:
             await m_ch.send("【警告】処理が終了するまで待機してください。")
             return
@@ -308,6 +312,41 @@ async def on_message(message):
 
 
         try:
+            try:
+                check = random.random() >= 0.99
+            finally:
+                if check:
+                    macro_checking.append(m_author.id)
+                    img, num = main(client)
+                    await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を1分以内に**半角**で送信してください。', file=img)
+                    def check(m):
+                        if not m.author.id == id or m.channel.id != m_ch.id:
+                            return 0
+                        if not m.content in ['0','1','2','3','4','5','6','7','8','9']:
+                            return 0
+                        return 1
+                    try:
+                        answer = await client.wait_for('message', timeout=60, check=check)
+                    execute asyncio.TimeoutError:
+                        if num and not m_author.id in doubt_count:
+                            doubt_count[m_authir.id] = 0
+                        doubt_count[m_author.id] += 1
+                        await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                        if doubt_count[m_authir.id] >= 5:
+                            await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                            pg.execute(f'delete from player_tb where id = {m_author.id};')
+                        if not num != str(answer.content):
+                            if num and not m_author.id in doubt_count:
+                                doubt_count[m_authir.id] = 0
+                            doubt_count[m_author.id] += 1
+                            await m_ch.send(f'不正解!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                            if doubt_count[m_authir.id] >= 5:
+                                await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                                pg.execute(f'delete from player_tb where id = {m_author.id};')
+                                
+                        
+
+
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
 
 
