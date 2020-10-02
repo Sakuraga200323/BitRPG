@@ -158,6 +158,7 @@ async def on_message(message):
     m_ch = message.channel
     m_guild = message.guild
     m_author = message.author
+
     if m_author.id == 302050872383242240:
         if message.embeds:
             if message.embeds[0].description:
@@ -390,7 +391,82 @@ async def on_message(message):
             cmd_lock[m_ch.id] = False
 
 
+    if not m_author.bot:
+        if m_ctt == '^^report':
+            embed = discord.Embed(
+                title = '<Safe> -YUI- will help you!!'
+                description = (
+                    'こんにちは、開発者代理の**天乃 結**です!'
+                    +'\nレポート確認開始! 今から5分間待つから、その間にレポートをできるだけ詳しく書いて送信してね。'
+                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳​˙* )'
+                    +'\nでもその場合はぜっったいにメッセージを消しちゃダメだぞ!　結とのお約束!'))
+            # embed.set_footer(text='待機中…')
+            await m_ch.send(embed=embed)
+            def check(m):
+                if m.author.id != m_author.id:
+                    return 0
+                if m.channel.id != m_ch.id:
+                    return 0
+                return 1
+            try:
+                re_m = await client.wait_for('message', timeout=60, check=check)
+            except asyncio.TimeoutError:
+                await m_ch.send('これ以上待てないよォ…\n5分以内で終わらないくらい長い時は、先にまとめてかららコピペして送信するといいよ!')
+            else:
+                ans = re_m.content
+                atch = None
+                if re_m.attachments:
+                    atch = re_m.attachments
+                re_em = discord.Embed(description=ans)
+                re.set_author(name=m_author)
+                await client.get_channel(761516423959805972).send(embed=re_em, file=atch)
+                await m_ch.send('レポートありがとう!無事届いたよ!')
 
+
+        if m_ctt == '^^repair':
+            embed = discord.Embed(
+                title = '<Safe> -YUI- will help you!!'
+                description = (
+                    'こんにちは、開発者代理の**天乃 結**です!'
+                    +'\n私が来たからにはもう大丈夫!'
+                    +'\n大体のバグを強制的に治しちゃうよ!'
+                    +'\n診断していくから`y`か`n`で答えてね!'))
+            await m_ch.send(embed=embed)
+            def check(m):
+                if m.author.id != m_author.id:
+                    return 0
+                if m.channel.id != m_ch.id:
+                    return 0
+                if not m.content in ('y','n'):
+                    return 0
+                return 1
+            if m_ch.id in cmd_lock:
+                em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
+                await m_ch.send(em=em)
+                try:
+                    re_m = await client.wait_for('message', timeout=60, check=check)
+                except asyncio.TimeoutError:
+                    await m_ch.send('答えないんなら次行くね?')
+                else:
+                    ans = re_m.content
+                    if ans == 'y':
+                        cmd_lock[m_ch.id] = False
+            """
+            if m_author.id in cbt_user:
+                em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
+                await m_ch.send(em=em)
+                try:
+                    re_m = await client.wait_for('message', timeout=60, check=check)
+                except asyncio.TimeoutError:
+                    await m_ch.send('答えないんなら次行くね?')
+                else:
+                    ans = re_m.content
+                    if ans == 'y':
+                        cmd_lock[m_ch.id] = False
+            """
+            embed = discord.Embed(
+                description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
+            await m_ch.send(embed=embed)
 
 
     if m_ctt == "SystemCall":
