@@ -1,5 +1,5 @@
 import cv2
-from paste import paste
+from sub import paste.paste
 import io
 import tempfile
 import requests
@@ -31,7 +31,7 @@ def get_img(c):
             fp.file.seek(0)
             img = cv2.imread(fp.name)
         return img
-    img = paste(
+    img = padte.paste(
         get_from_url(front_url),# 前景
         get_from_url(back_url),# 背景
         False, False # 縁フラグ、回転・移動フラグ
