@@ -16,7 +16,7 @@ async def get_img(c):
     channel2 = client.get_channel(761522350248165486)
     temp = await channel.history().flatten()
     imgs_front = [ i.attachments[0].url for i in temp]
-    temp = await channel2.history.flatten()
+    temp = await channel2.history().flatten()
     imgs_back = dict(
         zip(
             [ i.attachments[0].url for i in temp],[ i.content for i in temp]))
