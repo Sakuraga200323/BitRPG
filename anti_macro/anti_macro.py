@@ -4,6 +4,7 @@ import io
 import tempfile
 import requests
 from matplotlib import pyplot as plt
+import random
 
 
 import discord
