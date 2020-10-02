@@ -126,9 +126,7 @@ async def on_ready():
 @tasks.loop(seconds=10)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    await client.change_presence(activity=discord.Game(name=f"^^url|Server：{len(client.guilds)}"))
-    # print( psutil.virtual_memory().available/1000/1024/1024, "/", psutil.virtual_memory().total /1000/1024/1024, f"GB ({MEM}%)" )
-    print("Memory|","■"*(round(MEM/10)))
+    await client.change_presence(activity=discord.Game(name=f"^^url￤Server：{len(client.guilds)}"))
 
 
 @client.event
@@ -172,7 +170,7 @@ async def on_message(message):
                     
     if m_ctt.startswith("^^") and not m_author.id in macro_checking:
         if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("【警告】処理が終了するまで待機してください。")
+            await m_ch.send("【警告】処理が終了するまで待機してください。\n`コマンドロックが解除されない場合は^^repairをお試しください。`")
             return
         cmd_lock[m_ch.id] = True
         pg = Postgres(dsn)
