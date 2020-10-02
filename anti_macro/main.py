@@ -1,5 +1,5 @@
 import cv2
-from anti_macro import paste.paste
+from anti_macro import paste
 import io
 import tempfile
 import requests
