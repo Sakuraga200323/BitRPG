@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 import discord
 client = None
 
-def get_img(c):
+async def get_img(c):
     global client
     client = c
     channel = client.get_channel(761521730035646464)
