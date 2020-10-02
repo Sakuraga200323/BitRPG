@@ -17,7 +17,6 @@ from sub import box, item, battle, help, stp, kaihou, rank, status
 from anti_macro import anti_macro
 
 
-
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 cmd_lock = {}
