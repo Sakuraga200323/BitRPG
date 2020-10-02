@@ -13,7 +13,7 @@ def get_img(client):
     global client;client = client
     channel = client.get_channel(761521730035646464)
     channel2 = client.get_channel(761522350248165486)
-    imgs_front = [ i.attachments[0].url channel.history()]
+    imgs_front = [ i.attachments[0].url for i in channel.history()]
     imgs_back = dict(
         zip(
             [ i.attachments[0].url for i in channel2.history()],[ i.content for i in channel2.history()])
