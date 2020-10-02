@@ -167,6 +167,10 @@ async def on_message(message):
                 desc = message.embeds[0].description
                 if "表示順を" in desc:
                     id = desc.split("<@")[1].split(">")[0]
+
+    if client.get_channel(761571389345759232).name=='true':
+        if not m_author.id in admin_list:
+            await m_ch.send('現在開発作業中につき、コマンドの使用を制限しています。')
                     
     if m_ctt.startswith("^^") and not m_author.id in macro_checking:
         if cmd_lock.get(m_ch.id) is True:
