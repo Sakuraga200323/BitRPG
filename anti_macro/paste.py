@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from rotate import rotateR
+from anti_macro import rotateR
 
 def paste(fg, bg, mask_flg=True, random_flg=True):
     """
