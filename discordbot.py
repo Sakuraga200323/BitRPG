@@ -14,7 +14,7 @@ import psycopg2, psycopg2.extras
 import traceback
 
 from sub import box, item, battle, help, stp, kaihou, rank, status
-from anti_macro import main
+from anti_macro import anti_macro
 
 
 
@@ -317,7 +317,7 @@ async def on_message(message):
             finally:
                 if check:
                     macro_checking.append(m_author.id)
-                    img, num = main(client)
+                    img, num = anti.macro.get_img(client)
                     await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を1分以内に**半角**で送信してください。', file=img)
                     def check(m):
                         if not m.author.id == id or m.channel.id != m_ch.id:
