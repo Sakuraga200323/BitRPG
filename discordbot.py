@@ -313,7 +313,7 @@ async def on_message(message):
 
         try:
             try:
-                check = random.random() >= 0.99
+                check = random.random() >= 0.00
             finally:
                 if check:
                     macro_checking.append(m_author.id)
