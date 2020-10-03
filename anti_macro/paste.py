@@ -32,6 +32,7 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     roi = img1[x:x + w2, y:y + h2]
 
     # Now create a mask of logo and create its inverse mask also
+    print(type(img2), img2)
     mask = img2[:, :, 3]
     ret, mask_inv = cv2.threshold(
         cv2.bitwise_not(mask),
