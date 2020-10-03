@@ -33,7 +33,7 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
 
     # Now create a mask of logo and create its inverse mask also
     print(type(img2), img2)
-    mask = img2[:, :, 3]
+    mask = img2[:, :, 2]
     ret, mask_inv = cv2.threshold(
         cv2.bitwise_not(mask),
         200, 255, cv2.THRESH_BINARY
