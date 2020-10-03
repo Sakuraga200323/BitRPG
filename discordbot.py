@@ -321,6 +321,7 @@ async def on_message(message):
                 if check:
                     macro_checking.append(m_author.id)
                     img, num = await anti_macro.get_img(client)
+                    print(type(img2))
                     await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を1分以内に**半角**で送信してください。', file=img)
                     def check(m):
                         if not m.author.id == id or m.channel.id != m_ch.id:
@@ -334,6 +335,7 @@ async def on_message(message):
                         if num and not m_author.id in doubt_count:
                             doubt_count[m_authir.id] = 0
                         doubt_count[m_author.id] += 1
+                        
                         await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
                         if doubt_count[m_authir.id] >= 5:
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
