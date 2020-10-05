@@ -72,7 +72,7 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
 
     # Now create a mask of logo and create its inverse mask also
     print(type(img2), img2)
-    mask = img2[:, :, ]
+    mask = img2[:, :, 3]
     ret, mask_inv = cv2.threshold(
         cv2.bitwise_not(mask),
         200, 255, cv2.THRESH_BINARY
@@ -102,7 +102,7 @@ async def get_img(c):
     num = random.randint(0,9)
     img_front = cv2.imread(f"anti_macro/num_img/front/front{random.randint(1,10)}.png",-1)
     img_num = cv2.imread(f"anti_macro/num_img/num/{num}.png",-1)
-    print(img_front.shape(), img_num.shape())
+    print(type(img_front0, type(img_num))
     # 画像をリクエストする
     img = paste(
         img_front,# 前景
