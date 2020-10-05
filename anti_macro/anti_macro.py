@@ -20,6 +20,6 @@ async def get_img(c):
     img = paste.paste(
         img_front,# 前景
         img_num,# 背景
-        False, true # 縁フラグ、回転・移動フラグ
+        False, True # 縁フラグ、回転・移動フラグ
     )
     return img, num
