@@ -1,5 +1,6 @@
 import ast
 import asyncio
+import cv2
 from datetime import datetime, timedelta, timezone
 import math
 import os
@@ -168,7 +169,7 @@ async def on_message(message):
                     id = desc.split("<@")[1].split(">")[0]
 
                     
-    if m_ctt.startswith("^^") and not m_author.id in macro_checking:
+    if m_ctt.startswith("^^") and not m_author.id in macro_checking and not m_author.bot:
 
         if client.get_channel(761571389345759232).name=='true':
             if not m_author.id in admin_list+clr_lv4+clr_lv5:
@@ -316,13 +317,13 @@ async def on_message(message):
 
         try:
             try:
-                check = random.random() >= 0.00
+                check = random.random() >= 0.99
             finally:
                 if check:
                     macro_checking.append(m_author.id)
                     img, num = await anti_macro.get_img(client)
                     cv2.imwrite('anti_macro/num_img/temp.jpg', img)
-                    await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を1分以内に**半角**で送信してください。', file=discord.File(fp="anti_macro/num_img/temp.jpg"))
+                    await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。', file=discord.File(fp="anti_macro/num_img/temp.jpg"))
                     def check(m):
                         if not m.author.id == id or m.channel.id != m_ch.id:
                             return 0
@@ -330,7 +331,7 @@ async def on_message(message):
                             return 0
                         return 1
                     try:
-                        answer = await client.wait_for('message', timeout=60, check=check)
+                        answer = await client.wait_for('message', timeout=20, check=check)
                     except asyncio.TimeoutError:
                         if num and not m_author.id in doubt_count:
                             doubt_count[m_authir.id] = 0
@@ -431,6 +432,7 @@ async def on_message(message):
                 await kaihou.kaihou_proc(client, m_ch, m_author)
 
 
+
         finally:
             cmd_lock[m_ch.id] = False
 
@@ -512,6 +514,46 @@ async def on_message(message):
                 description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
             await m_ch.send(embed=embed)
 
+            
+            
+            
+
+            if m_ctt.stratswith("--"):
+                if not m_author.id in clr_lv4 and not m_author.id in clr_lv5 :
+                    await m_ch.send("**貴方のクリアランスはLv4未満です。プロトコル[SimpleSystemCall]の実行にはLv4以上のクリアランスが必要です。**")
+                    return
+                if m_ctt == "--test anti_macro":
+                    try:
+                        check = random.random() >= 0.99
+                    finally:
+                        if check:
+                            macro_checking.append(m_author.id)
+                            img, num = await anti_macro.get_img(client)
+                            cv2.imwrite('anti_macro/num_img/temp.jpg', img)
+                            await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※実際にアカウントが消去されることはありません(多分)', file=discord.File(fp="anti_macro/num_img/temp.jpg"))
+                            def check(m):
+                                if not m.author.id == id or m.channel.id != m_ch.id:
+                                    return 0
+                                if not m.content in ['0','1','2','3','4','5','6','7','8','9']:
+                                    return 0
+                                return 1
+                            try:
+                                answer = await client.wait_for('message', timeout=20, check=check)
+                            except asyncio.TimeoutError:
+                                if num and not m_author.id in doubt_count:
+                                    doubt_count[m_authir.id] = 0
+                                doubt_count[m_author.id] += 1
+
+                                await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                                if doubt_count[m_authir.id] >= 5:
+                                    await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                                if not num != str(answer.content):
+                                    if num and not m_author.id in doubt_count:
+                                        doubt_count[m_authir.id] = 0
+                                    doubt_count[m_author.id] += 1
+                                    await m_ch.send(f'不正解!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                                    if doubt_count[m_authir.id] >= 5:
+                                        await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
 
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
