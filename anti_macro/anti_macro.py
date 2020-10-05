@@ -14,7 +14,7 @@ async def get_img(c):
     global client
     client = c
     num = random.randint(0,9)
-    img_front = cv2.imread(f"anti_macro/num_img/front/front{random.randint(0,9)}.png",-1)
+    img_front = cv2.imread(f"anti_macro/num_img/front/front{random.randint(1,10)}.png",-1)
     img_num = cv2.imread(f"anti_macro/num_img/num/{num}.png",-1)
     # 画像をリクエストする
     img = paste.paste(
