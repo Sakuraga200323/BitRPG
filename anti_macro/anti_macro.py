@@ -13,30 +13,13 @@ client = None
 async def get_img(c):
     global client
     client = c
-    channel = client.get_channel(761521730035646464)
-    channel2 = client.get_channel(761522350248165486)
-    temp = await channel.history().flatten()
-    imgs_front = [ i.attachments[0].url for i in temp]
-    temp = await channel2.history().flatten()
-    imgs_back = dict(
-        zip(
-            [ i.attachments[0].url for i in temp],[ i.content for i in temp]))
-    front_url = random.choice(imgs_front)
-    back_url = random.choice(list(imgs_back.keys()))
-    num =  imgs_back[back_url]
+    num = random.randint(0,9)
+    img_front = cv2.imread(f"anti_macro/num_img/front/front{random.randint(0,9)}.png",-1)
+    img_num = cv2.imread(f"anti_macro/num_img/num/{num}.png",-1)
     # 画像をリクエストする
-    def get_from_url(url):
-        res = requests.get(url)
-        img = None
-        # Tempfileを作成して即読み込む
-        with tempfile.NamedTemporaryFile(dir='./') as fp:
-            fp.write(res.content)
-            fp.file.seek(0)
-            img = cv2.imread(fp.name)
-        return img
     img = paste.paste(
-        get_from_url(front_url),# 前景
-        get_from_url(back_url),# 背景
-        False, False # 縁フラグ、回転・移動フラグ
+        img_front,# 前景
+        img_num,# 背景
+        False, true # 縁フラグ、回転・移動フラグ
     )
     return img, num
