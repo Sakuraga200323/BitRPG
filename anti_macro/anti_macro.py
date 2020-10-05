@@ -16,6 +16,7 @@ async def get_img(c):
     num = random.randint(0,9)
     img_front = cv2.imread(f"anti_macro/num_img/front/front{random.randint(1,10)}.png",-1)
     img_num = cv2.imread(f"anti_macro/num_img/num/{num}.png",-1)
+    print(img_front, img_num)
     # 画像をリクエストする
     img = paste.paste(
         img_front,# 前景
