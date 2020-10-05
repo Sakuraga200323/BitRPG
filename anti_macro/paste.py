@@ -54,4 +54,5 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     # Put logo in ROI and modify the main image
     dst = cv2.add(img1_bg, img2_fg)
     img1[x:x + w2, y:y + h2] = dst
+    print("img1", img1)
     return img1
