@@ -469,7 +469,7 @@ async def on_message(message):
                 await m_ch.send('レポートありがとう!無事届いたよ!')
 
 
-        if m_ctt == '^^repair':
+        if m_ctt == '^^fix':
             embed = discord.Embed(
                 title = '<Safe> -YUI- will help you!!',
                 description = (
@@ -524,7 +524,7 @@ async def on_message(message):
                     return
                 if m_ctt == "--test anti_macro":
                     try:
-                        check = random.random() >= 0.99
+                        check = random.random() >= 0.00
                     finally:
                         if check:
                             macro_checking.append(m_author.id)
