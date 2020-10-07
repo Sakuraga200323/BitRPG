@@ -499,9 +499,8 @@ async def on_message(message):
                         cv2.imwrite('anti_macro/num_img/temp.png', img)
                         check_em = discord.Embed(
                             title = "マクロ検知ぃいい！！(迫真)",
-                            description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\nCheckID『`{check_id}`』'
-                        )
-                        check_em.set_image(url="attachment://image.png")
+                            description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
+                        check_em.set_image(url="attachment://temp.png")
                         await m_ch.send(embed=check_em, file=discord.File(fp="anti_macro/num_img/temp.png"))
                         def check(m):
                             if not m.author.id == m_author.id or m.channel.id != m_ch.id:
@@ -541,7 +540,7 @@ async def on_message(message):
                         embed.add_field(name="CheckID", value=check_id, inline=False)
                         embed.add_field(name="Result", value=result, inline=False)
                         embed.add_field(name="UserData", value=P_list, inline=False)
-                        embed.set_image(url="attachment://image.png")
+                        embed.set_image(url="attachment://temp.png")
                         await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
                         
 
