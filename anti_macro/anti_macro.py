@@ -56,7 +56,7 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     if random_flg:# ランダム回転
         img2, _ = rotateR(fg, [-90, 90], 1.0)
     else:
-        img2 = fg.copy()
+        img2, _ = rotateR(fg, [0, 0], 1.0)
 
     # I want to put logo on top-left corner, So I create a ROI
     w1, h1 = img1.shape[:2]
