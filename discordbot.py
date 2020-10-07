@@ -552,14 +552,24 @@ async def on_message(message):
                             await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
                             if doubt_count[m_authir.id] >= 5:
                                 await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
-                        elif not num != str(answer.content):
-                            if num and not m_author.id in doubt_count:
-                                doubt_count[m_authir.id] = 0
-                            doubt_count[m_author.id] += 1
-                            await m_ch.send(f'不正解!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                        else:
+                            if answer.content == num:
+                                await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
+                                pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
+                                retunr
                             if doubt_count[m_authir.id] >= 5:
-                                await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。※これはテストです')
-
+                                await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                                pg.execute(f'delete from player_tb where id = {m_author.id};')
+                            if not num != str(answer.content):
+                                if num and not m_author.id in doubt_count:
+                                    doubt_count[m_authir.id] = 0f'delete from player_tb where id = {m_author.id};')
+                                doubt_count[m_author.id] += 1
+                                await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
+                                if doubt_count[m_authir.id] >= 5:
+                                    await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                                    pg.execute(f'delete from player_tb where id = {m_author.id};')
+                                
+                        
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。\nクリアランスLv4未満のユーザーの不正接続を確認次第、即座に対象のデータを終了します。**")
