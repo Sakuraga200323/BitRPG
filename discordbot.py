@@ -493,7 +493,7 @@ async def on_message(message):
                     check = random.random() >= 0.0
                 finally:
                     if check:
-                        flag = await m_ch.send("デデドン！！", file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        flag = await m_ch.send("デデドン！！")
                         await asyncio.sleep(1)
                         check_id = flag.id
                         macro_checking.append(m_author.id)
@@ -503,7 +503,7 @@ async def on_message(message):
                             title = "マクロ検知ぃいい！！(迫真)",
                             description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
                         check_em.set_image(url="attachment://temp.png")
-                        await flag.edit(embed=check_em)
+                        await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
                         def check(m):
                             if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                 return 0
