@@ -512,7 +512,7 @@ async def on_message(message):
                             answer = await client.wait_for('message', timeout=20, check=check)
                         except asyncio.TimeoutError:
                             if num and not m_author.id in doubt_count:
-                                doubt_count[m_authir.id] = 0
+                                doubt_count[m_author.id] = 0
                             doubt_count[m_author.id] += 1
                             temp = None
                             await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
@@ -524,15 +524,15 @@ async def on_message(message):
                                 retun
                             if not num != str(answer.content):
                                 if num and not m_author.id in doubt_count:
-                                    doubt_count[m_authir.id] = 0
+                                    doubt_count[m_auth0r.id] = 0
                                 doubt_count[m_author.id] += 1
                                 await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                         print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
                         result = True
                         P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
-                        if doubt_count[m_authir.id] >= 5:
+                        if doubt_count[m_author.id] >= 5:
                             result = False
-                            doubt_count[m_authir.id] = 0
+                            doubt_count[m_author.id] = 0
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
                             pg.execute(f"delete from player_tb where id = {m_author.id};")
                             await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
