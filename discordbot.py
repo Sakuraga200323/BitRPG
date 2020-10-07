@@ -493,6 +493,8 @@ async def on_message(message):
                     check = random.random() >= 0.0
                 finally:
                     if check:
+                        if not m_author.id in doubt_count:
+                            doubt_count[m_author.id] = 0
                         check_flag = True
                         result = False
                         while check_flag == True:
@@ -507,8 +509,6 @@ async def on_message(message):
                                 description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
                             check_em.set_image(url="attachment://temp.png")
                             await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
-                            if num and not m_author.id in doubt_count:
-                                doubt_count[m_author.id] = 0
                             def check(m):
                                 if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                     return 0
