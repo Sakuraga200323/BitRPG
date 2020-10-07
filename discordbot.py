@@ -529,6 +529,7 @@ async def on_message(message):
                                 await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                         print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
                         result = True
+                        pg = Postgres(dsn)
                         P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                         if doubt_count[m_author.id] >= 5:
                             result = False
