@@ -71,7 +71,6 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     roi = img1[x:x + w2, y:y + h2]
 
     # Now create a mask of logo and create its inverse mask also
-    print(type(img2))
     mask = img2[:, :, 3]
     ret, mask_inv = cv2.threshold(
         cv2.bitwise_not(mask),
@@ -93,7 +92,6 @@ def paste(fg, bg, mask_flg=True, random_flg=True):
     # Put logo in ROI and modify the main image
     dst = cv2.add(img1_bg, img2_fg)
     img1[x:x + w2, y:y + h2] = dst
-    print("img1", img1)
     return img1
 
 async def get_img(c):
@@ -103,7 +101,6 @@ async def get_img(c):
     img_front0 = cv2.imread(f"anti_macro/num_img/枠.png",-1)
     img_front1 = cv2.imread(f"anti_macro/num_img/front/front{random.randint(1,10)}.png",-1)
     img_num = cv2.imread(f"anti_macro/num_img/num/{num}.png",-1)
-    print(type(img_front), type(img_num))
     # 画像をリクエストする
     img = paste(
         img_front1,# 前景
