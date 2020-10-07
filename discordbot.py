@@ -493,10 +493,16 @@ async def on_message(message):
                     check = random.random() >= 0.0
                 finally:
                     if check:
+                        check_id = datetime.now(JST).strftime("%Y%m%d%H%M%S") + str(m_author.id)
                         macro_checking.append(m_author.id)
                         img, num = await anti_macro.get_img(client)
                         cv2.imwrite('anti_macro/num_img/temp.png', img)
-                        await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。', file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        check_em = discord.Embed(
+                            title = "マクロ検知ぃいい！！(迫真)",
+                            description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\nCheckID『`{check_id}`』'
+                        )
+                        check_em.set_image(url="attachment://image.png")
+                        await m_ch.send(embed=check_em, file=discord.File(fp="anti_macro/num_img/temp.png"))
                         def check(m):
                             if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                 return 0
@@ -523,8 +529,21 @@ async def on_message(message):
                                 doubt_count[m_author.id] += 1
                                 await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                         print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
+                        result = True
+                        P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                         if doubt_count[m_authir.id] >= 5:
+                            result = False
+                            doubt_count[m_authir.id] = 0
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                            pg.execute(f"delete from player_tb where id = {m_author.id};")
+                            await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
+                        embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
+                        embed.add_field(name="CheckID", value=check_id, inline=False)
+                        embed.add_field(name="Result", value=result, inline=False)
+                        embed.add_field(name="UserData", value=P_list, inline=False)
+                        embed.set_image(url="attachment://image.png")
+                        await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        
 
                         
     if m_ctt == "SystemCall":
