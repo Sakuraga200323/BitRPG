@@ -107,9 +107,11 @@ async def get_img(c):
         img_num,# 背景
         False, True # 縁フラグ、回転・移動フラグ
     )
+    """
     result_img = paste(
         img_front0,# 前景
         img,# 背景
         False, False # 縁フラグ、回転・移動フラグ
     )
-    return result_img, num
+    """
+    return img, num
