@@ -532,7 +532,7 @@ async def on_message(message):
                         print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
                         result = True
                         pg = Postgres(dsn)
-                        P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
+                        P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                         if doubt_count[m_author.id] >= 5:
                             result = False
                             doubt_count[m_author.id] = 0
