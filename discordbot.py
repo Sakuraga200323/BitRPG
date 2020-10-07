@@ -494,6 +494,7 @@ async def on_message(message):
                 finally:
                     if check:
                         pg = Postgres(dsn)
+                        P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                         if not m_author.id in doubt_count:
                             doubt_count[m_author.id] = 0
                         check_flag = True
@@ -527,15 +528,15 @@ async def on_message(message):
                                 temp = answer.content
                                 if int(answer.content) == int(num):
                                     await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
-                                    pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
-                                    check_flag = Flase
+                                    if not P_list == []:
+                                        pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
+                                    check_flag = False
                                     result = True
                                 elif str(num) != str(answer.content):
                                     doubt_count[m_author.id] += 1
                                     await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                                     result = False
                             print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
-                            P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                             if doubt_count[m_author.id] >= 5:
                                 check_flag = False
                                 doubt_count[m_author.id] = 0
