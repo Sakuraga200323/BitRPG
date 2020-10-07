@@ -494,7 +494,7 @@ async def on_message(message):
                 finally:
                     if check:
                         check_flag = True
-                        while check_flag = True:
+                        while check_flag == True:
                             flag = await m_ch.send("デデドン！！")
                             await asyncio.sleep(1)
                             check_id = flag.id
