@@ -498,7 +498,7 @@ async def on_message(message):
                         cv2.imwrite('anti_macro/num_img/temp.png', img)
                         await m_ch.send(f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。', file=discord.File(fp="anti_macro/num_img/temp.png"))
                         def check(m):
-                            if not m.author.id == id or m.channel.id != m_ch.id:
+                            if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                 return 0
                             if not m.content in ['0','1','2','3','4','5','6','7','8','9']:
                                 return 0
