@@ -530,7 +530,7 @@ async def on_message(message):
                                     pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
                                     check_flag = Flase
                                     result = True
-                                elif not str(num) != str(answer.content):
+                                elif str(num) != str(answer.content):
                                     doubt_count[m_author.id] += 1
                                     await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                                     result = False
