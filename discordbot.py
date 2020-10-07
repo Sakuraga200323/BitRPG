@@ -504,6 +504,8 @@ async def on_message(message):
                             description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
                         check_em.set_image(url="attachment://temp.png")
                         await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        if num and not m_author.id in doubt_count:
+                            doubt_count[m_author.id] = 0
                         def check(m):
                             if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                 return 0
@@ -513,8 +515,6 @@ async def on_message(message):
                         try:
                             answer = await client.wait_for('message', timeout=20, check=check)
                         except asyncio.TimeoutError:
-                            if num and not m_author.id in doubt_count:
-                                doubt_count[m_author.id] = 0
                             doubt_count[m_author.id] += 1
                             temp = None
                             await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
@@ -525,8 +525,6 @@ async def on_message(message):
                                 pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
                                 retun
                             if not num != str(answer.content):
-                                if num and not m_author.id in doubt_count:
-                                    doubt_count[m_auth0r.id] = 0
                                 doubt_count[m_author.id] += 1
                                 await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                         print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
