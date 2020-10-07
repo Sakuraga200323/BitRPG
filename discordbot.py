@@ -490,7 +490,7 @@ async def on_message(message):
                 return
             if m_ctt == "--test anti_macro":
                 try:
-                    check = False # random.random() >= 0.0
+                    check = random.random() >= 0.0
                 finally:
                     if check:
                         macro_checking.append(m_author.id)
