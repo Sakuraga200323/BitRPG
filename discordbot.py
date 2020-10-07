@@ -535,6 +535,7 @@ async def on_message(message):
                             pg = Postgres(dsn)
                             P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                             if doubt_count[m_author.id] >= 5:
+                                check_flag = False
                                 result = False
                                 doubt_count[m_author.id] = 0
                                 await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
