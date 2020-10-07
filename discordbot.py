@@ -524,13 +524,12 @@ async def on_message(message):
                                 result = False
                             else:
                                 temp = answer.content
-                                if answer.content == num:
+                                if int(answer.content) == int(num):
                                     await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
                                     pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
                                     check_flag = Flase
                                     result = True
-                                    retun
-                                if not num != str(answer.content):
+                                elif not str(num) != str(answer.content):
                                     doubt_count[m_author.id] += 1
                                     await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
                                     result = False
