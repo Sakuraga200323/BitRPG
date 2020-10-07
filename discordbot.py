@@ -128,7 +128,7 @@ async def loop():
     MEM = psutil.virtual_memory().percent
     if client.get_channel(761571389345759232).name=='true':
         sub_msg = "現在開発作業中につき停止中￤"
-    await client.change_presence(activity=discord.Game(name=f"^^url￤Server：{len(client.guilds)}"))
+    await client.change_presence(activity=discord.Game(name=f"^^url￤{len(client.guilds)}Server"))
 
 
 @client.event
@@ -318,7 +318,66 @@ async def on_message(message):
 
 
         try:
-
+            try:
+                check = random.random() >= 0.99
+            finally:
+                if check:
+                    pg = Postgres(dsn)
+                    P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
+                    if not m_author.id in doubt_count:
+                        doubt_count[m_author.id] = 0
+                    check_flag = True
+                    result = False
+                    while check_flag == True:
+                        flag = await m_ch.send("デデドン！！")
+                        await asyncio.sleep(1)
+                        check_id = flag.id
+                        macro_checking.append(m_author.id)
+                        img, num = await anti_macro.get_img(client)
+                        cv2.imwrite('anti_macro/num_img/temp.png', img)
+                        check_em = discord.Embed(
+                            title = "マクロ検知ぃいい！！(迫真)",
+                            description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
+                        check_em.set_image(url="attachment://temp.png")
+                        await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        def check(m):
+                            if not m.author.id == m_author.id or m.channel.id != m_ch.id:
+                                return 0
+                            if not m.content in ['0','1','2','3','4','5','6','7','8','9']:
+                                return 0
+                            return 1
+                        try:
+                            answer = await client.wait_for('message', timeout=20, check=check)
+                        except asyncio.TimeoutError:
+                            doubt_count[m_author.id] += 1
+                            temp = None
+                            await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
+                            result = False
+                        else:
+                            temp = answer.content
+                            if int(answer.content) == int(num):
+                                await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
+                                if not P_list == []:
+                                    pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
+                                check_flag = False
+                                result = True
+                            elif str(num) != str(answer.content):
+                                doubt_count[m_author.id] += 1
+                                await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
+                                result = False
+                        print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
+                        if doubt_count[m_author.id] >= 5:
+                            check_flag = False
+                            doubt_count[m_author.id] = 0
+                            await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
+                            pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
+                            await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
+                        embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
+                        embed.add_field(name="CheckID", value=check_id, inline=False)
+                        embed.add_field(name="Result", value=result, inline=False)
+                        embed.add_field(name="UserData", value=P_list, inline=False)
+                        embed.set_image(url="attachment://temp.png")
+                        await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
 
 
