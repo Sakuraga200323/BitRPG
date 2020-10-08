@@ -170,6 +170,7 @@ role_id = {
 async def on_raw_reaction_add(payload):
 
     if payload.message_id == ID:
+        if not payload.user_id in role_id.keys():return
         print(payload.user_id)
         guild_id = payload.guild_id
         guild = client.get_guild(guild_id)
@@ -192,6 +193,7 @@ async def on_raw_reaction_add(payload):
 @client.event
 async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
+        if not payload.user_id in role_id.keys():return
         print(payload.user_id)
         guild_id = payload.guild_id
         guild = client.get_guild(guild_id)
