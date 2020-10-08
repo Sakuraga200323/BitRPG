@@ -239,7 +239,7 @@ async def on_message(message):
 
         if client.get_channel(761571389345759232).name=='true':
             admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
-            clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.role]
+            clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.roles]
             if not admin_user or not clearance_lv3_user:
                 await m_ch.send('現在開発作業中につき、コマンドの使用を制限しています。')
                 return
