@@ -53,7 +53,7 @@ def split_n(text, n):
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 token = os.environ.get('TOKEN')
-client = discord.Client(intents=discord.Intents.default())
+client = discord.Client(intents=discord.Intents.all())
 pg = Postgres(dsn)
 
 
@@ -182,7 +182,7 @@ async def on_raw_reaction_add(payload):
             if not member:
                 return
             await member.add_roles(role)
-            channel = client.fetch_channel(payload.channel_id)
+            channel = await client.fetch_channel(payload.channel_id)
             em = discord.Embed(description=f"{role.mention}を{member.mention}に付与しました。")
             result_msg = await channel.send(embed=em)
             await asyncio.sleep(5)
@@ -200,11 +200,11 @@ async def on_raw_reaction_remove(payload):
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = guild.fetch_member(int(payload.user_id)); print("guild, member:",guild, member)
+            member = await guild.fetch_member(int(payload.user_id)); print("guild, member:",guild, member)
             if not member:
                 return
             await member.remove_roles(role)
-            channel = client.fetch_channel(payload.channel_id)
+            channel = await client.fetch_channel(payload.channel_id)
             em = discord.Embed(description=f"{role.mention}を{member.mention}から消去しました。")
             result_msg = await channel.send(embed=em)
             await asyncio.sleep(5)
