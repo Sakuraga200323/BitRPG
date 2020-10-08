@@ -53,7 +53,9 @@ def split_n(text, n):
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 token = os.environ.get('TOKEN')
-client = discord.Client()
+intents = discord.Intents.default()  # デフォルトのIntentsオブジェクトを生成
+intents.typing = False  # typingを受け取らないように
+client = discord.Client(intents=intents)
 pg = Postgres(dsn)
 
 
