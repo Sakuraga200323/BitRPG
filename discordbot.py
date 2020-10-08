@@ -176,7 +176,7 @@ async def on_raw_reaction_add(payload):
 
     if payload.message_id == ID:
         guild_id = payload.guild_id
-        guild = discord.utils.get(client.guilds, guild_id)
+        guild = discord.utils.get(client.guilds, id=guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
@@ -193,7 +193,7 @@ async def on_raw_reaction_add(payload):
 async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
         guild_id = payload.guild_id
-        guild = discord.utils.get(client.guilds, guild_id)
+        guild = discord.utils.get(client.guilds, id=guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
