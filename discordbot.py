@@ -183,7 +183,7 @@ async def on_raw_reaction_add(payload):
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = guild.get_member(payload.user_id); print("guild, member:",guild, member)
+            member = guild.get_member(int(payload.user_id)); print("guild, member:",guild, member)
             if not member:
                 return
             await member.add_roles(role)
@@ -203,7 +203,7 @@ async def on_raw_reaction_remove(payload):
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = guild.get_member(payload.user_id); print("guild, member:",guild, member)
+            member = guild.get_member(int(payload.user_id)); print("guild, member:",guild, member)
             if not member:
                 return
             await member.remove_roles(role)
