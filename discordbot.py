@@ -244,7 +244,7 @@ async def on_message(message):
                 await m_ch.send('現在開発作業中につき、コマンドの使用を制限しています。')
                 return
         if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`^^fix`をお試しください。")
+            await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
         id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]; print(id_list)
@@ -528,7 +528,7 @@ async def on_message(message):
 
 
     if not m_author.bot:
-        if m_ctt == '^^report':
+        if m_ctt == '><report':
             embed = discord.Embed(
                 title = '<Safe> -YUI- will help you!!',
                 description = (
@@ -558,7 +558,7 @@ async def on_message(message):
                 await m_ch.send('レポートありがとう!無事届いたよ!')
 
 
-        if m_ctt == '^^fix':
+        if m_ctt == '><fix':
             embed = discord.Embed(
                 title = '<Safe> -YUI- will help you!!',
                 description = (
