@@ -18,13 +18,6 @@ from sub import box, item, battle, help, stp, kaihou, rank, status
 from anti_macro import anti_macro
 
 
-JST = timezone(timedelta(hours=+9), 'JST')
-dsn = os.environ.get('DATABASE_URL')
-cmd_lock = {}
-macro_checking = []
-doubt_count = {}
-
-
 class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
@@ -47,37 +40,42 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-pg = Postgres(dsn)
-
-standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money,cbt_ch_id"
-    
-token = os.environ.get('TOKEN')
-client = discord.Client()
-
-admin_list = [
-    715192735128092713,
-    710207828303937626,
-    548058577848238080,
-]
-
-clr_lv4 = [
-    548058577848238080,
-    561836530398789641
-]
-
-clr_lv5 = [
-    715192735128092713,
-    710207828303937626,
-    760514942205034497
-]
 
 def inverse_lookup(d, x):
     for k,v in d.items():
         if x == v:
             return k
-
 def split_n(text, n):
     return [ text[i*n:i*n+n] for i in range(len(text)/n) ]
+
+
+# 時間軸、データベースのURL、ボットのToken、Client、pg変数設定
+JST = timezone(timedelta(hours=+9), 'JST')
+dsn = os.environ.get('DATABASE_URL')
+token = os.environ.get('TOKEN')
+client = discord.Client()
+pg = Postgres(dsn)
+
+
+# コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
+cmd_lock = {}
+macro_checking = []
+doubt_count = {}
+
+
+# 各特殊ゆーざーの皆さん
+admin_list = [
+    715192735128092713,
+    710207828303937626,
+    548058577848238080,]
+clr_lv4 = [
+    548058577848238080,
+    561836530398789641]
+clr_lv5 = [
+    715192735128092713,
+    710207828303937626,
+    760514942205034497]
+
 
 @client.event
 async def on_ready():
@@ -368,9 +366,9 @@ async def on_message(message):
                         if doubt_count[m_author.id] >= 5:
                             check_flag = False
                             doubt_count[m_author.id] = 0
-                            await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
-                            pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
-                            await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
+                            await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。現在はテスト版なので、実際に消去はされません。')
+                            # pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
+                            # await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
                         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
                         embed.add_field(name="CheckID", value=check_id, inline=False)
                         embed.add_field(name="Result", value=result, inline=False)
@@ -435,8 +433,8 @@ async def on_message(message):
 
             # チャンネルレベルランキングの表示 #
             if m_ctt == "^^rank m":
-                rank = rank.RankClass(client)
-                rank.channel(m_author,m_ch)
+                ranking = rank.RankClass(client)
+                ranking.channel(m_author,m_ch)
 
 
             # アイテム系 #
@@ -468,8 +466,7 @@ async def on_message(message):
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
                     +'\nレポート確認開始! 今から5分間待つから、その間にレポートをできるだけ詳しく書いて送信してね。'
-                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳​˙* )'
-                    +'\nでもその場合はぜっったいにメッセージを消しちゃダメだぞ!　結とのお約束!'))
+                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳​˙* )'))
             # embed.set_footer(text='待機中…')
             await m_ch.send(embed=embed)
             def check(m):
