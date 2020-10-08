@@ -177,13 +177,13 @@ async def on_raw_reaction_add(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = client.get_guild(guild_id); print("guild:",guild)
+        guild = client.get_guild(guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = guild.get_member(payload.user_id)
+            member = guild.get_member(payload.user_id); print("guild, member:",guild, member)
             if not member:
                 return
             await member.add_roles(role)
@@ -197,13 +197,13 @@ async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = client.get_guild(guild_id); print("guild:",guild)
+        guild = client.get_guild(guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = guild.get_member(payload.user_id)
+            member = guild.get_member(payload.user_id); print("guild, member:",guild, member)
             if not member:
                 return
             await member.remove_roles(role)
