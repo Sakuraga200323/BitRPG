@@ -175,6 +175,7 @@ role_id = {
 async def on_raw_reaction_add(payload):
 
     if payload.message_id == ID:
+        print(payload.user_id)
         guild_id = payload.guild_id
         guild = discord.utils.get(client.guilds, id=guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
@@ -192,6 +193,7 @@ async def on_raw_reaction_add(payload):
 @client.event
 async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
+        print(payload.user_id)
         guild_id = payload.guild_id
         guild = discord.utils.get(client.guilds, id=guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
