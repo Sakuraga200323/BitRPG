@@ -238,7 +238,9 @@ async def on_message(message):
     if m_ctt.startswith("^^") and not m_author.id in macro_checking and not m_author.bot:
 
         if client.get_channel(761571389345759232).name=='true':
-            if not m_author.id in admin_list+clr_lv4+clr_lv5:
+            admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
+            clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.role]
+            if not admin_user or not clearance_lv3_user:
                 await m_ch.send('現在開発作業中につき、コマンドの使用を制限しています。')
                 return
         if cmd_lock.get(m_ch.id) is True:
