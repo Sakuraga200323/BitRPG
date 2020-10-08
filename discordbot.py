@@ -177,13 +177,15 @@ async def on_raw_reaction_add(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = client.get_guild(guild_id)
+        guild = client.get_guild(guild_id); print("guild:",guild)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
             member = guild.get_member(payload.user_id)
+            if not member:
+                return
             await member.add_roles(role)
             result_msg = await m_ch.send(embed=discord.Embed(description=f"{role.mention}を{m_author.mention}に付与しました。"))
             await asyncio.sleep(5)
@@ -195,13 +197,15 @@ async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = client.get_guild(guild_id)
+        guild = client.get_guild(guild_id); print("guild:",guild)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
             member = guild.get_member(payload.user_id)
+            if not member:
+                return
             await member.remove_roles(role)
             result_msg = await m_ch.send(embed=discord.Embed(description=f"{role.mention}を{m_author.mention}から消去しました。"))
             await asyncio.sleep(5)
@@ -446,6 +450,7 @@ async def on_message(message):
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
                         + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"
+                        + "▶︎[Github(運営メンバー紹介、コマンド、システム説明)](https://github.com/Sakuraga200323/BitRPG)"
                 )))
 
 
