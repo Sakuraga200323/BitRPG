@@ -91,15 +91,10 @@ async def on_ready():
         get_icon(img,42,8),
         get_icon(img,24,13)
     )"""
-    
-    pg = Postgres(dsn)
 
     for ch_data in pg.fetch("select id from mob_tb;")[0]:
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
-    for p_data in pg.fetch("select id from player_tb;")[0]:
-        if not client.get_user(p_data):
-            pg.execute(f"delete from player_tb where id = {p_data}")
 
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
