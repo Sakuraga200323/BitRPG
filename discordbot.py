@@ -182,7 +182,9 @@ async def on_raw_reaction_add(payload):
             if not member:
                 return
             await member.add_roles(role)
-            result_msg = await client.fetch_channel(payload.channel_id).send(embed=discord.Embed(description=f"{role.mention}を{member.mention}に付与しました。"))
+            channel = client.fetch_channel(payload.channel_id)
+            em = discord.Embed(description=f"{role.mention}を{member.mention}に付与しました。")
+            result_msg = await channel.send(embed=em)
             await asyncio.sleep(5)
             await result_msg.delete()
             print("done")
@@ -202,7 +204,9 @@ async def on_raw_reaction_remove(payload):
             if not member:
                 return
             await member.remove_roles(role)
-            result_msg = await client.fetch_channel(payload.channel_id).send(embed=discord.Embed(description=f"{role.mention}を{member.mention}から消去しました。"))
+            channel = client.fetch_channel(payload.channel_id)
+            em = discord.Embed(description=f"{role.mention}を{member.mention}から消去しました。")
+            result_msg = await channel.send(embed=em)
             await asyncio.sleep(5)
             await result_msg.delete()
             print("done")
