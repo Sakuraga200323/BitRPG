@@ -247,14 +247,14 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`^^fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
+        id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]; print(id_list)
         id = m_ch.id
         if not id_list or (not id in id_list):
             import sub.N_Mob
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
             pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
-        id_list = pg.fetch("select id from player_tb;")[0]
+        id_list = pg.fetch("select id from player_tb;")[0]; print(id_list)
         id = m_author.id
         if not id_list or (not id in id_list):
             player_num = len(id_list)
