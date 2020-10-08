@@ -177,13 +177,13 @@ async def on_raw_reaction_add(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = discord.utils.get(client.guilds, id=guild_id)
+        guild = client.get_guilds(guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = discord.utils.get(guild.members, id=payload.user_id)
+            member = guild.get_member(payload.user_id)
             await member.add_roles(role)
             result_msg = await m_ch.send(embed=discord.Embed(description=f"{role.mention}を{m_author.mention}に付与しました。"))
             await asyncio.sleep(5)
@@ -195,13 +195,13 @@ async def on_raw_reaction_remove(payload):
     if payload.message_id == ID:
         print(payload.user_id)
         guild_id = payload.guild_id
-        guild = discord.utils.get(client.guilds, id=guild_id)
+        guild = client.get_guilds(guild_id)
         role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
 
         if role is not None:
             print(role.name + " was found!")
             print(role.id)
-            member = discord.utils.get(guild.members, id=payload.user_id)
+            member = guild.get_member(payload.user_id)
             await member.remove_roles(role)
             result_msg = await m_ch.send(embed=discord.Embed(description=f"{role.mention}を{m_author.mention}から消去しました。"))
             await asyncio.sleep(5)
