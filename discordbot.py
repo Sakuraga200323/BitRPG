@@ -488,7 +488,7 @@ async def on_message(message):
                 if re_m.attachments:
                     atch = re_m.attachments
                 re_em = discord.Embed(description=ans)
-                re.set_author(name=m_author)
+                re_em.set_author(name=m_author)
                 await client.get_channel(761516423959805972).send(embed=re_em, file=atch)
                 await m_ch.send('レポートありがとう!無事届いたよ!')
 
