@@ -47,6 +47,7 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
+pg = Postgres(dsn)
 
 standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money,cbt_ch_id"
     
@@ -178,10 +179,9 @@ async def on_message(message):
                 await m_ch.send('現在開発作業中につき、コマンドの使用を制限しています。')
                 return
         if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("【警告】処理が終了するまで待機してください。\n`コマンドロックが解除されない場合は^^repairをお試しください。`")
+            await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`^^fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        pg = Postgres(dsn)
         id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
         id = m_ch.id
         if not id_list or (not id in id_list):
@@ -322,7 +322,6 @@ async def on_message(message):
                 check = random.random() >= 0.99
             finally:
                 if check:
-                    pg = Postgres(dsn)
                     P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                     if not m_author.id in doubt_count:
                         doubt_count[m_author.id] = 0
@@ -552,7 +551,6 @@ async def on_message(message):
                     check = random.random() >= 0.0
                 finally:
                     if check:
-                        pg = Postgres(dsn)
                         P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
                         if not m_author.id in doubt_count:
                             doubt_count[m_author.id] = 0
@@ -659,7 +657,6 @@ async def on_message(message):
 
                     if ctt.startswith("psql "):
                         cmd = ctt.split("psql ")[1]
-                        pg = Postgres(dsn)
                         await m_ch.send(f"`::DATABASE=> {cmd}`")
                         result = None
                         if "select" in cmd:
