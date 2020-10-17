@@ -578,7 +578,7 @@ async def on_message(message):
                 return 1
             if m_ch.id in cmd_lock:
                 em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
-                await m_ch.send(em=em)
+                await m_ch.send(embed=em)
                 try:
                     re_m = await client.wait_for('message', timeout=60, check=check)
                 except asyncio.TimeoutError:
