@@ -396,6 +396,8 @@ async def on_message(message):
 
             if m_ctt == '^^start':
                 flag = False
+                name_list = [ i[0] for i in pg.fetch("select name from player_tb;")];print(name_list)
+                id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print(id_list)
                 while flag == False:
                     await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
                     name_flag = sex_flag = False
@@ -429,8 +431,6 @@ async def on_message(message):
                                 flag = True
                                 continue
                             else:
-                                name_list = [ i[0] for i in pg.fetch("select name from player_tb;")];print(name_list)
-                                id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print(id_list)
                                 if name_list and name in name_list:
                                     await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                     continue
