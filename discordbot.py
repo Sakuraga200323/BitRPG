@@ -248,7 +248,7 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")];print('mob id list:',id_list)
+        mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")];print('mob id list:',mob_id_list)
         id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print('player id list:',id_list)
         id = m_ch.id
         if not mob_id_list or (not id in mob_id_list):
