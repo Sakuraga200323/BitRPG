@@ -400,11 +400,14 @@ async def on_message(message):
                     await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
                     name_flag = sex_flag = False
                     def check(m):
-                        if not m.author.id == id:return 0
+                        if not m.author.id == id:
+                            return 0
                         return 1
                     def check2(m):
-                        if not m.author.id == id:return 0
-                        if not msg.content in ("y","Y","n","N"):return 0
+                        if not m.author.id == id:
+                            return 0
+                        if not msg.content in ("y","Y","n","N"):
+                            return 0
                         return 1
                     while not name_flag is True and not flag is True:
                         await m_ch.send(
