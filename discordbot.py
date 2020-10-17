@@ -248,143 +248,13 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")];print('mob id list:',mob_id_list)
-        print(pg.fetch("select id from player_tb;"))
-        id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print('player id list:',id_list)
+        mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
         id = m_ch.id
         if not mob_id_list or (not id in mob_id_list):
             import sub.N_Mob
             mob_name = random.choice(list(sub.N_Mob.set.keys()))
             url = sub.N_Mob.set[mob_name]
             pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
-        print(pg.fetch("select id from player_tb;"))
-        id = m_author.id
-        if not id_list or (not id in id_list):
-            player_num = len(id_list)
-            flag = False
-            while flag == False:
-                name_flag = False
-                sex_flag = False
-                def check(m):
-                    if not m.author.id == id:
-                        return 0
-                    return 1
-                while name_flag == False:
-                    await m_ch.send(
-                        f"{m_author.mention}さんの冒険者登録を開始。"
-                        +"\n登録名を1分以内に送信してください。`next`と送信するか、1分経過すると、定型名で登録されます。\n"
-                        +"`後から一度だけ変更可能です。変更は公式鯖(^^url)にて申請を行ってください。それ以降も変更可能ですが二度目からはう有料となります。\n20文字以内。`"
-                    )
-                    try:
-                        msg = await client.wait_for("message", timeout=60, check=check)
-                    except asyncio.TimeoutError:
-                        name = "Player" + str(player_num + 1)
-                        await m_ch.send(f"1分経過。『{name}』で登録します。")
-                        name_flag = True
-                    else:
-                        name = msg.content
-                        if name == "next":
-                            name = "Player" + str(player_num + 1)
-                            name_flag = True
-                        else:
-                            name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
-                            if name_list and name in name_list:
-                                await m_ch.send(f"【警告】『{name}』は既に使用されています。")
-                                continue
-                            if len(list(name)) > 20:
-                                await m_ch.send(f"【警告】『{name}』は20文字を{ len(list(name)) - 20}文字超過しています。20文字以内にしてください。")
-                                continue 
-                            await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
-                            try:
-                                msg = await client.wait_for("message", timeout=10, check=check)
-                            except asyncio.TimeoutError:
-                                name_flag = True
-                            else:
-                                if not msg.content in ("y","Y","n","N"):
-                                    await m_ch.send("【警告】y、nで答えてください。")
-                                    continue
-                                if msg.content in ("y","Y"):
-                                    await m_ch.send(f"『{name}』で登録します。")
-                                    name_flag = True
-                                elif msg.content in ("n","N"):
-                                    await m_ch.send(f"名前を登録し直します。")
-                                    continue
-
-                while sex_flag == False:
-                    await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
-                    try:
-                        msg2 = await client.wait_for("message", timeout=20, check=check)
-                    except asyncio.TimeoutError:
-                        sex = "無記入"
-                    else:
-                        sex = msg2.content
-                        if not sex in ("0", "1", "１", "０", "2","２"):
-                            await m_ch.send("0、1、2いずれかの番号を送信してください。")
-                            continue
-                        if sex in ("0", "０"):
-                            sex = "男性"
-                        if sex in ("1", "１"):
-                            sex = "女性"
-                        if sex in ("2", "２"):
-                            sex = "無記入"
-                    await m_ch.send(f"『{sex}』で宜しいですか？\nyes -> y\nno -> n")
-                    try:
-                        msg = await client.wait_for("message", timeout=10, check=check)
-                    except asyncio.TimeoutError:
-                        await m_ch.send(f"10秒経過。『{sex}』で登録します。")
-                        sex_flag = True
-                    else:
-                        if not msg.content in ("y","Y","n","N"):
-                            await m_ch.send("【警告】y、nで答えてください。")
-                        if msg.content in ("y","Y"):
-                            await m_ch.send(f"『{name}』で登録します。")
-                            sex_flag = True
-                        elif msg.content in ("n","N"):
-                            await m_ch.send(f"性別を登録し直します。")
-                            continue
-                embed = discord.Embed(color = discord.Color.green())
-                embed.add_field(name = "Name", value = name)
-                embed.add_field(name = "Sex", value = sex)
-                flag = True
-                await m_ch.send(embed=embed)
-                n = name
-                s = sex
-                jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
-                cmd = (
-                    f"INSERT INTO player_tb VALUES ("
-                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}), 0, 1000"
-                    +");"
-                )
-                print(f"NewPlayer：{m_author}({m_author.id}),{name},{sex}")
-                try:
-                    pg.execute(cmd)
-                except Exception as e:
-                    await m_ch.send('type:' + str(type(e))
-                    + '\nargs:' + str(e.args)
-                    + '\ne自身:' + str(e))
-                else:
-                    embed = discord.Embed(
-                        description=f"{name}は`冒険者カード×1`を獲得した。",
-                        color=discord.Color.green())
-                    embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
-
-                P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
-                await status.send_bord(client, m_author, m_ch)
-                embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
-                embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
-                embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
-                embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石を250消費で解放)*")
-                embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
-                embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
-                embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
-                embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
-                embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
-                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
-                embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
-                await m_ch.send(embed=embed)
-
-
         try:
             try:
                 check = random.random() >= 0.99
@@ -524,6 +394,138 @@ async def on_message(message):
             if m_ctt == "^^gentotsu":
                 await kaihou.kaihou_proc(client, m_ch, m_author)
 
+            if m_ctt == '^^start':
+                flag = False
+                while flag == False:
+                    name_flag = False
+                    sex_flag = False
+                    def check(m):
+                        if not m.author.id == id:
+                            return 0
+                        return 1
+                    while name_flag == False:
+                        await m_ch.send(
+                            f"{m_author.mention}さんの冒険者登録を開始。"
+                            +"\n登録名を20文字以内で1分以内に送信してください。`next`と送信するか、時間切れで定型名登録されます。\n"
+                            +"後から一度だけ無料で変更可能です。詳しくは公式鯖(^^url)で。"
+                        )
+                        try:
+                            msg = await client.wait_for("message", timeout=60, check=check)
+                        except asyncio.TimeoutError:
+                            name = "Player" + str(m_author.if)
+                            await m_ch.send(f"1分経過。『{name}』で登録します。")
+                            name_flag = True
+                        else:
+                            name = msg.content
+                            if name == "next":
+                                name = "Player" + str(player_num + 1)
+                                name_flag = T
+                            if name == "cancel":
+                                flag = True
+                                continue
+                            else:
+                                name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
+                                if name_list and name in name_list:
+                                    await m_ch.send(f"【警告】『{name}』は既に使用されています。")
+                                    continue
+                                if len(list(name)) > 20:
+                                    await m_ch.send(f"【警告】『{name}』は20文字を{ len(list(name)) - 20}文字超過しています。20文字以内にしてください。")
+                                    continue 
+                                await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
+                                try:
+                                    msg = await client.wait_for("message", timeout=10, check=check)
+                                except asyncio.TimeoutError:
+                                    name_flag = Tru
+                                    comtinue
+                                else:
+                                    if not msg.content in ("y","Y","n","N"):
+                                        await m_ch.send("【警告】y、nで答えてください。")
+                                        continue
+                                    if msg.content in ("y","Y"):
+                                        await m_ch.send(f"『{name}』で登録します。")
+                                        name_flag = True
+                                        continue
+                                    elif msg.content in ("n","N"):
+                                        await m_ch.send(f"名前を登録し直します。")
+                                        continue
+                                flag = True
+
+                    while sex_flag == False:
+                        await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
+                        try:
+                            msg2 = await client.wait_for("message", timeout=20, check=check)
+                        except asyncio.TimeoutError:
+                            sex = "無記入"
+                        else:
+                            sex = msg2.content
+                            if not sex in ("0", "1", "１", "０", "2","２"):
+                                await m_ch.send("0、1、2いずれかの番号を送信してください。")
+                                continue
+                            if sex in ("0", "０"):
+                                sex = "男性"
+                            if sex in ("1", "１"):
+                                sex = "女性"
+                            if sex in ("2", "２"):
+                                sex = "無記入"
+                        await m_ch.send(f"『{sex}』で宜しいですか？\nyes -> y\nno -> n")
+                        try:
+                            msg = await client.wait_for("message", timeout=10, check=check)
+                        except asyncio.TimeoutError:
+                            await m_ch.send(f"10秒経過。『{sex}』で登録します。")
+                            sex_flag = True
+                        else:
+                            if not msg.content in ("y","Y","n","N"):
+                                await m_ch.send("【警告】y、nで答えてください。")
+                            if msg.content in ("y","Y"):
+                                await m_ch.send(f"『{name}』で登録します。")
+                                sex_flag = True
+                            elif msg.content in ("n","N"):
+                                await m_ch.send(f"性別を登録し直します。")
+                                continue
+                if (name_flag == False or sex_flag == False) and flag == True:
+                    await m_ch.send('キャンセルされました。')
+                    return
+                embed = discord.Embed(color = discord.Color.green())
+                embed.add_field(name = "Name", value = name)
+                embed.add_field(name = "Sex", value = sex)
+                flag = True
+                await m_ch.send(embed=embed)
+                n = name
+                s = sex
+                jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
+                cmd = (
+                    f"INSERT INTO player_tb VALUES ("
+                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}), 0, 1000"
+                    +");"
+                )
+                print(f"NewPlayer：{m_author}({m_author.id}),{name},{sex}")
+                try:
+                    pg.execute(cmd)
+                except Exception as e:
+                    await m_ch.send('type:' + str(type(e))
+                    + '\nargs:' + str(e.args)
+                    + '\ne自身:' + str(e))
+                else:
+                    embed = discord.Embed(
+                        description=f"{name}は`冒険者カード×1`を獲得した。",
+                        color=discord.Color.green())
+                    embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
+                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+
+                P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
+                await status.send_bord(client, m_author, m_ch)
+                embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
+                embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
+                embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
+                embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石を250消費で解放)*")
+                embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
+                embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
+                embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
+                embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
+                embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
+                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
+                embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
+                await m_ch.send(embed=embed)
 
 
         finally:
