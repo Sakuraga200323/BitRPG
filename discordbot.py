@@ -426,7 +426,8 @@ async def on_message(message):
                                 flag = True
                                 continue
                             else:
-                                name_list = [ i[0] for i in pg.fetch("select name from player_tb;")]
+                                name_list = [ i[0] for i in pg.fetch("select name from player_tb;")];print(name_list)
+                                id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print(id_list)
                                 if name_list and name in name_list:
                                     await m_ch.send(f"【警告】『{name}』は既に使用されています。")
                                     continue
@@ -437,7 +438,7 @@ async def on_message(message):
                                 try:
                                     msg = await client.wait_for("message", timeout=10, check=check2)
                                 except asyncio.TimeoutError:
-                                    name_flag = Tru
+                                    name_flag = True
                                     continue
                                 else:
                                     if msg.content in ("y","Y"):
