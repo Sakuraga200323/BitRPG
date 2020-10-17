@@ -397,29 +397,31 @@ async def on_message(message):
             if m_ctt == '^^start':
                 flag = False
                 while flag == False:
-                    name_flag = False
-                    sex_flag = False
+                    await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
+                    name_flag = sex_flag = False
                     def check(m):
-                        if not m.author.id == id:
-                            return 0
+                        if not m.author.id == id:return 0
                         return 1
-                    while name_flag == False:
+                    def check2(m):
+                        if not m.author.id == id:return 0
+                        if not msg.content in ("y","Y","n","N"):return 0
+                        return 1
+                    while not name_flag is True and not flag is True:
                         await m_ch.send(
-                            f"{m_author.mention}さんの冒険者登録を開始。"
-                            +"\n登録名を20文字以内で1分以内に送信してください。`next`と送信するか、時間切れで定型名登録されます。\n"
-                            +"後から一度だけ無料で変更可能です。詳しくは公式鯖(^^url)で。"
-                        )
+                            f"登録名を20文字以内で1分以内に送信してください。`next`と送信するか、時間切れで定型名登録されます。\n"
+                            +"後から一度だけ無料で変更可能です。詳しくは公式鯖(^^url)で。")
                         try:
                             msg = await client.wait_for("message", timeout=60, check=check)
                         except asyncio.TimeoutError:
-                            name = "Player" + str(m_author.if)
+                            name = "Player" + str(m_author.id)
                             await m_ch.send(f"1分経過。『{name}』で登録します。")
                             name_flag = True
                         else:
                             name = msg.content
                             if name == "next":
-                                name = "Player" + str(player_num + 1)
-                                name_flag = T
+                                name = "Player" + str(m_author.id)
+                                name_flag = True
+                                continue
                             if name == "cancel":
                                 flag = True
                                 continue
@@ -433,25 +435,19 @@ async def on_message(message):
                                     continue 
                                 await m_ch.send(f"『{name}』で宜しいですか？\nyes -> y\nno -> n")
                                 try:
-                                    msg = await client.wait_for("message", timeout=10, check=check)
+                                    msg = await client.wait_for("message", timeout=10, check=check2)
                                 except asyncio.TimeoutError:
                                     name_flag = Tru
-                                    comtinue
+                                    continue
                                 else:
-                                    if not msg.content in ("y","Y","n","N"):
-                                        await m_ch.send("【警告】y、nで答えてください。")
-                                        continue
                                     if msg.content in ("y","Y"):
                                         await m_ch.send(f"『{name}』で登録します。")
                                         name_flag = True
-                                        continue
                                     elif msg.content in ("n","N"):
                                         await m_ch.send(f"名前を登録し直します。")
-                                        continue
-                                flag = True
 
-                    while sex_flag == False:
-                        await m_ch.send("\n該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n`半角全角は問いません。`")
+                    while not sex_flag is True and not flag is True:
+                        await m_ch.send("該当する性別の番号を20秒以内に送信してください。\n男性 -> 0\n女性 -> 1\n無記入 -> 2\n数字の半角全角は問いません。")
                         try:
                             msg2 = await client.wait_for("message", timeout=20, check=check)
                         except asyncio.TimeoutError:
@@ -469,16 +465,14 @@ async def on_message(message):
                                 sex = "無記入"
                         await m_ch.send(f"『{sex}』で宜しいですか？\nyes -> y\nno -> n")
                         try:
-                            msg = await client.wait_for("message", timeout=10, check=check)
+                            msg = await client.wait_for("message", timeout=10, check=check2)
                         except asyncio.TimeoutError:
                             await m_ch.send(f"10秒経過。『{sex}』で登録します。")
-                            sex_flag = True
+                            sex_flag = flag = True
                         else:
-                            if not msg.content in ("y","Y","n","N"):
-                                await m_ch.send("【警告】y、nで答えてください。")
                             if msg.content in ("y","Y"):
                                 await m_ch.send(f"『{name}』で登録します。")
-                                sex_flag = True
+                                sex_flag = flag = True
                             elif msg.content in ("n","N"):
                                 await m_ch.send(f"性別を登録し直します。")
                                 continue
@@ -523,8 +517,8 @@ async def on_message(message):
                 embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
                 embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
                 embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
-                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
                 embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
+                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
                 await m_ch.send(embed=embed)
 
 
