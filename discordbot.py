@@ -249,6 +249,7 @@ async def on_message(message):
             return
         cmd_lock[m_ch.id] = True
         mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")];print('mob id list:',mob_id_list)
+        print(pg.fetch("select id from player_tb;"))
         id_list = [ i[0] for i in pg.fetch("select id from player_tb;")];print('player id list:',id_list)
         id = m_ch.id
         if not mob_id_list or (not id in mob_id_list):
