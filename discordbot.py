@@ -420,7 +420,7 @@ async def on_message(message):
                         return 0
                     return 1
                 def check2(m):
-                    if not check(m):
+                    if not m.author.id == m_author.id:
                         return 0
                     if not msg.content in ("y","Y","n","N"):
                         return 0
@@ -474,6 +474,7 @@ async def on_message(message):
                                 magic_type_flag = True
                             elif msg.content in ("n","N"):
                                 await m_ch.send(f"魔法領域の選択画面に戻ります。")
+                                continue
                 if not magic_type_flag == True:
                     return
                 await m_ch.send(embed=embed)
