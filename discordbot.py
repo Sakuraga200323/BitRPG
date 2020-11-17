@@ -414,7 +414,6 @@ async def on_message(message):
                 await kaihou.kaihou_proc(client, m_ch, m_author)
 
             if m_ctt == '^^start':
-                flag = False
                 id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
                 if m_author.id in id_list:
                     await m_ch.send(f"登録済みです。全てのデータを消して再登録しますか？")
@@ -432,7 +431,6 @@ async def on_message(message):
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
                         await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
-                while flag == False:
                     await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
                     magic_type_flag = False
                     while not magic_type_flag is True:
@@ -453,7 +451,7 @@ async def on_message(message):
                             await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
                             continue
                         else:
-                            respons = msg.content
+                            respons = int(msg.content)
                             if not respons in (1,2,3):
                                 await m_ch.send(f"【警告】1,2,3で答えて下さい。")
                                 continue
@@ -468,7 +466,6 @@ async def on_message(message):
                                 if msg.content in ("y","Y"):
                                     await m_ch.send(f"『{select_magic_type}』で登録します。")
                                     magic_type_flag = True
-                                    flag = True
                                 elif msg.content in ("n","N"):
                                     await m_ch.send(f"魔法領域の選択画面に戻ります。")
                 embed = discord.Embed(color = discord.Color.green())
