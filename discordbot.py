@@ -468,7 +468,6 @@ async def on_message(message):
                             msg = await client.wait_for("message", timeout=10, check=check2)
                         except asyncio.TimeoutError:
                             await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
-                            continue
                         else:
                             if msg.content in ("y","Y"):
                                 await m_ch.send(f"『{select_magic_type}』で登録します。")
