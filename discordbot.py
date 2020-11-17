@@ -476,7 +476,6 @@ async def on_message(message):
                                 continue
                 if not magic_type_flag == True:
                     return
-                await m_ch.send(embed=embed)
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
                     f"INSERT INTO player_tb VALUES ("
