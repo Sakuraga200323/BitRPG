@@ -468,7 +468,8 @@ async def on_message(message):
                                     magic_type_flag = True
                                 elif msg.content in ("n","N"):
                                     await m_ch.send(f"魔法領域の選択画面に戻ります。")
-                embed = discord.Embed(color = discord.Color.green())
+                if not magic_type_flag == True:
+                    return
                 await m_ch.send(embed=embed)
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
