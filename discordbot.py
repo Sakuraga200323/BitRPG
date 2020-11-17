@@ -456,7 +456,7 @@ async def on_message(message):
                             if not respons in (1,2,3):
                                 await m_ch.send(f"【警告】1,2,3で答えて下さい。")
                                 continue
-                            select_magic_type = "Wolf" if respons == 1 "Armadillo" elif respons == 2 "Orca" elif respons == 3 
+                            select_magic_type = "Wolf" if respons == 1 else "Armadillo" if respons == 2 else "Orca" 
                             await m_ch.send(f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
                             try:
                                 msg = await client.wait_for("message", timeout=10, check=check2)
