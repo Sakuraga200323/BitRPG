@@ -416,11 +416,11 @@ async def on_message(message):
             if m_ctt == '^^start':
                 id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
                 def check(m):
-                    if not m.author.id == id:
+                    if not m.author.id == m_author.id:
                         return 0
                     return 1
                 def check2(m):
-                    if not m.author.id == id:
+                    if not m.author.id == m_author.id:
                         return 0
                     if not msg.content in ("y","Y","n","N"):
                         return 0
