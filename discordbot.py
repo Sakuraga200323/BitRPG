@@ -92,6 +92,7 @@ create table player_tb(
     item jsonb,
     money bigint
 )
+
 """
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -471,17 +472,14 @@ async def on_message(message):
                                 elif msg.content in ("n","N"):
                                     await m_ch.send(f"魔法領域の選択画面に戻ります。")
                 embed = discord.Embed(color = discord.Color.green())
-                flag = True
                 await m_ch.send(embed=embed)
-                n = name
-                s = sex
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
                     f"INSERT INTO player_tb VALUES ("
-                    + f"'{n}', '{s}', {id}, 1, 10 ,10, 1, 1, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, NULL, jsonb_build_object({jsonb_items}), 0, 1000"
+                    +f"{m_author.id},1,0,0,10,0,0,0,{respons},0,0,jsonb_build_object({jsonb_items}),0"
                     +");"
                 )
-                print(f"NewPlayer：{m_author}({m_author.id}),{name},{sex}")
+                print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
                 try:
                     pg.execute(cmd)
                 except Exception as e:
