@@ -439,8 +439,8 @@ async def on_message(message):
                             description=
                                 (f"所属する魔法領域の対応番号を**半角で**送信してください。"
                                 +"\n`^^start`で際登録していただく事で変更は可能ですが、レベル等を引き継ぐ場合は"
-                                +"__[リアルマネー(BitCashギフトカード)](https://bitcash.jp/docs/purchase/familymart/index)で1000円請求__します。"
-                                +"詳しくは[GitHub]()"))
+                                +"[リアルマネー(BitCashギフトカード)](https://bitcash.jp/docs/purchase/familymart/index)で1000円請求します。"
+                                +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
                         magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には千人力の火力を出します。`")
                         magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
                         magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。バフメインの魔法を習得し、条件次第ではWolfにもArmadilloにも成りうる性能を誇ります。`")
