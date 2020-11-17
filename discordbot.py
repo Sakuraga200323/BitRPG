@@ -442,7 +442,7 @@ async def on_message(message):
                 magic_type_flag = False
                 while not magic_type_flag is True:
                     magic_type_em = discord.Embed(
-                        title=f"{m_author.name} の冒険者登録を開始",
+                        title=f"{m_author.name} の所属魔法領域を選択",
                         description=
                             (f"所属する魔法領域の対応番号を**半角で**送信してください。"
                             +"\n`^^start`で際登録していただく事で変更は可能ですが、レベル等を引き継ぐ場合は"
