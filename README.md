@@ -105,6 +105,7 @@
 </details>
 </details>
 </details>
+<hr>
 <details>
 <summary>
 <strong>魔法システム</strong>
