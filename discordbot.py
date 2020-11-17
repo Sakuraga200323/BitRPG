@@ -415,7 +415,7 @@ async def on_message(message):
 
             if m_ctt == '^^start':
                 id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
-                if m_author.id in id_list:
+                if not m_author.id in id_list:
                     await m_ch.send(f"登録済みです。全てのデータを消して再登録しますか？")
                     def check(m):
                         if not m.author.id == id:
@@ -468,43 +468,43 @@ async def on_message(message):
                                     magic_type_flag = True
                                 elif msg.content in ("n","N"):
                                     await m_ch.send(f"魔法領域の選択画面に戻ります。")
-                if not magic_type_flag == True:
-                    return
-                await m_ch.send(embed=embed)
-                jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
-                cmd = (
-                    f"INSERT INTO player_tb VALUES ("
-                    +f"{m_author.id},1,0,0,10,0,0,0,{respons},0,0,jsonb_build_object({jsonb_items}),0"
-                    +");"
-                )
-                print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
-                try:
-                    pg.execute(cmd)
-                except Exception as e:
-                    await m_ch.send('type:' + str(type(e))
-                    + '\nargs:' + str(e.args)
-                    + '\ne自身:' + str(e))
-                else:
-                    embed = discord.Embed(
-                        description=f"{name}は`冒険者カード×1`を獲得した。",
-                        color=discord.Color.green())
-                    embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
-                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+                    if not magic_type_flag == True:
+                        return
+                    await m_ch.send(embed=embed)
+                    jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
+                    cmd = (
+                        f"INSERT INTO player_tb VALUES ("
+                        +f"{m_author.id},1,0,0,10,0,0,0,{respons},0,0,jsonb_build_object({jsonb_items}),0"
+                        +");"
+                    )
+                    print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
+                    try:
+                        pg.execute(cmd)
+                    except Exception as e:
+                        await m_ch.send('type:' + str(type(e))
+                        + '\nargs:' + str(e.args)
+                        + '\ne自身:' + str(e))
+                    else:
+                        embed = discord.Embed(
+                            description=f"{name}は`冒険者カード×1`を獲得した。",
+                            color=discord.Color.green())
+                        embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
+                        await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
-                P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
-                await status.send_bord(client, m_author, m_ch)
-                embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
-                embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
-                embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
-                embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石を250消費で解放)*")
-                embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
-                embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
-                embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
-                embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
-                embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
-                embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
-                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
-                await m_ch.send(embed=embed)
+                    P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
+                    await status.send_bord(client, m_author, m_ch)
+                    embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
+                    embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
+                    embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
+                    embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石を250消費で解放)*")
+                    embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
+                    embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
+                    embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
+                    embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
+                    embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
+                    embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
+                    embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
+                    await m_ch.send(embed=embed)
 
 
         finally:
