@@ -35,7 +35,7 @@
 &emsp;
 <details>
 <summary>
-各モンスターと性能、効果の違い
+<strong>各モンスターと性能、効果の違い</strong>
 </summary>
 <table>
 <tbody>
@@ -76,7 +76,7 @@
 &emsp;
 <details>
 <summary>
-各確率とダメージ倍率
+<strong>各確率とダメージ倍率</strong>
 </summary>
 <table>
 <tbody>
@@ -112,7 +112,7 @@
 &emsp;BitRPGには魔法が存在します。冒険者登録時に習得する魔法の領域を選択します。また、魔法を使うと修練度というパラメータが上昇し、一定量に達する事で新たな魔法の習得、全て習得している場合魔法の強化が行われます。
 <details>
 <summary>
-魔法領域一覧
+<strong>魔法領域一覧</strong>
 </summary>
 <table>
 <tbody>
