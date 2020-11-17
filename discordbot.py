@@ -420,7 +420,7 @@ async def on_message(message):
                         return 0
                     return 1
                 def check2(m):
-                    if not m.author.id == m_author.id:
+                    if not check(m):
                         return 0
                     if not msg.content in ("y","Y","n","N"):
                         return 0
