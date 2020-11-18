@@ -115,7 +115,7 @@ async def on_ready():
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
 
-    print(pg.fetch("select id from player_tb"))
+
     for player_id in pg.fetch("select id from player_tb"):
         if client.get_user(id):
             box.players[id] = player.Player(client, player_id[0])
