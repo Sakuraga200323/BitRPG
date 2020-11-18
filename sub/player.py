@@ -87,7 +87,7 @@ class Player:
         print(f"{self.user}:[{self.dtd}]")
 
     def share_stp(self, target, point):
-        self.now_str -= point
+        self.now_stp -= point
         if target == "str":
             self.str_p += point
             temp = self.str_p
