@@ -61,7 +61,7 @@ class Player:
     def __init__(self, client, id):
         self.pg = Postgres(dsn)
         self.client = client
-        self.dtd = pg.fetchdict(f"select * from player_tb where id = {id};")[0]
+        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
         self.lv = self.dtd["lv"]
         self.max_hp = self.now_hp = self.lv * 110
