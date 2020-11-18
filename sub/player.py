@@ -64,6 +64,7 @@ class Player:
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
         self.lv = self.dtd["lv"]
+        self.max_lv = self.dtd["max_lv"]
         self.max_hp = self.now_hp = self.lv * 110
         self.max_mp = self.now_mp = self.lv * 10
         self.str = self.defe = self.agi = self.lv * 10 + 10
