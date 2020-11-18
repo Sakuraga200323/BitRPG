@@ -121,8 +121,7 @@ async def on_ready():
     print(len(player_idlist), player_idlist)
     for player_id in player_idlist:
         print(player_id)
-        if not player_id in  box.players:
-            box.players[id] = player.Player(client, player_id)
+        player.Player(client, player_id)
     print(len(box.players),box.players.keys())
 
 
