@@ -65,7 +65,7 @@ class Player:
         self.user = client.get_user(id)
         self.lv = self.dtd["lv"]
         self.max_lv = self.dtd["max_lv"]
-        self.max_hp = self.now_hp = self.lv * 110
+        self.max_hp = self.now_hp = self.lv * 100 + 10
         self.max_mp = self.now_mp = self.lv * 10
         self.str = self.defe = self.agi = self.lv * 10 + 10
         self.STR = self.str + self.dtd["str_p"]
@@ -85,4 +85,27 @@ class Player:
         if not id in box.players:
             box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
+
+    def get_exp(self, exp):
+        self.now_exp += exp
+        self.all_exp += exp
+        lvup_count = 0
+        while self.now_exp >= self.lv:
+            if self.max_lv >= self.now_lv:
+                self.now_exp -= self.lv
+                self.lv += 1
+                lvup_count += 1
+        if lvup_count > 0:
+            self.now_stp += 10 * lvup_count
+            self.str = self.defe = self.agi = self.lv * 10 + 10
+            self.max_hp = self.now_hp = self.lv * 100 + 10
+            self.max_mp = self.now_mp = self.lv
+            psql = f"update player_tb set lv={self.lv},now_exp={self.now_exp},max_exp={self.max_exp},;"
+        self.pg.execute(psql)
+        return lvup_count
+
+    def cut_hp(self, dmg):
+        self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
+        return self.now_hp
+            
 
