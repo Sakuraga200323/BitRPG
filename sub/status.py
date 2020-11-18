@@ -49,7 +49,7 @@ async def send_bord(client, user, ch):
     print("status:",user.name, user.id)
     p_data = box.players[user.id]
     embed = discord.Embed(title = "Player Status Board")
-    embed.add_field(name = f"Player", value = f"{p_data.mention})", inline = False)
+    embed.add_field(name = f"Player", value = f"{p_data.user.mention})", inline = False)
     embed.add_field(name = f"Lv (Level)", value = f"*{p_data.lv} / {p_data.max_lv}*")
     embed.add_field(name = f"HP (HitPoint)", value = f"*{p_data.now_hp} / {p_data.max_hp}*")
     embed.add_field(name = f"MP (MagicPoint)", value = f"*{p_data.now_mp} / {p_data.max_mp}*")
