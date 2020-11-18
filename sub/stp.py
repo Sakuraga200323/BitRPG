@@ -53,10 +53,9 @@ async def divid(client, user, ch, result):
     if not target in ("str","def","agi"):
         await ch.send(f"{target}は強化項目の一覧にありません。`str`,`def`,`agi` の中から選んでください。")
         return
-    if p_data.now_str < point:
+    if p_data.now_stp < point:
         await ch.send(f"{p_data.user.mention}の所持ポイントを{point - p_data.now_stp}超過しています。{p_data.now_stp}以下にしてください。")
         return
     result = p_data.share_stp(target, point)
     print("Point:" ,user.id)
-
-    loop.create_task(ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。"))
+    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。")
