@@ -55,7 +55,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"MP (MagicPoint)", value = f"*{p_data.now_mp} / {p_data.max_mp}*")
     embed.add_field(name = f"STR (Strength)", value = f"*{p_data.STR}*\n`(+{p_data.str_p})`")
     embed.add_field(name = f"DEF (Defense)", value = f"*{p_data.DEFE}*\n`(+{p_data.defe_p})`")
-    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data.AGI}*\n`(+{p_data.agi_p)`")
+    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data.AGI}*\n`(+{p_data.agi_p})`")
     embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data.now_stp}*")
     def bar(x,y):
         return round(x/y*32)*"■"
