@@ -368,7 +368,7 @@ async def on_message(message):
             # ステータスの表示 #
             if m_ctt.startswith("^^st"):
                 temp = m_ctt
-                pattern = r"\^\^(st|^status|st (.+)|status (.+))$"
+                pattern = r"\^\^(st|status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
                 if result:
                     await status.send_bord(client, m_author, m_ch)
@@ -397,7 +397,7 @@ async def on_message(message):
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    stp.divid(m_author, m_ch, result)
+                    await stp.divid(m_author, m_ch, result)
 
 
             # チャンネルレベルランキングの表示 #
