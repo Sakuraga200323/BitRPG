@@ -115,6 +115,7 @@ async def on_ready():
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
 
+
     player_idlist = [ i[0] for i in pg.fetch("select id from player_tb;")]
     print(len(player_idlist), player_idlist)
     for player_id in player_idlist:
