@@ -1,18 +1,23 @@
-import math
+
+# coding: utf-8
+# Your code here!
 import ast
 import asyncio
+import cv2
 from datetime import datetime, timedelta, timezone
-import discord
-from discord.ext import tasks
-import glob
+import math
 import os
-import psutil
-import psycopg2
-import psycopg2.extras
 import random
 import re
+import sys
+
+import discord
+from discord.ext import tasks
+import psutil
+import psycopg2, psycopg2.extras
 import traceback
-import sub.box, sub.calc
+
+from sub import box, calc, player
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -39,46 +44,19 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
-standard_mobset = "name,id,lv,max_hp,now_hp,str,def,agi,img_url"
 
-token = os.environ.get('TOKEN')
-client = discord.Client()
-
-admin_list = [
-    715192735128092713,
-    710207828303937626,
-    548058577848238080,
-]
-
-
-
-def divid(user, ch, result):
+async def divid(client, user, ch, result):
     pg = Postgres(dsn)
-    loop = asyncio.get_event_loop()
-    print("Point:" ,user.id)
-    p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
+    p_data = box.players[user.id]
     target = result.group(1)
     point = int(result.group(2))
-    if target in ("str","STR"):
-        target = "str"
-    elif target in ("def","DEF"):
-        target = "def"
-    elif target in ("agi","AGI"):
-        target = "agi"
-    else:
-        loop.create_task(ch.send(f"【警告】{target}はステータスの一覧にありません。`str`,`def`,`agi` の中から選んでください。"))
-    if p_data["stp"] == 0:
-        loop.create_task(ch.send(f"【報告】{p_data['name']}はポイントを所持していません。ポイントはLvUP毎に10獲得可能です。"))
+    if not target in ("str","def","agi"):
+        await ch.send(f"{target}は強化項目の一覧にありません。`str`,`def`,`agi` の中から選んでください。")
         return
-    elif p_data["stp"] < point:
-        loop.create_task(ch.send(f"【警告】{p_data['name']}の所持ポイントを{point - p_data['stp']}超過しています。{p_data['stp']}以下にしてください。"))
+    if p_data.now_str < point:
+        await ch.send(f"{p_data.user.mention}の所持ポイントを{point - p_data.now_stp}超過しています。{p_data.now_stp}以下にしてください。")
         return
-    p_data['stp'] -= point
-    p_data[target] += point
-    tar_stp = target + "_stp"
-    p_data[tar_stp] += point
-    print(point, p_data[target], p_data["stp"], p_data[tar_stp])
-    pg.execute(f"update player_tb set stp = {p_data['stp']}, {target} =  {p_data[f'{target}']}, {tar_stp} = {p_data[f'{tar_stp}']} where id = {user.id};")
+    result = p_data.share_stp(target, point)
+    print("Point:" ,user.id)
 
-    loop.create_task(ch.send(f"【報告】{p_data['name']}の{target}を{point}強化。強化量が+{p_data[f'{tar_stp}']}になりました。"))
+    loop.create_task(ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。"))
