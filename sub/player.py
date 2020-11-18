@@ -84,7 +84,7 @@ class Player:
         self.money = self.dtd["money"]
         if not id in box.players:
             box.players[id] = self
-        print(f"{self.user}:[{self.dtd}]")
+            print(f"{self.user}:[{self.dtd}]")
 
     def share_stp(self, target, point):
         self.now_stp -= point
