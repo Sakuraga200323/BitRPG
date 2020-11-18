@@ -66,15 +66,15 @@ class Player:
         self.lv = self.dtd["lv"]
         self.max_hp = self.now_hp = self.lv * 110
         self.max_mp = self.now_mp = self.lv * 10
-        self.str = self.def = self.agi = self.lv * 10 + 10
+        self.str = self.defe = self.agi = self.lv * 10 + 10
         self.STR = self.str + self.dtd["str_p"]
-        self.DEF = self.def + self.dtd["def_p"]
+        self.DEFE = self.defe + self.dtd["def_p"]
         self.AGI = self.agi + self.dtd["agi_p"]
         self.str_p = self.dtd["str_p"]
-        self.def_p = self.dtd["def_p"]
+        self.defe_p = self.dtd["def_p"]
         self.agi_p = self.dtd["agi_p"]
         self.now_stp = self.dtd["now_stp"]
-        self.all_stp = self.str_p + self.def_p + self.agi_p + self.now_stp
+        self.all_stp = self.str_p + self.defe_p + self.agi_p + self.now_stp
         self.max_exp = self.dtd["max_exp"]
         self.now_exp = self.dtd["now_exp"]
         self.kill_count = self.dtd["kill_count"]
