@@ -61,7 +61,26 @@ class Player:
     def __init__(self, client, id):
         self.pg = Postgres(dsn)
         self.client = client
-        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
+        self.dtd = pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
-        box.players[id] = self
+        self.lv = self.dtd["lv"]
+        self.max_hp = self.now_hp = self.lv * 110
+        self.max_mp = self.now_mp = self.lv * 10
+        self.str = self.def = self.agi = self.lv * 10 + 10
+        self.STR = self.str + self.dtd["str_p"]
+        self.DEF = self.def + self.dtd["def_p"]
+        self.AGI = self.agi + self.dtd["agi_p"]
+        self.str_p = self.dtd["str_p"]
+        self.def_p = self.dtd["def_p"]
+        self.agi_p = self.dtd["agi_p"]
+        self.now_stp = self.dtd["now_stp"]
+        self.all_stp = self.str_p + self.def_p + self.agi_p + self.now_stp
+        self.max_exp = self.dtd["max_exp"]
+        self.now_exp = self.dtd["now_exp"]
+        self.kill_count = self.dtd["kill_count"]
+        self.magic_class = self.dtd["magic_class"]
+        self.magic_lv = self.dtd["magic_lv"]
+        self.money = self.dtd["money"]
+        if not id in box.players:
+            box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
