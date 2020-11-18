@@ -97,12 +97,8 @@ class Player:
         if target == "agi":
             self.agi_p += point
             temp = self.agi_p
-        try:
-            self.pg.execute(f"UPDATE player_tb SET now_stp={self.now_stp},{target}_p={temp} WHERE id={self.id};")
-        except:
-            return 0
-        else:
-            return temp
+        self.pg.execute(f"UPDATE player_tb SET now_stp={self.now_stp},{target}_p={temp} WHERE id={self.id};")
+        return temp
 
     def get_exp(self, exp):
         self.now_exp += exp
