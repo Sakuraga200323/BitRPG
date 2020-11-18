@@ -413,6 +413,7 @@ async def on_message(message):
             if m_ctt == "^^gentotsu":
                 await kaihou.kaihou_proc(client, m_ch, m_author)
 
+
             if m_ctt == '^^start':
                 id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
                 def check(m):
@@ -457,7 +458,7 @@ async def on_message(message):
                     except asyncio.TimeoutError:
                         await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
                     else:
-                        respons = int(msg.content) if respons in ("1","2","3") else continue
+                        respons = int(msg.content) if respons in ("1","2","3") else 0
                         if not respons in (1,2,3):
                             await m_ch.send(f"【警告】1,2,3で答えて下さい。")
                             continue
