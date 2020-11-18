@@ -69,9 +69,6 @@ class Player:
         self.max_hp = self.now_hp = self.lv * 100 + 10
         self.max_mp = self.now_mp = self.lv * 10
         self.str = self.defe = self.agi = self.lv * 10 + 10
-        self.STR = self.str + self.dtd["str_p"]
-        self.DEFE = self.defe + self.dtd["def_p"]
-        self.AGI = self.agi + self.dtd["agi_p"]
         self.str_p = self.dtd["str_p"]
         self.defe_p = self.dtd["def_p"]
         self.agi_p = self.dtd["agi_p"]
@@ -103,6 +100,7 @@ class Player:
             temp = self.agi_p
         self.pg.execute(f"UPDATE player_tb SET now_stp={self.now_stp},{target}_p={temp} WHERE id={self.id};")
         return temp
+        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
 
     def get_exp(self, exp):
         self.now_exp += exp
@@ -121,9 +119,17 @@ class Player:
             psql = f"update player_tb set lv={self.lv},now_exp={self.now_exp},max_exp={self.max_exp},;"
         self.pg.execute(psql)
         return lvup_count
+        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
 
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
+
+    def STR():
+        return self.str + self.dtd["str_p"]
+    def DEFE():
+        return self.defe + self.dtd["def_p"]
+    def AGI():
+        return self.agi + self.dtd["agi_p"]
             
 
