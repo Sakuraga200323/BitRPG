@@ -81,6 +81,7 @@ clr_lv5 = [
 create table player_tb(
     id bigint,
     lv bigint,
+    max_lv bigint
     max_exp bigint,
     now_exp bigint,
     now_stp bigint,
@@ -92,6 +93,7 @@ create table player_tb(
     kill_count bigint,
     item jsonb,
     money bigint
+    primary key (id)
 )
 
 """
@@ -353,9 +355,7 @@ async def on_message(message):
                     description=(
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
-                        + "▶︎[公式HP](https://bitrpg.jimdosite.com/)\n"
-                        + "▶︎[Github(運営メンバー紹介、コマンド、システム説明)](https://github.com/Sakuraga200323/BitRPG)"
-                )))
+                        + "▶︎[Github(運営メンバー紹介、コマンド、システム説明)](https://github.com/Sakuraga200323/BitRPG)")))
 
 
             # ヘルプ #
@@ -488,7 +488,7 @@ async def on_message(message):
                 jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
                 cmd = (
                     f"INSERT INTO player_tb VALUES ("
-                    +f"{m_author.id},1,0,0,10,0,0,0,{respons},0,0,jsonb_build_object({jsonb_items}),0"
+                    +f"{m_author.id},1,1000,0,0,10,0,0,0,{respons},0,0,jsonb_build_object({jsonb_items}),0"
                     +");"
                 )
                 print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
