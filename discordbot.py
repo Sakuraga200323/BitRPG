@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, item, battle, help, stp, kaihou, rank, status
+from sub import box, item, battle, help, stp, kaihou, rank, status, player
 from anti_macro import anti_macro
 
 
@@ -114,6 +114,10 @@ async def on_ready():
     for ch_data in pg.fetch("select id from mob_tb;")[0]:
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
+    for player_id in pg.fetch("select id from player_tb")[0]:
+        if client.get_user(id):
+            box.players[player_id] = player.Player(client, player_id)
+            
 
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
