@@ -91,12 +91,15 @@ class Player:
         self.now_stp -= point
         if target == "str":
             self.str_p += point
+            self.STR += point
             temp = self.str_p
         if target == "def":
             self.defe_p += point
+            self.DEFE += point
             temp = self.defe_p
         if target == "agi":
             self.agi_p += point
+            seld.AGI += point
             temp = self.agi_p
         self.pg.execute(f"UPDATE player_tb SET now_stp={self.now_stp},{target}_p={temp} WHERE id={self.id};")
         return temp
