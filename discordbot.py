@@ -115,11 +115,13 @@ async def on_ready():
         if not client.get_channel(ch_data):
             pg.execute(f"delete from mob_tb where id = {ch_data}")
 
-
-    for player_id in pg.fetch("select id from player_tb"):
-        print(player_id[0])
-        box.players[id] = player.Player(client, player_id[0])
-    print(box.players)
+    player_idlist = [ i[0] for i in pg.fetch("select id from player_tb;")]
+    print(len(player_idlist), player_idlist)
+    for player_id in player_idlist:
+        print(player_id)
+        if not player_id in  box.players:
+            box.players[id] = player.Player(client, player_id)
+    print(len(box.players))
 
 
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
