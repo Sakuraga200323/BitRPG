@@ -59,6 +59,7 @@ class Postgres:
 
 class Player:
     def __init__(self, client, id):
+        self.id = id
         self.pg = Postgres(dsn)
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
