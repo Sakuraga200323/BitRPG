@@ -397,7 +397,7 @@ async def on_message(message):
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    await stp.divid(m_author, m_ch, result)
+                    await stp.divid(client, m_author, m_ch, result)
 
 
             # チャンネルレベルランキングの表示 #
