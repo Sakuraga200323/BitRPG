@@ -60,10 +60,10 @@ async def send_bord(client, user, ch):
     def bar(x,y):
         return round(x/y*32)*"■"
     if not p_data.all_stp <= 0:
-        s = f"`STR：{bar(p_data.str_stp, all_stp)}`"
-        d = f"`DEF：{bar(p_data.defe_stp, all_stp)}`"
-        a = f"`AGI：{bar(p_data.agi_stp, all_stp)}`"
-        r = f"`REM：{bar(p_data.all_stp, all_stp)}`"
+        s = f"`STR：{bar(p_data.str_p, p_data.all_stp)}`"
+        d = f"`DEF：{bar(p_data.defe_p, p_data.all_stp)}`"
+        a = f"`AGI：{bar(p_data.agi_p, p_data.all_stp)}`"
+        r = f"`REM：{bar(p_data.all_stp, p_data.all_stp)}`"
                     
         embed.add_field(name = f"STP Balance (Max■×32, STP Only, {p_data.all_stp})", value = f"{s}\n{d}\n{a}\n{r}", inline = False)
     embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data.all_exp}*\n`[次のレベルまで後{p_data.lv - p_data.now_exp}]`")
