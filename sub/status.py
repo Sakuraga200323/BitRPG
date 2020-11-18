@@ -12,8 +12,7 @@ import psycopg2.extras
 import random
 import re
 import traceback
-import sub.box
-import sub.calc
+from sub import box, calc
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -48,27 +47,25 @@ pg = Postgres(dsn)
 
 async def send_bord(client, user, ch):
     print("status:",user.name, user.id)
-    p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
-    all_stp = p_data['str_stp'] + p_data['def_stp']+ p_data['agi_stp'] + p_data['stp']
+    p_data = box.players[user.id]
     embed = discord.Embed(title = "Player Status Board")
-    embed.add_field(name = f"Player", value = f"{p_data['name']}({user.mention})", inline = False)
-    embed.add_field(name = f"Sex", value = f"{p_data['sex']}", inline = False)
-    embed.add_field(name = f"Lv (Level)", value = f"*{p_data['lv']} / {p_data['max_lv']}*")
-    embed.add_field(name = f"HP (HitPoint)", value = f"*{p_data['now_hp']} / {p_data['max_hp']}*")
-    embed.add_field(name = f"MP (MagicPoint)", value = f"*{p_data['now_mp']} / {p_data['max_mp']}*")
-    embed.add_field(name = f"STR (Strength)", value = f"*{p_data['str'] + p_data['str_stp']}*\n`(+{p_data['str_stp']})`")
-    embed.add_field(name = f"DEF (Defense)", value = f"*{p_data['def'] + p_data['def_stp']}*\n`(+{p_data['def_stp']})`")
-    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data['agi'] + p_data['agi_stp']}*\n`(+{p_data['agi_stp']})`")
-    embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data['stp']}*\n")
+    embed.add_field(name = f"Player", value = f"{p_data.mention})", inline = False)
+    embed.add_field(name = f"Lv (Level)", value = f"*{p_data.lv} / {p_data.max_lv}*")
+    embed.add_field(name = f"HP (HitPoint)", value = f"*{p_data.now_hp} / {p_data.max_hp}*")
+    embed.add_field(name = f"MP (MagicPoint)", value = f"*{p_data.now_mp} / {p_data.max_mp}*")
+    embed.add_field(name = f"STR (Strength)", value = f"*{p_data.STR}*\n`(+{p_data.str_p})`")
+    embed.add_field(name = f"DEF (Defense)", value = f"*{p_data.DEFE}*\n`(+{p_data.defe_p})`")
+    embed.add_field(name = f"AGI (Agility)", value = f"*{p_data.AGI}*\n`(+{p_data.agi_p)`")
+    embed.add_field(name = f"STP (StatusPoint)", value = f"*{p_data.now_stp}*")
     def bar(x,y):
         return round(x/y*32)*"■"
-    if not all_stp <= 0:
-        s = f"`STR：{bar(p_data['str_stp'], all_stp)}`"
-        d = f"`DEF：{bar(p_data['def_stp'], all_stp)}`"
-        a = f"`AGI：{bar(p_data['agi_stp'], all_stp)}`"
-        r = f"`REM：{bar(p_data['stp'], all_stp)}`"
+    if not p_data.all_stp <= 0:
+        s = f"`STR：{bar(p_data.str_stp, all_stp)}`"
+        d = f"`DEF：{bar(p_data.defe_stp, all_stp)}`"
+        a = f"`AGI：{bar(p_data.agi_stp, all_stp)}`"
+        r = f"`REM：{bar(p_data.all_stp, all_stp)}`"
                     
-        embed.add_field(name = f"STP Balance (Max■×32, STP Only, {all_stp})", value = f"{s}\n{d}\n{a}\n{r}", inline = False)
-    embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data['all_exp']}*\n`[次のレベルまで後{p_data['lv'] - p_data['now_exp']}]`")
+        embed.add_field(name = f"STP Balance (Max■×32, STP Only, {p_data.all_stp})", value = f"{s}\n{d}\n{a}\n{r}", inline = False)
+    embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data.all_exp}*\n`[次のレベルまで後{p_data.lv - p_data.now_exp}]`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed = embed)
