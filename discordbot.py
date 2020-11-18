@@ -120,7 +120,6 @@ async def on_ready():
     player_idlist = [ i[0] for i in pg.fetch("select id from player_tb;")]
     print(len(player_idlist), player_idlist)
     for player_id in player_idlist:
-        print(player_id)
         player.Player(client, player_id)
     print(len(box.players),box.players.keys())
 
@@ -507,6 +506,7 @@ async def on_message(message):
 
                 P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                 await status.send_bord(client, m_author, m_ch)
+                player.Player(client,m_author.id)
                 embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
                 embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
                 embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
