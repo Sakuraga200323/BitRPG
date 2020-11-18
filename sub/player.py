@@ -76,7 +76,7 @@ class Player:
         self.agi_p = self.dtd["agi_p"]
         self.now_stp = self.dtd["now_stp"]
         self.all_stp = self.str_p + self.defe_p + self.agi_p + self.now_stp
-        self.max_exp = self.dtd["max_exp"]
+        self.all_exp = self.dtd["max_exp"]
         self.now_exp = self.dtd["now_exp"]
         self.kill_count = self.dtd["kill_count"]
         self.magic_class = self.dtd["magic_class"]
