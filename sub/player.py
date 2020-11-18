@@ -61,7 +61,7 @@ class Player:
     def __init__(self, client, id):
         self.pg = Postgres(dsn)
         self.client = client
-        self.dtd = pg.fetchdict(f"select * from player_tb where id = {id};")[0]
+        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
         box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
