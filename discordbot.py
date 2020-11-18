@@ -427,7 +427,7 @@ async def on_message(message):
                         return 0
                     return 1
                 if m_author.id in id_list:
-                    await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ yes->y no->n")
+                    await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check)
                     except asyncio.TimeoutError:
@@ -446,8 +446,7 @@ async def on_message(message):
                         title=f"{m_author.name} の所属魔法領域を選択",
                         description=
                             (f"所属する魔法領域の対応番号を**半角で**送信してください。"
-                            +"\n`^^start`で際登録していただく事で変更は可能ですが、レベル等を引き継ぐ場合は"
-                            +"[リアルマネー(BitCashギフトカード)](https://bitcash.jp/docs/purchase/familymart/index)で1000円請求します。"
+                            +"\n`^^start`で再登録していただく事でLv1から始め直す事は可能ですが、アカウント間でのデータの引き継ぎや、再登録のレベル引き継ぎは有料となっております。"
                             +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
                     magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には千人力の火力を出します。`")
                     magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
@@ -494,7 +493,6 @@ async def on_message(message):
                     embed = discord.Embed(
                         description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
                         color=discord.Color.green())
-                    embed.set_thumbnail(url="https://media.discordapp.net/attachments/719855399733428244/740870252945997925/3ff89628eced0385.gif")
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
 
                 P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
