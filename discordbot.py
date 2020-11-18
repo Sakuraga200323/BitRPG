@@ -18,6 +18,7 @@ from sub import box, item, battle, help, stp, kaihou, rank, status, player
 from anti_macro import anti_macro
 
 
+
 class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
