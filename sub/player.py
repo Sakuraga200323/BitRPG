@@ -84,3 +84,4 @@ class Player:
         if not id in box.players:
             box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
+
