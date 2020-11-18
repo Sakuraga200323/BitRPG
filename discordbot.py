@@ -123,7 +123,7 @@ async def on_ready():
         print(player_id)
         if not player_id in  box.players:
             box.players[id] = player.Player(client, player_id)
-    print(len(box.players))
+    print(len(box.players),box.players.keys())
 
 
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
