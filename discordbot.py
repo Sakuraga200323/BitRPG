@@ -146,7 +146,7 @@ async def loop():
     MEM = psutil.virtual_memory().percent
     sub_msg = ''
     if client.get_channel(761571389345759232).name=='true':
-        sub_msg = "現在開発作業中につき停止中￤"
+        sub_msg = "^^start以外のコマンド停止中￤"
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}^^url￤{len(client.guilds)}server"))
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
