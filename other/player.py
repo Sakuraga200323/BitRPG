@@ -55,8 +55,10 @@ class Postgres:
         sql += ";"
         self.cur.execute(f"{sql}")
 
-class RPGGuild:
-    def __init__(self, client):
+class Player:
+    def __init__(self, client, id):
         self.pg = Postgres(dsn)
         self.client = client
-        self.dtd = pg.fetchdict("select * from rpgguild_tb;")[0]
+        self.dtd = pg.fetchdict(f"select * from player_tb where id = {id};")[0]
+        self.user = client.get_user(id)
+        print(f"{self.user}:[{self.dtd}]")
