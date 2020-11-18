@@ -1,21 +1,23 @@
 # coding: utf-8
 # Your code here!
-import math
 import ast
 import asyncio
+import cv2
 from datetime import datetime, timedelta, timezone
-import discord
-from discord.ext import tasks
-import glob
+import math
 import os
-import psutil
-import psycopg2A
-import psycopg2.extras
 import random
 import re
+import sys
+
+import discord
+from discord.ext import tasks
+import psutil
+import psycopg2, psycopg2.extras
 import traceback
-import sub.box
-import sub.calc
+
+from sub import box
+
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -61,4 +63,5 @@ class Player:
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
+        box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
