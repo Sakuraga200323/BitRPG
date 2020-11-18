@@ -118,7 +118,7 @@ async def on_ready():
     print(pg.fetch("select id from player_tb"))
     for player_id in pg.fetch("select id from player_tb"):
         if client.get_user(id):
-            player.Player(client, player_id[0])
+            box.players[id] = player.Player(client, player_id[0])
     print(box.players)
 
 
