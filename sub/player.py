@@ -86,6 +86,24 @@ class Player:
             box.players[id] = self
         print(f"{self.user}:[{self.dtd}]")
 
+    def share_stp(self, target, point):
+        p_data.now_str -= point
+        if target == "str":
+            p_data.str_p += point
+            temp = p_data.str_p
+        if target == "def":
+            p_data.defe_p += point
+            temp = p_data.defe_p
+        if target == "agi":
+            p_data.agi_p += point
+            temp = p_data.agi_p
+        try:
+            self.pg.execute(f"UPDATE player_tb SET now_stp={p_data.now_stp},{target}_p={temp} WHERE id={self.id};")
+        except:
+            return 0
+        else:
+            return temp
+
     def get_exp(self, exp):
         self.now_exp += exp
         self.all_exp += exp
