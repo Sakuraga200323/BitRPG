@@ -458,7 +458,7 @@ async def on_message(message):
                     except asyncio.TimeoutError:
                         await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
                     else:
-                        respons = int(msg.content) if respons in ("1","2","3") else 0
+                        respons = int(msg.content) if msg.content in ("1","2","3") else 0
                         if not respons in (1,2,3):
                             await m_ch.send(f"【警告】1,2,3で答えて下さい。")
                             continue
