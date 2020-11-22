@@ -64,11 +64,38 @@ class Player:
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
-        self.lv = self.dtd["lv"]
-        self.max_lv = self.dtd["max_lv"]
         self.max_hp = self.now_hp = self.lv * 100 + 10
         self.max_mp = self.now_mp = self.lv * 10
-        self.str = self.defe = self.agi = self.lv * 10 + 10
+    def get_data(self, target):
+        return self.pg.fetchdict(f"select {target} from player_tb where id = {id};")[0][target]
+    def plus_data(self, target, plus):
+        if target = 'id':
+            return None
+        else:
+            self.pg.execute(f'update player_tb set {target}={target}+{plus};')
+            return self.get_data(target)
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('lv', plus)
+        else:
+            result = self.get_data('lv')
+        return result
+    def max_lv(self, plus):
+        if isinstance(plus,int):
+            result = self.plus('max_lv', plus)
+        else:
+            result = self.get_data('lv')
+        return result
+    def str(self):
+        else:
+            result = self.get_data('lv') * 10 + 10
+    def def(self):
+        else:
+            result = self.get_data('lv') * 10 + 10
+    def agi(self):
+        else:
+            result = self.get_data('lv') * 10 + 10
+        return result
         self.str_p = self.dtd["str_p"]
         self.defe_p = self.dtd["def_p"]
         self.agi_p = self.dtd["agi_p"]
