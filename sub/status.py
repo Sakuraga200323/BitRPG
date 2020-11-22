@@ -68,6 +68,6 @@ async def send_bord(client, user, ch):
         r = f"`REM：{bar(p_data.all_stp, p_data.all_stp)}`"
                     
         embed.add_field(name = f"STP Balance (STP Only, Sum:{p_data.all_stp})", value = f"{s}\n{d}\n{a}\n{r}", inline = False)
-    embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data.all_exp}*\n`[{'|'*int((self.now_exp/self.lv)*100) if self.now_exp >= 0 else ' ': <10}]`")
+    embed.add_field(name = f"EXP (ExperiencePoint)", value = f"*{p_data.all_exp}*\n`[{'|'*int((p_data.now_exp/p_data.lv)*100) if p_data.now_exp >= 0 else ' ': <10}]`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed = embed)
