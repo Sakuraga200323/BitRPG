@@ -125,11 +125,11 @@ class Player:
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
 
-    def STR():
+    def STR(self):
         return self.str + self.dtd["str_p"]
-    def DEFE():
+    def DEFE(self):
         return self.defe + self.dtd["def_p"]
-    def AGI():
+    def AGI(self):
         return self.agi + self.dtd["agi_p"]
             
 
