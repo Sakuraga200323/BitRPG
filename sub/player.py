@@ -102,6 +102,8 @@ class Player:
             result = self.plus('str_p', plus)
         else:
             result = self.get_data('str_p')
+    def STR(self):
+        return self.str() + self.str_p()
 
     def defe(self):
         result = self.get_data('lv') * 10 + 10
@@ -111,6 +113,8 @@ class Player:
             result = self.plus('sdefe_p', plus)
         else:
             result = self.get_data('defe_p')
+    def DEFE(self):
+        return self.defe() + self.defe_p()
 
     def agi(self):
         result = self.get_data('lv') * 10 + 10
@@ -120,6 +124,8 @@ class Player:
             result = self.plus('agi_p', plus)
         else:
             result = self.get_data('agi_p')
+    def AGI(self):
+        return self.agi() + self.agi_p()
 
     def now_stp(self, plus=None):
         if isinstance(plus,int):
