@@ -113,9 +113,10 @@ async def on_ready():
         get_icon(img,24,13)
     )"""
 
-    for ch_data in pg.fetch("select id from mob_tb;")[0]:
-        if not client.get_channel(ch_data):
-            pg.execute(f"delete from mob_tb where id = {ch_data}")
+    mob_ids = [ i[0] for i in pg.fetch("select id from mob_tb;")]
+    for mob_id in mob_ids:
+        avatar.Mob(client, mob_id)
+    print(len(mob_ids), len(box.mobs))
 
 
     player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
@@ -133,6 +134,7 @@ async def on_ready():
         + f"\n+UsingMemory『{MEM}%』"
         + f"\n+JoinServer『{len(client.guilds)}』"
         + f"\n+PlayerNum=DataNum『{p_num_result}』"
+        + f"\n+MobNum=DataNum『{p_num_result}』"
         )
 
     print(f"【報告】起動完了。\n使用メモリー{MEM}%")
