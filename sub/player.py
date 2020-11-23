@@ -148,9 +148,9 @@ class Player:
         return result
     def EXP(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('all_stp', plus)
+            result = self.plus('all_exp', plus)
         else:
-            result = self.get_data('all_stp')
+            result = self.get_data('all_exp')
         return result
 
     def kill_count(self, plus=None):
