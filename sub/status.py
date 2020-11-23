@@ -61,7 +61,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def bar(x,y):
         return round(x/y*24)*"|"
-    if not p_data.now_stp() <= 0:
+    if not p_data.STP() <= 0:
         s = f"STR`：{bar(p_data.str_p(), p_data.STP())}`"
         d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
