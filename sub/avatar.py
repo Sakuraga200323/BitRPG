@@ -16,8 +16,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box
-
+from sub import box, mob_data
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -58,6 +57,8 @@ class Postgres:
         sql += ";"
         self.cur.execute(f"{sql}")
 
+#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
+
 class Player:
     def __init__(self, client, id):
         self.user = client.get_user(id)
@@ -85,6 +86,8 @@ class Player:
     def lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('lv', plus)
+            self.max_hp = self.now_hp = self.lv() * 100 + 10
+            self.max_mp = self.now_mp = self.lv() * 10
         else:
             result = self.get_data('lv')
         return result
@@ -222,6 +225,7 @@ class Player:
     def battle_end(self):
         self.battle_ch_id = None
 
+#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
 class Mob:
     # name,id,lv,img_url
@@ -231,21 +235,6 @@ class Mob:
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
         self.max_hp = self.now_hp = self.lv() * 110 + 10
-        from sub import mob_data
-        if random.random() >= 0.999:
-            select = mob_data.ultrarare
-            self.type = "UltraRare"
-        elif self.dtd["lv"] % 1000 == 0:
-            select = mob_data.worldend
-            self.type = "WorldEnd"
-        elif self.dtd["lv"] % 10 == 0:
-            select = mob_data.elite
-            self.type = "Elite"
-        else:
-            select = mob_data.normal
-            self.type = "Normal"
-        set = random.choice(select.values())
-        self.name, self.img_url = set 
         if not id in box.mobs:
             box.mobs[id] = self
 
@@ -264,6 +253,8 @@ class Mob:
     def lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('lv', plus)
+            self.max_hp = self.now_hp = self.lv() * 100 + 10
+            self.max_mp = self.now_mp = self.lv() * 10
         else:
             result = self.get_data('lv')
         return result
@@ -298,3 +289,18 @@ class Mob:
             return True
     def battle_end(self):
         self.battle_players_id = []
+        if random.random() >= 0.999:
+            select = mob_data.ultrarare
+            self.type = "UltraRare"
+        elif self.dtd["lv"] % 1000 == 0:
+            select = mob_data.worldend
+            self.type = "WorldEnd"
+        elif self.dtd["lv"] % 10 == 0:
+            select = mob_data.elite
+            self.type = "Elite"
+        else:
+            select = mob_data.normal
+            self.type = "Normal"
+        set = random.choice(select.values())
+        self.name, self.img_url = set
+        return self.lv(1), set[0], set[1]
