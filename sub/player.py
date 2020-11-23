@@ -102,6 +102,7 @@ class Player:
             result = self.plus('str_p', plus)
         else:
             result = self.get_data('str_p')
+        return result
     def STR(self):
         return self.str() + self.str_p()
 
@@ -113,6 +114,7 @@ class Player:
             result = self.plus('sdefe_p', plus)
         else:
             result = self.get_data('defe_p')
+        return result
     def DEFE(self):
         return self.defe() + self.defe_p()
 
@@ -124,6 +126,7 @@ class Player:
             result = self.plus('agi_p', plus)
         else:
             result = self.get_data('agi_p')
+        return result
     def AGI(self):
         return self.agi() + self.agi_p()
 
@@ -132,39 +135,47 @@ class Player:
             result = self.plus('now_stp', plus)
         else:
             result = self.get_data('now_stp')
+        return result
     def STP(self, plus=None):
         result = self.str_p + self.defe_p + self.agi_p + self.now_stp
+        return result
 
     def now_exp(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('now_exp', plus)
         else:
             result = self.get_data('now_exp')
+        return result
     def EXP(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('all_stp', plus)
         else:
             result = self.get_data('all_stp')
+        return result
 
     def kill_count(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('kill_count', plus)
         else:
             result = self.get_data('kill_count')
+        return result
 
     def magic_class(self):
         result = self.get_data('magic_class')
+        return result
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('magic_lv', plus)
         else:
             result = self.get_data('magic_lv')
+        return result
 
     def money(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('money', plus)
         else:
             result = self.get_data('money')
+        return result
 
     def share_stp(self, target, point):
         self.now_stp -= point
