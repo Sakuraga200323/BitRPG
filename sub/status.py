@@ -65,7 +65,7 @@ async def send_bord(client, user, ch):
         s = f"STR`：{bar(p_data.str_p(), p_data.STP())}`"
         d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
-        r = f"REM`：{bar(p_data.all_stp(), p_data.STP())}`"
+        r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
                     
         embed.add_field(name=f"STP Balance (Sum:{p_data.all_stp})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
     embed.add_field(name = f"EXP (ExperiencePoint)", value=f"*{p_data.all_exp}*\n`[{'|'*int((p_data.now_exp/p_data.lv)*100) if p_data.now_exp >= 0 else ' ': <10}]`")
