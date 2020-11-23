@@ -28,6 +28,7 @@ class Postgres:
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
         self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        self.battle_ch_id = None
 
     def execute(self, sql):
         self.cur.execute(sql)
@@ -212,4 +213,12 @@ class Player:
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
+    
+    def battle_start(self, id):
+        if self.battle_ch.id:
+            print(self.user.name,"is already battling in",self.battle_ch.id)
+            return
+        self.battle_ch.id  = id
+    def battle_end(self):
+        self.battle_ch_id = None
 
