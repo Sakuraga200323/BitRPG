@@ -118,20 +118,22 @@ async def on_ready():
             pg.execute(f"delete from mob_tb where id = {ch_data}")
 
 
-    player_idlist = [ i[0] for i in pg.fetch("select id from player_tb;")]
-    print(len(player_idlist), player_idlist)
-    for player_id in player_idlist:
+    player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
+    for player_id in player_ids:
         player.Player(client, player_id)
-    print(len(box.players),box.players.keys())
+    print(len(player_ids), len(box.players))
 
 
     NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
     MEM = psutil.virtual_memory().percent
     LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bitrpg起動ログ"]
+    p_num_result = (len(player_ids) == len(box.players))
     desc = (
-        f"\n+Prefix\n^^"
-        + f"\n+UsingMemory\n{MEM}%"
-        + f"\n+Server\n{len(client.guilds)}")
+        f"\n+Prefix『^^』"
+        + f"\n+UsingMemory『{MEM}%』"
+        + f"\n+JoinServer『{len(client.guilds)』"
+        + f"\n+PlayerNum=DataNum『{p_num_result}』"
+        )
 
     print(f"【報告】起動完了。\n使用メモリー{MEM}%")
 
