@@ -64,11 +64,11 @@ class Player:
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
         self.user = client.get_user(id)
-        self.max_hp = self.now_hp = self.lv * 100 + 10
-        self.max_mp = self.now_mp = self.lv * 10
+        self.max_hp = self.now_hp = self.lv() * 100 + 10
+        self.max_mp = self.now_mp = self.lv() * 10
         if not id in box.players:
             box.players[id] = self
-            print(f"{self.user}:[{self.dtd}]")
+            print(f"データ獲得：{self.user}")
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {id};")[0][target]
