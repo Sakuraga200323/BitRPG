@@ -52,22 +52,22 @@ async def send_bord(client, user, ch):
     p_data = box.players[user.id]
     embed = discord.Embed(title = "Player Status Board")
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})", inline = False)
-    embed.add_field(name=f"Lv (Level)", value=f"*{p_data.lv()} / {p_data.max_lv()}*")
-    embed.add_field(name=f"HP (HitPoint)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
-    embed.add_field(name=f"MP (MagicPoint)", value=f"*{p_data.now_mp} / {p_data.max_mp}*")
-    embed.add_field(name=f"STR (Strength)", value=f"*{p_data.STR()}*\n`(+{p_data.str_p()})`")
-    embed.add_field(name=f"DEF (Defense)", value=f"*{p_data.DEFE()}*\n`(+{p_data.defe_p()})`")
-    embed.add_field(name=f"AGI (Agility)", value=f"*{p_data.AGI()}*\n`(+{p_data.agi_p()})`")
-    embed.add_field(name=f"STP (StatusPoint)", value=f"*{p_data.now_stp()}*")
+    embed.add_field(name=f"Level", value=f"*{p_data.lv()} / {p_data.max_lv()}*")
+    embed.add_field(name=f"HitPoint", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
+    embed.add_field(name=f"MagicPoint", value=f"*{p_data.now_mp} / {p_data.max_mp}*")
+    embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*\n`(+{p_data.str_p()})`")
+    embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*\n`(+{p_data.defe_p()})`")
+    embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*\n`(+{p_data.agi_p()})`")
+    embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def bar(x,y):
         return round(x/y*24)*"|"
-    if not p_data.all_stp <= 0:
+    if not p_data.now_stp() <= 0:
         s = f"STR`：{bar(p_data.str_p(), p_data.STP())}`"
         d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
                     
-        embed.add_field(name=f"STP Balance (Sum:{p_data.all_stp})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
-    embed.add_field(name = f"EXP (ExperiencePoint)", value=f"*{p_data.all_exp}*\n`[{'|'*int((p_data.now_exp/p_data.lv)*100) if p_data.now_exp >= 0 else ' ': <10}]`")
+        embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
+    embed.add_field(name = f"ExperiencePoint", value=f"*{p_data.all_exp}*\n`[{'|'*int((p_data.now_exp/p_data.lv)*100) if p_data.now_exp >= 0 else ' ': <10}]`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
