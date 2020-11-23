@@ -58,7 +58,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*\n`(+{p_data.str_p()})`")
     embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*\n`(+{p_data.defe_p()})`")
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*\n`(+{p_data.agi_p()})`")
-    embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
+    embed.add_field(name=f"StatusPoint", value=f"*{p_data.STP()}*")
     def bar(x,y):
         return round(x/y*24)*"|"
     if not p_data.STP() <= 0:
