@@ -201,7 +201,7 @@ class Player:
         now_exp = self.now_exp() + exp
         lv = self.lv()
         while now_exp >= lv:
-            if self.max_lv >= lv:
+            if self.max_lv() >= lv:
                 lv += 1
                 lvup_count += 1
         if lvup_count > 0:
