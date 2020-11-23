@@ -229,13 +229,14 @@ class Player:
 class Mob:
     # name,id,lv,img_url
     def __init__(self, client, id):
-        self.mob = client.get_channel(id);print(self.mob,id)
-        self.pg = Postgres(dsn)
-        self.client = client
-        self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
-        self.max_hp = self.now_hp = self.lv() * 110 + 10
-        if not id in box.mobs:
-            box.mobs[id] = self
+        if client.get_channel(id):
+            self.mob = client.get_channel(id)
+            self.pg = Postgres(dsn)
+            self.client = client
+            self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
+            self.max_hp = self.now_hp = self.lv() * 110 + 10
+            if not id in box.mobs:
+                box.mobs[id] = self
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
