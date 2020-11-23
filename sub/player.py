@@ -87,7 +87,7 @@ class Player:
         else:
             result = self.get_data('lv')
         return result
-    def max_lv(self, plus):
+    def max_lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('max_lv', plus)
         else:
