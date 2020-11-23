@@ -115,7 +115,8 @@ async def on_ready():
 
     mob_ids = [ i[0] for i in pg.fetch("select id from mob_tb;")]
     for mob_id in mob_ids:
-        avatar.Mob(client, mob_id)
+        if client.get_channel(mob_id):
+            avatar.Mob(client, mob_id)
     print(len(mob_ids), len(box.mobs))
 
 
