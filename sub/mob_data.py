@@ -21,7 +21,7 @@ normal = {
 elite = {
     1:("Ajna","http://folce.zatunen.com/m77.png"),
     2:("RogueniteElite","http://folce.zatunen.com/m19.png"),
-    3:("ValkyrieElite","http://folce.zatunen.com/m52.png),
+    3:("ValkyrieElite","http://folce.zatunen.com/m52.png"),
     4:("LizardGoblinElite","http://folce.zatunen.com/m37.png"),
     5:("DarkKnight","http://folce.zatunen.com/m36.png"),
     6:("Odin","http://folce.zatunen.com/m62.png")
@@ -36,5 +36,5 @@ rare = {
 }
 
 ultrarare = {
-  "1":("古月",https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585)
+  "1":("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
 }
