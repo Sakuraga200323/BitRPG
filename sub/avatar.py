@@ -96,7 +96,7 @@ class Player:
         return result
 
     def str(self):
-        result = self.get_data('lv') * 10 + 10
+        result = self.lv() * 10 + 10
         return result
     def str_p(self, plus=None):
         if isinstance(plus,int):
@@ -108,7 +108,7 @@ class Player:
         return self.str() + self.str_p()
 
     def defe(self):
-        result = self.get_data('lv') * 10 + 10
+        result = self.lv() * 10 + 10
         return result
     def defe_p(self, plus=None):
         if isinstance(plus,int):
@@ -120,7 +120,7 @@ class Player:
         return self.defe() + self.defe_p()
 
     def agi(self):
-        result = self.get_data('lv') * 10 + 10
+        result = self.lv() * 10 + 10
         return result
     def agi_p(self, plus=None):
         if isinstance(plus,int):
@@ -215,10 +215,86 @@ class Player:
         return self.now_hp
     
     def battle_start(self, id):
-        if self.battle_ch.id:
+        if self.battle_ch_id:
             print(self.user.name,"is already battling in",self.battle_ch.id)
             return
-        self.battle_ch.id  = id
+        self.battle_ch_id  = id
     def battle_end(self):
         self.battle_ch_id = None
 
+
+class Mob:
+    # name,id,lv,img_url
+    def __init__(self, client, id):
+        self.mob = client.get_channel(id)
+        self.pg = Postgres(dsn)
+        self.client = client
+        self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
+        self.max_hp = self.now_hp = self.lv() * 110 + 10
+        from sub import mob_data
+        if random.random() >= 0.999:
+            select = mob_data.ultrarare
+            self.type = "UltraRare"
+        elif self.dtd["lv"] % 1000 == 0:
+            select = mob_data.worldend
+            self.type = "WorldEnd"
+        elif self.dtd["lv"] % 10 == 0:
+            select = mob_data.elite
+            self.type = "Elite"
+        else:
+            select = mob_data.normal
+            self.type = "Normal"
+        set = random.choice(select.values())
+        self.name, self.img_url = set 
+        if not id in box.mobs:
+            box.mobs[id] = self
+
+    def get_data(self, target):
+        return self.pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
+    def plus_data(self, target, plus):
+        if target == 'id':
+            return None
+        else:
+            if plus < 0:
+                self.pg.execute(f'update mob_tb set {target}={target}{plus};')
+            else:
+                self.pg.execute(f'update mob_tb set {target}={target}+{plus};')
+            return self.get_data(target)
+
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('lv', plus)
+        else:
+            result = self.get_data('lv')
+        return result
+
+    def str(self):
+        result = self.lv() * 10 + 10
+        return result
+
+    def defe(self):
+        result = self.lv() * 10 + 10
+        return result
+
+    def agi(self):
+        result = self.lv() * 10 + 10
+        return result
+
+    def cut_hp(self, dmg):
+        self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
+        return self.now_hp
+    
+    def player_join(self, id):
+        if id in self.battle_players_id:
+            return False
+        else:
+            self.battle_players_id.append(id)
+            return True
+    def player_leave(self, id):
+        if not id in self.battle_players_id:
+            return False
+        else:
+            self.battle_players_id.remove(id)
+            return True
+    def battle_end(self):
+        self.battle_players_id = []
