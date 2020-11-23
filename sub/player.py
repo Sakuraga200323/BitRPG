@@ -148,8 +148,7 @@ class Player:
             result = self.get_data('kill_count')
 
     def magic_class(self):
-        else:
-            result = self.get_data('magic_class')
+        result = self.get_data('magic_class')
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('magic_lv', plus)
