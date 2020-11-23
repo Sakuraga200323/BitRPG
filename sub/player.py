@@ -111,9 +111,9 @@ class Player:
         return result
     def defe_p(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('defe_p', plus)
+            result = self.plus('def_p', plus)
         else:
-            result = self.get_data('defe_p')
+            result = self.get_data('def_p')
         return result
     def DEFE(self):
         return self.defe() + self.defe_p()
