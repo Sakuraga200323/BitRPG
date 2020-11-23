@@ -79,7 +79,6 @@ class Player:
             if plus < 0:
                 self.pg.execute(f'update player_tb set {target}={target}{plus};')
             else:
-            if plus < 0:
                 self.pg.execute(f'update player_tb set {target}={target}+{plus};')
             return self.get_data(target)
 
