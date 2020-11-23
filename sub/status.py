@@ -54,7 +54,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
     embed.add_field(name=f"HitPoint(Now/Max)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
-    embed.add_field(name=f"MagicPoint(Now/Max)", value=f"*{p_data.now_mp} / {p_data.max_mp}*")
+    embed.add_field(name=f"MagicPoint(Now/Max)", value=f"*{p_data.now_mp} / {p_data.max_mp}*", inline=False)
     embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*\n`(+{p_data.str_p()})`")
     embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*\n`(+{p_data.defe_p()})`")
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*\n`(+{p_data.agi_p()})`")
