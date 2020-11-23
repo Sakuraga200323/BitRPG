@@ -117,6 +117,7 @@ async def on_ready():
     for mob_id in mob_ids:
         if client.get_channel(mob_id):
             avatar.Mob(client, mob_id)
+            await asyncio.sleep(0.5)
     print(len(mob_ids), len(box.mobs))
 
 
