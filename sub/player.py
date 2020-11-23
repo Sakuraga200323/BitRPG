@@ -198,5 +198,4 @@ class Player:
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
 
-            
 
