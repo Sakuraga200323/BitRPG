@@ -131,7 +131,7 @@ async def on_ready():
     desc = (
         f"\n+Prefix『^^』"
         + f"\n+UsingMemory『{MEM}%』"
-        + f"\n+JoinServer『{len(client.guilds)』"
+        + f"\n+JoinServer『{len(client.guilds)}』"
         + f"\n+PlayerNum=DataNum『{p_num_result}』"
         )
 
