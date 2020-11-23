@@ -137,7 +137,7 @@ class Player:
             result = self.get_data('now_stp')
         return result
     def STP(self, plus=None):
-        result = self.str_p + self.defe_p + self.agi_p + self.now_stp
+        result = self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
         return result
 
     def now_exp(self, plus=None):
