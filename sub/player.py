@@ -59,11 +59,10 @@ class Postgres:
 
 class Player:
     def __init__(self, client, id):
-        self.id = id
+        self.user = client.get_user(id)
         self.pg = Postgres(dsn)
         self.client = client
-        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
-        self.user = client.get_user(id)
+        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         self.max_hp = self.now_hp = self.lv() * 100 + 10
         self.max_mp = self.now_mp = self.lv() * 10
         if not id in box.players:
@@ -71,7 +70,7 @@ class Player:
             print(f"データ獲得：{self.user}")
 
     def get_data(self, target):
-        return self.pg.fetchdict(f"select {target} from player_tb where id = {id};")[0][target]
+        return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
     def plus_data(self, target, plus):
         if target == 'id':
             return None
