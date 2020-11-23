@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, item, battle, help, stp, kaihou, rank, status, player
+from sub import box, item, battle, help, stp, kaihou, rank, status, avatar
 from anti_macro import anti_macro
 
 
