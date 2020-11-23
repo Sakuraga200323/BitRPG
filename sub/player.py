@@ -69,7 +69,7 @@ class Player:
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {id};")[0][target]
     def plus_data(self, target, plus):
-        if target = 'id':
+        if target == 'id':
             return None
         else:
             self.pg.execute(f'update player_tb set {target}={target}+{plus};')
