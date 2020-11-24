@@ -12,8 +12,7 @@ import psycopg2.extras
 import random
 import re
 import traceback
-import sub.box, sub.calc
-from sub import buff
+from sub import box
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -62,7 +61,7 @@ pg = Postgres(dsn)
 
 
 async def open(client, ch, user):
-    items_dtd = pg.fetchdict(f"select items from player_tb where id = {user.id};")[0]["items"]
+    items_dtd = pg.fetchdict(f"select items from player_tb where id = {user.id};")[0]["item"]
     text = ""
     for item, num in items_dtd.items():
         text += f"{item}：`{num}`\n"
@@ -103,16 +102,11 @@ async def use(client, ch, user, item):
             
     if item == "MP回復薬":
         pass
-
+                                       
+    
     if item == "ドーピング薬":
         dmg = round(p_data["max_hp"]*0.2)
         pg.execute(f"update player_tb set now_hp = now_hp - {dmg} where id = {user.id};")
-        if not user.id in buff.doping:
-            buff.doping[user.id] = [3, 0]
-        buff.doping[user.id][1] += dmg
-        if random.random() >= 0.9999:
-            item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} さ攻撃力が10%上昇したんべ!")
-            return
         item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 攻撃力が10%上昇!")
 
     if item == "冒険者カード":
