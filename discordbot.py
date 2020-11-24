@@ -404,7 +404,7 @@ async def on_message(message):
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    await stp.divid(client, m_author, m_ch, result)
+                    await status.divid(client, m_author, m_ch, result)
 
 
             # チャンネルレベルランキングの表示 #
@@ -427,7 +427,7 @@ async def on_message(message):
 
             # Lv上限解放 #
             if m_ctt == "^^gentotsu":
-                await kaihou.kaihou_proc(client, m_ch, m_author)
+                await status.kaihou_proc(client, m_ch, m_author)
 
 
             if m_ctt == '^^start':
