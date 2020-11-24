@@ -71,3 +71,21 @@ async def send_bord(client, user, ch):
     embed.add_field(name = f"Experience", value=f"*{p_data.EXP()}*\n`({p_data.now_exp()} / {p_data.lv() - p_data.now_exp()})[{'|'*int((p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10) if p_data.now_exp() >= 0 else ' ': <10}]`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
+
+
+
+
+async def divid(client, user, ch, result):
+    pg = Postgres(dsn)
+    p_data = box.players[user.id]
+    target = result.group(1)
+    point = int(result.group(2))
+    if not target in ("str","def","agi"):
+        await ch.send(f"{target}は強化項目の一覧にありません。`str`,`def`,`agi` の中から選んでください。")
+        return
+    if p_data.now_stp() < point:
+        await ch.send(f"{p_data.user.mention}の所持ポイントを{point - p_data.now_stp()}超過しています。{p_data.now_stp()}以下にしてください。")
+        return
+    result = p_data.share_stp(target, point)
+    print("Point:" ,user.id)
+    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。")
