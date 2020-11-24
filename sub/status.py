@@ -76,7 +76,6 @@ async def send_bord(client, user, ch):
 
 
 async def divid(client, user, ch, result):
-    pg = Postgres(dsn)
     p_data = box.players[user.id]
     target = result.group(1)
     point = int(result.group(2))
