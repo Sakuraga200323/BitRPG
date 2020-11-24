@@ -271,6 +271,26 @@ class Mob:
         result = self.lv() * 10 + 10
         return result
 
+    def exp():
+        if self.lv() % 1000 == 0:
+            exp = self.lv()*100
+            money = random.randint(9000, 11000)
+        elif self.lv() % 100 == 0:
+            exp = self.lv()*5
+            money = random.randint(4000, 6000)
+        elif self.lv() % 10 == 0:
+            exp = self.lv() * 1.5
+            money = random.randint(100, 200)
+        else:
+            exp = self.lv()
+            money = random.randint(1, 10)
+        exp *= 0.45
+        exp = round(get_exp) + 1
+        if m_data.type == "UltraRare":
+            exp *= 100
+            money = 100000
+        return exp, money
+
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
