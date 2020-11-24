@@ -89,3 +89,26 @@ async def divid(client, user, ch, result):
     result = p_data.share_stp(target, point)
     print("Point:" ,user.id)
     await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。")
+
+
+
+
+ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
+ITEMS2 = ("冒険者カード",)
+
+async def kaihou_proc(client, ch, user):
+    p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
+    item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
+    print(item_num)
+    if item_num < 250:
+        husoku = 250 - item_num 
+        await ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}")
+        return
+    item_num -= 250
+    while p_data["now_exp"] > p_data["lv"] and p_data["lv"] <= p_data["max_lv"]:
+        p_data["now_exp"] -= p_data["lv"]
+        p_data["lv"] += 1
+        if p_data["lv"] % 10 == 0:
+            p_data["stp"] += 50 
+    pg.execute(f"update player_tb set lv = {p_data['lv']}, stp = {p_data['stp']}, now_exp = {p_data['now_exp']}, items = items::jsonb||json_build_object('魔石', {item_num})::jsonb, max_lv = {p_data['max_lv'] + 1000} where id = {user.id};")
+    await ch.send(f"限界突破！！{p_data['name']}のレベル上限が{p_data['max_lv'] +1000}に上昇しました。")
