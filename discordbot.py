@@ -681,10 +681,10 @@ async def on_message(message):
                         
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
-        user_is_c_lv2 = (await client.get_guild(official_guild_id)).get_role(c_lv2) in m_author.roles
-        user_is_c_lv3 = (await client.get_guild(official_guild_id)).get_role(c_lv3) in m_author.roles
-        user_is_c_lv4 = (await client.get_guild(official_guild_id)).get_role(c_lv4) in m_author.roles
-        user_is_c_lv5 = (await client.get_guild(official_guild_id)).get_role(c_lv5) in m_author.roles
+        user_is_c_lv2 = (client.get_guild(official_guild_id)).get_role(c_lv2) in m_author.roles
+        user_is_c_lv3 = (client.get_guild(official_guild_id)).get_role(c_lv3) in m_author.roles
+        user_is_c_lv4 = (client.get_guild(official_guild_id)).get_role(c_lv4) in m_author.roles
+        user_is_c_lv5 = (client.get_guild(official_guild_id)).get_role(c_lv5) in m_author.roles
         if not user_is_c_lv4 or not user_is_c_lv5:
             clv = 3 if user_is_c_lv3 else 2 if user_is_c_lv2 else 1
             await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. You need at least ClearanceLv4 to call the system.*")
