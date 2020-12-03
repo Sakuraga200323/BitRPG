@@ -227,14 +227,14 @@ class Player:
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
 class Mob:
-    # name,id,lv,img_url
+    # id,lv
     def __init__(self, client, id):
         if client.get_channel(id):
             self.mob = client.get_channel(id)
             self.pg = Postgres(dsn)
             self.client = client
             if len(self.pg.fetchdict(f"select id from player_tb where id = {id};")) == 0:
-                self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1, None);")
+                self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
             self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.lv() * 110 + 10
             if not id in box.mobs:
