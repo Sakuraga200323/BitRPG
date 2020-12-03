@@ -237,6 +237,7 @@ class Mob:
             self.mob = client.get_channel(id)
             self.pg = Postgres(dsn)
             self.client = client
+            self.battle_players = None
             try:
                 self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
             except psycopg2.errors.UniqueViolation:
@@ -306,16 +307,16 @@ class Mob:
         return self.now_hp
     
     def player_join(self, id):
-        if id in self.battle_players_id:
+        if id in self.battle_players:
             return False
         else:
-            self.battle_players_id.append(id)
+            self.battle_players.append(id)
             return True
     def player_leave(self, id):
-        if not id in self.battle_players_id:
+        if not id in self.battle_players:
             return False
         else:
-            self.battle_players_id.remove(id)
+            self.battle_players.remove(id)
             return True
     def battle_end(self):
         self.battle_players_id = []
