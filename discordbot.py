@@ -751,8 +751,8 @@ async def on_message(message):
                 finally:
                     await m_ch.send("Completed. System was already closed.")
 
-                    
-        
+
+
 '''
 update テーブル名 set 列名 = 値, 列名 = 値, ...
 where 列名 = 値;
