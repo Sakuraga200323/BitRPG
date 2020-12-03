@@ -71,8 +71,13 @@ loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
 async def cbt_proc(user,ch):
+    print(box.players)
+    print(box.mobs)
     player = box.players[user.id]
     mob = box.mobs[ch.id]
+    if not id in box.players:
+        box.players[id] = self
+        print(f"Playerデータ挿入： {self.user}")
     if player.battle_ch_id:
         if player.battle_ch_id != ch.id:
             channel = client.get_channel(player.battle_ch_id)
