@@ -677,6 +677,7 @@ async def on_message(message):
                             await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
                         
 
+
                         
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
