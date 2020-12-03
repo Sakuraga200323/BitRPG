@@ -71,7 +71,7 @@ class Player:
         if not id in box.players:
             box.players[id] = self
             print(f"Playerデータ挿入： {self.user}")
-        self.battle_ch_id = 0
+        self.battle_ch = None
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
@@ -220,13 +220,13 @@ class Player:
         return self.now_hp
     
     def battle_start(self, id):
-        if self.battle_ch_id == 0:
-            print(self.user.name,"is already battling in",self.battle_ch_id)
+        if self.battle_ch:
+            print(self.user.name,"is already battling in",self.battle_ch)
             return False
-        self.battle_ch_id  = id
+        self.battle_ch  = id
         return True
     def battle_end(self):
-        self.battle_ch_id = 0
+        self.battle_ch = None
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
