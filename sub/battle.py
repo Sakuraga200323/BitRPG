@@ -76,15 +76,14 @@ async def cbt_proc(client, user, ch):
         print(f"Playerデータ挿入： {box.players[user.id].user}")
     player = box.players[user.id]
     mob = box.mobs[ch.id]
-    if player.battle_ch_id:
-        if player.battle_ch_id != ch.id:
-            channel = client.get_channel(player.battle_ch_id)
-            if channel:
-                await ch.send(f"<@{user.id}> は現在『{channel}』で戦闘中です。")
-                return
-            else:
-                await ch.send(f"<@{user.id}> のデータに、こことは違うチャンネルのIDが記載されていましたが、該当するチャンネルは見つけられませんでした。データの上書きを行ないます。")
-                player.battle_end()
+    if not player.battle_start(ch.id)
+        channel = client.get_channel(player.battle_ch_id)
+        if channel:
+            await ch.send(f"<@{user.id}> は現在『{channel}』で戦闘中です。")
+            return
+        else:
+            await ch.send(f"<@{user.id}> のデータに、こことは違うチャンネルのIDが記載されていましたが、該当するチャンネルは見つけられませんでした。データの上書きを行ないます。")
+            player.battle_end()
     player.battle_start(ch.id)
     if player.now_hp <= 0:
         await ch.send(f"<@{user.id}> は既に死亡しています。")
