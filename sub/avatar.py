@@ -71,7 +71,7 @@ class Player:
         if not id in box.players:
             box.players[id] = self
             print(f"Playerデータ挿入： {self.user}")
-        self.ballte_ch_id = None
+        self.batlle_ch_id = None
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
