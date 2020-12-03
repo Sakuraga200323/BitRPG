@@ -1,3 +1,5 @@
+import random
+
 normal = {
     1:("Skeleton","https://media.discordapp.net/attachments/719489738939301938/719490176627507230/hone.png"),
     2:("Roguenite","https://cdn.discordapp.com/attachments/719489738939301938/719490298845069322/heisi.png"),
@@ -38,3 +40,20 @@ rare = {
 ultrarare = {
     "1":("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
 }
+
+
+
+def select(lv):
+    if random.random() >= 0.999:
+        type = "ultrarare"
+        result = random.choice(list(ultrarare.values()))
+    elif lv % 1000 == 0:
+        type = "worldend"
+        result = random.choice(list(worldend.values()))
+    elif lv % 10 == 0:
+        type = "elite"
+        result = random.choice(list(elite.values()))
+    else:
+        type = "normal"
+        result = random.choice(list(normal.values()))
+    return {"type":type, "name":result[0], "img_url":result[1]}
