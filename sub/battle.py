@@ -85,7 +85,6 @@ async def cbt_proc(client, user, ch):
         else:
             await ch.send(f"<@{user.id}> のデータに、こことは違うチャンネルのIDが記載されていましたが、該当するチャンネルは見つけられませんでした。データの上書きを行ないます。")
             player.battle_end()
-    player.battle_start(ch.id)
     if player.now_hp <= 0:
         await ch.send(f"<@{user.id}> は既に死亡しています。")
         return
