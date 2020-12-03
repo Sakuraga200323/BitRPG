@@ -45,15 +45,15 @@ ultrarare = {
 
 def select(lv):
     if random.random() >= 0.999:
-        type = "ultrarare"
+        type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
     elif lv % 1000 == 0:
-        type = "worldend"
+        type = "WorldEnd"
         result = random.choice(list(worldend.values()))
     elif lv % 10 == 0:
-        type = "elite"
+        type = "Elite"
         result = random.choice(list(elite.values()))
     else:
-        type = "normal"
+        type = "Normal"
         result = random.choice(list(normal.values()))
     return {"type":type, "name":result[0], "img_url":result[1]}
