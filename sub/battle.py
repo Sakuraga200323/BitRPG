@@ -100,8 +100,8 @@ async def cbt_proc(client, user, ch):
 
 
     # モンスターとの戦闘で使うダメージ、運の計算およびログの設定 #
-    dmg1 = sub.calc.dmg(player.STR(), mob.defe())
-    dmg2 = sub.calc.dmg(mob.str(), player.DEFE())
+    dmg1 = calc.dmg(player.STR(), mob.defe())
+    dmg2 = calc.dmg(mob.str(), player.DEFE())
     if mob.name == "古月":
         dmg2 *= 0.75
         dmg2 = int(dmg2*2)
@@ -237,8 +237,7 @@ async def cbt_proc(client, user, ch):
     if item_em:
         await ch.send(embed = item_em)
     if first_moblv < m_data["lv"]:
-        import sub.mob
-        await ch.send(embed=sub.mob.appear(m_data))
+        await ch.send(embed=mob.appear(m_data))
 
 
 
@@ -249,28 +248,28 @@ async def reset(user, ch):
     p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
     m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
 
-    if not p_data["cbt_ch_id"] or (p_data["cbt_ch_id"] and not p_data["cbt_ch_id"] in sub.box.cbt_ch):
+    if not p_data["cbt_ch_id"] or (p_data["cbt_ch_id"] and not p_data["cbt_ch_id"] in box.cbt_ch):
         pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id}")
         await ch.send(f"【報告】HPを回復しました。")
         return
 
     if not p_data["cbt_ch_id"] == ch.id:
-        if p_data["cbt_ch_id"] in sub.box.cbt_ch:
+        if p_data["cbt_ch_id"] in box.cbt_ch:
             await ch.send(f"【警告】{p_data['name']} は{ch.mention}で戦闘していません。")
 
     else:
-        if not ch.id in sub.box.cbt_ch:
+        if not ch.id in box.cbt_ch:
             pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id};")
             pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
             await ch.send("【報告】処理中のなんらかのバグによるデータの矛盾を発見しました。強制的に戦闘解除、およびHPの回復を行いました。")
             return
 
-        for i in sub.box.cbt_ch[ch.id]:
+        for i in box.cbt_ch[ch.id]:
             i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
             pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
-            if not i in sub.box.cbt_user:
+            if not i in box.cbt_user:
                 return
-            del sub.box.cbt_user[i]
+            del box.cbt_user[i]
         pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
         await ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
         rank = "Normal"
