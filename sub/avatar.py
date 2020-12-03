@@ -228,7 +228,11 @@ class Player:
     def battle_end(self):
         self.battle_ch = None
 
+
+
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
+
+
 
 class Mob:
     # id,lv
@@ -246,6 +250,8 @@ class Mob:
                 print(f"新規Mobデータを挿入: {id}")
             self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.lv() * 110 + 10
+            set = mob_data.select(self.dtd["lv"])
+            self.type, self.name, self.img_url = set.values()
             if not id in box.mobs:
                 box.mobs[id] = self
 
