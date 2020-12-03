@@ -36,5 +36,5 @@ rare = {
 }
 
 ultrarare = {
-  "1":("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
+    "1":("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
 }
