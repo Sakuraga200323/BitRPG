@@ -681,10 +681,9 @@ async def on_message(message):
                         
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
-        await m_ch.send("** 【Danger】Your Clearance-Lv**")
         async def get_role(id):
             g = await client.get_guild(official_guild_id)
-            return await client.g.get_role(id)
+            return g.get_role(id)
         user_is_c_lv2 = await get_role(c_lv2) in m_author.roles
         user_is_c_lv3 = await get_role(c_lv3) in m_author.roles
         user_is_c_lv4 = await get_role(c_lv4) in m_author.roles
