@@ -221,7 +221,7 @@ class Player:
     
     def battle_start(self, id):
         if self.battle_ch_id == 0:
-            print(self.user.name,"is already battling in",self.battle_ch.id)
+            print(self.user.name,"is already battling in",self.battle_ch_id)
             return False
         self.battle_ch_id  = id
         return True
