@@ -745,9 +745,6 @@ async def on_message(message):
                         try:
                             await m_ch.send(f"```py\n{result}```")
 
-                    if ctt == ("active bot exit"):
-                        await m_ch.send("`Exit!`")
-                        sys.exit(0)
                 finally:
                     await m_ch.send("Completed. System was already closed.")
 
