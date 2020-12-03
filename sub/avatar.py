@@ -68,7 +68,7 @@ class Player:
         self.max_mp = self.now_mp = self.lv() * 10
         if not id in box.players:
             box.players[id] = self
-            print(f"データ獲得：{self.user}")
+            print(f"Playerデータ挿入： {self.user}")
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
@@ -238,7 +238,7 @@ class Mob:
             except psycopg2.errors.UniqueViolation:
                 pass
             else:
-                print("新規Mobデータを挿入:{id}")
+                print(f"新規Mobデータを挿入: {id}")
             self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.lv() * 110 + 10
             if not id in box.mobs:
