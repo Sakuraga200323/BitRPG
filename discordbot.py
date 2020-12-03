@@ -77,6 +77,17 @@ clr_lv5 = [
     710207828303937626,
     760514942205034497]
 
+
+# 公式鯖ID
+official_guild_id = 719165196861702205
+
+# clearanceLv別ID
+c_lv1 = None
+c_lv2 = 743323912837922906
+c_lv3 = 743323569668227143
+c_lv4 = 719165979262844998
+c_lv5 = 719165521706352640
+
 """
 create table player_tb(
     id bigint,
@@ -669,16 +680,21 @@ async def on_message(message):
                         
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
-        await m_ch.send("** 【警告】プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。\nクリアランスLv4未満のユーザーの不正接続を確認次第、即座に対象のデータを終了します。**")
-        if not m_author.id in clr_lv4 and not m_author.id in clr_lv5 :
-            await m_ch.send("**貴方のクリアランスはLv4未満です。プロトコル[SystemCall]の実行にはLv4以上のクリアランスが必要です。**")
+        await m_ch.send("** 【Danger】Your Clearance-Lv**")
+        def get_role(id):
+            g = await client.get_guild(official_guild_id)
+            return await client.g.get_role(id)
+        user_is_c_lv2 = get_role(c_lv2) in m_author.roles
+        user_is_c_lv3 = get_role(c_lv3) in m_author.roles
+        user_is_c_lv4 = get_role(c_lv4) in m_author.roles
+        user_is_c_lv5 = get_role(c_lv5) in m_author.roles
+        if not user_is_c_lv4 or not user_is_c_lv5:
+            clv = 3 if user_is_c_lv3 else 2 if user_is_c_lv2 else 1
+            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. You need at least ClearanceLv4 to call the system.*")
             return
         else:
-            if m_author.id in clr_lv4:
-                c_lv = 4
-            elif m_author.id in clr_lv5:
-                c_lv = 5
-            await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を開始、命令文を待機中です。**")
+            clv = 5 if user_is_c_lv5 else 4
+            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}.*")
             def check(m):
                 if m.author.id != m_author.id:
                     return 0
@@ -687,8 +703,6 @@ async def on_message(message):
                 return 1
             try:
                 remsg = await client.wait_for("message", check=check)
-            except asyncio.TimeoutError:
-                await m_ch.send("プロトコル[SystemCall]を終了します。")
             else:
                 ctt = remsg.content
                 try:
@@ -724,7 +738,7 @@ async def on_message(message):
                             except Exception as error:
                                 result = f"{error}"
                             else:
-                                result = "Completed!
+                                result = "True"
                         try:
                             await m_ch.send(f"```py\n{result}```")
 
@@ -732,8 +746,7 @@ async def on_message(message):
                         await m_ch.send("`Exit!`")
                         sys.exit(0)
                 finally:
-                    await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
-                    await m_ch.send("**すべての処理完了。プロトコル[SystemCall]を終了します。**")
+                    await m_ch.send("Completed. System was already closed.")
 
                     
         
