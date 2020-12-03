@@ -386,7 +386,7 @@ async def on_message(message):
                 pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    await battle.cbt_proc(m_author,m_ch)
+                    await battle.cbt_proc(client, m_author,m_ch)
 
 
             # 戦闘から離脱 #
