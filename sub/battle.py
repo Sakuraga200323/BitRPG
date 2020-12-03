@@ -12,9 +12,7 @@ import psycopg2.extras
 import random
 import re
 import traceback
-import sub.box
-import sub.calc
-from sub import box, calc
+from sub import box, calc, avatar
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
