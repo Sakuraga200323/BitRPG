@@ -114,13 +114,6 @@ async def on_ready():
         get_icon(img,24,13)
     )"""
 
-    mob_ids = [ i[0] for i in pg.fetch("select id from mob_tb;")]
-    for mob_id in mob_ids:
-        if client.get_channel(mob_id):
-            avatar.Mob(client, mob_id)
-            await asyncio.sleep(0.5)
-    print(len(mob_ids), len(box.mobs))
-
 
     player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
     for player_id in player_ids:
@@ -286,13 +279,7 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        mob_id_list = [ i[0] for i in pg.fetch("select id from mob_tb;")]
-        id = m_ch.id
-        if not mob_id_list or (not id in mob_id_list):
-            import sub.N_Mob
-            mob_name = random.choice(list(sub.N_Mob.set.keys()))
-            url = sub.N_Mob.set[mob_name]
-            pg.execute(f"insert into mob_tb (name,id,lv,max_hp,now_hp,str,def,agi,img_url) values ('{mob_name}',{m_ch.id},1,10,10,10,10,10,'{url}');")
+        mob = Avatar.Mob(client, m_ch.id)
         try:
             try:
                 check = random.random() >= 0.99
@@ -692,7 +679,6 @@ async def on_message(message):
             elif m_author.id in clr_lv5:
                 c_lv = 5
             await m_ch.send(f"**Lv{c_lv}クリアランスを認証。プロトコル[SystemCall]を開始、命令文を待機中です。**")
-            await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
             def check(m):
                 if m.author.id != m_author.id:
                     return 0
@@ -700,9 +686,8 @@ async def on_message(message):
                     return 0
                 return 1
             try:
-                remsg = await client.wait_for("message", timeout=40, check=check)
+                remsg = await client.wait_for("message", check=check)
             except asyncio.TimeoutError:
-                await m_ch.send("\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/")
                 await m_ch.send("プロトコル[SystemCall]を終了します。")
             else:
                 ctt = remsg.content
@@ -731,20 +716,16 @@ async def on_message(message):
                         await m_ch.send(f"`::DATABASE=> {cmd}`")
                         result = None
                         if "select" in cmd:
-                            result = pg.fetch(cmd)
-                            result = f"{result}"
+                            result = pg.fetch(cmd + " LIMIT 10")
+                            result = f"{result}\m(DataCount『{len(pg.fetch(cmd))}』)"
                         else:
                             try:
                                 pg.execute(cmd)
                             except Exception as error:
                                 result = f"{error}"
                             else:
-                                result = "Completed!"
-                        if len(result) > 2000:
-                            result = split_n(result, 2000)
-                            for i in result:
-                                await m_ch.send(f"```py\n{i}```")
-                        else:
+                                result = "Completed!
+                        try:
                             await m_ch.send(f"```py\n{result}```")
 
                     if ctt == ("active bot exit"):
