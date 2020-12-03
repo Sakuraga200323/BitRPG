@@ -703,6 +703,8 @@ async def on_message(message):
                 return 1
             try:
                 remsg = await client.wait_for("message", check=check)
+            except:
+                pass
             else:
                 ctt = remsg.content
                 try:
