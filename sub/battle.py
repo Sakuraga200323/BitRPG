@@ -66,6 +66,7 @@ getmagic_list = [
 
 ]
 
+
 loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
