@@ -77,7 +77,7 @@ async def cbt_proc(client, user, ch):
         print(f"Playerデータ挿入： {box.players[user.id].user}")
     player = box.players[user.id]
     mob = box.mobs[ch.id]
-    if not player.battle_start(ch.id)
+    if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch_id)
         if channel:
             await ch.send(f"<@{user.id}> は現在『{channel}』で戦闘中です。")
