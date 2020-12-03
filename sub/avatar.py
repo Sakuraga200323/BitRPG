@@ -271,7 +271,6 @@ class Mob:
         if isinstance(plus,int):
             result = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
-            self.max_mp = self.now_mp = self.lv() * 10
         else:
             result = self.get_data('lv')
         return result
@@ -326,18 +325,13 @@ class Mob:
             return True
     def battle_end(self):
         self.battle_players_id = []
-        if random.random() >= 0.999:
-            select = mob_data.ultrarare
-            self.type = "UltraRare"
-        elif self.dtd["lv"] % 1000 == 0:
-            select = mob_data.worldend
-            self.type = "WorldEnd"
-        elif self.dtd["lv"] % 10 == 0:
-            select = mob_data.elite
-            self.type = "Elite"
-        else:
-            select = mob_data.normal
-            self.type = "Normal"
-        set = random.choice(select.values())
-        self.name, self.img_url = set
-        return self.lv(1), set[0], set[1]
+    def spawn(self)
+        set = mob_data.select(self.dtd["lv"])
+        self.type, self.name, self.img_url = set.values()
+        self.max_hp = self.now_hp = self.lv() * 100 + 10
+        embed=discord.Embed(
+            title=f"<{self.type}> {self.name} が出現！",
+            description=f"Lv:{self.lv} HP:{self.max_hp}"
+        )
+        embed.set_image(url=self.img_url)
+        return embed
