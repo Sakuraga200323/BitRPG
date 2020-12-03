@@ -325,7 +325,7 @@ class Mob:
             return True
     def battle_end(self):
         self.battle_players_id = []
-    def spawn(self)
+    def spawn(self):
         set = mob_data.select(self.dtd["lv"])
         self.type, self.name, self.img_url = set.values()
         self.max_hp = self.now_hp = self.lv() * 100 + 10
