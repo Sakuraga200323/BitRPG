@@ -174,7 +174,7 @@ async def cbt_proc(client, user, ch):
         else:
             log1_1 += str(dmg2)
             log1_1 += f"の{t}"
-        log1_1 += f'\n{uiser.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
+        log1_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
         if player.now_hp <= 0:
             log2_1 = f'\n{user.name} はやられてしまった！！'
         else:
