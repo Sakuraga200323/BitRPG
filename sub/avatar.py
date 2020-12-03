@@ -233,7 +233,7 @@ class Mob:
             self.mob = client.get_channel(id)
             self.pg = Postgres(dsn)
             self.client = client
-            if self.pg.fetchdict(f"select id from player_tb where id = {id};")["id"] = None:
+            if self.pg.fetchdict(f"select id from player_tb where id = {id};")["id"] == None:
                 pg.execute(f"insert into mob_tb (id,lv) values ({m_ch.id},1, None);")
             self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.lv() * 110 + 10
