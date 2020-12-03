@@ -226,19 +226,18 @@ async def cbt_proc(client, user, ch):
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
-            em = discord.Embed(description = f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
+            em = discord.Embed(description=f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
 
-        embed = discord.Embed(title = "Result",description = desc,color = discord.Color.green())
+        embed = discord.Embed(title="Result",description = desc,color = discord.Color.green())
     
     
-    await ch.send(content = battle_log,embed = embed)
+    await ch.send(content=battle_log,embed = embed)
     if em:
-        await ch.send(embed = em)
+        await ch.send(embed=em)
     if item_em:
-        await ch.send(embed = item_em)
-    if first_moblv < m_data["lv"]:
-        await ch.send(embed=mob.appear(m_data))
-
+        await ch.send(embed=item_em)
+    embed = mob.spawn()
+    await ch.send(embed=embed)
 
 
 async def reset(user, ch):
