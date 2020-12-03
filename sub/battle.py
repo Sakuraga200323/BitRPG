@@ -68,12 +68,12 @@ getmagic_list = [
 loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
-async def cbt_proc(client, user,ch):
+async def cbt_proc(client, user, ch):
     print(box.players)
     print(box.mobs)
-    if not id in box.players:
-        box.players[id] = avatar.Player(client, id)
-        print(f"Playerデータ挿入： {box.players[id].user}")
+    if not user.id in box.players:
+        box.players[user.id] = avatar.Player(client, user.id)
+        print(f"Playerデータ挿入： {box.players[user.id].user}")
     player = box.players[user.id]
     mob = box.mobs[ch.id]
     if player.battle_ch_id:
