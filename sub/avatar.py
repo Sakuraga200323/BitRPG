@@ -220,7 +220,7 @@ class Player:
         return self.now_hp
     
     def battle_start(self, id):
-        if self.battle_ch:
+        if self.battle_ch and id != self.battle_ch:
             print(self.user.name,"is already battling in",self.battle_ch)
             return False
         self.battle_ch  = id
@@ -237,7 +237,7 @@ class Mob:
             self.mob = client.get_channel(id)
             self.pg = Postgres(dsn)
             self.client = client
-            self.battle_players = None
+            self.battle_players = []
             try:
                 self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
             except psycopg2.errors.UniqueViolation:
