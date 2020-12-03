@@ -290,7 +290,7 @@ async def on_message(message):
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
         cmd_lock[m_ch.id] = True
-        mob = Avatar.Mob(client, m_ch.id)
+        mob = avatar.Mob(client, m_ch.id)
         try:
             try:
                 check = random.random() >= 0.99
