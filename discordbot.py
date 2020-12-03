@@ -744,8 +744,8 @@ async def on_message(message):
                                 result = "True"
                         try:
                             await m_ch.send(f"```py\n{result}```")
-                except:
-                    await m_ch.send("Error.")
+                        except:
+                            await m_ch.send("Error.")
                 finally:
                     await m_ch.send("Completed. System was already closed.")
 
