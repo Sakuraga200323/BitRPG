@@ -234,7 +234,7 @@ class Mob:
             self.pg = Postgres(dsn)
             self.client = client
             if len(self.pg.fetchdict(f"select id from player_tb where id = {id};")) == 0:
-                self.pg.execute(f"insert into mob_tb (id,lv) values ({m_ch.id},1, None);")
+                self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1, None);")
             self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.lv() * 110 + 10
             if not id in box.mobs:
