@@ -81,7 +81,7 @@ async def cbt_proc(client, user, ch):
     if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch)
         if channel:
-            await ch.send(f"<@{user.id}> は現在『{channel}』で戦闘中です。")
+            await ch.send(f"<@{user.id}> は現在『<@{channel.id}>』で戦闘中です。")
             return
         else:
             await ch.send(f"<@{user.id}> のデータに存在しないチャンネルIDが記載されていました。データの上書きを行ないます。")
