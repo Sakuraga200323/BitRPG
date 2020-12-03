@@ -61,6 +61,8 @@ class Postgres:
 class Player:
     def __init__(self, client, id):
         self.user = client.get_user(id)
+        if not self.user:
+            print(f"データ挿入失敗: {id}のuserがNone。")
         self.pg = Postgres(dsn)
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
