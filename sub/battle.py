@@ -18,7 +18,6 @@ from sub import box, calc, avatar
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 
-
 class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
