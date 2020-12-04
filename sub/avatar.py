@@ -341,7 +341,7 @@ class Mob:
             return True
 
     def battle_end(self):
-        for p_id in self.battle_players_id:
+        for p_id in self.battle_players:
             if p_id in box.players:
                 box.players[p_id].battle_end()
         self.battle_players_id = []
