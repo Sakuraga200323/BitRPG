@@ -89,7 +89,6 @@ async def cbt_proc(client, user, ch):
     mob.player_join(user.id)
 
 
-
     # モンスターとの戦闘で使うダメージ、運の計算およびログの設定 #
     dmg1 = calc.dmg(player.STR(), mob.defe())
     dmg2 = calc.dmg(mob.str(), player.DEFE())
