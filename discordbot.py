@@ -702,7 +702,7 @@ async def on_message(message):
             return
         else:
             clv = 5 if user_is_c_lv5 else 4
-            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. System was already came*")
+            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. System was already came.*")
             def check(m):
                 if m.author.id != m_author.id:
                     return 0
@@ -741,20 +741,20 @@ async def on_message(message):
                         result = None
                         if "select" in cmd:
                             result = pg.fetch(cmd + " LIMIT 10")
-                            result = f"{result}\m(DataCount『{len(pg.fetch(cmd))}』)"
+                            result = f"{result}\n(DataCount『{len(pg.fetch(cmd))}』)"
                         else:
                             try:
                                 pg.execute(cmd)
                             except Exception as error:
                                 result = f"{error}"
                             else:
-                                result = "True"
+                                result = True
                         try:
                             await m_ch.send(f"```py\n{result}```")
                         except:
                             await m_ch.send("Error.")
                 finally:
-                    await m_ch.send("Completed. System was already closed.")
+                    await m_ch.send("*Completed. System was already closed.*")
 
 
 
