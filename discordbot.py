@@ -406,7 +406,7 @@ async def on_message(message):
                 pattern = r"\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    await battle.reset(m_author, m_ch)
+                    await battle.reset(client, m_author, m_ch)
 
 
             # STPの振り分け #
