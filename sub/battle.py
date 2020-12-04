@@ -107,7 +107,7 @@ async def cbt_proc(client, user, ch):
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        log1_1 += f'+ {p_data["name"]} の攻撃！'
+        log1_1 += f'+ {player.user.name}> の攻撃！'
         t = "ダメージ"
         X = 1
         if luck >= 95:
