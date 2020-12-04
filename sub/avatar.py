@@ -159,7 +159,7 @@ class Player:
         if isinstance(plus,int):
             result = self.plus('max_exp', plus) + self.plus('now_exp', plus)
         else:
-            result = self.get_data('max_exp') + self.plus('now_exp', plus)
+            result = self.get_data('max_exp') + self.get_data('now_exp')
         return result
 
     def kill_count(self, plus=None):
