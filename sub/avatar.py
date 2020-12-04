@@ -78,7 +78,7 @@ class Player:
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
-    def plus_data(self, target, plus):
+    def plus(self, target, plus):
         if target == 'id':
             return None
         else:
