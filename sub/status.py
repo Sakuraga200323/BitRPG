@@ -49,7 +49,6 @@ async def send_bord(client, user, ch):
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
-    p_data.print_alldata()
     embed = discord.Embed(title = "Player Status Board")
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
