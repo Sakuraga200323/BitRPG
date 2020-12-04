@@ -281,11 +281,14 @@ async def on_message(message):
             if not admin_user and not clearance_lv3_user:
                 await m_ch.send('【警告】現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
                 return
+
         if cmd_lock.get(m_ch.id) is True:
             await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
             return
+
         cmd_lock[m_ch.id] = True
         mob = avatar.Mob(client, m_ch.id)
+
         try:
             try:
                 check = random.random() >= 0.99
@@ -744,7 +747,8 @@ async def on_message(message):
 
 @bot.command()
 async def getrole(ctx, role_num):
-    if not ctx.message.channel.id == 725486353151819899:
+    print("getrole")
+    if ctx.message.channel.id != 725486353151819899:
         await ctx.send("このコマンドは<@725486353151819899>専用です。")
         return
     annouce_role = ctx.guild.get_role(announce_role)
