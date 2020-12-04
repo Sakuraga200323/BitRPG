@@ -9,7 +9,7 @@ import re
 import sys
 
 import discord
-from discord.ext import tasks
+from discord.ext import tasks, commands
 import psutil
 import psycopg2, psycopg2.extras
 import traceback
@@ -55,6 +55,7 @@ JST = timezone(timedelta(hours=+9), 'JST')
 dsn = os.environ.get('DATABASE_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 
 
@@ -81,8 +82,9 @@ clr_lv5 = [
 # 公式鯖ID
 official_guild_id = 719165196861702205
 
-# clearanceLv別ID
-c_lv1 = None
+# 役職別ID
+announce_role = 719176372773453835
+c_lv1 = 763640405534441472
 c_lv2 = 743323912837922906
 c_lv3 = 743323569668227143
 c_lv4 = 719165979262844998
@@ -147,7 +149,7 @@ async def on_ready():
     loop.start()
 
     await client.change_presence(activity=discord.Game(name=f"^^help║Server：C║Mem：{MEM} %"))
-    embed = discord.Embed(title="起動ログ",　description=f"```diff\n{desc}```")
+    embed = discord.Embed(title="起動ログ", description=f"```diff\n{desc}```")
     embed.timestamp = datetime.now(JST)
     ch = client.get_channel(784271793640833035)
     await ch.send(embed = embed)
@@ -270,7 +272,14 @@ async def on_message(message):
                     id = desc.split("<@")[1].split(">")[0]
     '''
 
-                    
+
+    if m_ch.id == 725486353151819899:
+        if m_ctt.startswith("^^give-role "):
+            
+
+
+
+
     if m_ctt.startswith("^^") and not m_author.id in macro_checking and not m_author.bot:
 
         if client.get_channel(761571389345759232).name=='true':
@@ -740,12 +749,63 @@ async def on_message(message):
 
 
 
-'''
-update テーブル名 set 列名 = 値, 列名 = 値, ...
-where 列名 = 値;
-select 列名 from テーブル名
-where 列名 = 値;
-'''
+@bot.command()
+async def getrole(ctx, role_num):
+    if not ctx.message.channel.id == 725486353151819899:
+        await ctx.send("このコマンドは<@725486353151819899>専用です。")
+        return
+    annouce_role = ctx.guild.get_role(announce_role)
+    c_lv1 = ctx.guild.get_role(c_lv1)
+    c_lv2 = ctx.guild.get_role(c_lv2)
+    c_lv3 = ctx.guild.get_role(c_lv3)
+    if role_num == "0":
+        await ctx.message.author.add_role(announce_role)
+        result_msg = f"<@{announce_role.id}> を付与しました。"
+    if role_num == "1":
+        await ctx.message.author.add_role(c_lv1)
+        result_msg = f"<@{c_lv1.id}> を付与しました。"
+    if role_num == "2":
+        await ctx.message.author.add_role(c_lv2)
+        result_msg = f"<@{c_lv2.id}> を付与しました。"
+    if role_num == "3":
+        await ctx.message.author.add_role(c_lv3)
+        result_msg = f"<@{c_lv3.id}> を付与しました。"
+    else:
+        result_msg = "該当する役職がありません。"
+    send_msg = await ctx.send(result_msg)
+    await asyncio.sleep(5)
+    await send.msg.delete()
+
+
+
+@bot.command()
+async def remrole(ctx, role_num):
+    if not ctx.message.channel.id == 725486353151819899:
+        await ctx.send("このコマンドは<@725486353151819899>専用です。")
+        return
+    annouce_role = ctx.guild.get_role(announce_role)
+    c_lv1 = ctx.guild.get_role(c_lv1)
+    c_lv2 = ctx.guild.get_role(c_lv2)
+    c_lv3 = ctx.guild.get_role(c_lv3)
+    if role_num == "0":
+        await ctx.message.author.remuve_role(announce_role)
+        result_msg = f"<@{announce_role.id}> を外しました。"
+    if role_num == "1":
+        await ctx.message.author.remuve_role(c_lv1)
+        result_msg = f"<@{c_lv1.id}> を外しました。"
+    if role_num == "2":
+        await ctx.message.author.remuve_role(c_lv2)
+        result_msg = f"<@{c_lv2.id}> を外しました。"
+    if role_num == "3":
+        await ctx.message.author.remuve_role(c_lv3)
+        result_msg = f"<@{c_lv3.id}> を外しました。"
+    else:
+        result_msg = "該当する役職がありません。"
+    send_msg = await ctx.send(result_msg)
+    await asyncio.sleep(5)
+    await send.msg.delete()
+
 
 
 client.run(token)
+bot.run(token)
