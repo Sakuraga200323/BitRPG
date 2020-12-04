@@ -68,8 +68,8 @@ async def send_bord(client, user, ch):
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
         embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
     exp_bar = {
-        '■' * int(
-            (p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10 ) if p_data.now_exp() >= 0 else '□': <20
+        '<:1_:784323561052569642>' * int(
+            (p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10 ) if p_data.now_exp() >= 0 else '<:0_:784323507110150144>': <20
     }
     embed.add_field(name = f"Experience", value=
           f"*{p_data.EXP()}*"
