@@ -137,27 +137,20 @@ async def on_ready():
     LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bitrpg起動ログ"]
     p_num_result = (len(player_ids) == len(box.players))
     desc = (
-        f"\n+Prefix『^^』"
-        + f"\n+UsingMemory『{MEM}%』"
-        + f"\n+JoinServer『{len(client.guilds)}』"
-        + f"\n+PlayerNum=DataNum『{p_num_result}』"
-        + f"\n+MobNum=DataNum『{p_num_result}』"
-        )
+          f"\n+Prefix『^^』"
+        + f"\n+Server『{len(client.guilds)}』"
+        + f"\n+Player『{p_num_result}』"
+    )
 
     print(f"【報告】起動完了。\n使用メモリー{MEM}%")
 
     loop.start()
 
     await client.change_presence(activity=discord.Game(name=f"^^help║Server：C║Mem：{MEM} %"))
-    for ch in LOG_CHANNELS:
-        try:
-            embed = discord.Embed(
-                title = "BitRPG起動ログ",
-                description = f"```diff\n{desc}```")
-            embed.timestamp = datetime.now(JST)
-            await ch.send(embed = embed)
-        except:
-            print("Error")
+    embed = discord.Embed(title="起動ログ",　description=f"```diff\n{desc}```")
+    embed.timestamp = datetime.now(JST)
+    ch = client.get_channel(784271793640833035)
+    await ch.send(embed = embed)
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -691,7 +684,7 @@ async def on_message(message):
             return
         else:
             clv = 5 if user_is_c_lv5 else 4
-            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}.*")
+            await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. System was already came*")
             def check(m):
                 if m.author.id != m_author.id:
                     return 0
