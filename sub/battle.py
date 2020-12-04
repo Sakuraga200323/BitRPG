@@ -213,15 +213,14 @@ async def cbt_proc(client, user, ch):
         for p_id in mob.battle_players_id:
             p = box.players[p_id]
             p.get_exp(exp)
-        mob.battle_end()
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
             em = discord.Embed(description=f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
 
         embed = discord.Embed(title="Result",description = desc,color = discord.Color.green())
-        
-        spawn_embed = mob.spawn()
+        mob.lv(1)
+        spawn_embed = mob.battle_end()
     
     
     await ch.send(content=battle_log,embed = embed)
@@ -236,52 +235,23 @@ async def cbt_proc(client, user, ch):
 
 async def reset(user, ch):
     if not user or not ch:
-        await ch.send("【報告】処理中になんらかのバグが発生し、プレイヤーもしくはチャンネルの情報が取得できませんでした。")
+        await ch.send("バグでプレイヤーもしくはチャンネルが見つかりません。")
         rerturn
-    p_data = pg.fetchdict(f"select * from player_tb where id = {user.id};")[0]
-    m_data = pg.fetchdict(f"select * from mob_tb where id = {ch.id};")[0]
+    if not user.id in box.players:
+        box.players[user.id] = avatar.Player(client, user.id)
+        print(f"Playerデータ挿入： {box.players[user.id].user}")
+    player = box.players[user.id]
+    mob = box.mobs[ch.id]
 
-    if not p_data["cbt_ch_id"] or (p_data["cbt_ch_id"] and not p_data["cbt_ch_id"] in box.cbt_ch):
-        pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id}")
-        await ch.send(f"【報告】HPを回復しました。")
+    if not player.battle_ch:
+        player.now_hp = player.max_hp
+        await ch.send(f"HPを全回復しました。")
         return
 
-    if not p_data["cbt_ch_id"] == ch.id:
-        if p_data["cbt_ch_id"] in box.cbt_ch:
-            await ch.send(f"【警告】{p_data['name']} は{ch.mention}で戦闘していません。")
-
-    else:
-        if not ch.id in box.cbt_ch:
-            pg.execute(f"update player_tb set now_hp = {p_data['max_hp']}, cbt_ch_id = Null where id = {user.id};")
-            pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
-            await ch.send("【報告】処理中のなんらかのバグによるデータの矛盾を発見しました。強制的に戦闘解除、およびHPの回復を行いました。")
-            return
-
-        for i in box.cbt_ch[ch.id]:
-            i_data = pg.fetchdict(f"select * from player_tb where id = {i};")[0]
-            pg.execute(f"update player_tb set now_hp = {i_data['max_hp']} where id = {i};")
-            if not i in box.cbt_user:
-                return
-            del box.cbt_user[i]
-        pg.execute(f"update mob_tb set now_hp = {m_data['max_hp']} where id = {ch.id};")
-        await ch.send(f"{m_data['name']}(Lv:{m_data['lv']}) との戦闘が解除されました。")
-        rank = "Normal"
-        color = discord.Color.blue()
-        if m_data["lv"] % 1000 == 0:
-            rank = "WorldEnd"
-            color = discord.Color.from_rgb(0,0,0)
-        if  m_data["lv"] % 100 == 0:
-            rank = "Catastrophe"
-            color = discord.Color.red()
-        if m_data["lv"] % 10 == 0:
-            rank = "Elite"
-            color = discord.Color.from_rgb(255,255,0)
-        embed = discord.Embed(
-            title=f"<{rank}> {m_data['name']} appears !!",
-            description=f"Lv:{m_data['lv']} HP:{m_data['max_hp']}",
-            color=color
-        )
-        if m_data["lv"] % 1000 != 0:
-            embed.set_image(url=m_data["img_url"])
-        await ch.send(embed = embed)
+    now_ch = client.get_channel(player.battle_ch)
+    if player.battle_ch != ch.id:
+        await ch.send(f"<@{player.user.id}> は<@{now_ch.id}> で戦闘中です。")
+        return
+    mob.battle_end()
+    await ch.send(embed = mob_spawn)
                     
