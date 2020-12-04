@@ -157,9 +157,9 @@ class Player:
         return result
     def EXP(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('max_exp', plus) + self.plus('now_exp', plus)
+            result = self.plus('max_exp', plus) + self.now_exp(plus)
         else:
-            result = self.get_data('max_exp') + self.get_data('now_exp')
+            result = self.get_data('max_exp') + self.self.now_exp(plus)
         return result
 
     def kill_count(self, plus=None):
@@ -207,16 +207,16 @@ class Player:
     def get_exp(self, exp):
         self.EXP(exp)
         lvup_count = 0
-        now_exp = self.now_exp() + exp
+        now_exp = self.now_exp()
         lv = self.lv()
         while now_exp >= lv:
             if self.max_lv() >= lv:
-                lv += 1
                 lvup_count += 1
         if lvup_count > 0:
             self.now_stp(10 * lvup_count)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
+        return exo, lvup_count
 
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
