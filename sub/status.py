@@ -65,7 +65,7 @@ async def send_bord(client, user, ch):
         d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
-        embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
+        embed.add_field(name=f"StatusPointBalance (Sum:{p_data.STP()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
     exp_bar = '<:1_:784323561052569642>'*int( p_data.now_exp() / p_data.lv() *10)
     exp_bar2 = (10 - int( p_data.now_exp() / p_data.lv() * 10)) * '<:0_:784323507110150144>'
     print(exp_bar)
