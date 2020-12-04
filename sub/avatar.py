@@ -322,7 +322,7 @@ class Mob:
         self.max_hp = self.now_hp = self.lv() * 100 + 10
         embed=discord.Embed(
             title=f"<{self.type}> {self.name} が出現！",
-            description=f"Lv:{self.lv} HP:{self.max_hp}"
+            description=f"Lv:{self.lv()} HP:{self.max_hp}"
         )
         embed.set_image(url=self.img_url)
         return embed
