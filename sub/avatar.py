@@ -305,7 +305,7 @@ class Mob:
             money = random.randint(1, 10)
         exp *= 0.45
         exp = round(exp) + 1
-        if m_data.type == "UltraRare":
+        if self.type == "UltraRare":
             exp *= 100
             money = 100000
         return exp, money
