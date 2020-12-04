@@ -73,6 +73,9 @@ class Player:
             print(f"Playerデータ挿入： {self.user}")
         self.battle_ch = None
 
+    def print_alldata():
+        print(self.id, self.lv(), self.max_lv(). self)
+
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
     def plus_data(self, target, plus):
@@ -97,7 +100,7 @@ class Player:
         if isinstance(plus,int):
             result = self.plus('max_lv', plus)
         else:
-            result = self.get_data('lv')
+            result = self.get_data('max_lv')
         return result
 
     def str(self):
@@ -154,9 +157,9 @@ class Player:
         return result
     def EXP(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('max_exp', plus)
+            result = self.plus('max_exp', plus) + self.plus('now_exp', plus)
         else:
-            result = self.get_data('max_exp')
+            result = self.get_data('max_exp') + self.plus('now_exp', plus)
         return result
 
     def kill_count(self, plus=None):
