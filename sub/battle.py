@@ -243,6 +243,7 @@ async def reset(client, user, ch):
     if not user.id in box.players:
         box.players[user.id] = avatar.Player(client, user.id)
         print(f"Playerデータ挿入： {box.players[user.id].user}")
+        return
     player = box.players[user.id]
     mob = box.mobs[ch.id]
 
