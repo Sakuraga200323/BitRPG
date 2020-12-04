@@ -210,7 +210,7 @@ async def cbt_proc(client, user, ch):
     #        battle_log += buff_log
     #        del buff.doping[user.id]
 
-    embed = em = item_em = None
+    embed = em = item_em = spawn_embed = None
     if mob.now_hp <= 0:
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
@@ -229,6 +229,8 @@ async def cbt_proc(client, user, ch):
             em = discord.Embed(description=f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
 
         embed = discord.Embed(title="Result",description = desc,color = discord.Color.green())
+        
+        spawn_embed = mob.spawn()
     
     
     await ch.send(content=battle_log,embed = embed)
@@ -236,8 +238,9 @@ async def cbt_proc(client, user, ch):
         await ch.send(embed=em)
     if item_em:
         await ch.send(embed=item_em)
-    embed = mob.spawn()
-    await ch.send(embed=embed)
+    if spawn_embed:
+        await ch.send(embed=spawn_embed)
+
 
 
 async def reset(user, ch):
