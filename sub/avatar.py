@@ -346,3 +346,4 @@ class Mob:
                 box.players[p_id].battle_end()
         self.battle_players_id = []
         return self.spawn()
+
