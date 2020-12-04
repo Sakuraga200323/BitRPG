@@ -210,7 +210,7 @@ async def cbt_proc(client, user, ch):
             await ch.send("????『幸運を。死したものより祝福を。』")
 
         exp, money = mob.exp()
-        for p_id in mob.battle_players_id:
+        for p_id in mob.battle_players:
             p = box.players[p_id]
             p.get_exp(exp)
 
@@ -233,7 +233,7 @@ async def cbt_proc(client, user, ch):
 
 
 
-async def reset(user, ch):
+async def reset(client, user, ch):
     if not user or not ch:
         await ch.send("バグでプレイヤーもしくはチャンネルが見つかりません。")
         rerturn
