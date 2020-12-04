@@ -273,13 +273,6 @@ async def on_message(message):
     '''
 
 
-    if m_ch.id == 725486353151819899:
-        if m_ctt.startswith("^^give-role "):
-            
-
-
-
-
     if m_ctt.startswith("^^") and not m_author.id in macro_checking and not m_author.bot:
 
         if client.get_channel(761571389345759232).name=='true':
