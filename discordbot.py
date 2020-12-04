@@ -310,7 +310,7 @@ async def on_message(message):
                             title = "マクロ検知ぃいい！！(迫真)",
                             description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
                         check_em.set_image(url="attachment://temp.png")
-                        await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
+                        check_msg = await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
                         def check(m):
                             if not m.author.id == m_author.id or m.channel.id != m_ch.id:
                                 return 0
@@ -343,12 +343,15 @@ async def on_message(message):
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。現在はテスト版なので、実際に消去はされません。')
                             # pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
                             # await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
+                        await check_msg.delete()
                         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
                         embed.add_field(name="CheckID", value=check_id, inline=False)
                         embed.add_field(name="Result", value=result, inline=False)
                         embed.add_field(name="UserData", value=P_list, inline=False)
                         embed.set_image(url="attachment://temp.png")
                         await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
+
+
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
 
 
@@ -747,10 +750,10 @@ async def on_message(message):
 
 @bot.command()
 async def getrole(ctx, role_num):
-    print("getrole")
     if ctx.message.channel.id != 725486353151819899:
         await ctx.send("このコマンドは<@725486353151819899>専用です。")
         return
+    await ctx.message.delete()
     annouce_role = ctx.guild.get_role(announce_role)
     c_lv1 = ctx.guild.get_role(c_lv1)
     c_lv2 = ctx.guild.get_role(c_lv2)
@@ -780,7 +783,7 @@ async def remrole(ctx, role_num):
     if not ctx.message.channel.id == 725486353151819899:
         await ctx.send("このコマンドは<@725486353151819899>専用です。")
         return
-    await ctx.delete()
+    await ctx.message.delete()
     annouce_role = ctx.guild.get_role(announce_role)
     c_lv1 = ctx.guild.get_role(c_lv1)
     c_lv2 = ctx.guild.get_role(c_lv2)
