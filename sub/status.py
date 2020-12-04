@@ -49,7 +49,7 @@ async def send_bord(client, user, ch):
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
-    print("status:",p_data)
+    p_data.print_alldata()
     embed = discord.Embed(title = "Player Status Board")
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
@@ -66,11 +66,14 @@ async def send_bord(client, user, ch):
         d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
-                    
         embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
+    exp_bar = {
+        '■' * int(
+            (p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10 ) if p_data.now_exp() >= 0 else '□': <20
+    }
     embed.add_field(name = f"Experience", value=
           f"*{p_data.EXP()}*"
-        + f"\n`[{'|'*int((p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10) if p_data.now_exp() >= 0 else ' ': <20}]"
+        + f"\n`[{exp_bar}]"
         + f"\n({p_data.now_exp()} / {p_data.lv() - p_data.now_exp()})`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
