@@ -46,10 +46,10 @@ def my_round(val, digit=0):
 pg = Postgres(dsn)
 
 async def send_bord(client, user, ch):
-    print("status:",user.name, user.id)
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
+    print("status:",p_data)
     embed = discord.Embed(title = "Player Status Board")
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
@@ -58,7 +58,7 @@ async def send_bord(client, user, ch):
     embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*\n`(+{p_data.str_p()})`")
     embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*\n`(+{p_data.defe_p()})`")
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*\n`(+{p_data.agi_p()})`")
-    embed.add_field(name=f"StatusPoint", value=f"*{p_data.STP()}*")
+    embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def bar(x,y):
         return round(x/y*24)*"|"
     if not p_data.STP() <= 0:
@@ -68,7 +68,10 @@ async def send_bord(client, user, ch):
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
                     
         embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
-    embed.add_field(name = f"Experience", value=f"*{p_data.EXP()}*\n`[{'|'*int((p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*20) if p_data.now_exp() >= 0 else ' ': <20}]\n({p_data.now_exp()} / {p_data.lv() - p_data.now_exp()})`")
+    embed.add_field(name = f"Experience", value=
+          f"*{p_data.EXP()}*"
+        + f"\n`[{'|'*int((p_data.now_exp()/(p_data.lv()-1 if p_data.lv() > 1 else p_data.lv()))*10) if p_data.now_exp() >= 0 else ' ': <20}]"
+        + f"\n({p_data.now_exp()} / {p_data.lv() - p_data.now_exp()})`")
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
 
