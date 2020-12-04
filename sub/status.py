@@ -70,7 +70,7 @@ async def send_bord(client, user, ch):
     print(exp_bar)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.EXP()}*"
-        + f"\n<:_end:784330415624290306>{exp_bar:'<:0_:784323507110150144>'<20}<:end_:784330344748417024>"
+        + "\n<:_end:784330415624290306>" + f"{exp_bar:'<:0_:784323507110150144>'<20}" + "<:end_:784330344748417024>"
         + f"\n`({p_data.now_exp()} / {p_data.lv()})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
