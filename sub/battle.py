@@ -212,7 +212,10 @@ async def cbt_proc(client, user, ch):
         exp, money = mob.exp()
         for p_id in mob.battle_players:
             p = box.players[p_id]
-            p.get_exp(exp)
+            up_exp, up_lv = p.get_exp(exp)
+            desc += f"<{p_id}> は{exp}の経験値を獲得。"
+            if up_lv > 0:
+                desc += f"LvUP {p.lv()-up_lv} -> {p.lv()}"
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
