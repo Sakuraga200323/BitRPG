@@ -54,9 +54,9 @@ async def send_bord(client, user, ch):
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
     embed.add_field(name=f"HitPoint(Now/Max)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
     embed.add_field(name=f"MagicPoint(Now/Max)", value=f"*{p_data.now_mp} / {p_data.max_mp}*", inline=False)
-    embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*`(+{p_data.str_p()})`")
-    embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*`(+{p_data.defe_p()})`")
-    embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*`(+{p_data.agi_p()})`")
+    embed.add_field(name=f"Strength", value=f"*{p_data.STR()}*(+{p_data.str_p()})")
+    embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}*(+{p_data.defe_p()})")
+    embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}*(+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def bar(x,y):
         return round(x/y*24)*"|"
@@ -66,8 +66,8 @@ async def send_bord(client, user, ch):
         a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
         embed.add_field(name=f"StatusPointBalance (Sum:{p_data.now_stp()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
-    exp_bar = '<:1_:784323561052569642>'*int( p_data.now_exp() / p_data.lv() *20)
-    exp_bar2 = (20 - int( p_data.now_exp() / p_data.lv() * 20)) * '<:0_:784323507110150144>'
+    exp_bar = '<:1_:784323561052569642>'*int( p_data.now_exp() / p_data.lv() *10)
+    exp_bar2 = (10 - int( p_data.now_exp() / p_data.lv() * 10)) * '<:0_:784323507110150144>'
     print(exp_bar)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.EXP()}*"
