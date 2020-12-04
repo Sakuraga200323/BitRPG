@@ -780,6 +780,7 @@ async def remrole(ctx, role_num):
     if not ctx.message.channel.id == 725486353151819899:
         await ctx.send("このコマンドは<@725486353151819899>専用です。")
         return
+    await ctx.delete()
     annouce_role = ctx.guild.get_role(announce_role)
     c_lv1 = ctx.guild.get_role(c_lv1)
     c_lv2 = ctx.guild.get_role(c_lv2)
