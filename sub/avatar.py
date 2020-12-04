@@ -215,8 +215,8 @@ class Player:
                 lvup_count += 1
         if lvup_count > 0:
             self.now_stp(10 * lvup_count)
-            self.max_hp = self.now_hp = self.lv * 100 + 10
-            self.max_mp = self.now_mp = self.lv
+            self.max_hp = self.now_hp = self.lv() * 100 + 10
+            self.max_mp = self.now_mp = self.lv()
 
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
@@ -230,6 +230,8 @@ class Player:
         return True
     def battle_end(self):
         self.battle_ch = None
+        self.now_hp = self.max_hp
+        self.now_mp = self.max_mp
 
 
 
@@ -313,7 +315,18 @@ class Mob:
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
-    
+
+    def spawn(self):
+        set = mob_data.select(self.dtd["lv"])
+        self.type, self.name, self.img_url = set.values()
+        self.max_hp = self.now_hp = self.lv() * 100 + 10
+        embed=discord.Embed(
+            title=f"<{self.type}> {self.name} が出現！",
+            description=f"Lv:{self.lv} HP:{self.max_hp}"
+        )
+        embed.set_image(url=self.img_url)
+        return embed
+
     def player_join(self, id):
         if id in self.battle_players:
             return False
@@ -326,15 +339,10 @@ class Mob:
         else:
             self.battle_players.remove(id)
             return True
+
     def battle_end(self):
+        for p_id in self.battle_players_id:
+            if p_id in box.players:
+                box.players[p_id].battle_end()
         self.battle_players_id = []
-    def spawn(self):
-        set = mob_data.select(self.dtd["lv"])
-        self.type, self.name, self.img_url = set.values()
-        self.max_hp = self.now_hp = self.lv() * 100 + 10
-        embed=discord.Embed(
-            title=f"<{self.type}> {self.name} が出現！",
-            description=f"Lv:{self.lv} HP:{self.max_hp}"
-        )
-        embed.set_image(url=self.img_url)
-        return embed
+        return self.spawn()
