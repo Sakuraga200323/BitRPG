@@ -262,7 +262,7 @@ class Mob:
 
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
-    def plus_data(self, target, plus):
+    def plus(self, target, plus):
         if target == 'id':
             return None
         else:
