@@ -290,7 +290,7 @@ class Mob:
         result = self.lv() * 10 + 10
         return result
 
-    def exp():
+    def exp(self):
         if self.lv() % 1000 == 0:
             exp = self.lv()*100
             money = random.randint(9000, 11000)
