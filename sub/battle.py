@@ -40,11 +40,8 @@ class Postgres:
             dict_result.append(dict(row))
         return dict_result
 
-standard_set = "name,sex,id,lv,max_hp,now_hp,max_mp,now_mp,str,def,agi,stp,str_stp, def_stp, agi_stp,all_exp,now_exp,money"
-standard_mobset = "name,id,lv,max_hp,now_hp,str,def,agi,img_url"
 
 token = os.environ.get('TOKEN')
-client = discord.Client()
 
 admin_list = [
     715192735128092713,
@@ -62,12 +59,8 @@ getmagic_list = [
     "004|DefRein",
     "005|AgiRein",
     "006|LifeConversion"
-
-
 ]
 
-
-loop = asyncio.get_event_loop()
 pg = Postgres(dsn)
 
 async def cbt_proc(client, user, ch):
