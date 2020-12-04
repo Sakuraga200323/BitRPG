@@ -144,7 +144,7 @@ async def cbt_proc(client, user, ch):
             else:
                 log2_1 += f"の{t2}"
             log2_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
-            if p_data["now_hp"] <= 0:
+            if player.now_hp <= 0:
                 log2_1 += f'{user.name} はやられてしまった！！'
 
 
@@ -183,7 +183,7 @@ async def cbt_proc(client, user, ch):
             log2_1 += str(dmg1)
             log2_1 += f"の{t2}"
             log2_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
-            if m_data["now_hp"] <= 0:
+            if mob.now_hp <= 0:
                 log2_1 += f'\n{mob.name} を倒した！！'
 
     log1_2 = f"```diff\n{log1_1}```"
