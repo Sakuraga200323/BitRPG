@@ -59,7 +59,7 @@ async def open_status(client, user, ch):
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def gauge(x,y):
-        return round(x/y*20)*"　"
+        return round(x/y*20)*"━"
     if not p_data.STP() <= 0:
         all_stp = p_data.STP() - p_data.now_stp()
         s = f"{gauge(p_data.str_p(), all_stp)}"
@@ -76,7 +76,7 @@ async def open_status(client, user, ch):
     print(exp_gauge_num)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
-        + f"\n{guage_edge}{exp_gauge_1 + exp_gauge_0}{guage_edge}"
+        + f"\n{guage_edge_reft}{exp_gauge_1 + exp_gauge_0}{guage_edge_right}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
