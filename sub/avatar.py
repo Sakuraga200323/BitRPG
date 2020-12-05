@@ -26,8 +26,6 @@ class Postgres:
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
         self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        self.battle_ch_id = None
-        self.lv = 
 
     def execute(self, sql):
         self.cur.execute(sql)
