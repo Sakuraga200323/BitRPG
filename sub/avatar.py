@@ -85,13 +85,13 @@ class Player:
         self.pg = Postgres(dsn)
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
-        self.max_hp = self.now_hp = self.lv() * 100 + 10
-        self.max_mp = self.now_mp = self.lv() * 10
+        self.lv, self.max_exp, self.now_exp, self.now_stp, self.str_p, self.def_p, self.agi_p, self.magic_class, self.kill_count, self.item, self.money = seld.dtd.values()[1:]
+        self.max_hp = self.now_hp = self.lv * 100 + 10
+        self.max_mp = self.now_mp = self.lv * 10
+        self.battle_ch = None
         if not id in box.players:
             box.players[id] = self
             print(f"Playerデータ挿入： {self.user}")
-        self.battle_ch = None
-        self.lv, self.max_exp, self.now_exp, self.now_stp, self.str_p, self.def_p, self.agi_p, self.magic_class, self.kill_count, self.item, self.money = seld.dtd.values()[1:]
         
 
     # データの取得
