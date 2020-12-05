@@ -49,7 +49,11 @@ async def open_status(client, user, ch):
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
-    embed = discord.Embed(title = "Player Status Board")
+    mc = p_data.magic_class_
+    embed = discord.Embed(
+        title="Player Status Board",
+        color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff
+    )
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
     embed.add_field(name=f"Level(Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
     embed.add_field(name=f"HitPoint(Now/Max)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
@@ -59,7 +63,7 @@ async def open_status(client, user, ch):
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def gauge(x,y):
-        return round(x/y*20)*"━"
+        return round(x/y*15)*"━"
     if not p_data.STP() <= 0:
         all_stp = p_data.STP() - p_data.now_stp()
         s = f"{gauge(p_data.str_p(), all_stp)}"
