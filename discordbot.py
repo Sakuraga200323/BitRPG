@@ -56,8 +56,10 @@ dsn = os.environ.get('DATABASE_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
+
 pg = Postgres(dsn)
 
+item.pg = battle.pg = rank.pg status.pg avatar.pg = pg
 
 # コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
 cmd_lock = {}
