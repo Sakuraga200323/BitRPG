@@ -169,7 +169,7 @@ class Player:
     def agi_p(self, plus=None):
         if isinstance(plus,int):
             self.agi_p = self.plus('agi_p', plus)
-        self.agi_p_ =  self.agi_data("def_p")
+        self.agi_p_ =  self.get_data("agi_p")
         return self.agi_p_
 
     def AGI(self):
