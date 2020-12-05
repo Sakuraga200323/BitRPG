@@ -239,8 +239,7 @@ class Player:
         use_exp = 0
         while self.now_exp() >= self.lv() and self.max_lv() >= self.lv():
             lvup_count += 1
-            use_exp += self.lv_
-            self.lv(1)
+            self.now_exp(self.lv(1))
         if lvup_count > 0:
             self.now_stp(-use_exp)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
