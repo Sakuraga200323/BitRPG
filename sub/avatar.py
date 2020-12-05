@@ -237,7 +237,7 @@ class Player:
         lvup_count = 0
         self.now_exp()
         use_exp = 0
-        while self.now_exp() >= lv and self.max_lv() >= self.lv():
+        while self.now_exp() >= self.lv() and self.max_lv() >= self.lv():
             lvup_count += 1
             use_exp += self.lv_
             self.lv(1)
