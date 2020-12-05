@@ -476,7 +476,7 @@ async def on_message(message):
                         description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
                         color=discord.Color.green())
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
-                await status.send_bord(client, m_author, m_ch)
+                await status.open_status(client, m_author, m_ch)
 
 
         finally:
