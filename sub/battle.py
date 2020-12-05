@@ -268,5 +268,5 @@ async def reset(client, user, ch):
         await ch.send(f"<@{player.user.id}> は<@{now_ch.id}> で戦闘中です。")
         return
     mob.battle_end()
-    await ch.send(embed = mob_spawn)
+    await ch.send(embed = mob.spawn())
                     
