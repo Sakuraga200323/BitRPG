@@ -152,7 +152,7 @@ class Player:
     def agi_p(self, plus=None):
         if isinstance(plus,int):
             self.agi_p = self.plus('agi_p', plus)
-        return self.agi_p
+        return self.agi_p_
 
     def AGI(self):
         return self.agi() + self.agi_p()
@@ -182,7 +182,7 @@ class Player:
         return self.kill_count
 
     def magic_class(self):
-        return self.magic_class
+        return self.magic_class_
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
