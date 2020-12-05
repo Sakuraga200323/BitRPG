@@ -293,10 +293,7 @@ async def on_message(message):
                         else:
                             temp = answer.content
                             if int(answer.content) == int(num):
-                                await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
-                                if not P_list == []:
-                                    p = box.players[m_author.id]
-                                    p.get_exp(p.lv()*10)
+                                await m_ch.send(f'正解!!')
                                 check_flag = False
                                 result = True
                             elif str(num) != str(answer.content):
@@ -308,7 +305,6 @@ async def on_message(message):
                             check_flag = False
                             doubt_count[m_author.id] = 0
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。現在はテスト版なので、実際に消去はされません。')
-                            # pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
                             # await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
                         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
                         embed.add_field(name="CheckID", value=check_id, inline=False)
