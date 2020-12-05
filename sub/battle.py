@@ -219,6 +219,7 @@ async def cbt_proc(client, user, ch):
     #        battle_log += buff_log
     #         del buff.doping[user.id]
 
+
     embed = em = item_em = spawn_embed = None
     if mob.now_hp <= 0:
         desc = ""
