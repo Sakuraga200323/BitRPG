@@ -87,8 +87,8 @@ class Player:
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         print(list(self.dtd.values())[1:12])
         self.lv_, self.max_exp_, self.now_exp_, self.now_stp_, self.str_p_, self.def_p_, self.agi_p_, self.magic_class_, self.kill_count_, self.item_, self.money_ = list(self.dtd.values())[1:12]
-        self.max_hp = self.now_hp = self.lv * 100 + 10
-        self.max_mp = self.now_mp = self.lv * 10
+        self.max_hp = self.now_hp = self.lv_ * 100 + 10
+        self.max_mp = self.now_mp = self.lv_ * 10
         self.battle_ch = None
         if not id in box.players:
             box.players[id] = self
