@@ -289,11 +289,11 @@ async def on_message(message):
             admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
             clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.roles]
             if not admin_user and not clearance_lv3_user:
-                await m_ch.send('【警告】現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
+                await m_ch.send('現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
                 return
 
         if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("【警告】処理が終了するまで待機してください。\nコマンドロックが解除されない場合は`><fix`をお試しください。")
+            await m_ch.send("コマンド処理中。\nいつまでも終わらない場合は`><fix`。")
             return
 
         cmd_lock[m_ch.id] = True
@@ -388,7 +388,7 @@ async def on_message(message):
                 pattern = r"\^\^(st|status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    await status.send_bord(client, m_author, m_ch)
+                    await status.open_status(client, m_author, m_ch)
 
 
             # 戦闘 #
@@ -430,14 +430,14 @@ async def on_message(message):
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
                 if result:
-                    await item.use(client, m_ch, m_author, result.group(2))
+                    await item.use_item(client, m_ch, m_author, result.group(2))
                 if result2:
-                    await item.open(client, m_ch, m_author)
+                    await item.open_inventory(client, m_ch, m_author)
 
 
             # Lv上限解放 #
             if m_ctt == "^^gentotsu":
-                await status.kaihou_proc(client, m_ch, m_author)
+                await status.up_max_lv(client, m_ch, m_author)
 
 
             if m_ctt == '^^start':
@@ -474,7 +474,7 @@ async def on_message(message):
                             (f"所属する魔法領域の対応番号を**半角で**送信してください。"
                             +"\n`^^start`で再登録していただく事でLv1から始め直す事は可能ですが、アカウント間でのデータの引き継ぎや、再登録のレベル引き継ぎは有料となっております。"
                             +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
-                    magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には千人力の火力を出します。`")
+                    magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には果てしない火力を出します。`")
                     magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
                     magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。バフメインの魔法を習得し、条件次第ではWolfにもArmadilloにも成りうる性能を誇ります。`")
                     await m_ch.send(embed=magic_type_em)
@@ -523,19 +523,6 @@ async def on_message(message):
 
                 P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                 await status.send_bord(client, m_author, m_ch)
-                player.Player(client,m_author.id)
-                embed = discord.Embed(title="ステータスの見方",description="基本的な使用方法を説明します")
-                embed.add_field(name = f"Player", value = f"貴方の名前", inline = False)
-                embed.add_field(name = f"Sex", value = f"貴方の性別", inline = False)
-                embed.add_field(name = f"Lv", value = f"*現在のLv* / *Lv上限(魔石を250消費で解放)*")
-                embed.add_field(name = f"HP", value = f"*現在のHP / 最高HP*")
-                embed.add_field(name = f"MP", value = f"*現在のMP / 最高MP*")
-                embed.add_field(name = f"STR", value = f"*攻撃力。強化による補正済みの値*\n`[強化量]`")
-                embed.add_field(name = f"DEF", value = f"*防御力。同様*\n`[強化量]`")
-                embed.add_field(name = f"AGI", value = f"*素早さ。同様*\n`[強化量]`")
-                embed.add_field(name = f"STP", value = f"*使用可能なPoint10LvUP毎に50獲得*")
-                embed.add_field(name = f"EXP", value = f"*獲得した総EXP*\n`[次のレベルまでの必要EXP]`")
-                await m_ch.send(embed=embed)
 
 
         finally:
