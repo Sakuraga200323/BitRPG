@@ -233,7 +233,7 @@ class Player:
         return temp
 
     def get_exp(self, exp):
-        self.max(exp)
+        self.max_exp(exp)
         lvup_count = 0
         self.now_exp()
         use_exp = 0
