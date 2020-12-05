@@ -106,7 +106,7 @@ async def cbt_proc(client, user, ch):
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        log1_1 += f'+ {player.user.name} の攻撃！'
+        log1_1 += f'+ {player.user} の攻撃！'
         t = "ダメージ"
         X = 1
         if luck >= 95:
@@ -150,7 +150,7 @@ async def cbt_proc(client, user, ch):
                     log2_1 += f"の{t2}"
             elif dmg2 == 0:
                 log2_1 += "しかし当たらなかった！"
-            log2_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
+            log2_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
             log2_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
             if player.now_hp <= 0:
                 log2_1 += f'{user.name} はやられてしまった！！'
@@ -178,7 +178,7 @@ async def cbt_proc(client, user, ch):
                 log1_1 += f"の{t}"
         elif dmg2 == 0:
             log1_1 += "しかし当たらなかった！"
-        log1_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
+        log1_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
         log1_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
         if player.now_hp <= 0:
             log2_1 = f'\n{user.name} はやられてしまった！！'
