@@ -58,25 +58,27 @@ async def open_status(client, user, ch):
     embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}* (+{p_data.defe_p()})")
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
-    def bar(x,y):
+    def gauge(x,y):
         return round(x/y*20)*"　"
     if not p_data.STP() <= 0:
-        s = f"{bar(p_data.str_p(), p_data.STP())}`"
-        d = f"{bar(p_data.defe_p(), p_data.STP())}`"
-        a = f"{bar(p_data.agi_p(), p_data.STP())}`"
+        s = f"{gauge(p_data.str_p(), p_data.STP())}`"
+        d = f"{gauge(p_data.defe_p(), p_data.STP())}`"
+        a = f"{gauge(p_data.agi_p(), p_data.STP())}`"
         embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"{s}⧱{d}⧱{a}", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
-    exp_bar_num = int((have_exp / exp_bar)*20)
-    exp_bar = '<:1_:784323561052569642>'*exp_bar_num
-    exp_bar2 = (10 - int( (p_data.now_exp() / (p_data.lv()+1)) * 10)) * '<:0_:784323507110150144>'
-    print(exp_bar)
+    exp_gauge_num = int((have_exp / must_exp)*10)
+    exp_gauge_1 = '<:1_:784323561052569642>'*exp_gauge_num
+    exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
+    print(exp_gauge_num)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
-        + "\n<:_end:784330415624290306>" + f"{exp_bar + exp_bar2}" + "<:end_:784330344748417024>"
+        + "\n<:_end:784330415624290306>" + f"{exp_bar_1 + exp_bar_0}" + "<:end_:784330344748417024>"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
+    log_ch = client.get_channel(766997493195210774)
+    await log_ch.send(embed=embed)
 
 
 
