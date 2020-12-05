@@ -397,7 +397,7 @@ async def on_message(message):
 
 
             if m_ctt == '^^start':
-                id_list = [ i["item"] for i in pg.fetchdict("select id from player_tb;")]
+                id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 def check(m):
                     if not m.author.id == m_author.id:
                         return 0
