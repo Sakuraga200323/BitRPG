@@ -101,8 +101,8 @@ async def cbt_proc(client, user, ch):
 
     # HPゲージの取得
     def hp_gauge(now, max):
-        gauge_num = int((now/max)*10)
-        return (gauge_num*"/") + ((10 - gauge_num)*" ")
+        gauge_num = int((now/max)*20)
+        return (gauge_num*"/") + ((20 - gauge_num)*" ")
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
