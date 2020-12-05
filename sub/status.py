@@ -61,10 +61,11 @@ async def open_status(client, user, ch):
     def gauge(x,y):
         return round(x/y*20)*"　"
     if not p_data.STP() <= 0:
-        s = f"{gauge(p_data.str_p(), p_data.STP())}`"
-        d = f"{gauge(p_data.defe_p(), p_data.STP())}`"
-        a = f"{gauge(p_data.agi_p(), p_data.STP())}`"
-        embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"{s}⧱{d}⧱{a}", inline=False)
+        all_stp = p_data.STP() - p_data.now_stp()
+        s = f"{gauge(p_data.str_p(), all_stp)}"
+        d = f"{gauge(p_data.defe_p(), all_stp)}"
+        a = f"{gauge(p_data.agi_p(), all_stp)}"
+        embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"`{s}⧱{d}⧱{a}`", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
@@ -74,7 +75,7 @@ async def open_status(client, user, ch):
     print(exp_gauge_num)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
-        + "\n{guage_edge}{exp_gauge_1 + exp_gauge_0}{guage_edge}"
+        + f"\n{guage_edge}{exp_gauge_1 + exp_gauge_0}{guage_edge}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
