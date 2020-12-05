@@ -70,7 +70,7 @@ async def open_status(client, user, ch):
     exp_bar2 = (10 - int( p_data.now_exp() / p_data.lv() * 10)) * '<:0_:784323507110150144>'
     print(exp_bar)
     embed.add_field(name = f"Experience", value=(
-          f"*{p_data.EXP()}*"
+          f"*{p_data.max_exp()}*"
         + "\n<:_end:784330415624290306>" + f"{exp_bar + exp_bar2}" + "<:end_:784330344748417024>"
         + f"\n`({p_data.now_exp()} / {p_data.lv()})`"))
     embed.set_thumbnail(url=user.avatar_url)
