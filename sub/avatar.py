@@ -86,7 +86,7 @@ class Player:
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         print(list(self.dtd.values())[1:12])
-        self.lv, self.max_exp, self.now_exp, self.now_stp, self.str_p, self.def_p, self.agi_p, self.magic_class, self.kill_count, self.item, self.money = list(self.dtd.values())[1:12]
+        self.lv_, self.max_exp_, self.now_exp_, self.now_stp_, self.str_p_, self.def_p_, self.agi_p_, self.magic_class_, self.kill_count_, self.item_, self.money_ = list(self.dtd.values())[1:12]
         self.max_hp = self.now_hp = self.lv * 100 + 10
         self.max_mp = self.now_mp = self.lv * 10
         self.battle_ch = None
@@ -113,23 +113,23 @@ class Player:
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
-            self.lv = self.plus('lv', plus)
-            self.max_hp = self.now_hp = self.lv() * 100 + 10
-            self.max_mp = self.now_mp = self.lv() * 10
-        return self.lv
+            self.lv_ = self.plus('lv', plus)
+            self.max_hp = self.now_hp = self.lv_ * 100 + 10
+            self.max_mp = self.now_mp = self.lv_ * 10
+        return self.lv_
 
     def max_lv(self, plus=None):
         if isinstance(plus,int):
-            self.max_lv = self.plus('max_lv', plus)
-        return self.max_lv
+            self.max_lv_ = self.plus('max_lv', plus)
+        return self.max_lv_
 
     def str(self):
         return self.lv() * 10 + 10
 
     def str_p(self, plus=None):
         if isinstance(plus,int):
-            self.str_p = self.plus('str_p', plus)
-        return self.str_p
+            self.str_p_ = self.plus('str_p', plus)
+        return self.str_p_
 
     def STR(self):
         return self.str() + self.str_p()
@@ -139,8 +139,8 @@ class Player:
 
     def defe_p(self, plus=None):
         if isinstance(plus,int):
-            self.defe_p = self.plus('def_p', plus)
-        return self.defe_p
+            self.defe_p_ = self.plus('def_p', plus)
+        return self.defe_p_
 
     def DEFE(self):
         return self.defe() + self.defe_p()
@@ -159,22 +159,22 @@ class Player:
 
     def now_stp(self, plus=None):
         if isinstance(plus,int):
-            self.now_stp = self.plus('now_stp', plus)
-        return self.now_stp
+            self.now_stp_ = self.plus('now_stp', plus)
+        return self.now_stp_
    
     def STP(self, plus=None):
         return self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
 
     def now_exp(self, plus=None):
         if isinstance(plus,int):
-            self.now_exp = self.plus('now_exp', plus)
-        return self.now_exp
+            self.now_exp_ = self.plus('now_exp', plus)
+        return self.now_exp_
 
     def max_exp(self, plus=None):
         if isinstance(plus,int):
-            self.now_exp = self.plus('now_exp', plus)
-            self.max_exp = self.plus('max_exp', plus)
-        return self.max_exp
+            self.now_exp_ = self.plus('now_exp', plus)
+            self.max_exp_ = self.plus('max_exp', plus)
+        return self.max_exp_
 
     def kill_count(self, plus=None):
         if isinstance(plus,int):
@@ -186,25 +186,25 @@ class Player:
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
-            self.magic_lv = self.plus('magic_lv', plus)
-        return self.magic_lv
+            self.magic_lv_ = self.plus('magic_lv', plus)
+        return self.magic_lv_
 
     def money(self, plus=None):
         if isinstance(plus,int):
-            self.money = self.plus('money', plus)
-        return self.money
+            self.money_ = self.plus('money', plus)
+        return self.money_
 
     def share_stp(self, target, point):
         self.now_stp(-point)
         if target == "str":
             self.str_p(point)
-            temp = self.str_p
+            temp = self.str_p_
         if target == "def":
             self.defe_p(point)
-            temp = self.defe_p
+            temp = self.defe_p_
         if target == "agi":
             self.agi_p(point)
-            temp = self.agi_p
+            temp = self.agi_p_
         return temp
 
     def get_exp(self, exp):
@@ -212,9 +212,9 @@ class Player:
         lvup_count = 0
         self.now_exp()
         use_exp = 0
-        while self.now_exp() >= lv and self.max_lv >= lv:
+        while self.now_exp() >= lv and self.max_lv() >= lv:
             lvup_count += 1
-            use_exp += self.lv
+            use_exp += self.lv_
             self.lv(1)
         if lvup_count > 0:
             self.now_stp(-use_exp)
