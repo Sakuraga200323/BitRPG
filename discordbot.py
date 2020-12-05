@@ -397,7 +397,7 @@ async def on_message(message):
 
 
             if m_ctt == '^^start':
-                id_list = [ i[0] for i in pg.fetch("select id from player_tb;")]
+                id_list = [ i["item"] for i in pg.fetchdict("select id from player_tb;")]
                 def check(m):
                     if not m.author.id == m_author.id:
                         return 0
@@ -476,8 +476,6 @@ async def on_message(message):
                         description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
                         color=discord.Color.green())
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
-
-                P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")[0]
                 await status.send_bord(client, m_author, m_ch)
 
 
