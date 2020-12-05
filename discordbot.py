@@ -293,7 +293,7 @@ async def on_message(message):
                             temp = answer.content
                             if int(answer.content) == int(num):
                                 await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
-                                if not P_list == []:]
+                                if not P_list == []:
                                     p = box.players[m_author.id]
                                     p.get_exp(p.lv()*10)
                                 check_flag = False
