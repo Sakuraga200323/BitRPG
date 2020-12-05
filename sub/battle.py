@@ -133,7 +133,7 @@ async def cbt_proc(client, user, ch):
             log2_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
             log2_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
             if player.now_hp <= 0:
-                log2_1 += f'{user.name} はやられてしまった！！'
+                log2_1 += f'{user} はやられてしまった！！'
 
 
     # 戦闘処理（Player後手） #
@@ -161,9 +161,9 @@ async def cbt_proc(client, user, ch):
         log1_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
         log1_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
         if player.now_hp <= 0:
-            log2_1 = f'\n{user.name} はやられてしまった！！'
+            log2_1 = f'\n{user} はやられてしまった！！'
         else:
-            log2_1 += f'+ {user.name} の攻撃->'
+            log2_1 += f'+ {user} の攻撃->'
             t2 = "ダメージ" ; X = 1
             if luck2 >= 95:
                 t2 = "極ダメージ！"; X = 3
