@@ -123,33 +123,19 @@ class Player:
                 self.pg.execute(f'update player_tb set {target}={target}+{plus};')
             return self.get_data(target)
 
-    self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
-    data_list = [
-        self.dtd["lv"], self.dtd["max_lv"], 
-        self.dtd["max_exp"], self.dtd["now_exp"], 
-        self.dtd["now_stp"], self.dtd["str_p"], self.dtd["def_p"], self.dtd["agi_p"], 
-        self.dtd["magic_class"], self.dtd["magic_lv"], 
-        self.dtd["kill_count"], self.dtd["item"], self.dtd["money"]
-    ]
-    [
-        self.lv_, self.max_lv_, 
-        self.max_exp_, self.now_exp_, 
-        self.now_stp_, self.str_p_, self.defe_p_, self.agi_p_, 
-        self.magic_class_, self.magic_lv_, 
-        self.kill_count_, self.item_, self.money_
-    ] = data_list
-
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
             self.lv_ = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv_ * 100 + 10
             self.max_mp = self.now_mp = self.lv_ * 10
+        self.lv_ =  self.get_data("lv")
         return self.lv_
 
     def max_lv(self, plus=None):
         if isinstance(plus,int):
             self.max_lv_ = self.plus('max_lv', plus)
+        self.max_lv_ =  self.get_data("max_lv")
         return self.max_lv_
 
     def str(self):
@@ -158,6 +144,7 @@ class Player:
     def str_p(self, plus=None):
         if isinstance(plus,int):
             self.str_p_ = self.plus('str_p', plus)
+        self.str_p_ =  self.get_data("str_p")
         return self.str_p_
 
     def STR(self):
@@ -169,6 +156,7 @@ class Player:
     def defe_p(self, plus=None):
         if isinstance(plus,int):
             self.defe_p_ = self.plus('def_p', plus)
+        self.defe_p_ =  self.get_data("def_p")
         return self.defe_p_
 
     def DEFE(self):
@@ -181,6 +169,7 @@ class Player:
     def agi_p(self, plus=None):
         if isinstance(plus,int):
             self.agi_p = self.plus('agi_p', plus)
+        self.agi_p_ =  self.agi_data("def_p")
         return self.agi_p_
 
     def AGI(self):
@@ -189,6 +178,7 @@ class Player:
     def now_stp(self, plus=None):
         if isinstance(plus,int):
             self.now_stp_ = self.plus('now_stp', plus)
+        self.now_stp_ =  self.get_data("now_stp")
         return self.now_stp_
    
     def STP(self, plus=None):
@@ -197,30 +187,36 @@ class Player:
     def now_exp(self, plus=None):
         if isinstance(plus,int):
             self.now_exp_ = self.plus('now_exp', plus)
+        self.now_exp_ =  self.get_data("now_exp")
         return self.now_exp_
 
     def max_exp(self, plus=None):
         if isinstance(plus,int):
             self.now_exp_ = self.plus('now_exp', plus)
             self.max_exp_ = self.plus('max_exp', plus)
+        self.max_exp_ =  self.get_data("max_exp")
         return self.max_exp_
 
     def kill_count(self, plus=None):
         if isinstance(plus,int):
             self.kill_count = self.plus('kill_count', plus)
+        self.kill_count_ =  self.get_data("kill_count")
         return self.kill_count
 
     def magic_class(self):
+        self.magic_class_ =  self.get_data("magic_class")
         return self.magic_class_
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
             self.magic_lv_ = self.plus('magic_lv', plus)
+        self.magic_lv_ =  self.get_data("magic_lv")
         return self.magic_lv_
 
     def money(self, plus=None):
         if isinstance(plus,int):
             self.money_ = self.plus('money', plus)
+        self.money_ =  self.get_data("money")
         return self.money_
 
     def share_stp(self, target, point):
