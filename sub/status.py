@@ -106,7 +106,6 @@ async def divid(client, user, ch, result):
 
 
 
-
 ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
 ITEMS2 = ("冒険者カード",)
 
