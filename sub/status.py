@@ -69,7 +69,7 @@ async def open_status(client, user, ch):
         s = f"{gauge(p_data.str_p(), all_stp)}"
         d = f"{gauge(p_data.defe_p(), all_stp)}"
         a = f"{gauge(p_data.agi_p(), all_stp)}"
-        embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"`{s}⧱{d}⧱{a}`", inline=False)
+        embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"` {s}⧱{d}⧱{a}`", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
