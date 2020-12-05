@@ -56,7 +56,7 @@ token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 
-pg1=pg2=pg3=pg4=pg5 = Postgres(dsn)
+pg=pg1=pg2=pg3=pg4=pg5 = Postgres(dsn)
 
 item.pg, battle.pg, rank.pg, status.pg, avatar.pg = pg1, pg2, pg3, pg4, pg5
 
