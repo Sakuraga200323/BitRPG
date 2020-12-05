@@ -129,10 +129,11 @@ async def on_ready():
     )"""
 
 
-    player_ids = pg.fetchd("select id from player_tb;")
+    player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
     print(player_ids)
     for player_id in player_ids:
-        avatar.Player(client, player_id)
+        if client.get_user(player_id):
+            avatar.Player(client, player_id)
     print(len(player_ids), len(box.players))
 
 
