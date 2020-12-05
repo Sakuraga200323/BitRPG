@@ -74,7 +74,7 @@ async def open_status(client, user, ch):
     print(exp_gauge_num)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
-        + "\n{guage_edge}{exp_bar_1 + exp_bar_0}{guage_edge}"
+        + "\n{guage_edge}{exp_gauge_1 + exp_gauge_0}{guage_edge}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
