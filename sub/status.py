@@ -59,14 +59,16 @@ async def open_status(client, user, ch):
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
     def bar(x,y):
-        return round(x/y*24)*"|"
+        return round(x/y*20)*"　"
     if not p_data.STP() <= 0:
-        s = f"STR`：{bar(p_data.str_p(), p_data.STP())}`"
-        d = f"DEF`：{bar(p_data.defe_p(), p_data.STP())}`"
-        a = f"AGI`：{bar(p_data.agi_p(), p_data.STP())}`"
-        r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
-        embed.add_field(name=f"StatusPointBalance (Sum:{p_data.STP()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
-    exp_bar = '<:1_:784323561052569642>'*int( p_data.now_exp() / p_data.lv() *10)
+        s = f"{bar(p_data.str_p(), p_data.STP())}`"
+        d = f"{bar(p_data.defe_p(), p_data.STP())}`"
+        a = f"{bar(p_data.agi_p(), p_data.STP())}`"
+        embed.add_field(name=f"StatusPointBalance (STR⧰DEF⧰AGI, Sum:{p_data.STP()})", value=f"{s}⧱{d}⧱{a}", inline=False)
+    have_exp = p_data.now_exp()
+    must_exp = p_data.lv() + 1
+    exp_bar_num = int((have_exp / exp_bar)*20)
+    exp_bar = '<:1_:784323561052569642>'*exp_bar_num
     exp_bar2 = (10 - int( (p_data.now_exp() / (p_data.lv()+1)) * 10)) * '<:0_:784323507110150144>'
     print(exp_bar)
     embed.add_field(name = f"Experience", value=(
