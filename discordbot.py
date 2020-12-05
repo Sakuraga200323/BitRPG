@@ -172,10 +172,10 @@ async def on_ready():
 @tasks.loop(seconds=10)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    sub_msg = ''
+    sub_msg = '^^url'
     if client.get_channel(761571389345759232).name=='true':
-        sub_msg = "^^start以外のコマンド停止中￤"
-    await client.change_presence(activity=discord.Game(name=f"{sub_msg}^^url￤{len(client.guilds)}server"))
+        sub_msg = "開発作業によりｺﾏﾝﾄﾞ停止中￤"
+    await client.change_presence(activity=discord.Game(name=f"{sub_msg}￤{len(client.guilds)}server"))
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
