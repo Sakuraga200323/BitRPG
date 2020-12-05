@@ -106,7 +106,7 @@ async def cbt_proc(client, user, ch):
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        log1_1 += f'+ {player.user} の攻撃！'
+        log1_1 += f'+ {player.user} の攻撃->'
         t = "ダメージ"
         X = 1
         if luck >= 95:
@@ -130,7 +130,7 @@ async def cbt_proc(client, user, ch):
         if mob.now_hp <= 0:
             log2_1 = f'{mob.name} を倒した！！'
         else:
-            log2_1 += f'- {mob.name} の攻撃！'
+            log2_1 += f'- {mob.name} の攻撃->'
             if mob.name == "古月":
                 log2_1 += "デュアルミスリルパイプ!"
             X = 1
@@ -158,7 +158,7 @@ async def cbt_proc(client, user, ch):
 
     # 戦闘処理（Player後手） #
     else:
-        log1_1 += f'- {mob.name} の攻撃！'
+        log1_1 += f'- {mob.name} の攻撃->'
         if mob.name == "古月":
             log2_1 += "デュアルミスリルパイプ!"
         t = "ダメージ" ; X = 1
@@ -183,7 +183,7 @@ async def cbt_proc(client, user, ch):
         if player.now_hp <= 0:
             log2_1 = f'\n{user.name} はやられてしまった！！'
         else:
-            log2_1 += f'+ {user.name} の攻撃！'
+            log2_1 += f'+ {user.name} の攻撃->'
             t2 = "ダメージ" ; X = 1
             if luck2 >= 95:
                 t2 = "極ダメージ！"; X = 3
