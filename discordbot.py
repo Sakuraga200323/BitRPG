@@ -58,7 +58,7 @@ bot = commands.Bot(command_prefix="^^")
 
 pg=pg1=pg2=pg3=pg4=pg5 = Postgres(dsn)
 
-item.pg, battle.pg, rank.pg, status.pg, avatar.pg = pg1, pg2, pg3, pg4, pg5
+item.pg, battle.pg, rank.pg, status.pg, avatar.pg = pg, pg, pg, pg, pg
 
 # コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
 cmd_lock = {}
