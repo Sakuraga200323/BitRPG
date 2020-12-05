@@ -22,7 +22,7 @@ doubt_count = {}
 
 pg = None
 
-def check_macro(client, )
+def check_macro(client, user, ch)
 P_list = pg.fetch(f"select * from player_tb where id = {user.id};")
 if not user.id in doubt_count:
     doubt_count[user.id] = 0
