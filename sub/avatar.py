@@ -27,6 +27,7 @@ class Postgres:
         self.conn.autocommit = True
         self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         self.battle_ch_id = None
+        self.lv = 
 
     def execute(self, sql):
         self.cur.execute(sql)
@@ -58,6 +59,26 @@ class Postgres:
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
+"""
+create table player_tb(
+    id bigint,
+    lv bigint,
+    max_lv bigint
+    max_exp bigint,
+    now_exp bigint,
+    now_stp bigint,
+    str_p bigint,
+    def_p bigint,
+    agi_p bigint,
+    magic_class int,
+    magic_lv bigint,
+    kill_count bigint,
+    item jsonb,
+    money bigint,
+    primary key (id)
+)"""
+
+
 class Player:
     def __init__(self, client, id):
         self.user = client.get_user(id)
@@ -72,12 +93,14 @@ class Player:
             box.players[id] = self
             print(f"Playerデータ挿入： {self.user}")
         self.battle_ch = None
+        self.lv, self.max_exp, self.now_exp, self.now_stp, self.str_p, self.def_p, self.agi_p, self.magic_class, self.kill_count, self.item, self.money = seld.dtd.values()[1:]
+        
 
-    def print_alldata():
-        print(self.id, self.lv(), self.max_lv(). self)
-
+    # データの取得
     def get_data(self, target):
         return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
+
+    # データの値の加算
     def plus(self, target, plus):
         if target == 'id':
             return None
@@ -88,135 +111,117 @@ class Player:
                 self.pg.execute(f'update player_tb set {target}={target}+{plus};')
             return self.get_data(target)
 
+    # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('lv', plus)
+            self.lv = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv() * 10
-        else:
-            result = self.get_data('lv')
-        return result
+        return self.lv
+
     def max_lv(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('max_lv', plus)
-        else:
-            result = self.get_data('max_lv')
-        return result
+            self.max_lv = self.plus('max_lv', plus)
+        return self.max_lv
 
     def str(self):
-        result = self.lv() * 10 + 10
-        return result
+        return self.lv() * 10 + 10
+
     def str_p(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('str_p', plus)
-        else:
-            result = self.get_data('str_p')
-        return result
+            self.str_p = self.plus('str_p', plus)
+        return self.str_p
+
     def STR(self):
         return self.str() + self.str_p()
 
     def defe(self):
-        result = self.lv() * 10 + 10
-        return result
+        return self.lv() * 10 + 10
+
     def defe_p(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('def_p', plus)
-        else:
-            result = self.get_data('def_p')
-        return result
+            self.defe_p = self.plus('def_p', plus)
+        return self.defe_p
+
     def DEFE(self):
         return self.defe() + self.defe_p()
 
     def agi(self):
         result = self.lv() * 10 + 10
         return result
+
     def agi_p(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('agi_p', plus)
-        else:
-            result = self.get_data('agi_p')
-        return result
+            self.agi_p = self.plus('agi_p', plus)
+        return self.agi_p
+
     def AGI(self):
         return self.agi() + self.agi_p()
 
     def now_stp(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('now_stp', plus)
-        else:
-            result = self.get_data('now_stp')
-        return result
+            self.now_stp = self.plus('now_stp', plus)
+        return self.now_stp
+   
     def STP(self, plus=None):
-        result = self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
-        return result
+        return = self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
 
     def now_exp(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('now_exp', plus)
-        else:
-            result = self.get_data('now_exp')
-        return result
-    def EXP(self, plus=None):
+            self.now_exp = self.plus('now_exp', plus)
+        return self.now_exp
+
+    def max_exp(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('max_exp', plus) + self.now_exp(plus)
-        else:
-            result = self.get_data('max_exp') + self.now_exp(plus)
-        return result
+            self.now_exp = self.plus('now_exp', plus)
+            self.max_exp = self.plus('max_exp', plus)
+        return self.max_exp
 
     def kill_count(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('kill_count', plus)
-        else:
-            result = self.get_data('kill_count')
-        return result
+            self.kill_count = self.plus('kill_count', plus)
+        return self.kill_count
 
     def magic_class(self):
-        result = self.get_data('magic_class')
-        return result
+        return = self.magic_class
+
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('magic_lv', plus)
-        else:
-            result = self.get_data('magic_lv')
-        return result
+            self.magic_lv = self.plus('magic_lv', plus)
+        return self.magic_lv
 
     def money(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('money', plus)
-        else:
-            result = self.get_data('money')
-        return result
+            self.money = self.plus('money', plus)
+        return self.money
 
     def share_stp(self, target, point):
-        self.now_stp -= point
+        self.now_stp(-point)
         if target == "str":
-            self.str_p += point
-            self.STR += point
+            self.str_p(point)
             temp = self.str_p
         if target == "def":
-            self.defe_p += point
-            self.DEFE += point
+            self.defe_p(point)
             temp = self.defe_p
         if target == "agi":
-            self.agi_p += point
-            seld.AGI += point
+            self.agi_p(point)
             temp = self.agi_p
-        self.pg.execute(f"UPDATE player_tb SET now_stp={self.now_stp},{target}_p={temp} WHERE id={self.id};")
         return temp
-        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {id};")[0]
 
     def get_exp(self, exp):
-        self.EXP(exp)
+        self.max(exp)
         lvup_count = 0
-        now_exp = self.now_exp()
-        lv = self.lv()
-        while now_exp >= lv:
-            if self.max_lv() >= lv:
-                lvup_count += 1
+        self.now_exp()
+        use_exp = 0
+        while self.now_exp()p >= lv and self.max_lv >= lv:
+            lvup_count += 1
+            use_exp += self.lv
+            self.lv(1)
         if lvup_count > 0:
-            self.now_stp(10 * lvup_count)
+            self.now_stp(-use_exp)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
-        return exo, lvup_count
+        return exp, lvup_count
 
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
@@ -228,6 +233,7 @@ class Player:
             return False
         self.battle_ch  = id
         return True
+
     def battle_end(self):
         self.battle_ch = None
         self.now_hp = self.max_hp
