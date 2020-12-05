@@ -105,7 +105,7 @@ create table player_tb(
     magic_lv bigint,
     kill_count bigint,
     item jsonb,
-    money bigint
+    money bigint,
     primary key (id)
 )
 
@@ -212,52 +212,6 @@ role_id = {
     "4️⃣":743323569668227143
 }
 
-@client.event
-async def on_raw_reaction_add(payload):
-
-    if payload.message_id == ID:
-        if not payload.user_id in role_id.keys():return
-        print(payload.user_id)
-        guild_id = payload.guild_id
-        guild = client.get_guild(guild_id)
-        role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
-
-        if role is not None:
-            print(role.name + " was found!")
-            print(role.id)
-            member = await guild.fetch_member(int(payload.user_id)); print("guild, member:",guild, member)
-            if not member:
-                return
-            await member.add_roles(role)
-            channel = await client.fetch_channel(payload.channel_id)
-            em = discord.Embed(description=f"{role.mention}を{member.mention}に付与しました。")
-            result_msg = await channel.send(embed=em)
-            await asyncio.sleep(5)
-            await result_msg.delete()
-            print("done")
-
-@client.event
-async def on_raw_reaction_remove(payload):
-    if payload.message_id == ID:
-        if not payload.user_id in role_id.keys():return
-        print(payload.user_id)
-        guild_id = payload.guild_id
-        guild = client.get_guild(guild_id)
-        role = discord.utils.get(guild.roles, id=role_id[payload.emoji.name])
-
-        if role is not None:
-            print(role.name + " was found!")
-            print(role.id)
-            member = await guild.fetch_member(int(payload.user_id)); print("guild, member:",guild, member)
-            if not member:
-                return
-            await member.remove_roles(role)
-            channel = await client.fetch_channel(payload.channel_id)
-            em = discord.Embed(description=f"{role.mention}を{member.mention}から消去しました。")
-            result_msg = await channel.send(embed=em)
-            await asyncio.sleep(5)
-            await result_msg.delete()
-            print("done")
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -353,7 +307,6 @@ async def on_message(message):
                             await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。現在はテスト版なので、実際に消去はされません。')
                             # pg.execute(f"update player_tb set lv = 1, now_exp = 0, all_exp = 0, max_lv = 1000, str_stp = 0, def_stp = 0, agi_stp = o, stp = 0 where id = {m_author.id};")
                             # await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
-                        await check_msg.delete()
                         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
                         embed.add_field(name="CheckID", value=check_id, inline=False)
                         embed.add_field(name="Result", value=result, inline=False)
