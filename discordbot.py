@@ -696,6 +696,17 @@ async def on_message(message):
                             await m_ch.send(f"```py\n{result}```")
                         except:
                             await m_ch.send("Error.")
+                    if ctt.startswith("excec "):
+                        cmd = ctt.split("excec ")[1]
+                        await m_ch.send(f"`::python=>{cmd}`")
+                        try:
+                            excec(cmd)
+                        except:
+                            result = False
+                        else:
+                            retult = True
+                        await m_ch.send(result)
+                        
                 finally:
                     await m_ch.send("*Completed. System was already closed.*")
 
