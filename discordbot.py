@@ -56,9 +56,9 @@ token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 
-pg = Postgres(dsn)
+pg1, pg2, pg3, pg4, pg5 = Postgres(dsn)
 
-item.pg = battle.pg = rank.pg = status.pg = avatar.pg = pg
+item.pg, battle.pg, rank.pg, status.pg, avatar.pg = pg1, pg2, pg3, pg4, pg5
 
 # コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
 cmd_lock = {}
