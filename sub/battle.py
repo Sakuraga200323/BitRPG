@@ -116,7 +116,7 @@ async def cbt_proc(client, user, ch):
             t = "強ダメージ！"
             X = 1.5
         dmg1 = round(X * dmg1)
-        if not dmg == 0:
+        if dmg != 0:
             log1_1 += str(dmg1)
             log1_1 += f"の{t}"
         else:
@@ -138,7 +138,7 @@ async def cbt_proc(client, user, ch):
             elif luck2 >= 85:
                 t2 = "強ダメージ！"; X = 1.5
             dmg2 = round(X * dmg2)
-            if not dmg2 == 0:
+            if dmg2 != 0:
                 log2_1 += str(dmg2)
                 if mob.name == "古月":
                     log2_1 += f"×2の{t2}"
