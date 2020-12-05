@@ -116,7 +116,7 @@ async def cbt_proc(client, user, ch):
             t = "強ダメージ！"
             X = 1.5
         dmg1 = round(X * dmg1)
-        if dmg != 0:
+        if dmg1 != 0:
             log1_1 += str(dmg1)
             log1_1 += f"の{t}"
         else:
