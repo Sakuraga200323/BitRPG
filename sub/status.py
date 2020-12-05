@@ -67,12 +67,12 @@ async def open_status(client, user, ch):
         r = f"REM`：{bar(p_data.now_stp(), p_data.STP())}`"
         embed.add_field(name=f"StatusPointBalance (Sum:{p_data.STP()})", value=f"{s}\n{d}\n{a}\n{r}", inline=False)
     exp_bar = '<:1_:784323561052569642>'*int( p_data.now_exp() / p_data.lv() *10)
-    exp_bar2 = (10 - int( (p_data.now_exp() / p_data.lv()) * 10)) * '<:0_:784323507110150144>'
+    exp_bar2 = (10 - int( (p_data.now_exp() / (p_data.lv()+1)) * 10)) * '<:0_:784323507110150144>'
     print(exp_bar)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
         + "\n<:_end:784330415624290306>" + f"{exp_bar + exp_bar2}" + "<:end_:784330344748417024>"
-        + f"\n`({p_data.now_exp()} / {p_data.lv()})`"))
+        + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
 
