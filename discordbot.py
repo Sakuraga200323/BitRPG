@@ -23,8 +23,7 @@ class Postgres:
     def __init__(self, dsn):
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
-        self.cur = self.conn.cursor()
-        psycopg2.extras.register_hstore(self.cur)
+        self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     def execute(self, sql):
         self.cur.execute(sql)
@@ -130,7 +129,7 @@ async def on_ready():
     )"""
 
 
-    player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
+    player_ids = pg.fetchdict("select id from player_tb;")[0]
     for player_id in player_ids:
         avatar.Player(client, player_id)
     print(len(player_ids), len(box.players))
@@ -294,8 +293,9 @@ async def on_message(message):
                             temp = answer.content
                             if int(answer.content) == int(num):
                                 await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
-                                if not P_list == []:
-                                    pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
+                                if not P_list == []:]
+                                    p = box.players[m_author.id]
+                                    p.get_exp(p.lv()*10)
                                 check_flag = False
                                 result = True
                             elif str(num) != str(answer.content):
