@@ -48,7 +48,7 @@ class Player:
         self.user = client.get_user(id)
         if not self.user:
             print(f"データ挿入失敗: {id}のuserがNone。")
-        self.pg = Postgres(dsn)
+        self.pg = pg
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         print(list(self.dtd.values())[1:12])
@@ -238,7 +238,7 @@ class Mob:
     def __init__(self, client, id):
         if client.get_channel(id):
             self.mob = client.get_channel(id)
-            self.pg = Postgres(dsn)
+            self.pg = pg
             self.client = client
             self.battle_players = []
             try:
