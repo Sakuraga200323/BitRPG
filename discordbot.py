@@ -128,7 +128,7 @@ async def on_ready():
         get_icon(img,24,13)
     )"""
 
-    print(pg.fetch("select id from player_tb;"))
+    print(pg.fetchdict("select id from player_tb;"))
     player_ids = [ i[0] for i in pg.fetch("select id from player_tb;")]
     print(player_ids)
     for player_id in player_ids:
