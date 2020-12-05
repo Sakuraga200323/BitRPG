@@ -123,6 +123,22 @@ class Player:
                 self.pg.execute(f'update player_tb set {target}={target}+{plus};')
             return self.get_data(target)
 
+    self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
+    data_list = [
+        self.dtd["lv"], self.dtd["max_lv"], 
+        self.dtd["max_exp"], self.dtd["now_exp"], 
+        self.dtd["now_stp"], self.dtd["str_p"], self.dtd["def_p"], self.dtd["agi_p"], 
+        self.dtd["magic_class"], self.dtd["magic_lv"], 
+        self.dtd["kill_count"], self.dtd["item"], self.dtd["money"]
+    ]
+    [
+        self.lv_, self.max_lv_, 
+        self.max_exp_, self.now_exp_, 
+        self.now_stp_, self.str_p_, self.defe_p_, self.agi_p_, 
+        self.magic_class_, self.magic_lv_, 
+        self.kill_count_, self.item_, self.money_
+    ] = data_list
+
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
