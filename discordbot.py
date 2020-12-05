@@ -806,4 +806,3 @@ async def remrole(ctx, role_num):
 
 
 client.run(token)
-bot.run(token)
