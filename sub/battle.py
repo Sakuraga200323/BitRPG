@@ -101,8 +101,8 @@ async def cbt_proc(client, user, ch):
 
     # HPゲージの取得
     def hp_gauge(now, max):
-        guage_num = int((now/max)*10)
-        return (guage_num*"▱") + ((1 - guage_num)*" ")
+        gauge_num = int((now/max)*10)
+        return (gauge_num*"▱") + ((1 - gauge_num)*" ")
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
@@ -126,7 +126,7 @@ async def cbt_proc(client, user, ch):
             if dmg1 == 0:
                 log1_1 += "しかし当たらなかった"
         log1_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
-        log1_1 += f"\n[{hp_guage(mob.now_hp, mob.max_hp)}]"
+        log1_1 += f"\n[{hp_gauge(mob.now_hp, mob.max_hp)}]"
         if mob.now_hp <= 0:
             log2_1 = f'{mob.name} を倒した！！'
         else:
@@ -151,7 +151,7 @@ async def cbt_proc(client, user, ch):
             elif dmg2 == 0:
                 log2_1 += "しかし当たらなかった！"
             log2_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
-            log2_1 += f"\n[{hp_guage(player.now_hp, player.max_hp)}]"
+            log2_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
             if player.now_hp <= 0:
                 log2_1 += f'{user.name} はやられてしまった！！'
 
@@ -179,7 +179,7 @@ async def cbt_proc(client, user, ch):
         elif dmg2 == 0:
             log1_1 += "しかし当たらなかった！"
         log1_1 += f'\n{user.name} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
-        log1_1 += f"\n[{hp_guage(player.now_hp, player.max_hp)}]"
+        log1_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
         if player.now_hp <= 0:
             log2_1 = f'\n{user.name} はやられてしまった！！'
         else:
@@ -198,7 +198,7 @@ async def cbt_proc(client, user, ch):
             elif dmg1 == 0:
                 log2_1 += "しかし当たらなかった！"
             log2_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
-            log2_1 += f"\n[{hp_guage(mob.now_hp, mob.max_hp)}]"
+            log2_1 += f"\n[{hp_gauge(mob.now_hp, mob.max_hp)}]"
             if mob.now_hp <= 0:
                 log2_1 += f'\n{mob.name} を倒した！！'
 
