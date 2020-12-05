@@ -255,7 +255,7 @@ async def on_message(message):
         mob = avatar.Mob(client, m_ch.id)
 
         try:
-            if random.random() > 0.995
+            if random.random() > 0.995:
                 if not check_macro():
                     return
 
