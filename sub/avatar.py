@@ -162,7 +162,7 @@ class Player:
         return self.now_stp
    
     def STP(self, plus=None):
-        return = self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
+        return self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
 
     def now_exp(self, plus=None):
         if isinstance(plus,int):
@@ -181,7 +181,7 @@ class Player:
         return self.kill_count
 
     def magic_class(self):
-        return = self.magic_class
+        return self.magic_class
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
