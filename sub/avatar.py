@@ -253,8 +253,8 @@ class Mob:
                 pass
             else:
                 print(f"新規Mobデータを挿入: {id}")
-            self.dtd = self.pg.fetchdict(f"select * from mob_tb where id = {id};")[0]
-            self.max_hp = self.now_hp = self.lv() * 110 + 10
+            self.dtd = self.pg.fetchdict(f"select lv from mob_tb where id = {id};")[0]
+            self.max_hp = self.now_hp = self.dtd["lv"] * 110 + 10
             set = mob_data.select(self.dtd["lv"])
             self.type, self.name, self.img_url = set.values()
             if not id in box.mobs:
