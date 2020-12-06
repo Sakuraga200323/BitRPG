@@ -264,6 +264,14 @@ async def on_message(message):
 
 
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
+            if not m_author.id in box.players:
+                id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+                if m_author.id in id_list:
+                    await.m_ch.send("<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
+                    player = avatar.Player(client, m_author.id)
+                else:
+                    await.m_ch.send("<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
+                    return
 
 
             # InviteURL #
@@ -432,6 +440,9 @@ async def on_message(message):
                         description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
                         color=discord.Color.green())
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+                player = avatar.Player(client, m_author.id)
+                if not m_author.id in box.players:
+                    box.players[m_author.id] = player
                 await status.open_status(client, m_author, m_ch)
                 player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 print(len(player_ids), len(box.players))
