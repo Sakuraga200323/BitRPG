@@ -88,7 +88,7 @@ async def cbt_proc(client, user, ch):
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        log1_1 += f'+ {player.user} の攻撃->'
+        log1_1 += f'+ {player.user}の攻撃->'
         t = "ダメージ"
         X = 1
         if luck >= 95:
@@ -110,68 +110,57 @@ async def cbt_proc(client, user, ch):
         log1_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
         log1_1 += f"\n[{hp_gauge(mob.now_hp, mob.max_hp)}]"
         if mob.now_hp <= 0:
-            log2_1 = f'{mob.name} を倒した！！'
+            log2_1 = f'{mob.name}を倒した！！'
         else:
-            log2_1 += f'- {mob.name} の攻撃->'
-            if mob.name == "古月":
-                log2_1 += "デュアルミスリルパイプ!"
+            log2_1 += f'- {mob.name}の攻撃->'
             X = 1
             t2 = "ダメージ"
-            if luck2 >= 95:
+            if random.random() >= 0.95:
                 t2 = "極ダメージ！"; X = 3
-            elif luck2 >= 90:
+            elif random.random >= 0.9:
                 t2 = "超ダメージ！"; X = 2
-            elif luck2 >= 85:
+            elif random.random >= 85:
                 t2 = "強ダメージ！"; X = 1.5
             dmg2 = round(X * dmg2)
             if dmg2 != 0:
                 log2_1 += str(dmg2)
-                if mob.name == "古月":
-                    log2_1 += f"×2の{t2}"
-                else:
-                    log2_1 += f"の{t2}"
+                log2_1 += f"の{t2}"
             elif dmg2 == 0:
                 log2_1 += "しかし当たらなかった！"
             log2_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
             log2_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
             if player.now_hp <= 0:
-                log2_1 += f'{user} はやられてしまった！！'
+                log2_1 += f'{user}はやられてしまった！！'
 
 
     # 戦闘処理（Player後手） #
     else:
-        log1_1 += f'- {mob.name} の攻撃->'
-        if mob.name == "古月":
-            log2_1 += "デュアルミスリルパイプ!"
+        log1_1 += f'- {mob.name}の攻撃->'
         t = "ダメージ" ; X = 1
-        if luck >= 95:
+        if random.random() >= 0.95:
             t = "極ダメージ！"; X = 3
-        elif luck >= 90:
+        elif random.random >= 0.9:
             t = "超ダメージ！"; X = 2
-        elif luck >= 85:
+        elif random.random >= 85:
             t = "強ダメージ！"; X = 1.5
         dmg2 = round(X * dmg2)
         if not dmg2 == 0:
-            if mob.name == "古月":
-                log1_1 += str(dmg2/2)
-                log1_1 += f"×2の{t}"
-            else:
-                log1_1 += str(dmg2)
-                log1_1 += f"の{t}"
+            log1_1 += str(dmg2)
+            log1_1 += f"の{t}"
         elif dmg2 == 0:
             log1_1 += "しかし当たらなかった！"
-        log1_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
+        log1_1 += f'\n{user}のHP[{player.cut_hp(dmg2)}/{player.max_hp}]'
         log1_1 += f"\n[{hp_gauge(player.now_hp, player.max_hp)}]"
         if player.now_hp <= 0:
-            log2_1 = f'\n{user} はやられてしまった！！'
+            log2_1 = f'\n{user}はやられてしまった！！'
         else:
-            log2_1 += f'+ {user} の攻撃->'
+            log2_1 += f'+ {user}の攻撃->'
             t2 = "ダメージ" ; X = 1
-            if luck2 >= 95:
+            if random.random() >= 0.95:
                 t2 = "極ダメージ！"; X = 3
-            elif luck2 >= 90:
+            elif random.random >= 0.9:
                 t2 = "超ダメージ！"; X = 2
-            elif luck2 >= 85:
+            elif random.random >= 85:
                 t2 = "強ダメージ！"; X = 1.5
             dmg1 = round(X * dmg1)
             if not dmg1 == 0:
@@ -179,10 +168,10 @@ async def cbt_proc(client, user, ch):
                 log2_1 += f"の{t2}"
             elif dmg1 == 0:
                 log2_1 += "しかし当たらなかった！"
-            log2_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
+            log2_1 += f'\n{mob.name}のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]'
             log2_1 += f"\n[{hp_gauge(mob.now_hp, mob.max_hp)}]"
             if mob.now_hp <= 0:
-                log2_1 += f'\n{mob.name} を倒した！！'
+                log2_1 += f'\n{mob.name}を倒した！！'
 
     log1_2 = f"```diff\n{log1_1}```"
     log2_2 = f"```diff\n{log2_1}```"
