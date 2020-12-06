@@ -342,7 +342,7 @@ async def on_message(message):
 
             if m_ctt == '^^start':
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
-                prtin(id_list)
+                print(id_list)
                 def check(m):
                     if not m.author.id == m_author.id:
                         return 0
