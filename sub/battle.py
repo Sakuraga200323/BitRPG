@@ -200,13 +200,17 @@ async def cbt_proc(client, user, ch):
             await ch.send("????『幸運を。死したものより祝福を。』")
 
         exp, money = mob.exp()
+        money = int(money/mob.battle_players)
         print("戦闘参加しているPlayer: ",mob.battle_players)
         for p_id in mob.battle_players:
             p = box.players[p_id]
             up_exp, up_lv = p.get_exp(exp)
+            p.kill_count(1)
+            p.money(money)
             desc += f"<@{p_id}> は{exp}の経験値を獲得。"
             if up_lv > 0:
                 desc += f"LvUP {p.lv()-up_lv} -> {p.lv()}"
+            desc += f"<@{p_id}> は{money}のお金を獲得。{p.money()-money} -> {p.money()}"
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
