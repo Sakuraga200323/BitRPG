@@ -268,6 +268,7 @@ async def on_message(message):
 
             # InviteURL #
             if m_ctt == "^^url":
+                print("^^url: ",m_author)
                 await m_ch.send(embed=discord.Embed(
                     title="Invite & Other URL",
                     description=(
@@ -278,6 +279,7 @@ async def on_message(message):
 
             # ヘルプ #
             if m_ctt == "^^help":
+                print("^^help: ",m_author)
                 await m_ch.send("未実装です")
                 return
                 await help.help(client, m_ch, m_author)
@@ -285,6 +287,7 @@ async def on_message(message):
 
             # ステータスの表示 #
             if m_ctt.startswith("^^st"):
+                print("^^st: ",m_author)
                 temp = m_ctt
                 pattern = r"\^\^(st|status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
@@ -294,6 +297,7 @@ async def on_message(message):
 
             # 戦闘 #
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
+                print("^^atk: ",m_author)
                 temp = m_ctt
                 pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
@@ -303,6 +307,7 @@ async def on_message(message):
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
+                print("^^re: ",m_author)
                 temp = m_ctt
                 pattern = r"\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
@@ -312,6 +317,7 @@ async def on_message(message):
 
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
+                print("^^point: ",m_author)
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result:
@@ -320,12 +326,14 @@ async def on_message(message):
 
             # チャンネルレベルランキングの表示 #
             if m_ctt == "^^rank m":
+                print("^^rank m: ",m_author)
                 ranking = rank.RankClass(client)
                 ranking.channel(m_author,m_ch)
 
 
             # アイテム系 #
             if m_ctt.startswith("^^i"):
+                print("^^item: ",m_author)
                 pattern = r"\^\^(i|item) (.+)"
                 pattern2 = r"^\^\^i$|^\^\^item$"
                 result = re.search(pattern, m_ctt)
@@ -338,10 +346,12 @@ async def on_message(message):
 
             # Lv上限解放 #
             if m_ctt == "^^gentotsu":
+                print("^^gentotsu: ",m_author)
                 await status.up_max_lv(client, m_ch, m_author)
 
 
             if m_ctt == '^^start':
+                print("^^start: ",m_author)
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 print(id_list)
                 def check(m):
