@@ -44,9 +44,10 @@ pg = None
 
 async def cbt_proc(client, user, ch):
     if not user.id in box.players:
+        print("box.playersに存在しないPlayer.idを取得")
         if not user.id in [i["id"] for i in pg.fetchdict(f"select id from player_tb;")]:
             box.players[user.id] = avatar.Player(client, user.id)
-            print(f"Playerデータ挿入： {box.players[user.id].user}")
+            print(f"Playerデータ挿入(battle.py>cbt_proc)： {box.players[user.id].user}")
     player = box.players[user.id]
     mob = box.mobs[ch.id]
     if not player.battle_start(ch.id):
