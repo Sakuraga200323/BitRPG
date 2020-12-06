@@ -240,16 +240,105 @@ async def on_message(message):
 
     if m_ctt.startswith("^^") and not m_author.id in macro_checking and not m_author.bot:
 
+        if cmd_lock.get(m_ch.id) is True:
+            await m_ch.send("コマンド処理中。\nいつまでも終わらない場合は`><fix`。")
+            return
+
+        if m_ctt == '^^start':
+            print("^^start: ",m_author)
+            id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+            print(id_list)
+            def check(m):
+                if not m.author.id == m_author.id:
+                    return 0
+                return 1
+            def check2(m):
+                if not m.author.id == m_author.id:
+                    return 0
+                if not m.content in ("y","Y","n","N"):
+                    return 0
+                return 1
+            if m_author.id in id_list:
+                await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
+                try:
+                    msg = await client.wait_for("message", timeout=60, check=check)
+                except asyncio.TimeoutError:
+                    return
+                else:
+                    if msg.content in ("y","Y"):
+                        await m_ch.send(f"再登録を致します。")
+                        magic_type_flag = True
+                        pg.execute(f"delete from player_tb where id = {m_author.id}")
+                    else:
+                        await m_ch.send(f"キャセルン！！")
+                        return
+            await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
+            magic_type_flag = False
+            while not magic_type_flag is True:
+                magic_type_em = discord.Embed(
+                    title=f"{m_author.name} の所属魔法領域を選択",
+                    description=
+                        (f"所属する魔法領域の対応番号を**半角で**送信してください。"
+                        +"\n`^^start`で再登録していただく事でLv1から始め直す事は可能ですが、アカウント間でのデータの引き継ぎや、再登録のレベル引き継ぎは有料となっております。"
+                        +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
+                magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には果てしない火力を出します。`")
+                magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
+                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。バフメインの魔法を習得し、条件次第ではWolfにもArmadilloにも成りうる性能を誇ります。`")
+                await m_ch.send(embed=magic_type_em)
+                try:
+                    msg = await client.wait_for("message", timeout=60, check=check)
+                except asyncio.TimeoutError:
+                    await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                else:
+                    respons = int(msg.content) if msg.content in ("1","2","3") else 0
+                    if not respons in (1,2,3):
+                        await m_ch.send(f"【警告】1,2,3で答えて下さい。")
+                        continue
+                    select_magic_type = "Wolf" if respons == 1 else "Armadillo" if respons == 2 else "Orca" 
+                    await m_ch.send(f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
+                    try:
+                        msg = await client.wait_for("message", timeout=10, check=check2)
+                    except asyncio.TimeoutError:
+                        await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                    else:
+                        if msg.content in ("y","Y"):
+                            await m_ch.send(f"『{select_magic_type}』で登録します。")
+                            magic_type_flag = True
+                        elif msg.content in ("n","N"):
+                            await m_ch.send(f"魔法領域の選択画面に戻ります。")
+                            continue
+            if not magic_type_flag == True:
+                return
+            jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
+            cmd = (
+                f"INSERT INTO player_tb VALUES ("
+                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),0"
+                +");"
+            )
+            print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
+            try:
+                pg.execute(cmd)
+            except Exception as e:
+                await m_ch.send('type:' + str(type(e))
+                + '\nargs:' + str(e.args)
+                + '\ne自身:' + str(e))
+            else:
+                embed = discord.Embed(
+                    description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
+                    color=discord.Color.green())
+                await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+            player = avatar.Player(client, m_author.id)
+            if not m_author.id in box.players:
+                box.players[m_author.id] = player
+            await status.open_status(client, m_author, m_ch)
+            player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+
         if client.get_channel(761571389345759232).name=='true':
             admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
             clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.roles]
             if not admin_user and not clearance_lv3_user:
                 await m_ch.send('現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
                 return
-
-        if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("コマンド処理中。\nいつまでも終わらない場合は`><fix`。")
-            return
 
         cmd_lock[m_ch.id] = True
         mob = avatar.Mob(client, m_ch.id)
@@ -358,97 +447,6 @@ async def on_message(message):
                 await status.up_max_lv(client, m_ch, m_author)
 
 
-            if m_ctt == '^^start':
-                print("^^start: ",m_author)
-                id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
-                print(id_list)
-                def check(m):
-                    if not m.author.id == m_author.id:
-                        return 0
-                    return 1
-                def check2(m):
-                    if not m.author.id == m_author.id:
-                        return 0
-                    if not m.content in ("y","Y","n","N"):
-                        return 0
-                    return 1
-                if m_author.id in id_list:
-                    await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
-                    try:
-                        msg = await client.wait_for("message", timeout=60, check=check)
-                    except asyncio.TimeoutError:
-                        return
-                    else:
-                        if msg.content in ("y","Y"):
-                            await m_ch.send(f"再登録を致します。")
-                            magic_type_flag = True
-                            pg.execute(f"delete from player_tb where id = {m_author.id}")
-                        else:
-                            await m_ch.send(f"キャセルン！！")
-                            return
-                await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
-                magic_type_flag = False
-                while not magic_type_flag is True:
-                    magic_type_em = discord.Embed(
-                        title=f"{m_author.name} の所属魔法領域を選択",
-                        description=
-                            (f"所属する魔法領域の対応番号を**半角で**送信してください。"
-                            +"\n`^^start`で再登録していただく事でLv1から始め直す事は可能ですが、アカウント間でのデータの引き継ぎや、再登録のレベル引き継ぎは有料となっております。"
-                            +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
-                    magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には果てしない火力を出します。`")
-                    magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
-                    magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。バフメインの魔法を習得し、条件次第ではWolfにもArmadilloにも成りうる性能を誇ります。`")
-                    await m_ch.send(embed=magic_type_em)
-                    try:
-                        msg = await client.wait_for("message", timeout=60, check=check)
-                    except asyncio.TimeoutError:
-                        await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
-                    else:
-                        respons = int(msg.content) if msg.content in ("1","2","3") else 0
-                        if not respons in (1,2,3):
-                            await m_ch.send(f"【警告】1,2,3で答えて下さい。")
-                            continue
-                        select_magic_type = "Wolf" if respons == 1 else "Armadillo" if respons == 2 else "Orca" 
-                        await m_ch.send(f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
-                        try:
-                            msg = await client.wait_for("message", timeout=10, check=check2)
-                        except asyncio.TimeoutError:
-                            await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
-                        else:
-                            if msg.content in ("y","Y"):
-                                await m_ch.send(f"『{select_magic_type}』で登録します。")
-                                magic_type_flag = True
-                            elif msg.content in ("n","N"):
-                                await m_ch.send(f"魔法領域の選択画面に戻ります。")
-                                continue
-                if not magic_type_flag == True:
-                    return
-                jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
-                cmd = (
-                    f"INSERT INTO player_tb VALUES ("
-                    +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),0"
-                    +");"
-                )
-                print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
-                try:
-                    pg.execute(cmd)
-                except Exception as e:
-                    await m_ch.send('type:' + str(type(e))
-                    + '\nargs:' + str(e.args)
-                    + '\ne自身:' + str(e))
-                else:
-                    embed = discord.Embed(
-                        description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
-                        color=discord.Color.green())
-                    await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
-                player = avatar.Player(client, m_author.id)
-                if not m_author.id in box.players:
-                    box.players[m_author.id] = player
-                await status.open_status(client, m_author, m_ch)
-                player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
-                print(len(player_ids), len(box.players))
-
-
         finally:
             cmd_lock[m_ch.id] = False
 
@@ -512,95 +510,16 @@ async def on_message(message):
                     ans = re_m.content
                     if ans == 'y':
                         cmd_lock[m_ch.id] = False
-            """
-            if m_author.id in cbt_user:
-                em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
-                await m_ch.send(em=em)
-                try:
-                    re_m = await client.wait_for('message', timeout=60, check=check)
-                except asyncio.TimeoutError:
-                    await m_ch.send('答えないんなら次行くね?')
-                else:
-                    ans = re_m.content
-                    if ans == 'y':
-                        cmd_lock[m_ch.id] = False
-            """
             embed = discord.Embed(
                 description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
             await m_ch.send(embed=embed)
 
-            
-            
-            
-
-        if m_ctt.startswith("--"):
-            if not m_author.id in clr_lv4 and not m_author.id in clr_lv5 :
-                await m_ch.send("**貴方のクリアランスはLv4未満です。プロトコル[SimpleSystemCall]の実行にはLv4以上のクリアランスが必要です。**")
-                return
-            if m_ctt == "--test anti_macro":
-                try:
-                    check = random.random() >= 0.0
-                finally:
-                    if check:
-                        P_list = pg.fetch(f"select * from player_tb where id = {m_author.id};")
-                        if not m_author.id in doubt_count:
-                            doubt_count[m_author.id] = 0
-                        check_flag = True
-                        result = False
-                        while check_flag == True:
-                            flag = await m_ch.send("デデドン！！")
-                            await asyncio.sleep(1)
-                            check_id = flag.id
-                            macro_checking.append(m_author.id)
-                            img, num = await anti_macro.get_img(client)
-                            cv2.imwrite('anti_macro/num_img/temp.png', img)
-                            check_em = discord.Embed(
-                                title = "マクロ検知ぃいい！！(迫真)",
-                                description=f'{m_author.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
-                            check_em.set_image(url="attachment://temp.png")
-                            await m_ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
-                            def check(m):
-                                if not m.author.id == m_author.id or m.channel.id != m_ch.id:
-                                    return 0
-                                if not m.content in ['0','1','2','3','4','5','6','7','8','9']:
-                                    return 0
-                                return 1
-                            try:
-                                answer = await client.wait_for('message', timeout=20, check=check)
-                            except asyncio.TimeoutError:
-                                doubt_count[m_author.id] += 1
-                                temp = None
-                                await m_ch.send(f'無回答!!　不正カウント+1(現在{doubt_count[m_author.id]})')
-                                result = False
-                            else:
-                                temp = answer.content
-                                if int(answer.content) == int(num):
-                                    await m_ch.send(f'正解!! 報酬として現レベル×10の経験値を配布しました。')
-                                    if not P_list == []:
-                                        pg.execute(f'update player_tb set now_exp = now_exp + (lv*10) where id = {m_author.id};')
-                                    check_flag = False
-                                    result = True
-                                elif str(num) != str(answer.content):
-                                    doubt_count[m_author.id] += 1
-                                    await m_ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[m_author.id]})')
-                                    result = False
-                            print(f"MacroCheck：({m_author.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
-                            if doubt_count[m_author.id] >= 5:
-                                check_flag = False
-                                doubt_count[m_author.id] = 0
-                                await m_ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。')
-                                pg.execute(f"delete from player_tb where id = {m_author.id};")
-                                await m_ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
-                            embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
-                            embed.add_field(name="CheckID", value=check_id, inline=False)
-                            embed.add_field(name="Result", value=result, inline=False)
-                            embed.add_field(name="UserData", value=P_list, inline=False)
-                            embed.set_image(url="attachment://temp.png")
-                            await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
-                        
 
 
-                        
+
+
+
+
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         user_is_c_lv2 = (client.get_guild(official_guild_id)).get_role(c_lv2) in m_author.roles
