@@ -323,7 +323,7 @@ class Mob:
         if self.name in defe_correction:
             return int(result*defe_correction[self.name])
         else:
-            return rsult
+            return result
 
     def agi(self):
         result = self.lv() * 10 + 10
