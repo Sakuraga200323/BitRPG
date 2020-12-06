@@ -52,14 +52,14 @@ async def open_status(client, user, ch):
         s = f"{gauge(p_data.str_p(), all_stp)}"
         d = f"{gauge(p_data.defe_p(), all_stp)}"
         a = f"{gauge(p_data.agi_p(), all_stp)}"
-        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"{p_data.STP()}\n{guage_edge_reft}`{s}⧱{d}⧱{a}`{guage_edge_right}", inline=False)
+        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"Total:*{p_data.STP()}*\n{guage_edge_reft}`{s}⧱{d}⧱{a}`{guage_edge_right}", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
     exp_gauge_1 = '<:1_:784323561052569642>'*exp_gauge_num
     exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
     embed.add_field(name = f"Experience", value=(
-          f"*{p_data.max_exp()}*"
+          f"Total:*{p_data.max_exp()}*"
         + f"\n{guage_edge_reft}{exp_gauge_1 + exp_gauge_0}{guage_edge_right}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
@@ -83,7 +83,7 @@ async def divid(client, user, ch, result):
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{p_data.now_stp+point}->{p_data.now_stp}")
+    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{p_data.now_stp()+point}->{p_data.now_stp}")
 
 
 
