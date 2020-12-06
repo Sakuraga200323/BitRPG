@@ -207,8 +207,8 @@ async def cbt_proc(client, user, ch):
             up_exp, up_lv = p.get_exp(exp)
             p.kill_count(1)
             p.money(money)
-            desc += f"<@{p_id}> に経験値+{exp}。"
-            desc += f"お金+{money}。"
+            desc += f"<@{p_id}> 経験値+{exp} "
+            desc += f"お金+{money} "
             if up_lv > 0:
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
 
