@@ -422,6 +422,8 @@ async def on_message(message):
                         color=discord.Color.green())
                     await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
                 await status.open_status(client, m_author, m_ch)
+                player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+                print(len(player_ids), len(box.players))
 
 
         finally:
