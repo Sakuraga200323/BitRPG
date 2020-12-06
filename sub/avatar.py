@@ -295,7 +295,7 @@ class Mob:
             "Theaf":0.9,
             "Valkyrie":1.3,
         }
-        return int(result*str_correction(self.name))
+        return int(result*str_correction[self.name])
 
     def defe(self):
         result = self.lv() * 10 + 10
@@ -317,7 +317,7 @@ class Mob:
             "Theaf":0.8,
             "Valkyrie":1.3,
         }
-        return int(result*defe_correction(self.name))
+        return int(result*defe_correction[self.name])
 
     def agi(self):
         result = self.lv() * 10 + 10
@@ -339,7 +339,7 @@ class Mob:
             "Theaf":1.5,
             "Valkyrie":1.3,
         }
-        return int(result*agi_correction(self.name))
+        return int(result*agi_correction[self.name])
 
     def exp(self):
         if self.lv() % 1000 == 0:
