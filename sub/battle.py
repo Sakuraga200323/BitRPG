@@ -210,7 +210,7 @@ async def cbt_proc(client, user, ch):
             await ch.send("????『幸運を。死したものより祝福を。』")
 
         exp, money = mob.exp()
-        print(mob.battle_players)
+        print("戦闘参加しているPlayer: ",mob.battle_players)
         for p_id in mob.battle_players:
             p = box.players[p_id]
             up_exp, up_lv = p.get_exp(exp)
