@@ -322,7 +322,7 @@ class Mob:
         }
         if self.name in defe_correction:
             return int(result*defe_correction[self.name])
-        else
+        else:
             return rsult
 
     def agi(self):
@@ -347,7 +347,7 @@ class Mob:
         }
         if self.name in agi_correction:
             return int(result*agi_correction[self.name])
-        else
+        else:
             return result
 
     def exp(self):
