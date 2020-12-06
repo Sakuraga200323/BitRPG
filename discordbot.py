@@ -382,8 +382,9 @@ async def on_message(message):
                         if msg.content in ("y","Y"):
                             await m_ch.send(f"再登録を致します。")
                             magic_type_flag = True
-                        else:
                             pg.execute(f"delete from player_tb where id = {m_author.id}")
+                        else:
+                            await m_ch.send(f"キャセルン！！")
                             return
                 await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
                 magic_type_flag = False
