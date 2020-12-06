@@ -262,9 +262,9 @@ class Mob:
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update mob_tb set {target}={target}{plus} where id = selfmob.id;')
+                self.pg.execute(f'update mob_tb set {target}={target}{plus} where id = {self.mob.id};')
             else:
-                self.pg.execute(f'update mob_tb set {target}={target}+{plus} where id = selfmob.id;')
+                self.pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.mob.id};')
             return self.get_data(target)
 
     def lv(self, plus=None):
