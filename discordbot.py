@@ -267,10 +267,10 @@ async def on_message(message):
             if not m_author.id in box.players:
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 if m_author.id in id_list:
-                    await.m_ch.send("<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
+                    await m_ch.send("<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
                     player = avatar.Player(client, m_author.id)
                 else:
-                    await.m_ch.send("<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
+                    await m_ch.send("<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
                     return
 
 
