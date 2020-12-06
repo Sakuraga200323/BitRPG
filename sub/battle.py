@@ -210,7 +210,7 @@ async def cbt_proc(client, user, ch):
             desc += f"<@{p_id}> は{exp}の経験値を獲得。"
             if up_lv > 0:
                 desc += f"LvUP {p.lv()-up_lv} -> {p.lv()}"
-            desc += f"<@{p_id}> は{money}のお金を獲得。{p.money()-money} -> {p.money()}"
+            desc += f"{money}のお金を獲得。{p.money()-money} -> {p.money()}"
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
