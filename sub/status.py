@@ -58,7 +58,6 @@ async def open_status(client, user, ch):
     exp_gauge_num = int((have_exp / must_exp)*10)
     exp_gauge_1 = '<:1_:784323561052569642>'*exp_gauge_num
     exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
-    print(exp_gauge_num)
     embed.add_field(name = f"Experience", value=(
           f"*{p_data.max_exp()}*"
         + f"\n{guage_edge_reft}{exp_gauge_1 + exp_gauge_0}{guage_edge_right}"
@@ -82,8 +81,9 @@ async def divid(client, user, ch, result):
         await ch.send(f"{p_data.user.mention}の所持ポイントを{point - p_data.now_stp()}超過しています。{p_data.now_stp()}以下にしてください。")
         return
     result = p_data.share_stp(target, point)
-    print("Point:" ,user.id)
-    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。")
+    target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
+    print("Point:" ,user.id, target, "+", point)
+    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{}->{p_data.now_stp}")
 
 
 
