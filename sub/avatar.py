@@ -85,9 +85,9 @@ class Player:
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update player_tb set {target}={target}{plus};')
+                self.pg.execute(f'update player_tb set {target}={target}{plus} where id = {self.user.id};')
             else:
-                self.pg.execute(f'update player_tb set {target}={target}+{plus};')
+                self.pg.execute(f'update player_tb set {target}={target}+{plus} where id = {self.user.id};')
             return self.get_data(target)
 
     # レベル取得
@@ -262,9 +262,9 @@ class Mob:
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update mob_tb set {target}={target}{plus};')
+                self.pg.execute(f'update mob_tb set {target}={target}{plus} where id = selfmob.id;')
             else:
-                self.pg.execute(f'update mob_tb set {target}={target}+{plus};')
+                self.pg.execute(f'update mob_tb set {target}={target}+{plus} where id = selfmob.id;')
             return self.get_data(target)
 
     def lv(self, plus=None):
@@ -300,7 +300,7 @@ class Mob:
         else:
             exp = self.lv()
             money = random.randint(1, 10)
-        exp *= 0.45
+        exp *= 0.75
         exp = round(exp) + 1
         if self.type == "UltraRare":
             exp *= 100
@@ -339,6 +339,6 @@ class Mob:
         for p_id in self.battle_players:
             if p_id in box.players:
                 box.players[p_id].battle_end()
-        self.battle_players_id = []
+        self.battle_players = []
         return self.spawn()
 
