@@ -91,13 +91,13 @@ async def cbt_proc(client, user, ch):
         log1_1 += f'+ {player.user}の攻撃->'
         t = "ダメージ"
         X = 1
-        if luck >= 95:
+        if random.random() >= 0.95:
             t = "極ダメージ！"
             X = 3
-        elif luck >= 90:
+        elif random.random() >= 0.9:
             t = "超ダメージ！"
             X = 2
-        elif luck >= 85:
+        elif random.random() >= 0.85:
             t = "強ダメージ！"
             X = 1.5
         dmg1 = round(X * dmg1)
@@ -117,9 +117,9 @@ async def cbt_proc(client, user, ch):
             t2 = "ダメージ"
             if random.random() >= 0.95:
                 t2 = "極ダメージ！"; X = 3
-            elif random.random >= 0.9:
+            elif random.random() >= 0.9:
                 t2 = "超ダメージ！"; X = 2
-            elif random.random >= 85:
+            elif random.random() >= 85:
                 t2 = "強ダメージ！"; X = 1.5
             dmg2 = round(X * dmg2)
             if dmg2 != 0:
@@ -139,9 +139,9 @@ async def cbt_proc(client, user, ch):
         t = "ダメージ" ; X = 1
         if random.random() >= 0.95:
             t = "極ダメージ！"; X = 3
-        elif random.random >= 0.9:
+        elif random.random() >= 0.9:
             t = "超ダメージ！"; X = 2
-        elif random.random >= 85:
+        elif random.random() >= 85:
             t = "強ダメージ！"; X = 1.5
         dmg2 = round(X * dmg2)
         if not dmg2 == 0:
