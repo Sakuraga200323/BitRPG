@@ -277,15 +277,69 @@ class Mob:
 
     def str(self):
         result = self.lv() * 10 + 10
-        return result
+        str_correction ={
+            "Bicorn":1.3,
+            "GoblinSoldier":1,
+            "Golem":1,
+            "Kerberos":1.3,
+            "LizardGoblin":1.1,
+            "Lorg":1,
+            "Manticore":1.3,
+            "Mummy":1,
+            "Orc":1.2,
+            "Phelios":0.7,
+            "Roguenite":1.2,
+            "Skeleton":0.8,
+            "Sludge":1,
+            "Succubus":0.8,
+            "Theaf":0.9,
+            "Valkyrie":1.3,
+        }
+        return int(result*str_correction(self.name))
 
     def defe(self):
         result = self.lv() * 10 + 10
-        return result
+        defe_correction ={
+            "Bicorn":1.3,
+            "GoblinSoldier":1,
+            "Golem":2,
+            "Kerberos":1.3,
+            "LizardGoblin":1.1,
+            "Lorg":0.8,
+            "Manticore":1.3,
+            "Mummy":0.8,
+            "Orc":1.2,
+            "Phelios":0.7,
+            "Roguenite":1.2,
+            "Skeleton":0.8,
+            "Sludge":1.5,
+            "Succubus":0.8,
+            "Theaf":0.8,
+            "Valkyrie":1.3,
+        }
+        return int(result*defe_correction(self.name))
 
     def agi(self):
         result = self.lv() * 10 + 10
-        return result
+        agi_correction ={
+            "Bicorn":1.3,
+            "GoblinSoldier":1,
+            "Golem":0.7,
+            "Kerberos":1.3,
+            "LizardGoblin":1.2,
+            "Lorg":0.8,
+            "Manticore":1.3,
+            "Mummy":0.8,
+            "Orc":1.2,
+            "Phelios":1.2,
+            "Roguenite":1,
+            "Skeleton":1,
+            "Sludge":0.8,
+            "Succubus":1.1,
+            "Theaf":1.5,
+            "Valkyrie":1.3,
+        }
+        return int(result*agi_correction(self.name))
 
     def exp(self):
         if self.lv() % 1000 == 0:
