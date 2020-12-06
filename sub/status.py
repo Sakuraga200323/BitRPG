@@ -83,7 +83,7 @@ async def divid(client, user, ch, result):
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{}->{p_data.now_stp}")
+    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{p_data.now_stp+point}->{p_data.now_stp}")
 
 
 
