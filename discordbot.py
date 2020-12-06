@@ -436,9 +436,9 @@ async def on_message(message):
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
                 if result:
-                    await item.use_item(client, m_ch, m_author, result.group(2))
+                    await status.use_item(client, m_ch, m_author, result.group(2))
                 if result2:
-                    await item.open_inventory(client, m_ch, m_author)
+                    await status.open_inventory(client, m_ch, m_author)
 
 
             # Lv上限解放 #
