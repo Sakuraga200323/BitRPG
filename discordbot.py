@@ -256,7 +256,8 @@ async def on_message(message):
 
         try:
             if random.random() > 0.995:
-                if not check_macro(client, m_author, m_ch):
+                result =await  check_macro(client, m_author, m_ch)
+                if not result:
                     return
 
 
