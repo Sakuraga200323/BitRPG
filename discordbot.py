@@ -342,6 +342,7 @@ async def on_message(message):
 
             if m_ctt == '^^start':
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+                prtin(id_list)
                 def check(m):
                     if not m.author.id == m_author.id:
                         return 0
@@ -446,7 +447,7 @@ async def on_message(message):
             try:
                 re_m = await client.wait_for('message', timeout=60, check=check)
             except asyncio.TimeoutError:
-                await m_ch.send('これ以上待てないよォ…\n5分以内で終わらないくらい長い時は、先にまとめてかららコピペして送信するといいよ!')
+                await m_ch.send('これ以上待てないよォ…\n5分以内で終わらない時は、先にまとめてかららコピペして送信するといいよ!')
             else:
                 ans = re_m.content
                 atch = None
