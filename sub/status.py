@@ -115,12 +115,18 @@ async def up_max_lv(client, ch, user):
 
 
 ITEMS = (
-    "HP回復薬",
-    "MP回復薬",
-    "ドーピング薬",
-    "魔石")
+    "HP回復薬", #id:001
+    "MP回復薬", #id:002
+    "ドーピング薬", #id:003
+    "魔石") #id:004
 
-ITEMS2 = ("冒険者カード",)
+ITEMS2 = ("冒険者カード",)#id:000
+
+SELECT_ITEM_FROM_ID = (
+    1:"HP回復薬", #id:001
+    2:"MP回復薬", #id:002
+    3:"ドーピング薬", #id:003
+    4:"魔石") #id:004
 
 ITEMS_IMG_URL = {
     "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
@@ -129,7 +135,7 @@ ITEMS_IMG_URL = {
     "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png"}
 
 async def open_inventory(client, ch, user):
-    items_dtd = pg.fetchdict(f"select items from player_tb where id = {user.id};")[0]["item"]
+    items_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
     for item, num in items_dtd.items():
         text += f"{item}：`{num}`\n"
@@ -138,6 +144,14 @@ async def open_inventory(client, ch, user):
         description=f"**{text}**"
     )
     await ch.send(embed=embed)
+
+def get_item (client, ch, user, item_id, num):
+    player = box.players[user.id]
+    item = SELECT_ITEM_FROM_ID[item_id
+    item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
+    pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
+    
+
 
 async def use_item(client, ch, user, item):
     player = box.players[user.id]
