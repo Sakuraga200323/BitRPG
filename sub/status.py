@@ -54,6 +54,8 @@ async def open_status(client, user, ch):
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
+    if exp_gauge_num > 10:
+        exp_gauge_num = 10
     exp_gauge_1 = '<:1_:784323561052569642>'*exp_gauge_num
     exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
     embed.add_field(name = f"Experience", value=(
