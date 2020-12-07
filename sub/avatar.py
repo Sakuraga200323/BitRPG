@@ -172,7 +172,12 @@ class Player:
 
     def magic_class(self):
         self.magic_class_ =  self.get_data("magic_class")
-        return self.magic_class_
+        if self.magic_class_ == 1:
+            return "Wolf"
+        elif self.magic_class_ == 2:
+            return "Armadillo"
+        elif self.magic_class_ == 3:
+            return "Orca"
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
