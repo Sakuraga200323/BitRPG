@@ -12,7 +12,7 @@ import psycopg2.extras
 import random
 import re
 import traceback
-from sub import box, calc, avatar
+from sub import box, calc, avatar, status
 
 
 JST = timezone(timedelta(hours=+9), 'JST')
@@ -211,10 +211,15 @@ async def cbt_proc(client, user, ch):
             desc += f"お金+{money} "
             if up_lv > 0:
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
+            if random.random() <= 0.01:
+                item_num = random.randint(3, 6)
+                status.get_item(client, user, 2, num)
+                desc += f"\n<@{p_id}> 魔石×{item_num}"
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
             em = discord.Embed(description=f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
+
 
         embed = discord.Embed(title="Result",description = desc,color = discord.Color.green())
         mob.lv(1)
