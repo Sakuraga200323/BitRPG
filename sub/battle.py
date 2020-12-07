@@ -214,7 +214,7 @@ async def cbt_proc(client, user, ch):
             if random.random() <= 0.01:
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, 2, num)
-                desc += f"\n<@{p_id}> 魔石×{item_num}"
+                desc += f"\n<@{p_id}> 魔石<:maseki:785641515561123921>×{item_num}"
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
