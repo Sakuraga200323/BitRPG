@@ -31,12 +31,10 @@ async def open_status(client, user, ch):
         return
     p_data = box.players[user.id]
     mc = p_data.magic_class_
-    embed = discord.Embed(
-        title="Player Status Board",
-        color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff
-    )
+    embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff)
     embed.add_field(name=f"Player", value=f"{p_data.user.mention})")
-    embed.add_field(name=f"Level (Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*", inline=False)
+    embed.add_field(name=f"Level (Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*")
+    embed.add_field(name=f"MagicLevel", value=f"*{p_data.magic_lv()}*")
     embed.add_field(name=f"HitPoint (Now/Max)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
     embed.add_field(name=f"MagicPoint (Now/Max)", value=f"*{p_data.now_mp} / {p_data.max_mp}*", inline=False)
     embed.add_field(name=f"Strength", value=f"*{p_data.STR()}* (+{p_data.str_p()})")
@@ -181,8 +179,9 @@ async def use_item(client, ch, user, item):
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
         embed.add_field(name="Name",value=f"**{player.user.name}**")
-        embed.add_field(name="KillCount",value=f"**{player.kill_count()}**")
+        embed.add_field(name="MagicClass",value=f"**{player.magic_class()}**")
         embed.add_field(name="Money",value=f"**{player.money()}cell**")
+        embed.add_field(name="KillCount",value=f"**{player.kill_count()}**")
         if player.battle_ch:
             cbt_ch = client.get_channel(player.battle_ch)
             embed.add_field(name="BattlePlace",value=f"{cbt_ch.mention}")
