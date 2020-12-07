@@ -140,14 +140,13 @@ async def open_inventory(client, ch, user):
     await ch.send(embed=embed)
 
 async def use_item(client, ch, user, item):
+    player = box.players[user.id]
     if not item in ITEMS+ITEMS2:
         await ch.send(f"{item}と言うアイテムは存在しません。")
         return
-    p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
-    item_num = pg.fetchdict(f"SELECT items->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
-    print(item_num)
+    item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num <= 0:
-        await ch.send(f"{p_data['name']}　は{item}を所有していません。")
+        await ch.send(f"<@{player.user.id}>は{item}を所有していません。")
         return
     if not item in ITEMS2:
         item_num -= 1
@@ -156,6 +155,7 @@ async def use_item(client, ch, user, item):
     item_logem = None
 
     if item == "HP回復薬":
+        return
         print("HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
         if p_data["max_hp"] > p_data["now_hp"]:
             before_hp = p_data["now_hp"]
@@ -173,19 +173,19 @@ async def use_item(client, ch, user, item):
                                        
     
     if item == "ドーピング薬":
+        return
         dmg = round(p_data["max_hp"]*0.2)
         pg.execute(f"update player_tb set now_hp = now_hp - {dmg} where id = {user.id};")
         item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 攻撃力が10%上昇!")
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
-        embed.add_field(name="Name",value=f"**{p_data['name']}**")
-        embed.add_field(name="Sex",value=f"**{p_data['sex']}**")
-        embed.add_field(name="KillCount",value=f"**{p_data['kill_ct']}**")
-        embed.add_field(name="Money",value=f"**{p_data['money']}cell**")
-        if client.get_channel(p_data['cbt_ch_id']):
-            cbt_ch = client.get_channel(p_data['cbt_ch_id'])
-            embed.add_field(name="Battle",value=f"{cbt_ch.mention}")
+        embed.add_field(name="Name",value=f"**{player.user.name}**")
+        embed.add_field(name="KillCount",value=f"**{player.kill_count()}**")
+        embed.add_field(name="Money",value=f"**{player.money()}cell**")
+        if player.battle_ch:
+            cbt_ch = client.get_channel(player.battle_ch)
+            embed.add_field(name="BattlePlace",value=f"{cbt_ch.mention}")
         embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
         await ch.send(embed=embed)
