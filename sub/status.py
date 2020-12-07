@@ -147,7 +147,7 @@ async def open_inventory(client, ch, user):
 
 def get_item (client, user, item_id, num):
     player = box.players[user.id]
-    item = SELECT_ITEM_FROM_ID[item_id
+    item = SELECT_ITEM_FROM_ID[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
     
