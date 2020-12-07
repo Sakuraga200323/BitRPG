@@ -380,7 +380,7 @@ class Mob:
         return self.now_hp
 
     def spawn(self):
-        set = mob_data.select(self.dtd["lv"])
+        set = mob_data.select(self.lv())
         self.type, self.name, self.img_url = set.values()
         self.max_hp = self.now_hp = self.lv() * 100 + 10
         embed=discord.Embed(
