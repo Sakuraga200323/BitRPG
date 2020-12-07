@@ -122,11 +122,11 @@ ITEMS = (
 
 ITEMS2 = ("冒険者カード",)#id:000
 
-SELECT_ITEM_FROM_ID = (
+SELECT_ITEM_FROM_ID = {
     1:"HP回復薬", #id:001
     2:"MP回復薬", #id:002
     3:"ドーピング薬", #id:003
-    4:"魔石") #id:004
+    4:"魔石"} #id:004
 
 ITEMS_IMG_URL = {
     "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
