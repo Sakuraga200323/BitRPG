@@ -145,7 +145,7 @@ async def open_inventory(client, ch, user):
     )
     await ch.send(embed=embed)
 
-def get_item (client, ch, user, item_id, num):
+def get_item (client, user, item_id, num):
     player = box.players[user.id]
     item = SELECT_ITEM_FROM_ID[item_id
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
