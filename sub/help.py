@@ -22,5 +22,5 @@ async def help(client, ch, user):
             +"[アイテム](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/4)%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0.md)"
             +"魔法領域"
             +"未登録(要望があれば増えます)"
-    )
+    ))
     await ch.send(embed=embed)
