@@ -169,10 +169,10 @@ async def use_item(client, ch, user, item):
             cure_num = int(player.max_hp * 0.3)
             if player.now_hp + cure_num > player.max_hp:
                   player.now_hp = player.max_hp
-                  text = f"<{player.user.id}>のHPが全回復！"
+                  text = f"<@{player.user.id}>のHPが全回復！"
             else:
                   player.now_hp += cure_num
-                  text = f"<{player.user.id}>のHPが{cure_num}回復"
+                  text = f"<@{player.user.id}>のHPが{cure_num}回復"
             item_logem = discord.Embed(description=text)
         else:
             item_logem = discord.Embed(description=f"なにも起こらなかった…")
@@ -183,10 +183,10 @@ async def use_item(client, ch, user, item):
             cure_num = int(player.max_mp * 0.3)
             if player.now_mp + cure_num > player.max_mp:
                   player.now_mp = player.max_mp
-                  text = f"<{player.user.id}>のMPが全回復！"
+                  text = f"<@{player.user.id}>のMPが全回復！"
             else:
                   player.now_mp += cure_num
-                  text = f"<{player.user.id}>のMPが{cure_num}回復"
+                  text = f"<@{player.user.id}>のMPが{cure_num}回復"
             item_logem = discord.Embed(description=text)
         else:
             item_logem = discord.Embed(description=f"なにも起こらなかった…")
