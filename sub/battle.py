@@ -211,10 +211,15 @@ async def cbt_proc(client, user, ch):
             desc += f"お金+{money} "
             if up_lv > 0:
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-            if random.random() <= 0.50:
+            desc += "\nドロップアイテム:"
+            if random.random() <= 0.05:
                 item_num = random.randint(3, 6)
-                status.get_item(client, user, 2, item_num)
-                desc += f"\n<@{p_id}> 獲得アイテム：魔石<:maseki:785641515561123921>×{item_num}"
+                status.get_item(client, user, 4, item_num)
+                desc += f"HP回復薬<:maseki:785641515561123921>×{item_num} "
+            if random.random() <= 0.03:
+                item_num = random.randint(3, 6)
+                status.get_item(client, user, 4, item_num)
+                desc += f"魔石<:maseki:785641515561123921>×{item_num} "
 
         if random.random() >= 0.99:
             player.now_stp(mob.lv())
