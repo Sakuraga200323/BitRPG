@@ -224,8 +224,7 @@ async def cbt_proc(client, user, ch):
             if random.random() <= 0.03:
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, 4, item_num)
-                desc += f"魔
-<:maseki:785641515561123921>×{item_num} "
+                desc += f"<:id4:785641515561123921>×{item_num} "
 
 
         if random.random() >= 0.99:
