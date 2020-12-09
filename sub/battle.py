@@ -211,7 +211,7 @@ async def cbt_proc(client, user, ch):
             desc += f"お金+{money} "
             if up_lv > 0:
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-            desc += "\nドロップアイテム:"
+            desc += "\nドロップアイテム："
 
             if random.random() <= 0.05:
                 item_num = random.randint(3, 6)
