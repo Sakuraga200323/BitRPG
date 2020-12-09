@@ -159,7 +159,7 @@ async def use_item(client, ch, user, item):
         return
     if not item in ITEMS2:
         item_num -= 1
-        pg.execute(f"update player_tb set items = items::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
+        pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
                       
     item_logem = None
 
