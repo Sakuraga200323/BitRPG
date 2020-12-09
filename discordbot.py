@@ -375,9 +375,6 @@ async def on_message(message):
 
             # ヘルプ #
             if m_ctt == "^^help":
-                print("^^help: ",m_author)
-                await m_ch.send("未実装です")
-                return
                 await help.help(client, m_ch, m_author)
 
 
