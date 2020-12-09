@@ -83,7 +83,7 @@ async def divid(client, user, ch, result):
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    await ch.send(f"{p_data.user.mention}の{target}を{point}強化。強化量が+{result}になりました。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
+    await ch.send(f"STP{point}を消費。{p_data.user.mention}の{target}強化量+{result}。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
 
 
 
@@ -91,21 +91,16 @@ ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
 ITEMS2 = ("冒険者カード",)
 
 async def up_max_lv(client, ch, user):
-    p_data = pg.fetchdict(f"SELECT * FROM player_tb where id = {user.id};")[0]
+    player = box.players(user.id)
     item_num = pg.fetchdict(f"SELECT items->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
-    print(item_num)
     if item_num < 250:
         husoku = 250 - item_num 
-        await ch.send(f"{p_data['name']}　は魔石を規定量所有していません。不足量{husoku}")
+        await ch.send(f"<@{user.id}>のレベル限界解放には{husoku}ほど足りないようだ…")
         return
     item_num -= 250
-    while p_data["now_exp"] > p_data["lv"] and p_data["lv"] <= p_data["max_lv"]:
-        p_data["now_exp"] -= p_data["lv"]
-        p_data["lv"] += 1
-        if p_data["lv"] % 10 == 0:
-            p_data["stp"] += 50 
-    pg.execute(f"update player_tb set lv = {p_data['lv']}, stp = {p_data['stp']}, now_exp = {p_data['now_exp']}, items = items::jsonb||json_build_object('魔石', {item_num})::jsonb, max_lv = {p_data['max_lv'] + 1000} where id = {user.id};")
-    await ch.send(f"限界突破！！{p_data['name']}のレベル上限が{p_data['max_lv'] +1000}に上昇しました。")
+    player.max_lv(1000)
+    player.get_exp(1)
+    await ch.send(f"<@{user.id}>のレベル上限が1000解放されました！")
 
 
                   
@@ -156,11 +151,11 @@ def get_item (client, user, item_id, num):
 async def use_item(client, ch, user, item):
     player = box.players[user.id]
     if not item in ITEMS+ITEMS2:
-        await ch.send(f"{item}と言うアイテムは存在しません。")
+        await ch.send(f"{item}と言うアイテムは見たことがないようだ…")
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num <= 0:
-        await ch.send(f"<@{player.user.id}>は{item}を所有していません。")
+        await ch.send(f"<@{player.user.id}>のインベントリに{item}はもう無いようだ…")
         return
     if not item in ITEMS2:
         item_num -= 1
@@ -169,21 +164,32 @@ async def use_item(client, ch, user, item):
     item_logem = None
 
     if item == "HP回復薬":
-        return
-        print("HP回復薬:",p_data["now_hp"], "/", p_data["max_hp"])
-        if p_data["max_hp"] > p_data["now_hp"]:
-            before_hp = p_data["now_hp"]
-            p_data["now_hp"] += int(p_data["max_hp"]*0.25)
-            if p_data["now_hp"] > p_data["max_hp"]:
-                p_data["now_hp"] = p_data["max_hp"]
-            cured_hp = p_data["now_hp"] - before_hp
-            pg.execute(f"update player_tb set now_hp = {p_data['now_hp']} where id = {user.id};")
-            item_logem = discord.Embed(description=f"HP回復薬を使用し、{p_data['name']} のHPが{cured_hp}回復した！")
+        print("HP回復薬:",player.user)
+        if player.now_hp < player.max_hp:
+            cure_num = int(player.max_hp * 0.3)
+            if player.now_hp + cure_num > player.max_hp:
+                  player.now_hp = player.max_hp
+                  text = f"<{player.user.id}>のHPが全回復！"
+            else:
+                  player.now_hp += cure_num
+                  text = f"<{player.user.id}>のHPが{cure_num}回復"
+            item_logem = discord.Embed(description=text)
         else:
-            item_logem = discord.Embed(description=f"HP回復薬を使用したが、{p_data['name']} のHPは満タンだった")
+            item_logem = discord.Embed(description=f"なにも起こらなかった…")
             
     if item == "MP回復薬":
-        pass
+        print("MP回復薬:",player.user)
+        if player.now_hmpp < player.max_mp:
+            cure_num = int(player.max_mp * 0.3)
+            if player.now_mp + cure_num > player.max_mp:
+                  player.now_mp = player.max_mp
+                  text = f"<{player.user.id}>のMPが全回復！"
+            else:
+                  player.now_hp += cure_num
+                  text = f"<{player.user.id}>のMPが{cure_num}回復"
+            item_logem = discord.Embed(description=text)
+        else:
+            item_logem = discord.Embed(description=f"なにも起こらなかった…")
                                        
     
     if item == "ドーピング薬":
