@@ -213,7 +213,7 @@ async def cbt_proc(client, user, ch):
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
             if random.random() <= 0.50:
                 item_num = random.randint(3, 6)
-                status.get_item(client, user, 2, num)
+                status.get_item(client, user, 2, item_num)
                 desc += f"\n<@{p_id}> 獲得アイテム：魔石<:maseki:785641515561123921>×{item_num}"
 
         if random.random() >= 0.99:
