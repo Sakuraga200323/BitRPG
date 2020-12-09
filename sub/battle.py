@@ -216,15 +216,15 @@ async def cbt_proc(client, user, ch):
             if random.random() <= 0.05:
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, 2, item_num)
-                desc += f"<:id1:786236538584694815>×{item_num} "
+                desc += f"<:hp_potion:786236538584694815>×{item_num} "
             if random.random() <= 0.05:
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, 3, item_num)
-                desc += f"<:id2:786236615575339029>×{item_num} "
+                desc += f"<:mp_potion:786236615575339029>×{item_num} "
             if random.random() <= 0.03:
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, 4, item_num)
-                desc += f"<:id4:785641515561123921>×{item_num} "
+                desc += f"<:maseki:785641515561123921>×{item_num} "
 
 
         if random.random() >= 0.99:
