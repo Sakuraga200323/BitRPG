@@ -179,13 +179,13 @@ async def use_item(client, ch, user, item):
             
     if item == "MP回復薬":
         print("MP回復薬:",player.user)
-        if player.now_hmpp < player.max_mp:
+        if player.now_mp < player.max_mp:
             cure_num = int(player.max_mp * 0.3)
             if player.now_mp + cure_num > player.max_mp:
                   player.now_mp = player.max_mp
                   text = f"<{player.user.id}>のMPが全回復！"
             else:
-                  player.now_hp += cure_num
+                  player.now_mp += cure_num
                   text = f"<{player.user.id}>のMPが{cure_num}回復"
             item_logem = discord.Embed(description=text)
         else:
