@@ -171,9 +171,9 @@ async def on_ready():
 @tasks.loop(seconds=10)
 async def loop():
     MEM = psutil.virtual_memory().percent
-    sub_msg = '^^url'
+    sub_msg = '^^start'
     if client.get_channel(761571389345759232).name=='true':
-        sub_msg = "開発作業によりｺﾏﾝﾄﾞ停止中￤"
+        sub_msg = "開発作業中"
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}￤{len(client.guilds)}server"))
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -332,6 +332,7 @@ async def on_message(message):
                 box.players[m_author.id] = player
             await status.open_status(client, m_author, m_ch)
             player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+            await help.help(client, m_ch, m_author)
 
         if client.get_channel(761571389345759232).name=='true':
             admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
