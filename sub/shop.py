@@ -84,9 +84,10 @@ async def shop(client, ch, user):
             except asyncio.TimeoutError:
                 await ch.send(f"冷やかしはお断りだよ！")
             else:
-                pattern = r'^(\d.) (\d.)$'
+                pattern = r'^(\d+) (\d+)$'
                 result = re.search(pattern, msg.content)
                 if not result:
+                    await ch.send('ちゃんと注文して')
                     return
                 item_id, item_num = int(result.group(1))+1, int(result.group(2))
                 cost_dict = {2:100,3:100,4:10,5:1000,6:500,7:2000,8:3000}
