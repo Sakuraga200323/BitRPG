@@ -94,7 +94,7 @@ async def shop(client, ch, user):
                 if player.money() < cost_dict[item_id]*item_num:
                     await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     return
-                status.get_item(client,ch,user,item_id,item_num)
+                status.get_item(client,user,item_id,item_num)
                 player.money(-cost_dict[item_id])
                 await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{item_emoji[item_id]}x{item_num}を購入。またのご来店をお待ちしております！")
                 
