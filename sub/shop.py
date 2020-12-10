@@ -33,8 +33,8 @@ async def shop(client, ch, user):
     shop_em = discord.Embed(
         title="Shop",
         description=("`該当するサービスの番号を半角英数字で送信してください。`"
-            + "\n`1`)アイテム購入"
-            + "\n`2`)アイテム合成"
+            + "\n`1`アイテム購入"
+            + "\n`2`アイテム合成"
     ))
     shop_em_msg = await ch.send(embed=shop_em)
     def check(m):
@@ -57,12 +57,12 @@ async def shop(client, ch, user):
             service_em1 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n1){item_emoji[2]}`HP回復薬`[100cell]"
-                    + f"\n2){item_emoji[3]}`MP回復薬`[100cell]"
-                    + f"\n3){item_emoji[4]}`魂の焔  `[10cell]"
-                    + f"\n4){item_emoji[5]}`砥石　  `[1000cell]"
-                    + f"\n5){item_emoji[6]}`魔石　  `[500cell]"
-                    + f"\n6){item_emoji[7]}`魔晶　  `[2000cell]"
-                    + f"\n7){item_emoji[8]}`魔硬貨  `[3000cell]"
+                    + f"\n`1`{item_emoji[2]}`HP回復薬`[100cell]"
+                    + f"\n`2`{item_emoji[3]}`MP回復薬`[100cell]"
+                    + f"\n`3`{item_emoji[4]}`魂の焔  `[10cell]"
+                    + f"\n`4`{item_emoji[5]}`砥石　  `[1000cell]"
+                    + f"\n`5`{item_emoji[6]}`魔石　  `[500cell]"
+                    + f"\n`6`{item_emoji[7]}`魔晶　  `[2000cell]"
+                    + f"\n`7`{item_emoji[8]}`魔硬貨  `[3000cell]"
             ))
             await ch.send(embed=service_em1)
