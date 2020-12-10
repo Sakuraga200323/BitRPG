@@ -95,7 +95,7 @@ async def up_max_lv(client, ch, user):
     item_num = pg.fetchdict(f"SELECT item->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num < 250:
         husoku = 250 - item_num 
-        await ch.send(f"<@{user.id}>のレベル限界解放には{husoku}ほど足りないようだ…")
+        await ch.send(f"<@{user.id}>のレベル限界解放には魔石が{husoku}ほど足りないようだ…")
         return
     item_num -= 250
     player.max_lv(1000)
