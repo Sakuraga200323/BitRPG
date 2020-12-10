@@ -15,7 +15,7 @@ async def send_em(ch, title, description, timestamp=False):
 async def help(client, ch, user):
     embed = discord.Embed(
         title="BitRPB HelpURL Bord",
-        description=("各URLから公式ヘルプページにジャンプ出来ます。青字でないところはページが未完成です。"
+        description=("`各URLから公式ヘルプページにジャンプ出来ます。青字でないところはページが未完成です。`"
             +"\n・[BitRPG内の用語](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/1BitRPG%E5%86%85%E3%81%AE%E7%94%A8%E8%AA%9E.md)"
             +"\n・[各コマンドの使い方](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/2%E5%90%84%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9.md)"
             +"\n・戦闘システム"
