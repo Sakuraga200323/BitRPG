@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, battle, rank, status, avatar, check_macro, help
+from sub import box, battle, rank, status, avatar, check_macro, help, shop
 
 
 
@@ -57,7 +57,7 @@ bot = commands.Bot(command_prefix="^^")
 
 pg = Postgres(dsn)
 
-battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg
+shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
 
 # コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
 cmd_lock = {}
@@ -443,6 +443,11 @@ async def on_message(message):
                 print("^^gentotsu: ",m_author)
                 await status.up_max_lv(client, m_ch, m_author)
 
+
+            # shop #
+            if m_ctt == "^^shop":
+                print("^^shop: ", m_author)
+                await shop.shop(client,m_ch,m_author)
 
         finally:
             cmd_lock[m_ch.id] = False
