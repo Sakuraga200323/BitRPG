@@ -309,7 +309,7 @@ async def on_message(message):
                             continue
             if not magic_type_flag == True:
                 return
-            jsonb_items = "'冒険者カード', 1, 'HP回復薬', 10, 'MP回復薬', 10, 'ドーピング薬', 1, '魔石', 1"
+            jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, '魔石',1, '魂の焔''砥石',0, '魔晶',0, '魔硬貨',0"
             cmd = (
                 f"INSERT INTO player_tb VALUES ("
                 +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),0"
