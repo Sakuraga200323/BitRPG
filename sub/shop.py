@@ -53,7 +53,7 @@ async def shop(client, ch, user):
         await ch.send(f"冷やかしはお断りだよ！")
     else:
         respons = int(msg.content) if msg.content in ("1","2") else 0
-        if respons == "1":
+        if respons == 1:
             service_em1 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
