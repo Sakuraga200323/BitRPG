@@ -234,7 +234,7 @@ async def cbt_proc(client, user, ch):
                 status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji[item_id]}×{item_num} "
             if True: # 魂の焔
-                item_id = 3
+                item_id = 4
                 status.get_item(client, user, item_id, 1)
                 desc += f"{item_emoji[item_id]}×1 "
             if random.random() <= 0.5 and mob.name in ("Golem",): # 砥石
