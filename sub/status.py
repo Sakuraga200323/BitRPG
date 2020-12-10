@@ -118,10 +118,16 @@ ITEMS = (
 ITEMS2 = ("冒険者カード",)#id:000
 
 SELECT_ITEM_FROM_ID = {
-    1:"HP回復薬", #id:001
-    2:"MP回復薬", #id:002
-    3:"ドーピング薬", #id:003
-    4:"魔石"} #id:004
+    1:"HP回復薬",
+    2:"MP回復薬",
+    3:"魂の焔",
+    4:"砥石",
+    5:"魔石",
+    6:"魔晶",
+    7:"魔硬貨"
+}
+
+ALL_ITEM = SELECT_ITEM_FROM_ID.values()
 
 ITEMS_IMG_URL = {
     "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
@@ -129,16 +135,15 @@ ITEMS_IMG_URL = {
     "ドーピング薬":"https://media.discordapp.net/attachments/719855399733428244/757464460792168618/doping_potion.png",
     "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png"}
 
+
 async def open_inventory(client, ch, user):
-    items_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
+    item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
-    for item, num in items_dtd.items():
-        text += f"{item}：`{num}`\n"
-    embed = discord.Embed(
-        title="Player Inventory Bord",
-        description=f"**{text}**"
-    )
+    for item_name in ALL_ITEM:
+        text += f"{item_name}：`{item_dtd[item_name]}`\n"
+    embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
     await ch.send(embed=embed)
+
 
 def get_item (client, user, item_id, num):
     player = box.players[user.id]
