@@ -38,11 +38,11 @@ async def shop(client, ch, user):
     ))
     shop_em_msg = await ch.send(embed=shop_em)
     def check(m):
-        if not m.author.id == m_author.id:
+        if not user.id == m.author.id:
             return 0
         return 1
     def check2(m):
-        if not m.author.id == m_author.id:
+        if not user.id == m.author.id:
             return 0
         if not m.content in ("y","Y","n","N"):
             return 0
@@ -50,7 +50,7 @@ async def shop(client, ch, user):
     try:
         msg = await client.wait_for("message", timeout=60, check=check)
     except asyncio.TimeoutError:
-        await m_ch.send(f"冷やかしはお断りだよ！")
+        await ch.send(f"冷やかしはお断りだよ！")
     else:
         respons = int(msg.content) if msg.content in ("1","2") else 0
         if respons == "1":
