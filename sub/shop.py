@@ -13,7 +13,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box
+from sub import box, status
 JST = timezone(timedelta(hours=+9), 'JST')
 pg = None
 
