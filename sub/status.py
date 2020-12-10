@@ -153,7 +153,8 @@ async def open_inventory(client, ch, user):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
     for item_name,item_emoji in ALL_ITEM,list(ITEM_EMOJI):
-        text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
+        if not item_dtd[item_name] == 0:
+            text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
     await ch.send(embed=embed)
 
