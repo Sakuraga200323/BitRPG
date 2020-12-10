@@ -65,4 +65,4 @@ async def shop(client, ch, user):
                     + f"\n6){item_emoji[7]}`魔晶　  `[2000cell]"
                     + f"\n7){item_emoji[8]}`魔硬貨  `[3000cell]"
             ))
-            await shop_em_msg.edit(embed=service_em1)
+            await ch.send(embed=service_em1)
