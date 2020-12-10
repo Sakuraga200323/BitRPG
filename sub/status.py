@@ -127,7 +127,19 @@ SELECT_ITEM_FROM_ID = {
     7:"魔硬貨"
 }
 
-ALL_ITEM = SELECT_ITEM_FROM_ID.values()
+
+ITEM_EMOJI = {
+    1:"<:card:786514637289947176>",
+    2:"<:hp_potion:786236538584694815>",
+    3:"<:mp_potion:786236615575339029>",
+    4:"<:soul_fire:786513145010454538>",
+    5:"<:toishi:786513144691556364>",
+    6:"<:maseki:785641515561123921>",
+    7:"<:masuisyou:786516036673470504>",
+    8:"<:magic_coin:786513121236746260>",
+}
+
+ALL_ITEM = list(SELECT_ITEM_FROM_ID.values())
 
 ITEMS_IMG_URL = {
     "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
@@ -139,8 +151,8 @@ ITEMS_IMG_URL = {
 async def open_inventory(client, ch, user):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
-    for item_name in ALL_ITEM:
-        text += f"{item_name}：`{item_dtd[item_name]}`\n"
+    for item_name,item_emoji in ALL_ITEM,list(ITEM_EMOJI):
+        text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
     await ch.send(embed=embed)
 
