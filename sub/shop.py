@@ -17,6 +17,19 @@ from sub import box
 JST = timezone(timedelta(hours=+9), 'JST')
 pg = None
 
+
+item_name = {
+    1:"冒険者カード",
+    2:"HP回復薬",
+    3:"MP回復薬",
+    4:"魂の焔",
+    5:"砥石",
+    6:"魔石",
+    7:"魔晶",
+    8:"魔硬貨"
+}
+
+
 item_emoji = {
     1:"<:card:786514637289947176>",
     2:"<:hp_potion:786236538584694815>",
@@ -60,9 +73,38 @@ async def shop(client, ch, user):
                     + f"\n`1.`{item_emoji[2]}`HP回復薬　`[`100`cell]"
                     + f"\n`2.`{item_emoji[3]}`MP回復薬　`[`100`cell]"
                     + f"\n`3.`{item_emoji[4]}`魂の焔　  `[`10`cell]"
-                    + f"\n`4.`{item_emoji[5]}`砥石　 　 `[`1000`cell]"
-                    + f"\n`5.`{item_emoji[6]}`魔石　　  `[`500`cell]"
-                    + f"\n`6.`{item_emoji[7]}`魔晶　　  `[`2000`cell]"
+                    + f"\n`4.`{item_emoji[5]}`砥　石　  `[`1000`cell]"
+                    + f"\n`5.`{item_emoji[6]}`魔　石　  `[`500`cell]"
+                    + f"\n`6.`{item_emoji[7]}`魔　晶　  `[`2000`cell]"
                     + f"\n`7.`{item_emoji[8]}`魔硬貨 　 `[`3000`cell]"
             ))
-            await ch.send(embed=service_em1)
+            await shop_em_msg.edit(embed=service_em1)
+            try:
+                msg = await client.wait_for("message", timeout=60, check=check)
+            except asyncio.TimeoutError:
+                await ch.send(f"冷やかしはお断りだよ！")
+            else:
+                pattern = r'^(\d.) (\d.)$'
+                result = re.search(pattern, msg.content)
+                if not result:
+                    return
+                item_id, item_num = int(result.group(1))+1, int(result.group(2))
+                cost_dict = {2:100,3:100,4:10,5:1000,6:500,7:2000,8:3000}
+                if player.money() < cost_dict[item_id]*item_num:
+                    await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    return
+                status.get_item(client,ch,user,item_id,item_num)
+                player.money(-cost_dict[item_id])
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{item_emoji[item_id]}x{item_num}を購入。またのご来店をお待ちしております！")
+                
+                
+
+
+
+
+
+
+
+
+
+
