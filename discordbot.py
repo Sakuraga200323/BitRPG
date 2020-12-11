@@ -127,25 +127,6 @@ async def on_ready():
         get_icon(img,24,13)
     )"""
 
-    player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
-    print(player_ids)
-    for player_id in player_ids:
-        if client.get_user(player_id):
-            avatar.Player(client, player_id)
-    print(len(player_ids), len(box.players))
-
-
-    NOW = datetime.now(JST).strftime("%Y/%m/%d %H:%M:%S")
-    MEM = psutil.virtual_memory().percent
-    LOG_CHANNELS = [i for i in client.get_all_channels() if i.name == "bitrpg起動ログ"]
-    p_num_result = (len(player_ids) == len(box.players))
-    desc = (
-          f"\n+Prefix『^^』"
-        + f"\n+Server『{len(client.guilds)}』"
-        + f"\n+Player『{p_num_result}』"
-    )
-
-    print(f"【報告】起動完了。\n使用メモリー{MEM}%")
     print("""
 ⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜
 ⬛⬜⬜⬛⬛⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬜⬛
@@ -159,7 +140,17 @@ async def on_ready():
 
     loop.start()
 
-    await client.change_presence(activity=discord.Game(name=f"^^url║Server：C║Mem：{MEM} %"))
+    player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+    for player_id in player_ids:
+        if client.get_user(player_id):
+            avatar.Player(client, player_id)
+    print(len(player_ids), len(box.players))
+    p_num_result = (len(player_ids)==len(box.players))
+    desc = (
+          f"\n+Prefix『^^』"
+        + f"\n+Server『{len(client.guilds)}』"
+        + f"\n+Player『{p_num_result} {len(box.players)}』"
+    )
     embed = discord.Embed(title="起動ログ", description=f"```diff\n{desc}```")
     embed.timestamp = datetime.now(JST)
     ch = client.get_channel(784271793640833035)
