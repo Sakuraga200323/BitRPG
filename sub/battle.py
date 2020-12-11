@@ -40,6 +40,12 @@ item_emoji = {
     8:"<:magic_coin:786513121236746260>",
 }
 
+item_emoji_a = {
+    2:"<a:hp_potion_a:786982694479200336>",
+    3:"<a:mp_potion_a:786982694839124021>",
+    5:"<a:toishi_a:786974865777229864>",
+    8:"<a:magic_coin_a:786966211594289153>"
+}
 
 getmagic_list = [
     "001|Heal",
@@ -227,12 +233,12 @@ async def cbt_proc(client, user, ch):
                 item_id = 2
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
-                desc += f"{item_emoji[item_id]}×{item_num} "
+                desc += f"{item_emoji_a[item_id]}×{item_num} "
             if random.random() <= 0.05: # MPポーション
                 item_id = 3
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
-                desc += f"{item_emoji[item_id]}×{item_num} "
+                desc += f"{item_emoji_a[item_id]}×{item_num} "
             if True: # 魂の焔
                 item_id = 4
                 status.get_item(client, user, item_id, 1)
@@ -241,12 +247,12 @@ async def cbt_proc(client, user, ch):
                 item_id = 5
                 item_num = random.randint(1, 2)
                 status.get_item(client, user, item_id, item_num)
-                desc += f"{item_emoji[item_id]}×{item_num} "
+                desc += f"{item_emoji_a[item_id]}×{item_num} "
             if random.random() <= 0.03: # 魔石
                 item_id = 6
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
-                desc += f"{item_emoji[item_id]}×{item_num} "
+                desc += f"{item_emoji_a[item_id]}×{item_num} "
 
 
         if random.random() >= 0.99:
