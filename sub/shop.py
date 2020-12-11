@@ -118,16 +118,17 @@ async def shop(client, ch, user):
                 item_id, item_num = int(result.group(1))+6, int(result.group(2))
                 item_name = items_name[item_id]
                 item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
-                material_dict = { 7:((5,1),(6,1)), 8:((4,1),(5,1),(7,1)) }
+                material_dict = {
+                    7:((5,1),(6,1)),
+                    8:((4,1),(5,1),(7,1))}
                 cost_dict = {7:750,8:1000}
                 husoku_text = ""
-                for i in material_dict[item_id]:
-                    for (i_id,i_num) in zip(i[0], i[1]):
-                        i_name = items_name[i_id]
-                        if item_dtd[i_name] < i_num:
-                            husoku_text += f"{i_name}{items_emoji[i_id]}×{i_num-item_dtd[i_name]} "
-                            continue
-                        status.get_item(client,user,i_id,-i_num)
+                for data in material_dict[item_id]:
+                    i_name = items_name[data[0']
+                    if item_dtd[i_name] < data[1]:
+                        husoku_text += f"{i_name}{items_emoji[data[0]]}×{data[1]-item_dtd[i_name]} "
+                        continue
+                    status.get_item(client,user,data[0],-data[1])
                 if husoku_text != "":
                     await ch.send(f"{husoku_text}が足りないです。")
                     return
