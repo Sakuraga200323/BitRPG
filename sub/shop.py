@@ -41,6 +41,11 @@ items_emoji = {
     8:"<:magic_coin:786513121236746260>",
 }
 
+item_emoji_a = {
+    5:"<a:toishi_a:786974865777229864>",
+    8:"<a:magic_coin_a:786966211594289153>"
+}
+
 async def shop(client, ch, user):
     player = box.players[user.id]
     shop_em = discord.Embed(
@@ -73,10 +78,10 @@ async def shop(client, ch, user):
                     + f"\n`1.`{items_emoji[2]}`HP回復薬　`[`100`cell]"
                     + f"\n`2.`{items_emoji[3]}`MP回復薬　`[`100`cell]"
                     + f"\n`3.`{items_emoji[4]}`魂の焔　  `[`10`cell]"
-                    + f"\n`4.`{items_emoji[5]}`砥　石　  `[`1000`cell]"
+                    + f"\n`4.`{items_emoji_a[5]}`砥　石　  `[`1000`cell]"
                     + f"\n`5.`{items_emoji[6]}`魔　石　  `[`500`cell]"
                     + f"\n`6.`{items_emoji[7]}`魔　晶　  `[`2000`cell]"
-                    + f"\n`7.`{items_emoji[8]}`魔硬貨 　 `[`3000`cell]"
+                    + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[`3000`cell]"
             ))
             await shop_em_msg.edit(embed=service_em1)
             try:
@@ -102,8 +107,8 @@ async def shop(client, ch, user):
             service_em2 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji[7]}`魔　晶　  `[`750`cell {items_emoji[5]}×1 {items_emoji[6]}×1]"
-                    + f"\n`2.`{items_emoji[8]}`魔硬貨 　 `[`1000`cell {items_emoji[4]}×1 {items_emoji[5]}×1 {items_emoji[7]}×1]"
+                    + f"\n`1.`{items_emoji[7]}`魔　晶　  `[`750`cell {items_emoji_a[5]}×1 {items_emoji[6]}×1]"
+                    + f"\n`2.`{items_emoji_a[8]}`魔硬貨 　 `[`1000`cell {items_emoji[4]}×1 {items_emoji[5]}×1 {items_emoji[7]}×1]"
             ))
             await shop_em_msg.edit(embed=service_em2)
             try:
