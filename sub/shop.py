@@ -102,9 +102,9 @@ async def shop(client, ch, user):
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
                     + f"\n`1.`{item_emoji[7]}`魔　晶　  `[`750`cell｜{item_emoji[5]}×1｜{item_emoji[6]}×1]"
-                    + f"\n`2.`{item_emoji[8]}`魔硬貨 　 `[`1000`cell｜{item_emoji[4]}×1｜{item_emoji[5]}×1｜{item_emoji[7]}×1"
+                    + f"\n`2.`{item_emoji[8]}`魔硬貨 　 `[`1000`cell｜{item_emoji[4]}×1｜{item_emoji[5]}×1｜{item_emoji[7]}×1]"
             ))
-            await shop_em_msg.edit(embed=service_em1)
+            await shop_em_msg.edit(embed=service_em2)
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
             except asyncio.TimeoutError:
