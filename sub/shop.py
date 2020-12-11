@@ -41,7 +41,7 @@ items_emoji = {
     8:"<:magic_coin:786513121236746260>",
 }
 
-items_emoji_a = {{
+items_emoji_a = {
     1:"<:card:786514637289947176>",
     2:"<a:hp_potion_a:786982694479200336>",
     3:"<a:mp_potion_a:786982694839124021>",
@@ -51,7 +51,7 @@ items_emoji_a = {{
     7:"<<a:masuisyou_a:786982694948306974>",
     8:"<a:magic_coin_a:786966211594289153>"
 }
-}
+
 
 async def shop(client, ch, user):
     player = box.players[user.id]
