@@ -41,11 +41,16 @@ items_emoji = {
     8:"<:magic_coin:786513121236746260>",
 }
 
-item_emoji_a = {
+items_emoji_a = {{
+    1:"<:card:786514637289947176>",
     2:"<a:hp_potion_a:786982694479200336>",
     3:"<a:mp_potion_a:786982694839124021>",
+    4:"<:soul_fire:786513145010454538>",
     5:"<a:toishi_a:786974865777229864>",
+    6:"<:maseki:785641515561123921>",
+    7:"<<a:masuisyou_a:786982694948306974>",
     8:"<a:magic_coin_a:786966211594289153>"
+}
 }
 
 async def shop(client, ch, user):
@@ -79,10 +84,10 @@ async def shop(client, ch, user):
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
                     + f"\n`1.`{items_emoji_a[2]}`HP回復薬　`[`100`cell]"
                     + f"\n`2.`{items_emoji_a[3]}`MP回復薬　`[`100`cell]"
-                    + f"\n`3.`{items_emoji[4]}`魂の焔　  `[`10`cell]"
+                    + f"\n`3.`{items_emoji_a[4]}`魂の焔　  `[`10`cell]"
                     + f"\n`4.`{items_emoji_a[5]}`砥　石　  `[`1000`cell]"
-                    + f"\n`5.`{items_emoji[6]}`魔　石　  `[`500`cell]"
-                    + f"\n`6.`{items_emoji[7]}`魔　晶　  `[`2000`cell]"
+                    + f"\n`5.`{items_emoji_a[6]}`魔　石　  `[`500`cell]"
+                    + f"\n`6.`{items_emoji_a[7]}`魔　晶　  `[`2000`cell]"
                     + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[`3000`cell]"
             ))
             await shop_em_msg.edit(embed=service_em1)
@@ -103,14 +108,14 @@ async def shop(client, ch, user):
                     return
                 status.get_item(client,user,item_id,item_num)
                 player.money(-cost_dict[item_id])
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
 
         elif respons == 2:
             service_em2 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji[7]}`魔　晶　  `[`750`cell {items_emoji_a[5]}×1 {items_emoji[6]}×1]"
-                    + f"\n`2.`{items_emoji_a[8]}`魔硬貨 　 `[`1000`cell {items_emoji[4]}×1 {items_emoji[5]}×1 {items_emoji[7]}×1]"
+                    + f"\n`1.`{items_emoji_a[7]}`魔　晶　  `[`750`cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]"
+                    + f"\n`2.`{items_emoji_a[8]}`魔硬貨 　 `[`1000`cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]"
             ))
             await shop_em_msg.edit(embed=service_em2)
             try:
@@ -134,7 +139,7 @@ async def shop(client, ch, user):
                 for data in material_dict[item_id]:
                     i_name = items_name[data[0]]
                     if item_dtd[i_name] < data[1]:
-                        husoku_text += f"{i_name}{items_emoji[data[0]]}×{data[1]-item_dtd[i_name]} "
+                        husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]-item_dtd[i_name]} "
                         continue
                     status.get_item(client,user,data[0],-data[1])
                 if husoku_text != "":
@@ -145,7 +150,7 @@ async def shop(client, ch, user):
                     return
                 status.get_item(client,user,item_id,item_num)
                 player.money(-cost_dict[item_id])
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
             
                 
                 
