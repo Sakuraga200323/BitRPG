@@ -124,7 +124,7 @@ async def shop(client, ch, user):
                 cost_dict = {7:750,8:1000}
                 husoku_text = ""
                 for data in material_dict[item_id]:
-                    i_name = items_name[data[0']
+                    i_name = items_name[data[0]
                     if item_dtd[i_name] < data[1]:
                         husoku_text += f"{i_name}{items_emoji[data[0]]}×{data[1]-item_dtd[i_name]} "
                         continue
