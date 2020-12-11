@@ -152,9 +152,13 @@ ITEM_EMOJI = {
 }
 
 ITEM_EMOJI_A = {
+    1:"<:card:786514637289947176>",
     2:"<a:hp_potion_a:786982694479200336>",
     3:"<a:mp_potion_a:786982694839124021>",
+    4:"<:soul_fire:786513145010454538>",
     5:"<a:toishi_a:786974865777229864>",
+    6:"<:maseki:785641515561123921>",
+    7:"<<a:masuisyou_a:786982694948306974>",
     8:"<a:magic_coin_a:786966211594289153>"
 }
 
@@ -171,7 +175,7 @@ ITEMS_IMG_URL = {
 async def open_inventory(client, ch, user):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
-    for (item_name,item_emoji) in zip(ALL_ITEM,list(ITEM_EMOJI.values())):
+    for (item_name,item_emoji) in zip(ALL_ITEM,list(ITEM_EMOJI_A.values())):
         if not item_dtd[item_name] == 0:
             text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
