@@ -96,7 +96,46 @@ async def shop(client, ch, user):
                     return
                 status.get_item(client,user,item_id,item_num)
                 player.money(-cost_dict[item_id])
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{item_emoji[item_id]}x{item_num}を購入。またのご来店をお待ちしております！")
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{item_emoji[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
+        elif respons == 2:
+            service_em2 = discord.Embed(
+                title="アイテム購入",
+                description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
+                    + f"\n`1.`{item_emoji[7]}`魔　晶　  `[`750`cell｜{item_emoji[5]}×1｜{item_emoji[6]}×1]"
+                    + f"\n`2.`{item_emoji[8]}`魔硬貨 　 `[`1000`cell｜{item_emoji[4]}×1｜{item_emoji[5]}×1｜{item_emoji[7]}×1"
+            ))
+            await shop_em_msg.edit(embed=service_em1)
+            try:
+                msg = await client.wait_for("message", timeout=60, check=check)
+            except asyncio.TimeoutError:
+                await ch.send(f"冷やかしはお断りだよ！")
+            else:
+                pattern = r'^(\d+) (\d+)$'
+                result = re.search(pattern, msg.content)
+                if not result:
+                    await ch.send('ちゃんと注文して')
+                    return
+                item_id, item_name, item_num = int(result.group(1))+6, item_name[item_id], int(result.group(2))
+                item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
+                material_dict = { 7:( (5,1,),(6,1,) ), 8:( (4,1),(5,1),(7,1) ) }
+                cost_dict = {7:750,8:1000}
+                husoku_text = ""
+                for i_id,i_num in zip(material_dict[item_id]):
+                    i_name = item_name[i_id]
+                    if item_dtd[i_name] < i_num:
+                        husoku_text += f"{i_name}{item_emoji[i_id]}×{i_num-item_dtd[i_name]} "
+                        continue
+                    status.get_item(client,user,i_id,-i_num)
+                if husoku_text != "":
+                    await ch.send(f"不足アイテム: {husoku_text}")
+                    return
+                if player.money() < cost_dict[item_id]*item_num:
+                    await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    return
+                status.get_item(client,user,item_id,item_num)
+                player.money(-cost_dict[item_id])
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{item_emoji[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
+            
                 
                 
 
