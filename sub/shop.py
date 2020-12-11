@@ -121,7 +121,7 @@ async def shop(client, ch, user):
                 material_dict = { 7:( (5,1),(6,1) ), 8:( (4,1),(5,1),(7,1) ) }
                 cost_dict = {7:750,8:1000}
                 husoku_text = ""
-                for i_id,i_num in zip(material_dict[item_id]):
+                for (i_id,i_num) in zip(material_dict[item_id][0],material_dict[item_id][1]):
                     i_name = item_names[i_id]
                     if item_dtd[i_name] < i_num:
                         husoku_text += f"{i_name}{items_emoji[i_id]}×{i_num-item_dtd[i_name]} "
