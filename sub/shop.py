@@ -115,6 +115,7 @@ async def shop(client, ch, user):
                 if not result:
                     await ch.send('ちゃんと注文して')
                     return
+                item_id = item_name = item_num = None
                 item_id, item_name, item_num = int(result.group(1))+6, items_name[item_id], int(result.group(2))
                 item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
                 material_dict = { 7:( (5,1,),(6,1,) ), 8:( (4,1),(5,1),(7,1) ) }
