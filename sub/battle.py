@@ -229,26 +229,31 @@ async def cbt_proc(client, user, ch):
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
             desc += "\nドロップアイテム："
 
-            if random.random() <= 0.05: # HPポーション
+            if random.random() <= 0.05:
+                # HPポーション
                 item_id = 2
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji_a[item_id]}×{item_num} "
-            if random.random() <= 0.05: # MPポーション
+            if random.random() <= 0.05:
+                # MPポーション
                 item_id = 3
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji_a[item_id]}×{item_num} "
-            if True: # 魂の焔
+            if True:
+                # 魂の焔
                 item_id = 4
                 status.get_item(client, user, item_id, 1)
                 desc += f"{item_emoji[item_id]}×1 "
-            if random.random() <= 0.5 and mob.name in ("Golem",): # 砥石
+            if random.random() <= 0.5 and mob.name in ("Golem",):
+                # 砥石
                 item_id = 5
                 item_num = random.randint(1, 2)
                 status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji_a[item_id]}×{item_num} "
-            if random.random() <= 0.03: # 魔石
+            if random.random() <= 0.03:
+                # 魔石
                 item_id = 6
                 item_num = random.randint(3, 6)
                 status.get_item(client, user, item_id, item_num)
