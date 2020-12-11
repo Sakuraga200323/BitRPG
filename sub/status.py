@@ -192,7 +192,7 @@ def get_item (client, user, item_id, num):
 
 async def use_item(client, ch, user, item):
     player = box.players[user.id]
-    if not item in list(items_name.value()):
+    if not item in list(items_name.values()):
         await ch.send(f"{item}と言うアイテムは見たことがないようだ…")
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
