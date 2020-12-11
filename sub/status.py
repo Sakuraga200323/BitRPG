@@ -115,7 +115,18 @@ ITEMS = (
     "ドーピング薬", #id:003
     "魔石") #id:004
 
-ITEMS2 = ("冒険者カード",)#id:000
+ITEMS2 = ("冒険者カード","魔硬貨")
+
+items_name = {
+    1:"冒険者カード",
+    2:"HP回復薬",
+    3:"MP回復薬",
+    4:"魂の焔",
+    5:"砥石",
+    6:"魔石",
+    7:"魔晶",
+    8:"魔硬貨"
+}
 
 SELECT_ITEM_FROM_ID = {
     1:"冒険者カード",
@@ -140,13 +151,21 @@ ITEM_EMOJI = {
     8:"<:magic_coin:786513121236746260>",
 }
 
+ITEM_EMOJI_A = {
+    2:"<a:hp_potion_a:786982694479200336>",
+    3:"<a:mp_potion_a:786982694839124021>",
+    5:"<a:toishi_a:786974865777229864>",
+    8:"<a:magic_coin_a:786966211594289153>"
+}
+
 ALL_ITEM = list(SELECT_ITEM_FROM_ID.values())
 
 ITEMS_IMG_URL = {
-    "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449313516519544/hp_cure_potion.png",
-    "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/757449147321417779/mp_cure_potion.png",
-    "ドーピング薬":"https://media.discordapp.net/attachments/719855399733428244/757464460792168618/doping_potion.png",
-    "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png"}
+    "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984382673977374/hp_potion.gif",
+    "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984396887556096/mp_potion.gif",
+    "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png",
+    "魔硬貨":"https://media.discordapp.net/attachments/719855399733428244/786984393594896474/magic_coin.gif"
+}
 
 
 async def open_inventory(client, ch, user):
@@ -169,12 +188,12 @@ def get_item (client, user, item_id, num):
 
 async def use_item(client, ch, user, item):
     player = box.players[user.id]
-    if not item in ITEMS+ITEMS2:
+    if not item in list(items_name.value()):
         await ch.send(f"{item}と言うアイテムは見たことがないようだ…")
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num <= 0:
-        await ch.send(f"<@{player.user.id}>のインベントリに{item}はもう無いようだ…")
+        await ch.send(f"<@{player.user.id}>のインベントリに{item}は無いようだ…")
         return
     if not item in ITEMS2:
         item_num -= 1
@@ -209,13 +228,12 @@ async def use_item(client, ch, user, item):
             item_logem = discord.Embed(description=text)
         else:
             item_logem = discord.Embed(description=f"なにも起こらなかった…")
-                                       
-    
-    if item == "ドーピング薬":
-        return
-        dmg = round(p_data["max_hp"]*0.2)
-        pg.execute(f"update player_tb set now_hp = now_hp - {dmg} where id = {user.id};")
-        item_logem = discord.Embed(description=f"ドーピング薬を使用し、{p_data['name']} 攻撃力が10%上昇!")
+
+    if item == "魔硬貨":
+        print("魔硬貨:",player.user)
+        result = random.choice("裏","表")
+        item_logem = discord.Embed(description=f"コインを投げた…{result}!")
+
 
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
