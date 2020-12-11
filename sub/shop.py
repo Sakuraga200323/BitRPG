@@ -96,7 +96,8 @@ async def shop(client, ch, user):
                     return
                 status.get_item(client,user,item_id,item_num)
                 player.money(-cost_dict[item_id])
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name[item_id]}{items_emoji[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
+                await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
+
         elif respons == 2:
             service_em2 = discord.Embed(
                 title="アイテム購入",
