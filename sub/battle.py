@@ -41,9 +41,13 @@ item_emoji = {
 }
 
 item_emoji_a = {
+    1:"<:card:786514637289947176>",
     2:"<a:hp_potion_a:786982694479200336>",
     3:"<a:mp_potion_a:786982694839124021>",
+    4:"<:soul_fire:786513145010454538>",
     5:"<a:toishi_a:786974865777229864>",
+    6:"<:maseki:785641515561123921>",
+    7:"<a:masuisyou_a:786982694948306974>",
     8:"<a:magic_coin_a:786966211594289153>"
 }
 
@@ -245,7 +249,7 @@ async def cbt_proc(client, user, ch):
                 # 魂の焔
                 item_id = 4
                 status.get_item(client, user, item_id, 1)
-                desc += f"{item_emoji[item_id]}×1 "
+                desc += f"{item_emoji_a[item_id]}×1 "
             if random.random() <= 0.5 and mob.name in ("Golem",):
                 # 砥石
                 item_id = 5
