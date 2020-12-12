@@ -19,7 +19,7 @@ from anti_macro import anti_macro
 
 
 doubt_count = {}
-
+macro_checking = []
 pg = None
 
 async def check_macro(client, user, ch):
