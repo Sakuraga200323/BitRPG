@@ -23,14 +23,11 @@ class Postgres:
         self.conn = psycopg2.connect(dsn)
         self.conn.autocommit = True
         self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-
     def execute(self, sql):
         self.cur.execute(sql)
-
     def fetch(self, sql):
         self.cur.execute(sql)
         return self.cur.fetchall()
-
     def fetchdict(self, sql):
         self.cur.execute (sql)
         results = self.cur.fetchall()
@@ -44,6 +41,7 @@ def inverse_lookup(d, x):
     for k,v in d.items():
         if x == v:
             return k
+
 def split_n(text, n):
     return [ text[i*n:i*n+n] for i in range(len(text)/n) ]
 
@@ -54,30 +52,12 @@ dsn = os.environ.get('DATABASE_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
-
 pg = Postgres(dsn)
-
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
 
-# コマンド使用中のチャンネル、マクロ検知中のユーザー、検知に引っかかったユーザーと回数
+
+# コマンド使用中のチャンネル
 cmd_lock = {}
-macro_checking = []
-doubt_count = {}
-
-
-# 各特殊ゆーざーの皆さん
-admin_list = [
-    715192735128092713,
-    710207828303937626,
-    548058577848238080,]
-clr_lv4 = [
-    548058577848238080,
-    561836530398789641]
-clr_lv5 = [
-    715192735128092713,
-    710207828303937626,
-    760514942205034497]
-
 
 # 公式鯖ID
 official_guild_id = 719165196861702205
@@ -89,6 +69,14 @@ c_lv2 = 743323912837922906
 c_lv3 = 743323569668227143
 c_lv4 = 719165979262844998
 c_lv5 = 719165521706352640
+
+ID = 763635688234942475
+role_id = {
+    "1️⃣":719176372773453835,
+    "2️⃣":763640405534441472,
+    "3️⃣":743323912837922906,
+    "4️⃣":743323569668227143
+}
 
 """
 create table player_tb(
@@ -117,15 +105,6 @@ create table player_tb(
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
-    """
-    item_img = Image.open('image_files/game_icon.png')
-    icon.item = icon.Item(
-        get_icon(img,12,13),
-        get_icon(img,24,2),
-        get_icon(img,24,8),
-        get_icon(img,42,8),
-        get_icon(img,24,13)
-    )"""
 
     loop.start()
 
@@ -144,15 +123,16 @@ async def on_ready():
     embed.timestamp = datetime.now(JST)
     ch = client.get_channel(784271793640833035)
     await ch.send(embed = embed)
-
-    print("""⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜
+    print("""
+⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜
 ⬛⬜⬜⬛⬛⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬜⬛
 ⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜
 ⬛⬛⬛⬛⬜⬜⬜⬛⬜⬛⬛⬛⬛⬛⬜⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬛⬛⬜⬛⬛⬜⬛⬛⬛⬛
 ⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬛⬛⬜⬜⬜⬛⬛
 ⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬛⬛
 ⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬜⬜⬜⬛⬛⬜⬜⬛⬛
-⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬛⬛⬛⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜""")
+⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬛⬛⬛⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜
+    """)
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -178,9 +158,6 @@ async def on_guild_join(guild):
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
 
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-
 @client.event
 async def on_guild_remove(guild):
     log_ch = client.get_channel(752551728553132102)
@@ -190,18 +167,6 @@ async def on_guild_remove(guild):
     )
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
-
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-
-ID = 763635688234942475
-role_id = {
-    "1️⃣":719176372773453835,
-    "2️⃣":763640405534441472,
-    "3️⃣":743323912837922906,
-    "4️⃣":743323569668227143
-}
-
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -238,14 +203,11 @@ async def on_message(message):
             id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
             print(id_list)
             def check(m):
-                if not m.author.id == m_author.id:
-                    return 0
+                if not m.author.id == m_author.id: return 0
                 return 1
             def check2(m):
-                if not m.author.id == m_author.id:
-                    return 0
-                if not m.content in ("y","Y","n","N"):
-                    return 0
+                if not m.author.id == m_author.id: return 0
+                if not m.content in ("y","Y","n","N"): return 0
                 return 1
             if m_author.id in id_list:
                 await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
@@ -267,12 +229,11 @@ async def on_message(message):
                 magic_type_em = discord.Embed(
                     title=f"{m_author.name} の所属魔法領域を選択",
                     description=
-                        (f"所属する魔法領域の対応番号を**半角で**送信してください。"
-                        +"\n`^^start`で再登録していただく事でLv1から始め直す事は可能ですが、アカウント間でのデータの引き継ぎや、再登録のレベル引き継ぎは有料となっております。"
-                        +"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
-                magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。攻撃がメインの魔法を習得し、最終的には果てしない火力を出します。`")
-                magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。序盤から高い生存能力を持ち、最終的にはほぼ不死身になります。`")
-                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。バフメインの魔法を習得し、条件次第ではWolfにもArmadilloにも成りうる性能を誇ります。`")
+                        (f"所属する魔法領域の対応番号を半角英数字で送信してください。"
+                        +"\n再選択は出来ません。"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
+                magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。`")
+                magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。`")
+                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。`")
                 await m_ch.send(embed=magic_type_em)
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
@@ -281,9 +242,9 @@ async def on_message(message):
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
                     if not respons in (1,2,3):
-                        await m_ch.send(f"【警告】1,2,3で答えて下さい。")
+                        await m_ch.send(f"【警告】`1,2,3`で答えて下さい。")
                         continue
-                    select_magic_type = "Wolf" if respons == 1 else "Armadillo" if respons == 2 else "Orca" 
+                    select_magic_type = "Wolf" if respons==1 else "Armadillo" if respons==2 else "Orca" 
                     await m_ch.send(f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
                     try:
                         msg = await client.wait_for("message", timeout=10, check=check2)
@@ -308,25 +269,24 @@ async def on_message(message):
             try:
                 pg.execute(cmd)
             except Exception as e:
-                await m_ch.send('type:' + str(type(e))
-                + '\nargs:' + str(e.args)
-                + '\ne自身:' + str(e))
+                await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
                 embed = discord.Embed(
-                    description=f"{m_author.mention}は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
+                    description=f"<@{m_author.id}> は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
                     color=discord.Color.green())
                 await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
             player = avatar.Player(client, m_author.id)
             if not m_author.id in box.players:
                 box.players[m_author.id] = player
             await status.open_status(client, m_author, m_ch)
-            player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
             await help.help(client, m_ch, m_author)
 
         if client.get_channel(761571389345759232).name=='true':
-            admin_user = m_author.id in admin_list+clr_lv4+clr_lv5
-            clearance_lv3_user = "Clearance-Lv3" in [ i.name for i in m_author.roles]
-            if not admin_user and not clearance_lv3_user:
+            user_roles = [i.name for i in m_author.roles]
+            clearance_lv3_user = "Clearance-Lv3" in user_roles
+            clearance_lv4_user = "Clearance-Lv4" in user_roles
+            clearance_lv5_user = "Clearance-Lv5" in user_roles
+            if not clearance_lv3_user or not clearance_lv4_user or not clearance_lv5_user:
                 await m_ch.send('現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
                 return
 
@@ -334,12 +294,10 @@ async def on_message(message):
         mob = avatar.Mob(client, m_ch.id)
 
         try:
-            if random.random() > 0.995:
+            if random.random() <= 0.005:
                 result = await check_macro.check_macro(client, m_author, m_ch)
                 if not result:
                     return
-
-
 
             cmd_list = ["^^help","^^st","^^status","^^point","^^attack","^^atk","^^rank","^^item","^^reset","^^re"]
             if not m_author.id in box.players:
@@ -352,7 +310,7 @@ async def on_message(message):
                     return
 
 
-            # InviteURL #
+            # IURL #
             if m_ctt == "^^url":
                 print("^^url: ",m_author)
                 await m_ch.send(embed=discord.Embed(
@@ -382,20 +340,18 @@ async def on_message(message):
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 print("^^atk: ",m_author)
                 temp = m_ctt
-                pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
+                pattern = r"^\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
-                if result:
-                    await battle.cbt_proc(client, m_author,m_ch)
+                if result: await battle.cbt_proc(client, m_author,m_ch)
 
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
                 print("^^re: ",m_author)
                 temp = m_ctt
-                pattern = r"\^\^(re|reset|reset (.+)|re (.+))$"
+                pattern = r"^\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
-                if result:
-                    await battle.reset(client, m_author, m_ch)
+                if result: await battle.reset(client, m_author, m_ch)
 
 
             # STPの振り分け #
@@ -403,28 +359,25 @@ async def on_message(message):
                 print("^^point: ",m_author)
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
-                if result:
-                    await status.divid(client, m_author, m_ch, result)
+                if result:nawait status.divid(client, m_author, m_ch, result)
 
 
-            # チャンネルレベルランキングの表示 #
-            if m_ctt == "^^rank m":
-                print("^^rank m: ",m_author)
+            # レベルランキングの表示 #
+            if m_ctt == "^^ranking":
+                print("^^ranking: ",m_author)
                 ranking = rank.RankClass(client)
                 ranking.channel(m_author,m_ch)
 
 
-            # アイテム系 #
+            # アイテム #
             if m_ctt.startswith("^^i"):
                 print("^^item: ",m_author)
-                pattern = r"\^\^(i|item) (.+)"
-                pattern2 = r"^\^\^i$|^\^\^item$"
+                pattern = r"^\^\^(i|item) (.+)"
+                pattern2 = r"^\^\^(i|item)$"
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
-                if result:
-                    await status.use_item(client, m_ch, m_author, result.group(2))
-                if result2:
-                    await status.open_inventory(client, m_ch, m_author)
+                if result:await status.use_item(client, m_ch, m_author, result.group(2))
+                elif result2:await status.open_inventory(client, m_ch, m_author)
 
 
             # Lv上限解放 #
@@ -436,7 +389,7 @@ async def on_message(message):
             # shop #
             if m_ctt == "^^shop":
                 print("^^shop: ", m_author)
-                await shop.shop(client,m_ch,m_author)
+                await shop.shop(client, m_ch, m_author)
 
         finally:
             cmd_lock[m_ch.id] = False
@@ -449,7 +402,7 @@ async def on_message(message):
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
                     +'\nレポート確認開始! 今から5分間待つから、その間にレポートをできるだけ詳しく書いて送信してね。'
-                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳​˙* )'))
+                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳˙* )'))
             # embed.set_footer(text='待機中…')
             await m_ch.send(embed=embed)
             def check(m):
@@ -470,7 +423,7 @@ async def on_message(message):
                 re_em = discord.Embed(description=ans)
                 re_em.set_author(name=m_author)
                 await client.get_channel(761516423959805972).send(embed=re_em, file=atch)
-                await m_ch.send('レポートありがとう!無事届いたよ!')
+                await m_ch.send('レポートありがとう!')
 
 
         if m_ctt == '><fix':
@@ -478,17 +431,13 @@ async def on_message(message):
                 title = '<Safe> -YUI- will help you!!',
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
-                    +'\n私が来たからにはもう大丈夫!'
-                    +'\n大体のバグを強制的に治しちゃうよ!'
-                    +'\n診断していくから`y`か`n`で答えてね!'))
+                    +'\n私が来たからにはもう大丈夫、大体のバグを強制的に治しちゃうよ!'
+                    +'\n診断していくから`y, n`で答えてね!'))
             await m_ch.send(embed=embed)
             def check(m):
-                if m.author.id != m_author.id:
-                    return 0
-                if m.channel.id != m_ch.id:
-                    return 0
-                if not m.content in ('y','n'):
-                    return 0
+                if m.author.id != m_author.id: return 0
+                if m.channel.id != m_ch.id: return 0
+                if not m.content in ('y','n'): return 0
                 return 1
             if m_ch.id in cmd_lock:
                 em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
@@ -498,16 +447,11 @@ async def on_message(message):
                 except asyncio.TimeoutError:
                     await m_ch.send('答えないんなら次行くね?')
                 else:
-                    ans = re_m.content
-                    if ans == 'y':
+                    answer = re_m.content
+                    if answer == 'y':
                         cmd_lock[m_ch.id] = False
-            embed = discord.Embed(
-                description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
+            embed = discord.Embed(description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
             await m_ch.send(embed=embed)
-
-
-
-
 
 
 
@@ -525,10 +469,8 @@ async def on_message(message):
             clv = 5 if user_is_c_lv5 else 4
             await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. System was already came.*")
             def check(m):
-                if m.author.id != m_author.id:
-                    return 0
-                if m.channel.id != m_ch.id:
-                    return 0
+                if m.author.id != m_author.id: return 0
+                if m.channel.id != m_ch.id: return 0
                 return 1
             try:
                 remsg = await client.wait_for("message", check=check)
@@ -537,32 +479,12 @@ async def on_message(message):
             else:
                 ctt = remsg.content
                 try:
-                    if ctt.startswith("active guild "):
-                        cmd = ctt.split("active guild ")[1]
-                        cmd_list = [
-                            "announce",
-                            "delete",
-                            "create",
-                            "update"
-                        ]
-                        if not cmd.split(" ")[0] in cmd_list:
-                            await m_ch.send(f"`CommandError:bitrpg has no cmd to {cmd.split(' ')[0]}`")
-                            return
-                        if cmd.split(" ")[0] == "announce":
-                            ctt = cmd.split("announce ")[1]
-                            embed = discord.Embed(
-                                title="Announcement!!",
-                                description="<@&719176372773453835>\n" + ctt
-                            )
-                            await client.get_channel(726655141599510648).send(embed=embed)
-
                     if ctt.startswith("psql "):
                         cmd = ctt.split("psql ")[1]
                         await m_ch.send(f"`::DATABASE=> {cmd}`")
                         result = None
                         if "select" in cmd:
-                            result = pg.fetch(cmd + " LIMIT 10")
-                            result = f"{result}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                            result = f"{pg.fetch(cmd+" LIMIT 10")}\n(DataCount『{len(pg.fetch(cmd))}』)"
                         else:
                             try:
                                 pg.execute(cmd)
@@ -591,7 +513,7 @@ async def on_message(message):
 
 
 @bot.command()
-async def getrole(ctx, role_num):
+async def getrole(ctx, num):
     if ctx.message.channel.id != 725486353151819899:
         await ctx.send("このコマンドは<@725486353151819899>専用です。")
         return
@@ -600,20 +522,11 @@ async def getrole(ctx, role_num):
     c_lv1 = ctx.guild.get_role(c_lv1)
     c_lv2 = ctx.guild.get_role(c_lv2)
     c_lv3 = ctx.guild.get_role(c_lv3)
-    if role_num == "0":
-        await ctx.message.author.add_role(announce_role)
-        result_msg = f"<@{announce_role.id}> を付与しました。"
-    if role_num == "1":
-        await ctx.message.author.add_role(c_lv1)
-        result_msg = f"<@{c_lv1.id}> を付与しました。"
-    if role_num == "2":
-        await ctx.message.author.add_role(c_lv2)
-        result_msg = f"<@{c_lv2.id}> を付与しました。"
-    if role_num == "3":
-        await ctx.message.author.add_role(c_lv3)
-        result_msg = f"<@{c_lv3.id}> を付与しました。"
-    else:
-        result_msg = "該当する役職がありません。"
+    role = announce_role if num=="0" else c_lv1 if num=="1" else c_lv2 if num=="2" else c_lv3 if num=="3" else None
+    result_msg = "該当する役職がありません。"
+    if role:
+        await ctx.message.author.add_role(role)
+        result_msg = f"<@{role.id}> を付与しました。"
     send_msg = await ctx.send(result_msg)
     await asyncio.sleep(5)
     await send.msg.delete()
@@ -630,20 +543,11 @@ async def remrole(ctx, role_num):
     c_lv1 = ctx.guild.get_role(c_lv1)
     c_lv2 = ctx.guild.get_role(c_lv2)
     c_lv3 = ctx.guild.get_role(c_lv3)
-    if role_num == "0":
-        await ctx.message.author.remuve_role(announce_role)
-        result_msg = f"<@{announce_role.id}> を外しました。"
-    if role_num == "1":
-        await ctx.message.author.remuve_role(c_lv1)
-        result_msg = f"<@{c_lv1.id}> を外しました。"
-    if role_num == "2":
-        await ctx.message.author.remuve_role(c_lv2)
-        result_msg = f"<@{c_lv2.id}> を外しました。"
-    if role_num == "3":
-        await ctx.message.author.remuve_role(c_lv3)
-        result_msg = f"<@{c_lv3.id}> を外しました。"
-    else:
-        result_msg = "該当する役職がありません。"
+    role = announce_role if num=="0" else c_lv1 if num=="1" else c_lv2 if num=="2" else c_lv3 if num=="3" else None
+    result_msg = "該当する役職がありません。"
+    if role:
+        await ctx.message.author.add_role(role)
+        result_msg = f"<@{role.id}> を解除しました。"
     send_msg = await ctx.send(result_msg)
     await asyncio.sleep(5)
     await send.msg.delete()
