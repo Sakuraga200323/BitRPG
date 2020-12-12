@@ -185,7 +185,7 @@ async def on_message(message):
     '''
 
 
-    if m_ctt.startswith("^^") and m_author.id in check_macro.macro_checking and not m_author.bot:
+    if m_ctt.startswith("^^") and not m_author.id in check_macro.macro_checking and not m_author.bot:
 
         if cmd_lock.get(m_ch.id) is True:
             await m_ch.send("コマンド処理中。\nいつまでも終わらない場合は`><fix`。")
