@@ -1,18 +1,20 @@
-import math
 import ast
 import asyncio
+import cv2
 from datetime import datetime, timedelta, timezone
-import discord
-from discord.ext import tasks
-import glob
+import math
 import os
-import psutil
-import psycopg2
-import psycopg2.extras
-from random import random, choice, randint
+import random
 import re
+import sys
+
+import discord
+from discord.ext import tasks, commands
+import psutil
+import psycopg2, psycopg2.extras
 import traceback
-from sub import box, calc, avatar, status
+
+from sub import box, status, avatar
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
