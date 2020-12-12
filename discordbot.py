@@ -228,9 +228,10 @@ async def on_message(message):
             while not magic_type_flag is True:
                 magic_type_em = discord.Embed(
                     title=f"{m_author.name} の所属魔法領域を選択",
-                    description=
-                        (f"所属する魔法領域の対応番号を半角英数字で送信してください。"
-                        +"\n再選択は出来ません。"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**"))
+                    description=(
+                        f"所属する魔法領域の対応番号を半角英数字で送信してください。"
+                        +"\n再選択は出来ません。"詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説>魔法システム**")
+                )
                 magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。`")
                 magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。`")
                 magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。`")
