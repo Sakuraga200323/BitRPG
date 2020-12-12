@@ -139,12 +139,13 @@ async def cbt_proc(client, user, ch):
             p.kill_count(1)
             p.money(money)
             desc += f"<@{p_id}> Exp+{exp} Money+{money}cell "
-            if up_lv > 0: desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-            drop_items_text = ""
+            if up_lv > 0:
+                desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
+            drop_item_text = ""
             def get_item_sub(item_id, item_num):
-                global drop_items_text
-                status.get_item(client, user, item_id, item_num)
-                drop_items_text += f"{item_emoji_a[item_id]}×{item_num} "
+                global drop_item_text
+                status.get_item(client,user,item_id,item_num)
+                drop_item_text += f"{item_emoji_a[item_id]}×{item_num} "
             # ドロップアイテムfor #
             for id in reward_items:
                 num,item_was_droped = reward_items[id]
