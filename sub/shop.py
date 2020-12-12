@@ -138,8 +138,8 @@ async def shop(client, ch, user):
                 husoku_text = ""
                 for data in material_dict[item_id]:
                     i_name = items_name[data[0]]
-                    if item_dtd[i_name] < data[1]:
-                        husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]-item_dtd[i_name]} "
+                    if item_dtd[i_name] < data[1]*item_num:
+                        husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-item_dtd[i_name]} "
                         continue
                     status.get_item(client,user,data[0],-data[1])
                 if husoku_text != "":
