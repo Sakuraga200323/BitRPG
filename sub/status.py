@@ -103,20 +103,6 @@ async def up_max_lv(client, ch, user):
     await ch.send(f"<@{user.id}>のレベル上限が1000解放されました！")
 
 
-                  
-
-
-
-
-
-ITEMS = (
-    "HP回復薬", #id:001
-    "MP回復薬", #id:002
-    "ドーピング薬", #id:003
-    "魔石") #id:004
-
-ITEMS2 = ("冒険者カード","魔硬貨")
-
 items_name = {
     1:"冒険者カード",
     2:"HP回復薬",
@@ -128,10 +114,8 @@ items_name = {
     8:"魔硬貨"
 }
 
-SELECT_ITEM_FROM_ID = {
+constant_items_name = {
     1:"冒険者カード",
-    2:"HP回復薬",
-    3:"MP回復薬",
     4:"魂の焔",
     5:"砥石",
     6:"魔石",
@@ -140,7 +124,7 @@ SELECT_ITEM_FROM_ID = {
 }
 
 
-ITEM_EMOJI = {
+items_emoji = {
     1:"<:card:786514637289947176>",
     2:"<:hp_potion:786236538584694815>",
     3:"<:mp_potion:786236615575339029>",
@@ -151,7 +135,7 @@ ITEM_EMOJI = {
     8:"<:magic_coin:786513121236746260>",
 }
 
-ITEM_EMOJI_A = {
+items_emoji_a = {
     1:"<:card:786514637289947176>",
     2:"<a:hp_potion_a:786982694479200336>",
     3:"<a:mp_potion_a:786982694839124021>",
@@ -162,9 +146,7 @@ ITEM_EMOJI_A = {
     8:"<a:magic_coin_a:786966211594289153>"
 }
 
-ALL_ITEM = list(SELECT_ITEM_FROM_ID.values())
-
-ITEMS_IMG_URL = {
+items_image = {
     "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984382673977374/hp_potion.gif",
     "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984396887556096/mp_potion.gif",
     "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png",
@@ -175,7 +157,7 @@ ITEMS_IMG_URL = {
 async def open_inventory(client, ch, user):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
-    for (item_name,item_emoji) in zip(ALL_ITEM,list(ITEM_EMOJI_A.values())):
+    for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
         if not item_dtd[item_name] == 0:
             text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
@@ -184,7 +166,7 @@ async def open_inventory(client, ch, user):
 
 def get_item (client, user, item_id, num):
     player = box.players[user.id]
-    item = SELECT_ITEM_FROM_ID[item_id]
+    item = items_name[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
     
@@ -199,7 +181,7 @@ async def use_item(client, ch, user, item):
     if item_num <= 0:
         await ch.send(f"<@{player.user.id}>のインベントリに{item}は無いようだ…")
         return
-    if not item in ITEMS2:
+    if not item in list(constant_items_name.values()):
         item_num -= 1
         pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
                       
@@ -242,7 +224,7 @@ async def use_item(client, ch, user, item):
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
         embed.add_field(name="Name",value=f"**{player.user.name}**")
-        embed.add_field(name="MagicClass",value=f"**{player.magic_class()}**")
+        embed.add_field(name="MagicRegion",value=f"**{player.magic_class()}: Lv.{player.magic_lv()}**")
         embed.add_field(name="Money",value=f"**{player.money()}cell**")
         embed.add_field(name="KillCount",value=f"**{player.kill_count()}**")
         if player.battle_ch:
@@ -253,7 +235,7 @@ async def use_item(client, ch, user, item):
         await ch.send(embed=embed)
 
     if item_logem:
-        item_logem.set_thumbnail(url=ITEMS_IMG_URL[item])
+        item_logem.set_thumbnail(url=items_image[item])
         await ch.send(embed=item_logem)
 
 
