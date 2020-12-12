@@ -358,7 +358,7 @@ async def on_message(message):
                 print("^^point: ",m_author)
                 pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
-                if result:nawait status.divid(client, m_author, m_ch, result)
+                if result: await status.divid(client, m_author, m_ch, result)
 
 
             # レベルランキングの表示 #
@@ -376,7 +376,7 @@ async def on_message(message):
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
                 if result:await status.use_item(client, m_ch, m_author, result.group(2))
-                elif result2:await status.open_inventory(client, m_ch, m_author)
+                elif result2: await status.open_inventory(client, m_ch, m_author)
 
 
             # Lv上限解放 #
