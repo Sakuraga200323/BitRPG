@@ -284,19 +284,14 @@ class Mob:
         result = self.lv() * 10 + 10
         str_correction ={
             "Bicorn":1.3,
-            "GoblinSoldier":1,
-            "Golem":1,
+            "GoblinSoldier":1,"Golem":1,
             "Kerberos":1.3,
-            "LizardGoblin":1.1,
-            "Lorg":1,
-            "Manticore":1.3,
-            "Mummy":1,
+            "LizardGoblin":1.1,"Lorg":1,
+            "Manticore":1.3,"Mummy":1,
             "Orc":1.2,
             "Phelios":0.7,
             "Roguenite":1.2,
-            "Skeleton":0.8,
-            "Sludge":1,
-            "Succubus":0.8,
+            "Skeleton":0.8,"Sludge":1,"Succubus":0.8,
             "Theaf":0.9,
             "Valkyrie":1.3,
         }
@@ -309,19 +304,14 @@ class Mob:
         result = self.lv() * 10 + 10
         defe_correction ={
             "Bicorn":1.3,
-            "GoblinSoldier":1,
-            "Golem":2,
+            "GoblinSoldier":1,"Golem":2,
             "Kerberos":1.3,
-            "LizardGoblin":1.1,
-            "Lorg":0.8,
-            "Manticore":1.3,
-            "Mummy":0.8,
+            "LizardGoblin":1.1,"Lorg":0.8,
+            "Manticore":1.3,"Mummy":0.8,
             "Orc":1.2,
             "Phelios":0.7,
             "Roguenite":1.2,
-            "Skeleton":0.8,
-            "Sludge":1.5,
-            "Succubus":0.8,
+            "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
             "Theaf":0.8,
             "Valkyrie":1.3,
         }
@@ -334,19 +324,14 @@ class Mob:
         result = self.lv() * 10 + 10
         agi_correction ={
             "Bicorn":1.3,
-            "GoblinSoldier":1,
-            "Golem":0.7,
+            "GoblinSoldier":1,"Golem":0.7,
             "Kerberos":1.3,
-            "LizardGoblin":1.2,
-            "Lorg":0.8,
-            "Manticore":1.3,
-            "Mummy":0.8,
+            "LizardGoblin":1.2,"Lorg":0.8,
+            "Manticore":1.3,"Mummy":0.8,
             "Orc":1.2,
             "Phelios":1.2,
             "Roguenite":1,
-            "Skeleton":1,
-            "Sludge":0.8,
-            "Succubus":1.1,
+            "Skeleton":1,"Sludge":0.8,"Succubus":1.1,
             "Theaf":1.5,
             "Valkyrie":1.3,
         }
@@ -355,24 +340,18 @@ class Mob:
         else:
             return result
 
-    def exp(self):
-        if self.lv() % 1000 == 0:
-            exp = self.lv()*100
-            money = random.randint(9000, 11000)
-        elif self.lv() % 100 == 0:
-            exp = self.lv()*5
-            money = random.randint(4000, 6000)
-        elif self.lv() % 10 == 0:
-            exp = self.lv() * 1.5
-            money = random.randint(100, 200)
-        else:
-            exp = self.lv()
-            money = random.randint(1, 10)
-        exp *= 0.75
-        exp = round(exp) + 1
+    def reward(self):
         if self.type == "UltraRare":
-            exp *= 100
-            money = 100000
+            exp,money = self.lv()*10000,100000
+        elif self.lv() % 1000 == 0:
+            exp,money = self.lv()*100,random.randint(9000, 11000)
+        elif self.lv() % 100 == 0:
+            exp,money = self.lv()*5,random.randint(4000, 6000)
+        elif self.lv() % 10 == 0:
+            exp,money = self.lv() * 1.5,random.randint(100, 200)
+        else:
+            exp,money = self.lv(),random.randint(1, 10)
+        exp = round(exp*0.75)
         return exp, money
 
     def cut_hp(self, dmg):
