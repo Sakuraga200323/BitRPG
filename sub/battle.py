@@ -142,16 +142,13 @@ async def cbt_proc(client, user, ch):
             if up_lv > 0:
                 desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
             drop_item_text = ""
-            def get_item_sub(item_id, item_num):
-                global drop_item_text
-                status.get_item(client,user,item_id,item_num)
-                drop_item_text += f"{item_emoji_a[item_id]}×{item_num} "
             # ドロップアイテムfor #
             for id in reward_items:
                 num,item_was_droped = reward_items[id]
                 if item_was_droped:
-                    get_item_sub(id, num)
-            desc += f"\nDropItem： {'-' if not drop_items_text else drop_items_text}"
+                    status.get_item(client,user,item_id,item_num)
+                    drop_item_text += f"{item_emoji_a[item_id]}×{item_num} "
+            desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
         if random() <= 0.01:
             player.now_stp(mob.lv())
             em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
