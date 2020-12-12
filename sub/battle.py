@@ -41,13 +41,6 @@ item_emoji_a = {
 }
 
 
-reward_items = { # {id:(num,item was droped)}
-    2:(randint(3,6),random()<=0.05),
-    3:(randint(3,6),random()<=0.05),
-    4:(1,True),
-    5:(choice((1,2)),mob.name in ("Golem",)),
-    6:(randint(3,6),random()<=0.03)
-}
 
 
 pg = None
@@ -73,6 +66,13 @@ async def cbt_proc(client, user, ch):
             await ch.send(f"上書き失敗、戦闘に参加できていません。")
             return
 
+    reward_items = { # {id:(num,item was droped)}
+        2:(randint(3,6),random()<=0.05),
+        3:(randint(3,6),random()<=0.05),
+        4:(1,True),
+        5:(choice((1,2)),mob.name in ("Golem",)),
+        6:(randint(3,6),random()<=0.03)
+    }
     if player.now_hp <= 0:
         await ch.send(f"<@{user.id}> は既に死亡しています。")
         return
