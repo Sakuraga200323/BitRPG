@@ -110,7 +110,7 @@ async def cbt_proc(client, user, ch):
         log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else "しかし当たらなかった…"
         log1_1 += f'\n{user}のHP[{player.cut_hp(dmg2)}/{player.max_hp}]\n[{hp_gauge(player.now_hp, player.max_hp)}]'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'- {user}の攻撃->'
-        if not player.now_hp<=0
+        if not player.now_hp<=0：
             dmg1 = round(x2 * dmg1)
             if not player.now_hp <= 0:
             log2_1 += f"{str(dmg1)}の{t2}" if dmg1!=0 else "しかし当たらなかった…"
