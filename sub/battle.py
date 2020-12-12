@@ -9,24 +9,12 @@ import os
 import psutil
 import psycopg2
 import psycopg2.extras
-import random
+from random import random, choice, randint
 import re
 import traceback
 from sub import box, calc, avatar, status
 
-
 JST = timezone(timedelta(hours=+9), 'JST')
-dsn = os.environ.get('DATABASE_URL')
-
-
-token = os.environ.get('TOKEN')
-
-admin_list = [
-    715192735128092713,
-    710207828303937626,
-    548058577848238080,
-]
-
 
 item_emoji = {
     1:"<:card:786514637289947176>",
@@ -50,17 +38,19 @@ item_emoji_a = {
     8:"<a:magic_coin_a:786966211594289153>"
 }
 
-getmagic_list = [
-    "001|Heal",
-    "002|FireBall",
-    "003|StrRein",
-    "004|DefRein",
-    "005|AgiRein",
-    "006|LifeConversion"
-]
+
+reward_items = { # {id:(num,item was droped)}
+    2:(randint(3,6),random()<=0.05),
+    3:(randint(3,6),random()<=0.05),
+    4:(1,True),
+    5:(choice((1,2)),mob.name in ("Golem",)),
+    6:(randint(3,6),random()<=0.03)
+}
+
 
 pg = None
 
+# 戦闘 #
 async def cbt_proc(client, user, ch):
     if not user.id in box.players:
         print("box.playersに存在しないPlayer.idを取得")
@@ -86,16 +76,16 @@ async def cbt_proc(client, user, ch):
         return
     mob.player_join(user.id)
 
-    # モンスターとの戦闘で使うダメージ、運の計算およびログの設定 #
+    # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
     dmg1,dmg2 = calc.dmg(player.STR(), mob.defe()),calc.dmg(mob.str(), player.DEFE())
     dmg2 = int(dmg2*1.45) if mob.name=="古月" else dmg2
     log1_1 = log2_1 = ""
 
-    # HPゲージの作成
+    # HPゲージ作成関数 #
     def hp_gauge(now, max):
         return  "-"*20 if now<=0 else (int((now/max)*20)*"/")+((20-int((now/max)*20))*" ")
 
-    a,b = random.random(),random.random()
+    a,b = random(),random()
     t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
     t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
     t += "ダメージ！"
@@ -118,7 +108,7 @@ async def cbt_proc(client, user, ch):
         log1_1 += f'- {mob.name}の攻撃->'
         dmg2 = round(x * dmg2)
         log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else "しかし当たらなかった…"
-        log1_1 += f'\n{user}のHP[{player.cut_hp(dmg2)}/{player.max_hp}]\n[{hp_gauge(player.now_hp, player.max_hp)}]
+        log1_1 += f'\n{user}のHP[{player.cut_hp(dmg2)}/{player.max_hp}]\n[{hp_gauge(player.now_hp, player.max_hp)}]'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'- {user}の攻撃->'
         if not player.now_hp<=0
             dmg1 = round(x2 * dmg1)
@@ -128,66 +118,35 @@ async def cbt_proc(client, user, ch):
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
 
-
-    # バフのターンとかの確認 #
-    #buff_text = ""
-    #if user.id in buff.doping:  # ドーピング薬
-    #    buff.doping[user.id][0] -= 1
-    #    if buff.doping[user.id][0] <= 0:
-    #        p_data["now_hp"] -= buff.doping[user.id][1]
-    #        buff_text += f"- {p_data['name']} はドーピング薬の反動を受けた！{buff.doping[user.id][1]}のダメージ!\n"
-    #        buff_text += f"{p_data['name']} のHP[{p_data['now_hp']}/{p_data['max_hp']}]"
-    #        buff_log = f"```diff\n{buff_text}```"
-    #        battle_log += buff_log
-    #         del buff.doping[user.id]
-
-
     embed = em = item_em = spawn_embed = None
-
     if mob.now_hp <= 0:
         desc = ""
         now = datetime.now(JST).strftime("%H:%M")
         if  now in ['23:18']:
             get_exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
-        exp, money = mob.exp()
-        money = int(money/len(mob.battle_players))
-        print("戦闘参加しているPlayer: ",mob.battle_players)
+        exp,money = mob.reward()[0],int(mob.reward()[1]/len(mob.battle_players))
+        print("戦闘参加していたPlayer: ",mob.battle_players)
         for p_id in mob.battle_players:
             p = box.players[p_id]
             up_exp, up_lv = p.get_exp(exp)
             p.kill_count(1)
             p.money(money)
-            desc += f"<@{p_id}> 経験値+{exp} "
-            desc += f"お金+{money} "
+            desc += f"<@{p_id}> Exp+{exp} Money+{money}cell "
             if up_lv > 0: desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-            desc += "\nドロップアイテム： "
-            def get_item_sub(c=client, u=user, item_id, item_num):
-                status.get_item(c, u, item_id, item_num)
+            drop_items_text = ""
+            def get_item_sub(item_id, item_num):
+                status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji_a[item_id]}×{item_num} "
-            if random.random() <= 0.05:
-                # HPポーション
-                item_id,item_num = 2,random.randint(3, 6)
-                get_item_sub(item_id, item_num)
-            if random.random() <= 0.05:
-                # MPポーション
-                item_id,item_num = 3,random.randint(3, 6)
-                get_item_sub(item_id, item_num)
-            if True:
-                # 魂の焔
-                item_id,item_num = 4,1
-                get_item_sub(item_id, item_num)
-            if random.random() <= 0.5 and mob.name in ("Golem",):
-                # 砥石
-                item_id,item_num = 5,random.randint(1, 2)
-                get_item_sub(item_id, item_num)
-            if random.random() <= 0.03:
-                # 魔石
-                item_id,item_num = 6,random.randint(3, 6)
-                get_item_sub(item_id, item_num)
-        if random.random() <= 0.01:
+            # ドロップアイテムfor #
+            for id in id_num_dict:
+                num,item_was_droped = reward_items[id]
+                if item_was_droped:
+                    get_item_sub(id, num)
+            desc += f"\nDropItem： {'-' if not drop_items_text else drop_items_text}"
+        if random() <= 0.01:
             player.now_stp(mob.lv())
-            em = discord.Embed(description=f"<@{user.id}> は{mob.lv()}のSTPを獲得した！")
+            em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
         embed = discord.Embed(title="Result",description=desc,color=discord.Color.green())
         mob.lv(1)
         spawn_embed = mob.battle_end()
