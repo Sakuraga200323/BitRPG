@@ -75,4 +75,5 @@ async def check_macro(client, user, ch):
         embed.add_field(name="UserData", value=P_list, inline=False)
         embed.set_image(url="attachment://temp.png")
         await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
+        macro_checking.remove(user.id)
         return result
