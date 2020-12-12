@@ -142,6 +142,7 @@ async def cbt_proc(client, user, ch):
             if up_lv > 0: desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
             drop_items_text = ""
             def get_item_sub(item_id, item_num):
+                global drop_items_text
                 status.get_item(client, user, item_id, item_num)
                 drop_items_text += f"{item_emoji_a[item_id]}×{item_num} "
             # ドロップアイテムfor #
