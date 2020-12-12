@@ -140,7 +140,7 @@ async def cbt_proc(client, user, ch):
                 status.get_item(client, user, item_id, item_num)
                 desc += f"{item_emoji_a[item_id]}×{item_num} "
             # ドロップアイテムfor #
-            for id in id_num_dict:
+            for id in reward_items:
                 num,item_was_droped = reward_items[id]
                 if item_was_droped:
                     get_item_sub(id, num)
