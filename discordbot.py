@@ -483,7 +483,7 @@ async def on_message(message):
                         await m_ch.send(f"`::DATABASE=> {cmd}`")
                         result = None
                         if "select" in cmd:
-                            result = f"{pg.fetch(cmd+" LIMIT 10")}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                            result = f"{pg.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
                         else:
                             try:
                                 pg.execute(cmd)
