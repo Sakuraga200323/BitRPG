@@ -147,7 +147,7 @@ async def cbt_proc(client, user, ch):
                 num,item_was_droped = reward_items[id]
                 if item_was_droped:
                     status.get_item(client,user,id,num)
-                    drop_item_text += f"{item_emoji_a[item_id]}×{item_num} "
+                    drop_item_text += f"{item_emoji_a[id]}×{num} "
             desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
         if random() <= 0.01:
             player.now_stp(mob.lv())
