@@ -18,14 +18,54 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
 
-
-
 def my_round(val, digit=0):
     p = 10 ** digit
     return (val * p * 2 + 1) // 2 / p
 
 pg = None
 
+# 全アイテムの {ID:名前} #
+items_name = {1:"冒険者カード", 2:"HP回復薬", 3:"MP回復薬", 4:"魂の焔", 5:"砥石", 6:"魔石", 7:"魔晶", 8:"魔硬貨"}
+
+# 全アイテムの {：ID} #
+items_id = {"冒険者カード":1, "HP回復薬":2, "MP回復薬":3, "魂の焔":4, "砥石":5, "魔石":6, "魔晶":7, "魔硬貨":8}
+
+# ^^i で消費しないアイテムの {ID:名前} #
+constant_items_name = {1:"冒険者カード", 4:"魂の焔", 5:"砥石", 6:"魔石", 7:"魔晶", 8:"魔硬貨"}
+
+# 全アイテムの {ID:絵文字} #
+items_emoji = {
+    1:"<:card:786514637289947176>",
+    2:"<:hp_potion:786236538584694815>",
+    3:"<:mp_potion:786236615575339029>",
+    4:"<:soul_fire:786513145010454538>",
+    5:"<:toishi:786513144691556364>",
+    6:"<:maseki:785641515561123921>",
+    7:"<:masuisyou:786516036673470504>",
+    8:"<:magic_coin:786513121236746260>",
+}
+
+# 全アイテムの {ID:アニメーション絵文字} #
+items_emoji_a = {
+    1:"<:card:786514637289947176>",
+    2:"<a:hp_potion_a:786982694479200336>",
+    3:"<a:mp_potion_a:786982694839124021>",
+    4:"<:soul_fire:786513145010454538>",
+    5:"<a:toishi_a:786974865777229864>",
+    6:"<:maseki:785641515561123921>",
+    7:"<a:masuisyou_a:786982694948306974>",
+    8:"<a:magic_coin_a:786966211594289153>"
+}
+
+# 画像があるアイテムの {名前:画像URL} #
+items_image = {
+    "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984382673977374/hp_potion.gif",
+    "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984396887556096/mp_potion.gif",
+    "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png",
+    "魔硬貨":"https://media.discordapp.net/attachments/719855399733428244/786984393594896474/magic_coin.gif"
+}
+
+# ステータス #
 async def open_status(client, user, ch):
     if not user.id in box.players:
         return
@@ -41,8 +81,8 @@ async def open_status(client, user, ch):
     embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}* (+{p_data.defe_p()})")
     embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
-    guage_edge_reft = "<:_end:784330415624290306>"
-    guage_edge_right = "<:end_:784330344748417024>"
+    gauge_edge_reft = "<:_end:784330415624290306>"
+    gauge_edge_right = "<:end_:784330344748417024>"
     def gauge(x,y):
         return round(x/y*15)*"━"
     if not p_data.STP() <= 0:
@@ -50,7 +90,7 @@ async def open_status(client, user, ch):
         s = f"{gauge(p_data.str_p(), all_stp)}"
         d = f"{gauge(p_data.defe_p(), all_stp)}"
         a = f"{gauge(p_data.agi_p(), all_stp)}"
-        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"Total:*{p_data.STP()}*\n{guage_edge_reft}`{s}⧱{d}⧱{a}`{guage_edge_right}", inline=False)
+        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"Total:*{p_data.STP()}*\n{gauge_edge_reft}`{s}⧱{d}⧱{a}`{gauge_edge_right}", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
@@ -60,7 +100,7 @@ async def open_status(client, user, ch):
     exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
     embed.add_field(name = f"Experience", value=(
           f"Total:*{p_data.max_exp()}*"
-        + f"\n{guage_edge_reft}{exp_gauge_1 + exp_gauge_0}{guage_edge_right}"
+        + f"\n{gauge_edge_reft}{exp_gauge_1 + exp_gauge_0}{gauge_edge_right}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=embed)
@@ -68,8 +108,18 @@ async def open_status(client, user, ch):
     await log_ch.send(embed=embed)
 
 
+# インベントリー #
+async def open_inventory(client, ch, user):
+    item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
+    text = ""
+    for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
+        if not item_dtd[item_name] == 0:
+            text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
+    embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
+    await ch.send(embed=embed)
 
 
+# STP振り分け #
 async def divid(client, user, ch, result):
     p_data = box.players[user.id]
     target = result.group(1)
@@ -86,10 +136,7 @@ async def divid(client, user, ch, result):
     await ch.send(f"STP{point}を消費。{p_data.user.mention}の{target}強化量+{result}。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
 
 
-
-ITEMS = ("HP回復薬","MP回復薬","ドーピング薬")
-ITEMS2 = ("冒険者カード",)
-
+# レベル上限解放 #
 async def up_max_lv(client, ch, user):
     player = box.players[user.id]
     item_num = pg.fetchdict(f"SELECT item->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
@@ -103,67 +150,7 @@ async def up_max_lv(client, ch, user):
     await ch.send(f"<@{user.id}>のレベル上限が1000解放されました！")
 
 
-items_name = {
-    1:"冒険者カード",
-    2:"HP回復薬",
-    3:"MP回復薬",
-    4:"魂の焔",
-    5:"砥石",
-    6:"魔石",
-    7:"魔晶",
-    8:"魔硬貨"
-}
-
-constant_items_name = {
-    1:"冒険者カード",
-    4:"魂の焔",
-    5:"砥石",
-    6:"魔石",
-    7:"魔晶",
-    8:"魔硬貨"
-}
-
-
-items_emoji = {
-    1:"<:card:786514637289947176>",
-    2:"<:hp_potion:786236538584694815>",
-    3:"<:mp_potion:786236615575339029>",
-    4:"<:soul_fire:786513145010454538>",
-    5:"<:toishi:786513144691556364>",
-    6:"<:maseki:785641515561123921>",
-    7:"<:masuisyou:786516036673470504>",
-    8:"<:magic_coin:786513121236746260>",
-}
-
-items_emoji_a = {
-    1:"<:card:786514637289947176>",
-    2:"<a:hp_potion_a:786982694479200336>",
-    3:"<a:mp_potion_a:786982694839124021>",
-    4:"<:soul_fire:786513145010454538>",
-    5:"<a:toishi_a:786974865777229864>",
-    6:"<:maseki:785641515561123921>",
-    7:"<a:masuisyou_a:786982694948306974>",
-    8:"<a:magic_coin_a:786966211594289153>"
-}
-
-items_image = {
-    "HP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984382673977374/hp_potion.gif",
-    "MP回復薬":"https://media.discordapp.net/attachments/719855399733428244/786984396887556096/mp_potion.gif",
-    "魔石":"https://media.discordapp.net/attachments/719855399733428244/757449362652790885/maseki.png",
-    "魔硬貨":"https://media.discordapp.net/attachments/719855399733428244/786984393594896474/magic_coin.gif"
-}
-
-
-async def open_inventory(client, ch, user):
-    item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
-    text = ""
-    for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
-        if not item_dtd[item_name] == 0:
-            text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
-    embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
-    await ch.send(embed=embed)
-
-
+# アイテムの確保 #
 def get_item (client, user, item_id, num):
     player = box.players[user.id]
     item = items_name[item_id]
@@ -171,10 +158,12 @@ def get_item (client, user, item_id, num):
     pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
     
 
-
+# アイテムの使用 #
 async def use_item(client, ch, user, item):
     player = box.players[user.id]
-    if not item in list(items_name.values()):
+    if item in list(items_name.keys()):
+        item_name = items_name[item]
+    elif not item in list(items_id.keys()):
         await ch.send(f"{item}と言うアイテムは見たことがないようだ…")
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
@@ -184,9 +173,7 @@ async def use_item(client, ch, user, item):
     if not item in list(constant_items_name.values()):
         item_num -= 1
         pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num})::jsonb where id = {user.id};")
-                      
-    item_logem = None
-
+    item_em = None
     if item == "HP回復薬":
         print("HP回復薬:",player.user)
         if player.now_hp < player.max_hp:
@@ -197,10 +184,9 @@ async def use_item(client, ch, user, item):
             else:
                   player.now_hp += cure_num
                   text = f"<@{player.user.id}>のHPが{cure_num}回復"
-            item_logem = discord.Embed(description=text)
+            item_em = discord.Embed(description=text)
         else:
-            item_logem = discord.Embed(description=f"なにも起こらなかった…")
-            
+            item_em = discord.Embed(description=f"なにも起こらなかった…")
     if item == "MP回復薬":
         print("MP回復薬:",player.user)
         if player.now_mp < player.max_mp:
@@ -211,32 +197,28 @@ async def use_item(client, ch, user, item):
             else:
                   player.now_mp += cure_num
                   text = f"<@{player.user.id}>のMPが{cure_num}回復"
-            item_logem = discord.Embed(description=text)
+            item_em = discord.Embed(description=text)
         else:
-            item_logem = discord.Embed(description=f"なにも起こらなかった…")
-
+            item_em = discord.Embed(description=f"なにも起こらなかった…")
     if item == "魔硬貨":
         print("魔硬貨:",player.user)
         result = random.choice("裏","表")
-        item_logem = discord.Embed(description=f"コインを投げた…{result}!")
-
-
+        item_em = discord.Embed(description=f"コインを投げた…{result}!")
     if item == "冒険者カード":
         embed = discord.Embed(title="Adventure Info")
-        embed.add_field(name="Name",value=f"**{player.user.name}**")
-        embed.add_field(name="MagicRegion",value=f"**{player.magic_class()}: Lv.{player.magic_lv()}**")
-        embed.add_field(name="Money",value=f"**{player.money()}cell**")
-        embed.add_field(name="KillCount",value=f"**{player.kill_count()}**")
+        embed.add_field(name="Name",value=f"*{player.user.name}*")
+        embed.add_field(name="MagicRegion",value=f"*{player.magic_class()}: Lv.{player.magic_lv()}*")
+        embed.add_field(name="Money",value=f"*{player.money()}cell*")
+        embed.add_field(name="KillCount",value=f"*{player.kill_count()}*")
         if player.battle_ch:
             cbt_ch = client.get_channel(player.battle_ch)
             embed.add_field(name="BattlePlace",value=f"{cbt_ch.mention}")
         embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
         await ch.send(embed=embed)
-
-    if item_logem:
-        item_logem.set_thumbnail(url=items_image[item])
-        await ch.send(embed=item_logem)
+    if item_em:
+        item_em.set_thumbnail(url=items_image[item])
+        await ch.send(embed=item_em)
 
 
 
