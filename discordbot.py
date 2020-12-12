@@ -82,18 +82,11 @@ role_id = {
 create table player_tb(
     id bigint,
     lv bigint,
-    max_lv bigint
-    max_exp bigint,
-    now_exp bigint,
-    now_stp bigint,
-    str_p bigint,
-    def_p bigint,
-    agi_p bigint,
-    magic_class int,
-    magic_lv bigint,
-    kill_count bigint,
-    item jsonb,
-    money bigint,
+    max_lv bigint, max_exp bigint,
+    now_exp bigint, now_stp bigint,
+    str_p bigint, def_p bigint, agi_p bigint,
+    magic_class int, magic_lv bigint,
+    kill_count bigint, item jsonb, money bigint,
     primary key (id)
 )
 
@@ -339,7 +332,7 @@ async def on_message(message):
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 print("^^atk: ",m_author)
                 temp = m_ctt
-                pattern = r"^\^\^(atk|attack|atk (.+)|attack (.+))$"
+                pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
                 if result: await battle.cbt_proc(client, m_author,m_ch)
 
@@ -356,7 +349,7 @@ async def on_message(message):
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 print("^^point: ",m_author)
-                pattern = r"^\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
+                pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result: await status.divid(client, m_author, m_ch, result)
 
@@ -371,8 +364,8 @@ async def on_message(message):
             # アイテム #
             if m_ctt.startswith("^^i"):
                 print("^^item: ",m_author)
-                pattern = r"^\^\^(i|item) (.+)"
-                pattern2 = r"^\^\^(i|item)$"
+                pattern = r"\^\^(i|item) (.+)"
+                pattern2 = r"\^\^(i|item)$"
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
                 if result:await status.use_item(client, m_ch, m_author, result.group(2))
@@ -380,8 +373,8 @@ async def on_message(message):
 
 
             # Lv上限解放 #
-            if m_ctt == "^^gentotsu":
-                print("^^gentotsu: ",m_author)
+            if m_ctt == "^^lvunlock":
+                print("^^lvunlock: ",m_author)
                 await status.up_max_lv(client, m_ch, m_author)
 
 
