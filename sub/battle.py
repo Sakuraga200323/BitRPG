@@ -92,29 +92,34 @@ async def cbt_proc(client, user, ch):
     t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
     t += "ダメージ！"
     t2 += "ダメージ！"
+    
+    # ダメージがない場合のメッセージ #
+    def zero_dmg_text():
+        text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
+        return choice(text)
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         log1_1 += f'+ {player.user}の攻撃->'
         dmg1 = round(x * dmg1)
-        log1_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else "しかし当たらなかった…"
+        log1_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else zero_dmg_text()
         log1_1 += f'\n{mob.name} のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]\n[{hp_gauge(mob.now_hp, mob.max_hp)}]'
         log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'- {mob.name}の攻撃->'
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
-            log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else "しかし当たらなかった…"
+            log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
             log2_1 += f'\n{user} のHP[{player.cut_hp(dmg2)}/{player.max_hp}]\n[{hp_gauge(player.now_hp, player.max_hp)}]'
 
     # 戦闘処理（Player後手） #
     else:
         log1_1 += f'- {mob.name}の攻撃->'
         dmg2 = round(x * dmg2)
-        log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else "しかし当たらなかった…"
+        log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else zero_dmg_text()
         log1_1 += f'\n{user}のHP[{player.cut_hp(dmg2)}/{player.max_hp}]\n[{hp_gauge(player.now_hp, player.max_hp)}]'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'- {user}の攻撃->'
         if not player.now_hp <= 0 :
             dmg1 = round(x2 * dmg1)
-            log2_1 += f"{str(dmg1)}の{t2}" if dmg1!=0 else "しかし当たらなかった…"
+            log2_1 += f"{str(dmg1)}の{t2}" if dmg1!=0 else zero_dmg_text()
             log2_1 += f'\n{mob.name}のHP[{mob.cut_hp(dmg1)}/{mob.max_hp}]\n[{hp_gauge(mob.now_hp, mob.max_hp)}]'
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
