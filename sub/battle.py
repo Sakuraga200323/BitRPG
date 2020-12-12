@@ -98,7 +98,8 @@ async def cbt_proc(client, user, ch):
     a,b = random.random(),random.random()
     t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
     t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
-    t +=　"ダメージ！"; t2 +=　"ダメージ！"
+    t +=　"ダメージ！"
+    t2 +=　"ダメージ！"
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
