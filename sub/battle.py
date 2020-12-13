@@ -86,7 +86,7 @@ async def cbt_proc(client, user, ch):
     # HPゲージ作成関数 #
     def hp_gauge(now, max):
         guage_1 = (int((now/max)*20)*"/")+((20-int((now/max)*20))*" ")
-        return ('-[' if num<11 esle '+[') + ("-"*20 if now<=0 else guage_1 + ']'
+        return ('-[' if num<11 else '+[') + ("-"*20 if now<=0 else guage_1 + ']'
     a,b = random(),random()
     t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
     t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
