@@ -173,15 +173,19 @@ async def on_message(message):
     m_guild = message.guild
     m_author = message.author
 
-    '''
     if m_author.id == 302050872383242240:
         if message.embeds:
-            if message.embeds[0].description:
-                desc = message.embeds[0].description
-                if "表示順を" in desc:
-                    id = desc.split("<@")[1].split(">")[0]
-    '''
-
+            if not message.embeds[0].description: return
+            desc = message.embeds[0].description
+            if not "表示順をアップしたよ" in desc: return
+            mention = message.mentions[0]
+            user = discord.utils.get(message.guild.members,mention=mention)
+            if not user:
+                await m_ch.send("報酬を配布しようとしたけど誰がやったかわからなかったようだ。<@715192735128092713> 仕事しろおら。")
+                return
+            status.get_item(client,user,6,10)
+            item_emoji = status.items_emoji_a[6]
+            await m_ch.send(f"<@{user.id}> さんBumpありがとう！\nアイテム配布: {item_emoji}×10")
 
     if m_ctt.startswith("^^") and not m_author.id in check_macro.macro_checking and not m_author.bot:
 
@@ -261,10 +265,11 @@ async def on_message(message):
             except Exception as e:
                 await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
+                emojis = staus.items_emoji_a
                 embed = discord.Embed(
-                    description=f"<@{m_author.id}> は`冒険者カード×1`、`HP回復薬×10`、`MP回復薬×10`、`ドーピング薬×1`、`魔石×1`を獲得した。",
+                    description=f"<@{m_author.id}> はを獲得した。",
                     color=discord.Color.green())
-                await m_ch.send(content = "冒険者登録が完了しました。" , embed=embed) 
+                await m_ch.send(content = "<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1" , embed=embed) 
             player = avatar.Player(client, m_author.id)
             if not m_author.id in box.players:
                 box.players[m_author.id] = player
