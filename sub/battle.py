@@ -56,7 +56,7 @@ async def cbt_proc(client, user, ch):
     if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch)
         if channel:
-            await ch.send(f"<@{user.id}> は現在『<@{channel.id}>』で戦闘中です。")
+            await ch.send(f"<@{user.id}> は現在『{now_ch.mention}』で戦闘中です。")
             return
         await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
         player.battle_end()
@@ -103,26 +103,26 @@ async def cbt_proc(client, user, ch):
         log1_1 += f'+ {player.user}の攻撃->'
         dmg1 = round(x * dmg1)
         log1_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else zero_dmg_text()
-        log1_1 += f'\n{mob.name}\n[{hp_gauge(mob.now_hp, mob.max_hp)}]({mob.cut_hp(dmg1)}/{mob.max_hp})'
+        log1_1 += f'\n{mob.name}\n[{hp_gauge(mob.now_hp, mob.max_hp)}]\n({mob.cut_hp(dmg1)}/{mob.max_hp})'
         log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'- {mob.name}の攻撃->'
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
             log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
-            log2_1 += f'\n{user}[{hp_gauge(player.now_hp, player.max_hp)}][{player.cut_hp(dmg2)}/{player.max_hp}]'
+            log2_1 += f'\n{user}[{hp_gauge(player.now_hp, player.max_hp)}]\n({player.cut_hp(dmg2)}/{player.max_hp})'
 
     # 戦闘処理（Player後手） #
     else:
         log1_1 += f'- {mob.name}の攻撃->'
         dmg2 = round(x * dmg2)
         log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else zero_dmg_text()
-        log1_1 += f'\n{user}\n[{hp_gauge(player.now_hp, player.max_hp)}]({player.cut_hp(dmg2)}/{player.max_hp})'
+        log1_1 += f'\n{user}\n[{hp_gauge(player.now_hp, player.max_hp)}]\n({player.cut_hp(dmg2)}/{player.max_hp})'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'- {user}の攻撃->'
         if not player.now_hp <= 0 :
             dmg1 = round(x2 * dmg1)
             log2_1 += f"{str(dmg1)}の{t2}" if dmg1!=0 else zero_dmg_text()
-            log2_1 += f'\n{mob.name}\n[{hp_gauge(mob.now_hp, mob.max_hp)}]({mob.cut_hp(dmg1)}/{mob.max_hp})'
+            log2_1 += f'\n{mob.name}\n[{hp_gauge(mob.now_hp, mob.max_hp)}]\n({mob.cut_hp(dmg1)}/{mob.max_hp})'
 
-    battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
+    battle_log = f"```diff\n{log1_1}``` ```diff\n{log2_1}```"
 
     embed = em = item_em = spawn_embed = None
     if mob.now_hp <= 0 :
@@ -178,7 +178,7 @@ async def reset(client, user, ch):
         return
     now_ch = client.get_channel(player.battle_ch)
     if player.battle_ch != ch.id:
-        await ch.send(f"<@{player.user.id}> は『<@{now_ch.id}>』で戦闘中です。")
+        await ch.send(f"<@{player.user.id}> は『{now_ch.mention}』で戦闘中です。")
         return
     mob.battle_end()
     await ch.send(embed = mob.spawn())
