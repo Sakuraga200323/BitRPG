@@ -101,7 +101,7 @@ async def on_ready():
 
     loop.start()
 
-    player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+    player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
     for player_id in player_ids:
         if client.get_user(player_id):
             avatar.Player(client, player_id)
