@@ -85,7 +85,7 @@ async def cbt_proc(client, user, ch):
 
     # HPゲージ作成関数 #
     def hp_gauge(now, max):
-        return  "-"*20 if now<=0 else (int((now/max)*20)*"/")+((20-int((now/max)*20))*" ")
+        return "-"*20 if now<=0 else (int((now/max)*20)*"/")+((20-int((now/max)*20))*" ")
 
     a,b = random(),random()
     t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
@@ -108,13 +108,13 @@ async def cbt_proc(client, user, ch):
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
             log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
-            log2_1 += f'\n{user}[{hp_gauge(player.now_hp, player.max_hp)}]\n({player.cut_hp(dmg2)}/{player.max_hp})'
+            log2_1 += f'\n{user}\n[{hp_gauge(player.now_hp, player.max_hp)}]\n({player.cut_hp(dmg2)}/{player.max_hp})'
 
     # 戦闘処理（Player後手） #
     else:
         log1_1 += f'- {mob.name}の攻撃->'
         dmg2 = round(x * dmg2)
-        log1_1 += f"{str(dmg2)}の{t}" if dmg1!=0 else zero_dmg_text()
+        log1_1 += f"{str(dmg2)}の{t}" if dmg2!=0 else zero_dmg_text()
         log1_1 += f'\n{user}\n[{hp_gauge(player.now_hp, player.max_hp)}]\n({player.cut_hp(dmg2)}/{player.max_hp})'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'- {user}の攻撃->'
         if not player.now_hp <= 0 :
