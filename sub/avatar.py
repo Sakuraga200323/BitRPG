@@ -71,8 +71,6 @@ class Player:
         self.battle_ch = None
         if not id in box.players:
             box.players[id] = self
-            print(f"Playerデータ挿入： {self.user}\n",list(self.dtd.values())[1:12])
-        
 
     # データの取得
     def get_data(self, target):
