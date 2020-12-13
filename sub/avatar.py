@@ -52,7 +52,6 @@ class Player:
         self.pg = pg
         self.client = client
         self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
-        print(list(self.dtd.values())[1:12])
         data_list = [
             self.dtd["lv"], self.dtd["max_lv"], 
             self.dtd["max_exp"], self.dtd["now_exp"], 
@@ -72,7 +71,7 @@ class Player:
         self.battle_ch = None
         if not id in box.players:
             box.players[id] = self
-            print(f"Playerデータ挿入： {self.user}")
+            print(f"Playerデータ挿入： {self.user}\n",list(self.dtd.values())[1:12])
         
 
     # データの取得
