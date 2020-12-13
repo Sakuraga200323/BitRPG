@@ -178,7 +178,7 @@ async def on_message(message):
             if not message.embeds[0].description: return
             desc = message.embeds[0].description
             if not "表示順をアップしたよ" in desc: return
-            mention = message.mentions[0]
+            mention = message.mentions()[0]
             user = discord.utils.get(message.guild.members,mention=mention)
             if not user:
                 await m_ch.send("報酬を配布しようとしたけど誰がやったかわからなかったようだ。<@715192735128092713> 仕事しろおら。")
