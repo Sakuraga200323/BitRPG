@@ -102,7 +102,7 @@ async def on_ready():
     player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
     for player_id in player_ids:
         if client.get_user(player_id):
-            avatar.Player(client, player_id)
+            box.players[player_id] = avatar.Player(client, player_id)
     print(len(player_ids), len(box.players))
     p_num_result = (len(player_ids)==len(box.players))
     desc = (
