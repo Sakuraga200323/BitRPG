@@ -98,9 +98,7 @@ create table player_tb(
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
-
     loop.start()
-
     player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
     for player_id in player_ids:
         if client.get_user(player_id):
