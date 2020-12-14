@@ -54,6 +54,7 @@ client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
+shop.client = battle.client = rank.client = status.client = avatar.client = check_macro.client = client
 
 
 # コマンド使用中のチャンネル
