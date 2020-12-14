@@ -41,13 +41,13 @@ item_emoji_a = {
 }
 
 
-
-
 pg = None
 
-# 戦闘 #
-async def cbt_proc(client, user, ch):
-    player,mob = box.players[user.id],box.mobs[ch.id]
+
+
+
+
+async def battle_start_check(player, mob):
     if not user.id in box.players:
         print("box.playersに存在しないPlayer.idを取得")
         if not user.id in [i["id"] for i in pg.fetchdict(f"select id from player_tb;")]:
@@ -60,26 +60,74 @@ async def cbt_proc(client, user, ch):
         channel = client.get_channel(player.battle_ch)
         if channel:
             await ch.send(f"<@{user.id}> は現在『{now_ch.mention}』で戦闘中です。")
-            return
+            return 0
         await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
         player.battle_end()
         if player.battle_start(ch.id):
             await ch.send(f"上書き完了")
         else:
             await ch.send(f"上書き失敗、戦闘に参加できていません。")
-            return
+            return 0
+    if player.now_hp <= 0:
+        await ch.send(f"<@{user.id}> は既に死亡しています。")
+        return 0
+    mob.player_join(user.id)
+    return 1
 
+
+
+
+
+async def battle_result(player, mob):
     reward_items = { # {id:(num,item was droped)}
         2:(randint(3,6),random()<=0.05),
         3:(randint(3,6),random()<=0.05),
         4:(1,True),
         5:(choice((1,2)),mob.name in ("Golem",)),
-        6:(randint(3,6),random()<=0.03)
-    }
-    if player.now_hp <= 0:
-        await ch.send(f"<@{user.id}> は既に死亡しています。")
-        return
-    mob.player_join(user.id)
+        6:(randint(3,6),random()<=0.03)}
+    ch = mob.mob
+    result_em = stp_em = item_em = spawn_em = None
+    if mob.now_hp <= 0 :
+        result_desc = ""
+        now = datetime.now(JST).strftime("%H:%M")
+        if  now in ['23:18']:
+            get_exp *= 16
+            await ch.send("????『幸運を。死したものより祝福を。』")
+        exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
+        print("戦闘参加していたPlayer: ",mob.battle_players)
+        for p_id in mob.battle_players:
+            p = box.players[p_id]
+            up_exp, up_lv = p.get_exp(exp)
+            p.kill_count(1)
+            p.money(money)
+            result_desc += f"<@{p_id}> Exp+{exp} Cell+{money} "
+            if up_lv > 0:
+                result_desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
+            drop_item_text = ""
+            # ドロップアイテムfor #
+            for id in reward_items:
+                num,item_was_droped = reward_items[id]
+                if item_was_droped:
+                    status.get_item(client,user,id,num)
+                    drop_item_text += f"{item_emoji_a[id]}×{num} "
+            result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
+        if random() <= 0.01:
+            player.now_stp(mob.lv())
+            stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
+        result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
+        mob.lv(1)
+        spawn_em = mob.battle_end()
+    for em in (result_em, stp_em, item_em, spawn_em):
+        if em : await ch.send(embed=em)
+
+
+
+
+
+# 戦闘 #
+async def cbt_proc(client, user, ch):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    await battle_start_check(player, mob)
 
     # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
     dmg1,dmg2 = calc.dmg(player.STR(), mob.defe()),calc.dmg(mob.str(), player.DEFE())
@@ -129,46 +177,12 @@ async def cbt_proc(client, user, ch):
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
     await ch.send(content=battle_log)
-    
-    async def battle_result(player, mob):
-        ch = mob.mob
-        result_em = stp_em = item_em = spawn_em = None
-        if mob.now_hp <= 0 :
-            result_desc = ""
-            now = datetime.now(JST).strftime("%H:%M")
-            if  now in ['23:18']:
-                get_exp *= 16
-                await ch.send("????『幸運を。死したものより祝福を。』")
-            exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
-            print("戦闘参加していたPlayer: ",mob.battle_players)
-            for p_id in mob.battle_players:
-                p = box.players[p_id]
-                up_exp, up_lv = p.get_exp(exp)
-                p.kill_count(1)
-                p.money(money)
-                result_desc += f"<@{p_id}> Exp+{exp} Cell+{money} "
-                if up_lv > 0:
-                    result_desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-                drop_item_text = ""
-                # ドロップアイテムfor #
-                for id in reward_items:
-                    num,item_was_droped = reward_items[id]
-                    if item_was_droped:
-                        status.get_item(client,user,id,num)
-                        drop_item_text += f"{item_emoji_a[id]}×{num} "
-                result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
-            if random() <= 0.01:
-                player.now_stp(mob.lv())
-                stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
-            result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
-            mob.lv(1)
-            spawn_em = mob.battle_end()
-        for em in (result_em, stp_em, item_em, spawn_em):
-            if em : await ch.send(embed=em)
-
     await battle_result(player, mob)
 
-        
+
+
+
+
 # 戦闘から離脱 #
 async def reset(client, user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
