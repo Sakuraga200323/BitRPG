@@ -128,43 +128,44 @@ async def cbt_proc(client, user, ch):
             log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob.now_hp, mob.max_hp)}'
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
-
-    embed = em = item_em = spawn_embed = None
-    if mob.now_hp <= 0 :
-        desc = ""
-        now = datetime.now(JST).strftime("%H:%M")
-        if  now in ['23:18']:
-            get_exp *= 16
-            await ch.send("????『幸運を。死したものより祝福を。』")
-        exp,money = mob.reward()[0],int(mob.reward()[1]/len(mob.battle_players))
-        print("戦闘参加していたPlayer: ",mob.battle_players)
-        for p_id in mob.battle_players:
-            p = box.players[p_id]
-            up_exp, up_lv = p.get_exp(exp)
-            p.kill_count(1)
-            p.money(money)
-            desc += f"<@{p_id}> Exp+{exp} Cell+{money} "
-            if up_lv > 0:
-                desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
-            drop_item_text = ""
-            # ドロップアイテムfor #
-            for id in reward_items:
-                num,item_was_droped = reward_items[id]
-                if item_was_droped:
-                    status.get_item(client,user,id,num)
-                    drop_item_text += f"{item_emoji_a[id]}×{num} "
-            desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
-        if random() <= 0.01:
-            player.now_stp(mob.lv())
-            em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
-        embed = discord.Embed(title="Result",description=desc,color=discord.Color.green())
-        mob.lv(1)
-        spawn_embed = mob.battle_end()
+    await ch.send(content=battle_log)
     
-    await ch.send(content=battle_log,embed = embed)
-    if em: await ch.send(embed=em)
-    if item_em: await ch.send(embed=item_em)
-    if spawn_embed: await ch.send(embed=spawn_embed)
+    async def battle_result(player, mob)
+        result_em = stp_em = item_em = spawn_em = None
+        if mob.now_hp <= 0 :
+            result_desc = ""
+            now = datetime.now(JST).strftime("%H:%M")
+            if  now in ['23:18']:
+                get_exp *= 16
+                await ch.send("????『幸運を。死したものより祝福を。』")
+            exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
+            print("戦闘参加していたPlayer: ",mob.battle_players)
+            for p_id in mob.battle_players:
+                p = box.players[p_id]
+                up_exp, up_lv = p.get_exp(exp)
+                p.kill_count(1)
+                p.money(money)
+                result_desc += f"<@{p_id}> Exp+{exp} Cell+{money} "
+                if up_lv > 0:
+                    result_desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
+                drop_item_text = ""
+                # ドロップアイテムfor #
+                for id in reward_items:
+                    num,item_was_droped = reward_items[id]
+                    if item_was_droped:
+                        status.get_item(client,user,id,num)
+                        drop_item_text += f"{item_emoji_a[id]}×{num} "
+                result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
+            if random() <= 0.01:
+                player.now_stp(mob.lv())
+                stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
+            result_em = discord.Embed(title="Result",description=desc,color=discord.Color.green())
+            mob.lv(1)
+            spawn_em = mob.battle_end()
+        for em in (result_em, stp_em, item_em, spawn_em):
+            if em : await ch.send(embed=em)
+
+    await battle_result(player, mob)
 
         
 # 戦闘から離脱 #
