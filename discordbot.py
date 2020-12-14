@@ -102,7 +102,9 @@ async def on_ready():
     player_ids = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
     for player_id in player_ids:
         if client.get_user(player_id):
-            box.players[player_id] = avatar.Player(client, player_id)
+            player = avatar.Player(client, player_id)
+            box.players[player_id] = player
+            print("Playerデータ挿入： ",player.user,"\n",player.dtd)
     print(len(player_ids), len(box.players))
     p_num_result = (len(player_ids)==len(box.players))
     desc = (
