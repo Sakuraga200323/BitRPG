@@ -69,9 +69,6 @@ class Player:
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
         self.max_mp = self.now_mp = self.lv_ * 10
         self.battle_ch = None
-        if not id in box.players:
-            box.players[id] = self
-            print(f"Playerデータ挿入： {self.user}\n",list(self.dtd.values())[1:12])
         
 
     # データの取得
