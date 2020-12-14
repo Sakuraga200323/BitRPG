@@ -300,6 +300,7 @@ async def on_message(message):
                 if m_author.id in id_list:
                     await m_ch.send(f"<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
                     player = avatar.Player(client, m_author.id)
+                    box.players[m_author.id] = player
                 else:
                     await m_ch.send(f"<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
                     return
