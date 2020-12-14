@@ -47,11 +47,11 @@ class Player:
     def __init__(self, client, id):
         self.user = client.get_user(id)
         if not self.user:
-            print(f"データ挿入失敗: {id}のuserがNone。")
+            print(f"Playerデータ取得失敗: {id}のuserがNone。")
             return
         self.pg = pg
         self.client = client
-        self.dtd = self.pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
+        self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         data_list = [
             self.dtd["lv"], self.dtd["max_lv"], 
             self.dtd["max_exp"], self.dtd["now_exp"], 
@@ -71,10 +71,12 @@ class Player:
         self.battle_ch = None
         if not id in box.players:
             box.players[id] = self
+            print(f"Playerデータ挿入： {self.user}\n",list(self.dtd.values())[1:12])
+        
 
     # データの取得
     def get_data(self, target):
-        return self.pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
+        return pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
 
     # データの値の加算
     def plus(self, target, plus):
@@ -82,9 +84,9 @@ class Player:
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update player_tb set {target}={target}{plus} where id = {self.user.id};')
+                pg.execute(f'update player_tb set {target}={target}{plus} where id = {self.user.id};')
             else:
-                self.pg.execute(f'update player_tb set {target}={target}+{plus} where id = {self.user.id};')
+                pg.execute(f'update player_tb set {target}={target}+{plus} where id = {self.user.id};')
             return self.get_data(target)
 
     # レベル取得
@@ -245,12 +247,12 @@ class Mob:
             self.client = client
             self.battle_players = []
             try:
-                self.pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
+                pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
             except psycopg2.errors.UniqueViolation:
                 pass
             else:
                 print(f"新規Mobデータを挿入: {id}")
-            self.dtd = self.pg.fetchdict(f"select lv from mob_tb where id = {id};")[0]
+            self.dtd = pg.fetchdict(f"select lv from mob_tb where id = {id};")[0]
             self.max_hp = self.now_hp = self.dtd["lv"] * 110 + 10
             set = mob_data.select(self.dtd["lv"])
             self.type, self.name, self.img_url = set.values()
@@ -258,15 +260,15 @@ class Mob:
                 box.mobs[id] = self
 
     def get_data(self, target):
-        return self.pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
+        return pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
     def plus(self, target, plus):
         if target == 'id':
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update mob_tb set {target}={target}{plus} where id = {self.mob.id};')
+                pg.execute(f'update mob_tb set {target}={target}{plus} where id = {self.mob.id};')
             else:
-                self.pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.mob.id};')
+                pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.mob.id};')
             return self.get_data(target)
 
     def lv(self, plus=None):
