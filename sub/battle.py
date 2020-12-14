@@ -130,7 +130,8 @@ async def cbt_proc(client, user, ch):
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
     await ch.send(content=battle_log)
     
-    async def battle_result(player, mob)
+    async def battle_result(player, mob):
+        ch = mob.mob
         result_em = stp_em = item_em = spawn_em = None
         if mob.now_hp <= 0 :
             result_desc = ""
