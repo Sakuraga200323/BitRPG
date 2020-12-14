@@ -47,12 +47,15 @@ pg = None
 
 # 戦闘 #
 async def cbt_proc(client, user, ch):
+    player,mob = box.players[user.id],box.mobs[ch.id]
     if not user.id in box.players:
         print("box.playersに存在しないPlayer.idを取得")
         if not user.id in [i["id"] for i in pg.fetchdict(f"select id from player_tb;")]:
-            box.players[user.id] = avatar.Player(client, user.id)
-            print(f"Playerデータ挿入(battle.py->cbt_proc)： {box.players[user.id].user}")
-    player,mob = box.players[user.id],box.mobs[ch.id]
+            box.players[user.id] = player
+            print(f"Playerデータ挿入(battle.py->cbt_proc)： {player.user}")
+        if not user.id in [i["id"] for i in pg.fetchdict(f"select id from mob_tb;")]:
+            box.mobs[user.id] = mob
+            print(f"Mobデータ挿入(battle.py->cbt_proc)： {mob.name}")
     if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch)
         if channel:
@@ -166,21 +169,22 @@ async def cbt_proc(client, user, ch):
         
 # 戦闘から離脱 #
 async def reset(client, user, ch):
-    if not user or not ch:
-        await ch.send("プレイヤーもしくはチャンネルが見つかりません。")
-        rerturn
-    if not user.id in box.players:
-        box.players[user.id] = avatar.Player(client, user.id)
-        print(f"Playerデータ挿入： {box.players[user.id].user}")
-        return
     player,mob = box.players[user.id],box.mobs[ch.id]
+    if not user.id in box.players:
+        print("box.playersに存在しないPlayer.idを取得")
+        if not user.id in [i["id"] for i in pg.fetchdict(f"select id from player_tb;")]:
+            box.players[user.id] = player
+            print(f"Playerデータ挿入(battle.py->cbt_proc)： {player.user}")
+        if not user.id in [i["id"] for i in pg.fetchdict(f"select id from mob_tb;")]:
+            box.mobs[user.id] = mob
+            print(f"Mobデータ挿入(battle.py->cbt_proc)： {mob.name}")
     if not player.battle_ch:
         player.now_hp = player.max_hp
         await ch.send(f"HPを全回復しました。")
         return
     now_ch = client.get_channel(player.battle_ch)
     if player.battle_ch != ch.id:
-        await ch.send(f"<@{player.user.id}> は『{now_ch.mention}』で戦闘中です。")
+        await ch.send(f"<@{player.user.id}> は現在『{now_ch.mention}』で戦闘中です。")
         return
     mob.battle_end()
     await ch.send(embed = mob.spawn())
