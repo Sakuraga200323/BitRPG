@@ -160,7 +160,7 @@ async def cbt_proc(client, user, ch):
             if random() <= 0.01:
                 player.now_stp(mob.lv())
                 stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
-            result_em = discord.Embed(title="Result",description=desc,color=discord.Color.green())
+            result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
             mob.lv(1)
             spawn_em = mob.battle_end()
         for em in (result_em, stp_em, item_em, spawn_em):
