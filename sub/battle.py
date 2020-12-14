@@ -48,6 +48,8 @@ pg = None
 
 
 async def battle_start_check(player, mob):
+    ch = mob.mob
+    user = player.user
     if not user.id in box.players:
         print("box.playersに存在しないPlayer.idを取得")
         if not user.id in [i["id"] for i in pg.fetchdict(f"select id from player_tb;")]:
