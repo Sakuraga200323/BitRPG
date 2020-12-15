@@ -41,7 +41,7 @@ async def magic_1(player,mob):
     dmg1 = calc.dmg(player.STR()*2,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*0.8)
     if player.now_mp < 50:
-        dmg = 0
+        dmg1 = 0
     p_text = m_text = ""
     p_text += f"{player.user}の『BeeRay』->{dmg1}ダメージ！"
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
