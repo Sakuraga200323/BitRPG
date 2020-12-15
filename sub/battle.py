@@ -110,7 +110,7 @@ async def battle_result(player, mob):
             for id in reward_items:
                 num,item_was_droped = reward_items[id]
                 if item_was_droped:
-                    status.get_item(client,user,id,num)
+                    status.get_item(user,id,num)
                     drop_item_text += f"{item_emoji_a[id]}×{num} "
             result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
         if random() <= 0.01:
@@ -185,7 +185,7 @@ async def cbt_proc(user, ch):
 
 
 # 戦闘から離脱 #
-async def reset(client, user, ch):
+async def reset(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if not user.id in box.players:
         print("box.playersに存在しないPlayer.idを取得")
