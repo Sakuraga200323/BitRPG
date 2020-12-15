@@ -106,7 +106,7 @@ async def shop(user, ch):
                 if player.money() < cost_dict[item_id]*item_num:
                     await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     return
-                status.get_item(client,user,item_id,item_num)
+                status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id])
                 await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
 
@@ -141,14 +141,14 @@ async def shop(user, ch):
                     if item_dtd[i_name] < data[1]*item_num:
                         husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-item_dtd[i_name]} "
                         continue
-                    status.get_item(client,user,data[0],-data[1])
+                    status.get_item(user,data[0],-data[1])
                 if husoku_text != "":
                     await ch.send(f"{husoku_text}が足りないです。")
                     return
                 if player.money() < cost_dict[item_id]*item_num:
                     await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     return
-                status.get_item(client,user,item_id,item_num)
+                status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id])
                 await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
             
