@@ -71,4 +71,6 @@ async def magci_5(player,mob):
 async def use_magic(user,ch,magic):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
+    if magic in [1,"BeeRay","BR"]:
+        await magic_1(player,mob)
     
