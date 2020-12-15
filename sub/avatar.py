@@ -67,7 +67,7 @@ class Player:
             self.kill_count_, self.item_, self.money_
         ] = data_list
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
-        self.max_mp = self.now_mp = self.lv_ * 10
+        self.max_mp = self.now_mp = self.lv_
         self.battle_ch = None
         
 
@@ -91,7 +91,7 @@ class Player:
         if isinstance(plus,int):
             self.lv_ = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv_ * 100 + 10
-            self.max_mp = self.now_mp = self.lv_ * 10
+            self.max_mp = self.now_mp = self.lv_
         self.lv_ =  self.get_data("lv")
         return self.lv_
 
