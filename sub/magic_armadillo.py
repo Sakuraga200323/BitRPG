@@ -41,7 +41,7 @@ async def magic_1(player,mob):
     await battle.battle_start(player,mob)
     dmg1 = calc.dmg(player.STR()*0.8,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*2)
-    if player.now_mp < 80:
+    if player.now_mp < 30:
         dmg1 = 0
     p_text = m_text = ""
     p_text += f"{player.user}の『BeeRay』->{dmg1}ダメージ！"
@@ -67,7 +67,7 @@ async def magic_1(player,mob):
     magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
-    player.cut_mp(80)
+    player.cut_mp(30)
 #  StrengthRein #
 async def magic_2(player,mob):
     pass
