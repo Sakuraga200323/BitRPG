@@ -41,10 +41,11 @@ async def magic_1(player,mob):
     await battle.battle_start(player,mob)
     dmg1 = calc.dmg((player.STR()*0.8),mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*2)
-    mp_text = ''
     if player.now_mp < 30:
         dmg1 = 0
         mp_text = 'MP不足で'
+    else:
+        mp_text = ""
     p_text = m_text = ""
     p_text += f"{player.user}の『FinisCochlea』->{mp_text}{dmg1}ダメージ！"
     if random() <= 0.5 and not mp_text:
