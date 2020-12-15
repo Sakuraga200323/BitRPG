@@ -216,7 +216,11 @@ class Player:
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
-    
+
+    def cut_mp(self, dmg):
+        self.now_mp -= use_mp if use_mp <= self.now_mp else self.now_mp
+        return self.now_mp
+
     def battle_start(self, id):
         if self.battle_ch and id != self.battle_ch:
             print(self.user.name,"is already battling in",self.battle_ch)
