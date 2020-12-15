@@ -47,7 +47,17 @@ async def magic_1(player,mob):
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
     m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
     if not mob.now_hp <= 0:
-        m_text += f"{str(dmg2)}のダメージ！" if dmg2>=0 else battle.zero_dmg_text()
+        text = "のダメージ！"
+        # バフチェック
+        if ch.id in box.nerf:
+            dmg2 *= 0.5
+            dmg2 = int(dmg2)
+            box.nerf[chi.id] -= 1
+        if ch.id in box.stun:
+            dmg2 = 0
+            text = f"{mob.name}は動けない！"
+            box.stun[chi.id] -= 1
+        m_text += f"{str(dmg2)}の{text}" if dmg2>=0 else battle.zero_dmg_text()
         m_text += f'\n{player.user}({player.cut_hp(dmg2)}/{player.max_hp})\n{battle.hp_gauge(player)}'
     magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
     await mob.mob.send(content=magic_log)
