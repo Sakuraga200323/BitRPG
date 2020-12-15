@@ -54,7 +54,7 @@ client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
-shop.client = battle.client = rank.client = status.client = avatar.client = check_macro.client = wolf.client = client
+shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = wolf.client = client
 
 
 # コマンド使用中のチャンネル
@@ -317,11 +317,12 @@ async def on_message(message):
                     description=(
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
                         + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n")
+                )
 
 
             # ヘルプ #
             if m_ctt == "^^help":
-                await help.help(m_ch, m_author)
+                await help.help(m_author, m_ch)
 
 
             # ステータスの表示 #
