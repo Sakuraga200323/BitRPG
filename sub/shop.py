@@ -16,7 +16,7 @@ import traceback
 from sub import box, status
 JST = timezone(timedelta(hours=+9), 'JST')
 pg = None
-
+client = None
 
 items_name = {
     1:"冒険者カード",
@@ -53,7 +53,7 @@ items_emoji_a = {
 }
 
 
-async def shop(client, ch, user):
+async def shop(user, ch):
     player = box.players[user.id]
     shop_em = discord.Embed(
         title="Shop",
