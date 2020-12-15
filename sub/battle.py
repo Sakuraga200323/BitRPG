@@ -226,6 +226,6 @@ async def use_magic(user,ch,target):
     if player.magic_class() == "Wolf":
         await magic_wolf.use_magic(user,ch,target)
     if player.magic_class() == "Armadillo":
-        await magic_wolf.use_magic(user,ch,target)
+        await magic_armadillo.use_magic(user,ch,target)
     if player.magic_class() == "Orca":
-        await magic_wolf.use_magic(user,ch,target)
+        await magic_orca.use_magic(user,ch,target)
