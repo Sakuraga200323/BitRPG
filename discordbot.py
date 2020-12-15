@@ -346,7 +346,7 @@ async def on_message(message):
                 print("^^magic: ",m_author)
                 pattern = r"^\^\^(m|magic) (.+)"
                 result = re.search(pattern, m_ctt)
-                if result:await magic_wolf.use_magic(m_author,m_ch,result.group(2))
+                if result:await battle.use_magic(m_author,m_ch,result.group(2))
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
