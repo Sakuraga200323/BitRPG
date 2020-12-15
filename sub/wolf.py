@@ -36,7 +36,7 @@ client = None
 
 
 # BeeRay #
-async def magci_1(player,mob):
+async def magic_1(player,mob):
     await battle.battle_start(player,mob)
     dmg1 = calc.dmg(player.STR()*2,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*0.8)
@@ -54,16 +54,16 @@ async def magci_1(player,mob):
     await battle.battle_result(player, mob)
     player.cut_mp(50)
 #  StrengthRein #
-async def magci_2(player,mob):
+async def magic_2(player,mob):
     pass
 # IgnisStrike #
-async def magci_3(player,mob):
+async def magic_3(player,mob):
     pass
 # StrengthRein+ #
-async def magci_4(player,mob):
+async def magic_4(player,mob):
     pass
 # PyrobolusLacrima #
-async def magci_5(player,mob):
+async def magic_5(player,mob):
     pass
 
 
@@ -71,6 +71,6 @@ async def magci_5(player,mob):
 async def use_magic(user,ch,magic):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
-    if magic in [1,"BeeRay","BR"]:
+    if magic in ["1","BeeRay","BR"]:
         await magic_1(player,mob)
     
