@@ -126,7 +126,7 @@ async def battle_result(player, mob):
 
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
-    num = int((avatar.now_hp/avatar.max_hp())*20)
+    num = int((avatar.now_hp/avatar.max_hp)*20)
     guage_1 = ((num)*"/")+((20-num)*" ")
     return ('-[' if num<11 else '+[' if num<5 else " [") + ("-"*20 if num<=0 else guage_1) + ']'
 
