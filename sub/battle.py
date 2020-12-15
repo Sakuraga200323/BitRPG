@@ -130,8 +130,6 @@ async def battle_result(player, mob):
 async def cbt_proc(client, user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     await battle_start_check(player, mob)
-    global client
-    client = client
     # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
     dmg1,dmg2 = calc.dmg(player.STR(), mob.defe()),calc.dmg(mob.str(), player.DEFE())
     dmg2 = int(dmg2*1.45) if mob.name=="古月" else dmg2
