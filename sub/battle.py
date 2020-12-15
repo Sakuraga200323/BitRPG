@@ -137,7 +137,7 @@ def zero_dmg_text():
 
 
 # 戦闘 #
-async def cbt_proc(client, user, ch):
+async def cbt_proc(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     await battle_start(player, mob)
     # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
