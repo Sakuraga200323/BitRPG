@@ -41,14 +41,16 @@ async def magic_1(player,mob):
     await battle.battle_start(player,mob)
     dmg1 = calc.dmg(player.STR()*2,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*0.5)
+    mp_text = ''
     if player.now_mp < 50:
         dmg1 = 0
+        mp_text = 'MP不足で'
     p_text = m_text = ""
-    p_text += f"{player.user}の『BeeRay』->{dmg1}ダメージ！"
+    p_text += f"{player.user}の『BeeRay』->{mp_text}{dmg1}ダメージ！"
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
     m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
     if not mob.now_hp <= 0:
-        text = "のダメージ！"
+        text = f"{str(dmg2)}ののダメージ！"
         # バフチェック
         if ch.id in box.nerf:
             dmg2 *= 0.5
@@ -58,7 +60,7 @@ async def magic_1(player,mob):
             dmg2 = 0
             text = f"{mob.name}は動けない！"
             box.stun[ch.id] -= 1
-        m_text += f"{str(dmg2)}の{text}" if dmg2>=0 else battle.zero_dmg_text()
+        m_text += f"{text}" if dmg2>=0 else battle.zero_dmg_text()
         m_text += f'\n{player.user}({player.cut_hp(dmg2)}/{player.max_hp})\n{battle.hp_gauge(player)}'
     magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
     await mob.mob.send(content=magic_log)
