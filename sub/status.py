@@ -23,6 +23,7 @@ def my_round(val, digit=0):
     return (val * p * 2 + 1) // 2 / p
 
 pg = None
+client = None
 
 # 全アイテムの {ID:名前} #
 items_name = {1:"冒険者カード", 2:"HP回復薬", 3:"MP回復薬", 4:"魂の焔", 5:"砥石", 6:"魔石", 7:"魔晶", 8:"魔硬貨"}
@@ -66,7 +67,7 @@ items_image = {
 }
 
 # ステータス #
-async def open_status(client, user, ch):
+async def open_status(user,ch):
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
@@ -109,7 +110,7 @@ async def open_status(client, user, ch):
 
 
 # インベントリー #
-async def open_inventory(client, ch, user):
+async def open_inventory(user,ch):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
     for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
@@ -120,7 +121,7 @@ async def open_inventory(client, ch, user):
 
 
 # STP振り分け #
-async def divid(client, user, ch, result):
+async def divid(user, ch, result):
     p_data = box.players[user.id]
     target = result.group(1)
     point = int(result.group(2))
@@ -137,7 +138,7 @@ async def divid(client, user, ch, result):
 
 
 # レベル上限解放 #
-async def up_max_lv(client, ch, user):
+async def up_max_lv(user,ch):
     player = box.players[user.id]
     item_num = pg.fetchdict(f"SELECT item->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num < 250:
@@ -152,7 +153,7 @@ async def up_max_lv(client, ch, user):
 
 
 # アイテムの確保 #
-def get_item(client=None, user, item_id, num):
+def get_item(user, item_id, num):
     player = box.players[user.id]
     item = items_name[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
@@ -160,7 +161,7 @@ def get_item(client=None, user, item_id, num):
     
 
 # アイテムの使用 #
-async def use_item(client, ch, user, item):
+async def use_item(user, ch, item):
     player = box.players[user.id]
     if item in list(items_name.keys()):
         item_name = items_name[item]
