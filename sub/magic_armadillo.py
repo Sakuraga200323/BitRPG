@@ -47,7 +47,7 @@ async def magic_1(player,mob):
         mp_text = 'MP不足で'
     p_text = m_text = ""
     p_text += f"{player.user}の『FinisCochlea』->{mp_text}{dmg1}ダメージ！"
-    if random() <= 0.5:
+    if random() <= 0.5 and not mp_text:
         p_text += f"{mob.name}がナーフ！"
         box.nerf[ch.id]= 5
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
