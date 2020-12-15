@@ -159,31 +159,30 @@ async def cbt_proc(user, ch):
         box.nerf[ch.id] -= 1
     if ch.id in box.stun:
         dmg2 = 0
-        t2 = f"{mob.name}は動けない！"
         box.stun[ch.id] -= 1
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         log1_1 += f'{player.user}の攻撃->'
         dmg1 = round(x * dmg1)
-        log1_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else zero_dmg_text()
+        log1_1 += f"{dmg1}の{t}" if dmg1!=0 else f"{mob.name}は動けない！" if ch.id in box.stun else zero_dmg_text()
         log1_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
         log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'{mob.name}の攻撃->'
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
-            log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
+            log2_1 += f"{dmg2}の{t2}" if dmg2!=0 else zero_dmg_text()
             log2_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
 
     # 戦闘処理（Player後手） #
     else:
         log1_1 += f'{mob.name}の攻撃->'
         dmg2 = round(x2 * dmg2)
-        log1_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
+        log1_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else f"{mob.name}は動けない！" if ch.id in box.stun else zero_dmg_text()
         log1_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'{user}の攻撃->'
         if not player.now_hp <= 0 :
             dmg1 = round(x * dmg1)
-            log2_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else zero_dmg_text()
+            log2_1 += f"{str(dmg1)}の{t}" if dmg2!=0 else zero_dmg_text()
             log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
