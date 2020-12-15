@@ -315,7 +315,7 @@ async def on_message(message):
                 await m_ch.send(embed=discord.Embed(
                     title="Invite & Other URL",
                     description="▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
-                )
+                ))
 
 
             # ヘルプ #
