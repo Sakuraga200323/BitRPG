@@ -148,10 +148,11 @@ async def up_max_lv(client, ch, user):
     player.max_lv(1000)
     player.get_exp(1)
     await ch.send(f"<@{user.id}>のレベル上限が1000解放されました！")
+    get_item(user,6,-250)
 
 
 # アイテムの確保 #
-def get_item (client, user, item_id, num):
+def get_item (client=client, user, item_id, num):
     player = box.players[user.id]
     item = items_name[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
