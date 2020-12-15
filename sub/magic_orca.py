@@ -44,7 +44,7 @@ async def magic_1(player,mob):
     if player.now_mp < 80:
         dmg1 = 0
     p_text = m_text = ""
-    p_text += f"{player.user}の『BeeRay』->{dmg1}ダメージ！"
+    p_text += f"{player.user}の『StunFin』->{dmg1}ダメージ！"
     if random() <= 0.75:
         p_text += f"[mob.name]がスタン！"
         box.stun[mob.mob.id] = 3
