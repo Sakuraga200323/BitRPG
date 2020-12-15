@@ -88,6 +88,7 @@ async def battle_result(player, mob):
         5:(choice((1,2)),mob.name in ("Golem",)),
         6:(randint(3,6),random()<=0.03)}
     ch = mob.mob
+    user = player.user
     result_em = stp_em = item_em = spawn_em = None
     if mob.now_hp <= 0 :
         result_desc = ""
