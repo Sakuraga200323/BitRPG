@@ -43,9 +43,10 @@ async def magic_1(player,mob):
     dmg2 = calc.dmg(mob.str(),player.DEFE())
     if player.now_mp < 80:
         dmg1 = 0
+        mp_text = 'MP不足で'
     p_text = m_text = ""
-    p_text += f"{player.user}の『StunFin』->{dmg1}ダメージ！"
-    if random() <= 0.75:
+    p_text += f"{player.user}の『StunFin』->{mp_text}{dmg1}ダメージ！"
+    if random() <= 0.75 and not mp_text:
         p_text += f"{mob.name}がスタン！"
         box.stun[mob.mob.id] = 3
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
