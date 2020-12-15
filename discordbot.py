@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, battle, rank, status, avatar, check_macro, help, shop, wolf
+from sub import box, battle, rank, status, avatar, check_macro, help, shop, magic_wolf, magic_orca
 
 
 
