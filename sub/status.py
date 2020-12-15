@@ -152,7 +152,7 @@ async def up_max_lv(client, ch, user):
 
 
 # アイテムの確保 #
-def get_item(client=client, user, item_id, num):
+def get_item(client=None, user, item_id, num):
     player = box.players[user.id]
     item = items_name[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
