@@ -156,11 +156,11 @@ async def cbt_proc(user, ch):
     if ch.id in box.nerf:
         dmg2 *= 0.5
         dmg2 = int(dmg2)
-        box.nerf[chi.id] -= 1
+        box.nerf[ch.id] -= 1
     if ch.id in box.stun:
         dmg2 = 0
         t2 = f"{mob.name}は動けない！"
-        box.stun[chi.id] -= 1
+        box.stun[ch.id] -= 1
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
