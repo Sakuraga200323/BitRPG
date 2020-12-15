@@ -268,7 +268,7 @@ async def on_message(message):
             except Exception as e:
                 await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
-                emojis = staus.items_emoji_a
+                emojis = status.items_emoji_a
                 embed = discord.Embed(
                     description=f"<@{m_author.id}> はを獲得した。",
                     color=discord.Color.green())
