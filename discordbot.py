@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, battle, rank, status, avatar, check_macro, help, shop, magic_wolf, magic_orca
+from sub import box, battle, rank, status, avatar, check_macro, help, shop, magic_wolf, magic_orca,magic_armadillo
 
 
 
@@ -54,7 +54,7 @@ client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
-shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_orca = client
+shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_armadillo.client = magic_orca = client
 
 
 # コマンド使用中のチャンネル
