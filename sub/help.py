@@ -3,16 +3,15 @@ import asyncio
 from datetime import datetime,timezone,timedelta
 import discord
 JST = timezone(timedelta(hours=+9), 'JST')
+client = None
 
 async def send_em(ch, title, description, timestamp=False):
     embed=discord.Embed(title=title,description=description)
     if timestamp == True:
         embed.timestamp = datetime.now(JST)
     return await ch.send(embed=embed), embed
-    
 
-
-async def help(client, ch, user):
+async def help(user,ch):
     embed = discord.Embed(
         title="BitRPB HelpURL Bord",
         description=("`各URLから公式ヘルプページにジャンプ出来ます。青字でないところはページが未完成です。`"
