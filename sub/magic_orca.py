@@ -44,6 +44,8 @@ async def magic_1(player,mob):
     if player.now_mp < 80:
         dmg1 = 0
         mp_text = 'MP不足で'
+    else:
+        mp_text = ""
     p_text = m_text = ""
     p_text += f"{player.user}の『StunFin』->{mp_text}{dmg1}ダメージ！"
     if random() <= 0.75 and not mp_text:
