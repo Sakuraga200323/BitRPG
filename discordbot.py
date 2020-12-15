@@ -54,7 +54,7 @@ client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
-shop.client = battle.client = rank.client = status.client = avatar.client = check_macro.client = client
+shop.client = battle.client = rank.client = status.client = avatar.client = check_macro.client = wolf.client = client
 
 
 # コマンド使用中のチャンネル
@@ -316,13 +316,12 @@ async def on_message(message):
                     title="Invite & Other URL",
                     description=(
                         "▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n"
-                        + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
-                        + "▶︎[Github(運営メンバー紹介、コマンド、システム説明)](https://github.com/Sakuraga200323/BitRPG)")))
+                        + "▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n")
 
 
             # ヘルプ #
             if m_ctt == "^^help":
-                await help.help(client, m_ch, m_author)
+                await help.help(m_ch, m_author)
 
 
             # ステータスの表示 #
@@ -332,7 +331,7 @@ async def on_message(message):
                 pattern = r"\^\^(st|status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
                 if result:
-                    await status.open_status(client, m_author, m_ch)
+                    await status.open_status(m_author, m_ch)
 
 
             # 戦闘 #
@@ -341,8 +340,14 @@ async def on_message(message):
                 temp = m_ctt
                 pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
-                if result: await battle.cbt_proc(client, m_author,m_ch)
+                if result: await battle.cbt_proc(m_author,m_ch)
 
+            # アイテム #
+            if m_ctt.startswith("^^m"):
+                print("^^magic: ",m_author)
+                pattern = r"^\^\^(m|magic) (.+)"
+                result = re.search(pattern, m_ctt)
+                if result:await wolf.use_magic(m_author,m_ch,result.group(2))
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
@@ -350,7 +355,7 @@ async def on_message(message):
                 temp = m_ctt
                 pattern = r"^\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
-                if result: await battle.reset(client, m_author, m_ch)
+                if result: await battle.reset(m_author, m_ch)
 
 
             # STPの振り分け #
@@ -358,7 +363,7 @@ async def on_message(message):
                 print("^^point: ",m_author)
                 pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
-                if result: await status.divid(client, m_author, m_ch, result)
+                if result: await status.divid(m_author, m_ch, result)
 
 
             # レベルランキングの表示 #
@@ -375,20 +380,20 @@ async def on_message(message):
                 pattern2 = r"\^\^(i|item)$"
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
-                if result:await status.use_item(client, m_ch, m_author, result.group(2))
-                elif result2: await status.open_inventory(client, m_ch, m_author)
+                if result:await status.use_item(m_author, m_ch, result.group(2))
+                elif result2: await status.open_inventory(m_author, m_ch)
 
 
             # Lv上限解放 #
             if m_ctt == "^^lvunlock":
                 print("^^lvunlock: ",m_author)
-                await status.up_max_lv(client, m_ch, m_author)
+                await status.up_max_lv(m_author, m_ch)
 
 
             # shop #
             if m_ctt == "^^shop":
                 print("^^shop: ", m_author)
-                await shop.shop(client, m_ch, m_author)
+                await shop.shop(m_author, m_ch)
 
         finally:
             cmd_lock[m_ch.id] = False
