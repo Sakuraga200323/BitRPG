@@ -216,3 +216,16 @@ async def reset(user, ch):
     mob.battle_end()
     await ch.send(embed = mob.spawn())
                     
+
+
+
+
+# Magic #
+async def use_magic(user,ch,target):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    if player.magic_class() == "Wolf":
+        await magic_wolf.use_magic(user,ch,target)
+    if player.magic_class() == "Armadillo":
+        await magic_wolf.use_magic(user,ch,target)
+    if player.magic_class() == "Orca":
+        await magic_wolf.use_magic(user,ch,target)
