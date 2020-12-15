@@ -217,7 +217,7 @@ class Player:
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
 
-    def cut_mp(self, dmg):
+    def cut_mp(self, use_mp):
         self.now_mp -= use_mp if use_mp <= self.now_mp else self.now_mp
         return self.now_mp
 
