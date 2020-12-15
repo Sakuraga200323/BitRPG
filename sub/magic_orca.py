@@ -37,6 +37,7 @@ client = None
 
 # StunFin #
 async def magic_1(player,mob):
+    ch = mob.mob
     await battle.battle_start(player,mob)
     dmg1 = calc.dmg(player.STR()*0.8,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE())
