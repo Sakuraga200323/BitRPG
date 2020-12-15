@@ -61,7 +61,7 @@ async def battle_start(player, mob):
     if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch)
         if channel:
-            await ch.send(f"<@{user.id}> は現在『{now_ch.mention}』で戦闘中です。")
+            await ch.send(f"<@{user.id}> は現在『{channel.mention}』で戦闘中です。")
             return
         await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
         player.battle_end()
