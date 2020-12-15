@@ -47,7 +47,7 @@ client = None
 
 
 
-async def battle_start_check(player, mob):
+async def battle_start(player, mob):
     ch = mob.mob
     user = player.user
     if not user.id in box.players:
@@ -62,19 +62,18 @@ async def battle_start_check(player, mob):
         channel = client.get_channel(player.battle_ch)
         if channel:
             await ch.send(f"<@{user.id}> は現在『{now_ch.mention}』で戦闘中です。")
-            return 0
+            return
         await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
         player.battle_end()
         if player.battle_start(ch.id):
             await ch.send(f"上書き完了")
         else:
             await ch.send(f"上書き失敗、戦闘に参加できていません。")
-            return 0
+            return
     if player.now_hp <= 0:
         await ch.send(f"<@{user.id}> は既に死亡しています。")
-        return 0
+        return
     mob.player_join(user.id)
-    return 1
 
 
 
@@ -125,57 +124,57 @@ async def battle_result(player, mob):
 
 
 
+# HPゲージ作成関数 #
+def hp_gauge(avatar):
+    num = int((avatar.now_hp/avatar.max_hp())*20)
+    guage_1 = ((num)*"/")+((20-num)*" ")
+    return ('-[' if num<11 else '+[' if num<5 else " [") + ("-"*20 if num<=0 else guage_1) + ']'
+
+# ダメージがない場合のメッセージ #
+def zero_dmg_text():
+    text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
+    return choice(text)
 
 
 # 戦闘 #
 async def cbt_proc(client, user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
-    await battle_start_check(player, mob)
+    await battle_start(player, mob)
     # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
     dmg1,dmg2 = calc.dmg(player.STR(), mob.defe()),calc.dmg(mob.str(), player.DEFE())
     dmg2 = int(dmg2*1.45) if mob.name=="古月" else dmg2
     log1_1 = log2_1 = ""
 
-    # HPゲージ作成関数 #
-    def hp_gauge(now, max):
-        num = int((now/max)*20)
-        guage_1 = ((num)*"/")+((20-num)*" ")
-        return ('-[' if num<11 else '+[') + ("-"*20 if now<=0 else guage_1) + ']'
 
     a,b = random(),random()
     t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
     t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
     t += "ダメージ！"
     t2 += "ダメージ！"
-    
-    # ダメージがない場合のメッセージ #
-    def zero_dmg_text():
-        text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
-        return choice(text)
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         log1_1 += f'{player.user}の攻撃->'
         dmg1 = round(x * dmg1)
         log1_1 += f"{str(dmg1)}の{t}" if dmg1!=0 else zero_dmg_text()
-        log1_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob.now_hp, mob.max_hp)}'
+        log1_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
         log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'{mob.name}の攻撃->'
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
             log2_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else zero_dmg_text()
-            log2_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player.now_hp, player.max_hp)}'
+            log2_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
 
     # 戦闘処理（Player後手） #
     else:
         log1_1 += f'{mob.name}の攻撃->'
         dmg2 = round(x * dmg2)
         log1_1 += f"{str(dmg2)}の{t}" if dmg2!=0 else zero_dmg_text()
-        log1_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player.now_hp, player.max_hp)}'
+        log1_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'{user}の攻撃->'
         if not player.now_hp <= 0 :
             dmg1 = round(x2 * dmg1)
             log2_1 += f"{str(dmg1)}の{t2}" if dmg1!=0 else zero_dmg_text()
-            log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob.now_hp, mob.max_hp)}'
+            log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
     await ch.send(content=battle_log)
