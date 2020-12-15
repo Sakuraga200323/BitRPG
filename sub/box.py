@@ -5,3 +5,7 @@ cmd_user = []
 cbt_user = {}
 cbt_ch = {}
 cmd_ch = []
+
+# デバフ　バフ系
+stun = {}
+nerf = {}
