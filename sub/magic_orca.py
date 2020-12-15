@@ -67,7 +67,7 @@ async def magic_1(player,mob):
     magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
-    player.cut_mp(50)
+    player.cut_mp(80)
 #  StrengthRein #
 async def magic_2(player,mob):
     pass
