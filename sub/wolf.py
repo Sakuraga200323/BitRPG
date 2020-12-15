@@ -44,7 +44,7 @@ async def magci_1(player,mob):
         dmg = 0
     p_text = m_text = ""
     p_text += f"{player.user}の『BeeRay』->{dmg1}ダメージ！"
-    p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)
+    p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)"
     m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
     if not mob.now_hp <= 0:
         m_text += f"{str(dmg2)}の{t2}" if dmg2>=0 else battle.zero_dmg_text()
