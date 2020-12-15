@@ -39,14 +39,14 @@ client = None
 async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
-    dmg1 = calc.dmg(player.STR()*0.8,mob.defe())
+    dmg1 = calc.dmg((player.STR()*0.8),mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*2)
     if player.now_mp < 30:
         dmg1 = 0
     p_text = m_text = ""
     p_text += f"{player.user}の『FinisCochlea』->{dmg1}ダメージ！"
     if random() <= 0.5:
-        p_text += f"[mob.name]がナーフ！"
+        p_text += f"{mob.name}がナーフ！"
         box.nerf[ch.id]= 5
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
     m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
