@@ -224,6 +224,17 @@ async def reset(user, ch):
 
 
 # Magic #
+
+
+async def open_magic(user,ch):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    if player.magic_class() == "Wolf":
+        await magic_wolf.open_magic(user,ch)
+    if player.magic_class() == "Armadillo":
+        await magic_armadillo.open_magic(user,ch)
+    if player.magic_class() == "Orca":
+        await magic_orca.open_magic(user,ch)
+
 async def use_magic(user,ch,target):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if player.magic_class() == "Wolf":
