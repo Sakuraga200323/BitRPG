@@ -14,7 +14,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box
+from sub import box, status
 from anti_macro import anti_macro
 
 
@@ -56,7 +56,8 @@ async def check_macro(client, user, ch):
         else:
             temp = answer.content
             if int(answer.content) == int(num):
-                await ch.send(f'正解!!')
+                await ch.send(f'正解!!\nアイテム配布: 魔石×10')
+                status.get_item(user, 6, 10)
                 check_flag = False
                 result = True
             elif str(num) != str(answer.content):
