@@ -39,6 +39,8 @@ items_emoji = {
     6:"<:maseki:785641515561123921>",
     7:"<:masuisyou:786516036673470504>",
     8:"<:magic_coin:786513121236746260>",
+    9:"<:mp_full_potion:788668620314116106>"
+    10:"<:hp_full_potion:788668620074385429>"
 }
 
 items_emoji_a = {
@@ -50,6 +52,8 @@ items_emoji_a = {
     6:"<:maseki:785641515561123921>",
     7:"<a:masuisyou_a:786982694948306974>",
     8:"<a:magic_coin_a:786966211594289153>"
+    9:"<:mp_full_potion:788668620314116106>"
+    10:"<:hp_full_potion:788668620074385429>"
 }
 
 
@@ -82,19 +86,21 @@ async def shop(user, ch):
             service_em1 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji_a[2]}`HP回復薬　`[`100`cell]"
-                    + f"\n`2.`{items_emoji_a[3]}`MP回復薬　`[`100`cell]"
-                    + f"\n`3.`{items_emoji_a[4]}`魂の焔　  `[`10`cell]"
-                    + f"\n`4.`{items_emoji_a[5]}`砥　石　  `[`500`cell]"
-                    + f"\n`5.`{items_emoji_a[6]}`魔　石　  `[`150`cell]"
-                    + f"\n`6.`{items_emoji_a[7]}`魔　晶　  `[`1000`cell]"
-                    + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[`2000`cell]"
+                    + f"\n`1.`{items_emoji_a[2]}`HP回復薬　`[100cell]"
+                    + f"\n`2.`{items_emoji_a[3]}`MP回復薬　`[100cell]"
+                    + f"\n`3.`{items_emoji_a[4]}`魂の焔　  `[10cell]"
+                    + f"\n`4.`{items_emoji_a[5]}`砥　石　  `[500cell]"
+                    + f"\n`5.`{items_emoji_a[6]}`魔　石　  `[150cell]"
+                    + f"\n`6.`{items_emoji_a[7]}`魔　晶　  `[1000cell]"
+                    + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[2000cell]"
+                    + f"\n`8.`{items_emoji_a[2]}`HP全回復薬`[100cell]"
+                    + f"\n`9.`{items_emoji_a[3]}`MP全回復薬`[100cell]"
             ))
             await shop_em_msg.edit(embed=service_em1)
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
             except asyncio.TimeoutError:
-                await ch.send(f"冷やかしはお断りだよ！")
+                await ch.send(f"冷やかしはお断りだよ、出直してきな！")
             else:
                 pattern = r'^(\d+) (\d+)$'
                 result = re.search(pattern, msg.content)
@@ -114,14 +120,16 @@ async def shop(user, ch):
             service_em2 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji_a[7]}`魔　晶　  `[`500`cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]"
-                    + f"\n`2.`{items_emoji_a[8]}`魔硬貨 　 `[`750`cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]"
+                    + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]"
+                    + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]"
+                    + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[300cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]"
+                    + f"\n`4.`{items_emoji_a[10]}`MP全回復薬`[300cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]"
             ))
             await shop_em_msg.edit(embed=service_em2)
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
             except asyncio.TimeoutError:
-                await ch.send(f"冷やかしはお断りだよ！")
+                await ch.send(f"冷やかしはお断りだよ、出直してきな！")
             else:
                 pattern = r'^(\d+) (\d+)$'
                 result = re.search(pattern, msg.content)
@@ -141,7 +149,7 @@ async def shop(user, ch):
                     if item_dtd[i_name] < data[1]*item_num:
                         husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-item_dtd[i_name]} "
                         continue
-                    status.get_item(user,data[0],-data[1])
+                    status.get_item(user,data[0],-data[1]*item_num)
                 if husoku_text != "":
                     await ch.send(f"{husoku_text}が足りないです。")
                     return
@@ -149,7 +157,7 @@ async def shop(user, ch):
                     await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     return
                 status.get_item(user,item_id,item_num)
-                player.money(-cost_dict[item_id])
+                player.money(-cost_dict[item_id]*item_numd)
                 await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
             
                 
