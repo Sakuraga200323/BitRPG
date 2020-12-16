@@ -105,7 +105,7 @@ async def on_ready():
         if client.get_user(player_id):
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
-            print("Playerデータ挿入： ",player.user,"\n",player.dtd)
+            print("Playerデータ挿入： ",player.user,"\n",player.dtd.values())
     print(len(player_ids), len(box.players))
     p_num_result = (len(player_ids)==len(box.players))
     desc = (
