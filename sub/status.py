@@ -216,6 +216,32 @@ async def use_item(user, ch, item):
             item_em = discord.Embed(description=text)
         else:
             item_em = discord.Embed(description=f"なにも起こらなかった…")
+    if item == "HP全回復薬":
+        print("HP全回復薬:",player.user)
+        if player.now_hp < player.max_hp:
+            cure_num = player.max_hp
+            if player.now_hp + cure_num > player.max_hp:
+                  player.now_hp = player.max_hp
+                  text = f"<@{player.user.id}>のHPが全回復！"
+            else:
+                  player.now_hp += cure_num
+                  text = f"<@{player.user.id}>のHPが{cure_num}回復"
+            item_em = discord.Embed(description=text)
+        else:
+            item_em = discord.Embed(description=f"なにも起こらなかった…")
+    if item == "MP回復薬":
+        print("MP回復薬:",player.user)
+        if player.now_mp < player.max_mp:
+            cure_num = player.max_mp
+            if player.now_mp + cure_num > player.max_mp:
+                  player.now_mp = player.max_mp
+                  text = f"<@{player.user.id}>のMPが全回復！"
+            else:
+                  player.now_mp += cure_num
+                  text = f"<@{player.user.id}>のMPが{cure_num}回復"
+            item_em = discord.Embed(description=text)
+        else:
+            item_em = discord.Embed(description=f"なにも起こらなかった…")
     if item == "魔硬貨":
         print("魔硬貨:",player.user)
         result = random.choice("裏","表")
@@ -232,8 +258,12 @@ async def use_item(user, ch, item):
         embed.set_thumbnail(url=user.avatar_url)
         embed.timestamp = datetime.now(JST)
         await ch.send(embed=embed)
+
+
+
     if item_em:
-        item_em.set_thumbnail(url=items_image[item])
+        if item in items_image:
+            item_em.set_thumbnail(url=items_image[item])
         await ch.send(embed=item_em)
 
 
