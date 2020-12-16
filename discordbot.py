@@ -269,10 +269,7 @@ async def on_message(message):
                 await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
                 emojis = status.items_emoji_a
-                embed = discord.Embed(
-                    description=f"<@{m_author.id}> はを獲得した。",
-                    color=discord.Color.green())
-                await m_ch.send(content = f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1" , embed=embed) 
+                await m_ch.send(content = f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1") 
             player = avatar.Player(client, m_author.id)
             if not m_author.id in box.players:
                 box.players[m_author.id] = player
