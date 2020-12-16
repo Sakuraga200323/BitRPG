@@ -97,11 +97,11 @@ async def magic_5(player,mob):
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="BeeRay",Value=f"`必要熟練度： 0\nSTR{150+(player.magic_lv()/1000/100)}%の攻撃魔法`",inline=False)
-    magic_em.add_field(name="StrengthRein",Value=f"`必要熟練度： 500\n未実装`",inline=False)
-    magic_em.add_field(name="IgnisStrike",Value=f"`必要熟練度： 1000\n未実装`",inline=False)
-    magic_em.add_field(name="StrengthRein+",Value=f"`必要熟練度： 2000\n未実装`",inline=False)
-    magic_em.add_field(name="PyrobolusLacrima",Value=f"`必要熟練度： 4000\n未実装`",inline=False)
+    magic_em.add_field(name="BeeRay",value=f"`必要熟練度： 0\nSTR{150+(player.magic_lv()/1000/100)}%の攻撃魔法`",inline=False)
+    magic_em.add_field(name="StrengthRein",value=f"`必要熟練度： 500\n未実装`",inline=False)
+    magic_em.add_field(name="IgnisStrike",value=f"`必要熟練度： 1000\n未実装`",inline=False)
+    magic_em.add_field(name="StrengthRein+",value=f"`必要熟練度： 2000\n未実装`",inline=False)
+    magic_em.add_field(name="PyrobolusLacrima",value=f"`必要熟練度： 4000\n未実装`",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
