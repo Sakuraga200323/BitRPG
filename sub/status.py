@@ -247,7 +247,7 @@ async def use_item(user, ch, item):
         result = random.choice("裏","表")
         item_em = discord.Embed(description=f"コインを投げた…{result}!")
     if item == "冒険者カード":
-        players_ranking = [ i[id] pg.fetchdict(f"SELECT id FROM player_tb order by lv desc;") ]
+        players_ranking = [ i[id] for i in pg.fetchdict(f"SELECT id FROM player_tb order by lv desc;") ]
         player_ranking = players_ranking.index(user.id) + 1
         embed = discord.Embed(title="Adventure Info")
         embed.add_field(name="Name",value=f"*{player.user.name}*")
