@@ -229,8 +229,8 @@ async def use_item(user, ch, item):
             item_em = discord.Embed(description=text)
         else:
             item_em = discord.Embed(description=f"なにも起こらなかった…")
-    if item == "MP回復薬":
-        print("MP回復薬:",player.user)
+    if item == "MP全回復薬":
+        print("MP全回復薬:",player.user)
         if player.now_mp < player.max_mp:
             cure_num = player.max_mp
             if player.now_mp + cure_num > player.max_mp:
