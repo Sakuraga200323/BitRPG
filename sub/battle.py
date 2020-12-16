@@ -84,7 +84,7 @@ async def battle_result(player, mob):
         2:(randint(3,6),random()<=0.05),
         3:(randint(3,6),random()<=0.05),
         4:(1,True),
-        5:(choice((1,2)),mob.name in ("Golem",)),
+        5:(choice((1,2)),mob.name in ["Golem",]),
         6:(randint(3,6),random()<=0.03)}
     ch = mob.mob
     user = player.user
@@ -170,7 +170,7 @@ async def cbt_proc(user, ch):
         log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'{mob.name}の攻撃->'
         if not mob.now_hp <= 0:
             dmg2 = round(x2 * dmg2)
-            log2_1 += f"{dmg2}の{t2}" if dmg2!=0 else zero_dmg_text()
+            log2_1 += f"{dmg2}の{t2}" if dmg2>0 else zero_dmg_text()
             log2_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
 
     # 戦闘処理（Player後手） #
@@ -182,7 +182,7 @@ async def cbt_proc(user, ch):
         log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'{user}の攻撃->'
         if not player.now_hp <= 0 :
             dmg1 = round(x * dmg1)
-            log2_1 += f"{str(dmg1)}の{t}" if dmg2!=0 else zero_dmg_text()
+            log2_1 += f"{str(dmg1)}の{t}" if dmg1>0 else zero_dmg_text()
             log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
 
     battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
