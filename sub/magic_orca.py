@@ -35,7 +35,7 @@ client = None
 
 
 
-# StunFin #
+# StunRain #
 async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
@@ -85,11 +85,20 @@ async def magic_4(player,mob):
 async def magic_5(player,mob):
     pass
 
-
+async def open_magic(user,ch):
+    player = box.players[user.id]
+    magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
+    magic_em.add_field(name="`1.`StunRain",value=f"必要熟練度： **0**\nSTR**{80+(player.magic_lv()/1000/100)}**%の攻撃魔法 **50**%で敵を**3**ターンStun状態にする ",inline=False)
+    magic_em.add_field(name="`2.`-",value=f"`必要熟練度： 500\n未実装`",inline=False)
+    magic_em.add_field(name="`3.`-",value=f"`必要熟練度： 1000\n未実装`",inline=False)
+    magic_em.add_field(name="`4.`-+",value=f"`必要熟練度： 2000\n未実装`",inline=False)
+    magic_em.add_field(name="`5.`-",value=f"`必要熟練度： 4000\n未実装`",inline=False)
+    magic_em.set_thumbnail(url=user.avatar_url)
+    await ch.send(embed=magic_em)
 
 async def use_magic(user,ch,magic):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
-    if magic in ["1","StunFin","ST"]:
+    if magic in ["1","StunRain","SR"]:
         await magic_1(player,mob)
     
