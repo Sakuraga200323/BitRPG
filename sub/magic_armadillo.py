@@ -39,7 +39,8 @@ client = None
 async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
-    dmg1 = calc.dmg((player.STR()*0.8),mob.defe())
+    build_up_num = 0.8 + ({player.magic_lv()/1000}/100)
+    dmg1 = calc.dmg((player.STR()*build_up_num),mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*2)
     if player.now_mp < 30:
         dmg1 = 0
@@ -71,6 +72,7 @@ async def magic_1(player,mob):
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.cut_mp(30)
+    player.magic_lv(1)
 #  StrengthRein #
 async def magic_2(player,mob):
     pass
