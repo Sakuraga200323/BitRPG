@@ -49,7 +49,7 @@ async def magic_1(player,mob):
         mp_text = ""
     p_text = m_text = ""
     p_text += f"{player.user}の『StunFin』->{mp_text}{dmg1}ダメージ！"
-    if random() <= 0.75 and not mp_text:
+    if random() <= 0.50 and not mp_text:
         p_text += f"{mob.name}がスタン！"
         box.stun[mob.mob.id] = 3
     p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
@@ -71,7 +71,8 @@ async def magic_1(player,mob):
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.cut_mp(80)
-    player.magic_lv(1)
+    if not mp_text:
+        player.magic_lv(1)
 #  StrengthRein #
 async def magic_2(player,mob):
     pass
