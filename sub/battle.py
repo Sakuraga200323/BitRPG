@@ -96,10 +96,10 @@ async def battle_result(player, mob):
     if mob.now_hp <= 0 :
         result_desc = ""
         now = datetime.now(JST).strftime("%H:%M")
-        if  now in ['23:18']:
-            get_exp *= 16
-            await ch.send("????『幸運を。死したものより祝福を。』")
         exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
+        if  now in ['23:18']:
+            exp *= 16
+            await ch.send("????『幸運を。死したものより祝福を。』")
         print("戦闘参加していたPlayer: ",mob.battle_players)
         for p_id in mob.battle_players:
             p = box.players[p_id]
