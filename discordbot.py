@@ -276,8 +276,8 @@ async def on_message(message):
             player = avatar.Player(client, m_author.id)
             if not m_author.id in box.players:
                 box.players[m_author.id] = player
-            await status.open_status(client, m_author, m_ch)
-            await help.help(client, m_ch, m_author)
+            await status.open_status(m_author, m_ch)
+            await help.help(m_ch, m_author)
 
         if client.get_channel(761571389345759232).name=='true':
             user_roles = [i.name for i in m_author.roles]
