@@ -351,7 +351,7 @@ class Mob:
             exp,money = self.lv()*1.5,random.randint(100, 200)
         else:
             exp,money = self.lv(),random.randint(1, 50)
-        exp = round(exp*0.75)
+        exp = round(exp*0.50)
         return exp, money
 
     def cut_hp(self, dmg):
