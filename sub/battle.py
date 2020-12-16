@@ -84,7 +84,7 @@ async def battle_result(player, mob):
         2:(randint(3,6),random()<=0.05),
         3:(randint(3,6),random()<=0.05),
         4:(1,True),
-        5:(choice((1,2)),mob.name in ["Golem",]),
+        5:(randint(1,2),mob.name in ("Golem",)),
         6:(randint(3,6),random()<=0.03)}
     ch = mob.mob
     user = player.user
