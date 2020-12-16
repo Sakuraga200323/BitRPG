@@ -39,7 +39,8 @@ client = None
 async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
-    dmg1 = calc.dmg(player.STR()*2,mob.defe())
+    build_up_num = 2 + ({player.magic_lv()/1000}/100)
+    dmg1 = calc.dmg(player.STR()*{build_up_num},mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*0.5)
     if player.now_mp < 50:
         dmg1 = 0
@@ -67,17 +68,30 @@ async def magic_1(player,mob):
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.cut_mp(50)
+    player.magic_lv(1)
 #  StrengthRein #
 async def magic_2(player,mob):
+    if player.magic_lv() <= 500:
+        await mob.mob.send(f"<@{player.id}> の熟練度が{500 - player.magic_lv()}足りません。")
+        return
     pass
 # IgnisStrike #
 async def magic_3(player,mob):
+    if player.magic_lv() <= 1000:
+        await mob.mob.send(f"<@{player.id}> の熟練度が{1000 - player.magic_lv()}足りません。")
+        return
     pass
 # StrengthRein+ #
 async def magic_4(player,mob):
+    if player.magic_lv() <= 2000:
+        await mob.mob.send(f"<@{player.id}> の熟練度が{2000 - player.magic_lv()}足りません。")
+        return
     pass
 # PyrobolusLacrima #
 async def magic_5(player,mob):
+    if player.magic_lv() <= 4000:
+        await mob.mob.send(f"<@{player.id}> の熟練度が{4000 - player.magic_lv()}足りません。")
+        return
     pass
 
 
