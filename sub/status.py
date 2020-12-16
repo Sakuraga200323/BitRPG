@@ -247,11 +247,14 @@ async def use_item(user, ch, item):
         result = random.choice("裏","表")
         item_em = discord.Embed(description=f"コインを投げた…{result}!")
     if item == "冒険者カード":
+        players_ranking = [ i[id] pg.fetchdict(f"SELECT id FROM player_tb order by lv desc;") ]
+        player_ranking = players_ranking.index(user.id) + 1
         embed = discord.Embed(title="Adventure Info")
         embed.add_field(name="Name",value=f"*{player.user.name}*")
         embed.add_field(name="MagicRegion",value=f"*{player.magic_class()}: Lv.{player.magic_lv()}*")
         embed.add_field(name="Money",value=f"*{player.money()}cell*")
         embed.add_field(name="KillCount",value=f"*{player.kill_count()}*")
+        embed.add_field(name="LevelRanking",value=f"*{player_ranking} / {len(players_ranking)}*")
         if player.battle_ch:
             cbt_ch = client.get_channel(player.battle_ch)
             embed.add_field(name="BattlePlace",value=f"{cbt_ch.mention}")
