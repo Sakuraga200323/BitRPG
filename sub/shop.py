@@ -93,8 +93,8 @@ async def shop(user, ch):
                     + f"\n`5.`{items_emoji_a[6]}`魔　石　  `[150cell]"
                     + f"\n`6.`{items_emoji_a[7]}`魔　晶　  `[1000cell]"
                     + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[2000cell]"
-                    + f"\n`8.`{items_emoji_a[2]}`HP全回復薬`[100cell]"
-                    + f"\n`9.`{items_emoji_a[3]}`MP全回復薬`[100cell]"
+                    + f"\n`8.`{items_emoji_a[2]}`HP全回復薬`[300cell]"
+                    + f"\n`9.`{items_emoji_a[3]}`MP全回復薬`[300cell]"
             ))
             await shop_em_msg.edit(embed=service_em1)
             try:
@@ -108,7 +108,7 @@ async def shop(user, ch):
                     await ch.send('ちゃんと注文して')
                     return
                 item_id, item_num = int(result.group(1))+1, int(result.group(2))
-                cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000}
+                cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300}
                 if player.money() < cost_dict[item_id]*item_num:
                     await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     return
@@ -122,8 +122,8 @@ async def shop(user, ch):
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
                     + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]"
                     + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]"
-                    + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[300cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]"
-                    + f"\n`4.`{items_emoji_a[10]}`MP全回復薬`[300cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]"
+                    + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]"
+                    + f"\n`4.`{items_emoji_a[10]}`MP全回復薬`[200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]"
             ))
             await shop_em_msg.edit(embed=service_em2)
             try:
@@ -141,7 +141,10 @@ async def shop(user, ch):
                 item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
                 material_dict = {
                     7:((5,1),(6,1)),
-                    8:((4,1),(5,1),(7,1))}
+                    8:((4,1),(5,1),(7,1)),
+                    9:((2,1),(4,10)),
+                    10:((3,1),(4,10)),
+                }
                 cost_dict = {7:500,8:750}
                 husoku_text = ""
                 for data in material_dict[item_id]:
