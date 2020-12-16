@@ -275,6 +275,7 @@ async def on_message(message):
                 box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
+            await m_author.send("BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
 
         if client.get_channel(761571389345759232).name=='true':
             user_roles = [i.name for i in m_author.roles]
@@ -306,7 +307,7 @@ async def on_message(message):
                     return
 
 
-            # IURL #
+            # URL #
             if m_ctt == "^^url":
                 print("^^url: ",m_author)
                 await m_ch.send(embed=discord.Embed(
@@ -342,8 +343,11 @@ async def on_message(message):
             if m_ctt.startswith("^^m"):
                 print("^^magic: ",m_author)
                 pattern = r"^\^\^(m|magic) (.+)"
+                pattern2 = r"^\^\^(m|magic)$"
                 result = re.search(pattern, m_ctt)
+                result2 = re.search(pattern2, m_ctt)
                 if result:await battle.use_magic(m_author,m_ch,result.group(2))
+                elif result2:await battle.open_magic(m_author,m_ch)
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
