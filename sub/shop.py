@@ -87,15 +87,15 @@ async def shop(user, ch):
             service_em1 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji_a[2] }`HP回復薬　`[100cell]"
-                    + f"\n`2.`{items_emoji_a[3] }`MP回復薬　`[100cell]"
-                    + f"\n`3.`{items_emoji_a[4] }`魂の焔　  `[10cell]"
-                    + f"\n`4.`{items_emoji_a[5] }`砥　石　  `[500cell]"
-                    + f"\n`5.`{items_emoji_a[6] }`魔　石　  `[150cell]"
-                    + f"\n`6.`{items_emoji_a[7] }`魔　晶　  `[1000cell]"
-                    + f"\n`7.`{items_emoji_a[8] }`魔硬貨 　 `[2000cell]"
-                    + f"\n`8.`{items_emoji_a[9] }`HP全回復薬`[300cell]"
-                    + f"\n`9.`{items_emoji_a[10]}`MP全回復薬`[300cell]"
+                    + f"\n`1.`{items_emoji_a[2] }`HP回復薬　`[100cell]\n`HPを30%回復`"
+                    + f"\n`2.`{items_emoji_a[3] }`MP回復薬　`[100cell]\n`MPを30%回復`"
+                    + f"\n`3.`{items_emoji_a[4] }`魂の焔　  `[10cell]\n`素材アイテム`"
+                    + f"\n`4.`{items_emoji_a[5] }`砥　石　  `[500cell]\n`素材アイテム`"
+                    + f"\n`5.`{items_emoji_a[6] }`魔　石　  `[150cell]\n`250個でレベル上限開放 素材アイテム`"
+                    + f"\n`6.`{items_emoji_a[7] }`魔　晶　  `[1000cell]\n`素材アイテム`"
+                    + f"\n`7.`{items_emoji_a[8] }`魔硬貨 　 `[2000cell]\n`とある魔法の触媒`"
+                    + f"\n`8.`{items_emoji_a[9] }`HP全回復薬`[300cell]\n`HPを100%回復`"
+                    + f"\n`9.`{items_emoji_a[10]}`MP全回復薬`[300cell]\n`MPを100%回復`"
             ))
             await shop_em_msg.edit(embed=service_em1)
             try:
@@ -121,10 +121,10 @@ async def shop(user, ch):
             service_em2 = discord.Embed(
                 title="アイテム購入",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
-                    + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]"
-                    + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]"
-                    + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]"
-                    + f"\n`4.`{items_emoji_a[10]}`MP全回復薬`[200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]"
+                    + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]\n`素材アイテム`"
+                    + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]\n`とある魔法の触媒`"
+                    + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]\n`HPを100%回復`"
+                    + f"\n`4.`{items_emoji_a[10]}`MP全回復薬`[200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]\n`MPを100%回復`"
             ))
             await shop_em_msg.edit(embed=service_em2)
             try:
