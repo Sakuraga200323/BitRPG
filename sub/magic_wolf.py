@@ -40,7 +40,7 @@ async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
     build_up_num = 2 + (player.magic_lv()/1000/100)
-    dmg1 = calc.dmg(player.STR()*{build_up_num},mob.defe())
+    dmg1 = calc.dmg(player.STR()*build_up_num,mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*0.5)
     if player.now_mp < 50:
         dmg1 = 0
