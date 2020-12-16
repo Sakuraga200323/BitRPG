@@ -176,24 +176,12 @@ async def on_message(message):
     m_guild = message.guild
     m_author = message.author
 
-    if m_author.id == 302050872383242240:
-        if message.embeds:
-            if not message.embeds[0].description: return
-            desc = message.embeds[0].description
-            if not "表示順をアップしたよ" in desc: return
-            mention = message.mentions()[0]
-            user = discord.utils.get(message.guild.members,mention=mention)
-            if not user:
-                await m_ch.send("報酬を配布しようとしたけど誰がやったかわからなかったようだ。<@715192735128092713> 仕事しろおら。")
-                return
-            status.get_item(client,user,6,10)
-            item_emoji = status.items_emoji_a[6]
-            await m_ch.send(f"<@{user.id}> さんBumpありがとう！\nアイテム配布: {item_emoji}×10")
 
     if m_ctt.startswith("^^") and not m_author.id in check_macro.macro_checking and not m_author.bot:
 
         if cmd_lock.get(m_ch.id) is True:
-            await m_ch.send("コマンド処理中。\nいつまでも終わらない場合は`><fix`。")
+            cmd_em = discord.Embed(description="コマンド処理中。終わらない場合は`><fix`。")
+            await m_ch.send(embed=cmd_em)
             return
 
         if m_ctt == '^^start':
@@ -208,20 +196,24 @@ async def on_message(message):
                 if not m.content in ("y","Y","n","N"): return 0
                 return 1
             if m_author.id in id_list:
-                await m_ch.send(f"【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
+                msg_em = discord.Embed(description="【警告】登録済みです。全てのデータを消して再登録しますか？ \nyes -> y\nno -> n")
+                await m_ch.send(embed=msg_em)
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
                 except asyncio.TimeoutError:
                     return
                 else:
                     if msg.content in ("y","Y"):
-                        await m_ch.send(f"再登録を致します。")
+                        msg_em = discord.Embed(description="再登録を致します。")
+                        await m_ch.send(embed=msg_em)
                         magic_type_flag = True
                         pg.execute(f"delete from player_tb where id = {m_author.id}")
                     else:
-                        await m_ch.send(f"キャセルン！！")
+                        msg_em = discord.Embed(description="キャセルン！！")
+                        await m_ch.send(embed=msg_em)
                         return
-            await m_ch.send(f"{m_author.mention}さんの冒険者登録を開始。")
+            msg_em = discord.Embed(description=f"{m_author.mention}さんの冒険者登録を開始。")
+            await m_ch.send(embed=msg_em)
             magic_type_flag = False
             while not magic_type_flag is True:
                 magic_type_em = discord.Embed(
@@ -235,24 +227,30 @@ async def on_message(message):
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
                 except asyncio.TimeoutError:
-                    await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                    msg_em = discord.Embed(description=f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                    await m_ch.send(embed=msg_em)
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
                     if not respons in (1,2,3):
-                        await m_ch.send(f"【警告】`1,2,3`で答えて下さい。")
+                        msg_em = discord.Embed(description=f"`1,2,3`で答えて下さい。")
+                        await m_ch.send(embed=msg_em)
                         continue
                     select_magic_type = "Wolf" if respons==1 else "Armadillo" if respons==2 else "Orca" 
-                    await m_ch.send(f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
+                    msg_em = discord.Embed(description=f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
+                    await m_ch.send(embed=msg_em)
                     try:
                         msg = await client.wait_for("message", timeout=10, check=check2)
                     except asyncio.TimeoutError:
-                        await m_ch.send(f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                        msg_em = discord.Embed(description=f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                        await m_ch.send(embed=msg_em)
                     else:
                         if msg.content in ("y","Y"):
-                            await m_ch.send(f"『{select_magic_type}』で登録します。")
+                            msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します。")
+                            await m_ch.send(embed=msg_em)
                             magic_type_flag = True
                         elif msg.content in ("n","N"):
-                            await m_ch.send(f"魔法領域の選択画面に戻ります。")
+                            msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります。")
+                            await m_ch.send(embed=msg_em)
                             continue
             if not magic_type_flag == True:
                 return
@@ -269,21 +267,23 @@ async def on_message(message):
                 await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
                 emojis = status.items_emoji_a
-                await m_ch.send(content = f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1") 
+                msg_em = discord.Embed(description=f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1")
+                await m_ch.send(embed=msg_em)
             player = avatar.Player(client, m_author.id)
             if not m_author.id in box.players:
                 box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
-            await m_author.send("BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
-
+            msg_em = discord.Embed(description=f"BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
+            await m_ch.send(embed=msg_em)
         if client.get_channel(761571389345759232).name=='true':
             user_roles = [i.name for i in m_author.roles]
             clearance_lv3_user = "Clearance-Lv3" in user_roles
             clearance_lv4_user = "Clearance-Lv4" in user_roles
             clearance_lv5_user = "Clearance-Lv5" in user_roles
             if not clearance_lv3_user or not clearance_lv4_user or not clearance_lv5_user:
-                await m_ch.send('現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。')
+                msg_em = discord.Embed(description=f"現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。")
+                await m_ch.send(embed=msg_em)
                 return
 
         cmd_lock[m_ch.id] = True
@@ -299,11 +299,13 @@ async def on_message(message):
             if not m_author.id in box.players:
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 if m_author.id in id_list:
-                    await m_ch.send(f"<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
+                    msg_em = discord.Embed(description=f"<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
+                    await m_ch.send(embed=msg_em)
                     player = avatar.Player(client, m_author.id)
                     box.players[m_author.id] = player
                 else:
-                    await m_ch.send(f"<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
+                    msg_em = discord.Embed(description=f"<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
+                    await m_ch.send(embed=msg_em)
                     return
 
 
