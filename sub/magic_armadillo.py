@@ -39,7 +39,7 @@ client = None
 async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
-    build_up_num = 0.8 + (player.magic_lv()/1000/100)
+    build_up_num = 0.8 + (player.magic_lv()/1000)
     dmg1 = calc.dmg((player.STR()*build_up_num),mob.defe())
     dmg2 = calc.dmg(mob.str(),player.DEFE()*2)
     if player.now_mp < 30:
@@ -90,7 +90,7 @@ async def magic_5(player,mob):
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度： **0**\nSTR**{80+(player.magic_lv()/1000/100)}**%の攻撃魔法 **25**%で敵を**5**ターンNerf状態にする ",inline=False)
+    magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度： **0**\nSTR**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵を**5**ターンNerf状態にする ",inline=False)
     magic_em.add_field(name="`2.`-",value=f"`必要熟練度： 500\n未実装`",inline=False)
     magic_em.add_field(name="`3.`-",value=f"`必要熟練度： 1000\n未実装`",inline=False)
     magic_em.add_field(name="`4.`-+",value=f"`必要熟練度： 2000\n未実装`",inline=False)
