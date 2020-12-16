@@ -54,13 +54,12 @@ async def magic_1(player,mob):
     if not mob.now_hp <= 0:
         text = f"{str(dmg2)}ののダメージ！"
         # バフチェック
-        if ch.id in box.nerf:
+        if ch.id in box.nerf and box.nerf[ch.id] > 0:
             dmg2 *= 0.5
             dmg2 = int(dmg2)
             box.nerf[ch.id] -= 1
-        if ch.id in box.stun:
+        if ch.id in box.stun and box.stun[ch.id] > 0:
             dmg2 = 0
-            text = f"{mob.name}は動けない！"
             box.stun[ch.id] -= 1
         m_text += f"{text}" if dmg2>=0 else battle.zero_dmg_text()
         m_text += f'\n{player.user}({player.cut_hp(dmg2)}/{player.max_hp})\n{battle.hp_gauge(player)}'
