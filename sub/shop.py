@@ -94,8 +94,8 @@ async def shop(user, ch):
                     + f"\n`5.`{items_emoji_a[6]}`魔　石　  `[150cell]"
                     + f"\n`6.`{items_emoji_a[7]}`魔　晶　  `[1000cell]"
                     + f"\n`7.`{items_emoji_a[8]}`魔硬貨 　 `[2000cell]"
-                    + f"\n`8.`{items_emoji_a[2]}`HP全回復薬`[300cell]"
-                    + f"\n`9.`{items_emoji_a[3]}`MP全回復薬`[300cell]"
+                    + f"\n`8.`{items_emoji_a[9]}`HP全回復薬`[300cell]"
+                    + f"\n`9.`{items_emoji_a[10]}`MP全回復薬`[300cell]"
             ))
             await shop_em_msg.edit(embed=service_em1)
             try:
