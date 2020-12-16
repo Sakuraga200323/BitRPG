@@ -157,11 +157,11 @@ async def cbt_proc(user, ch):
     t2 += "ダメージ！"
     
     # バフチェック
-    if ch.id in box.nerf:
+    if ch.id in box.nerf and box.nerf[ch.id] > 0:
         dmg2 *= 0.5
         dmg2 = int(dmg2)
         box.nerf[ch.id] -= 1
-    if ch.id in box.stun:
+    if ch.id in box.stun and box.stun[ch.id] > 0:
         dmg2 = 0
         box.stun[ch.id] -= 1
 
