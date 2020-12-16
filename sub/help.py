@@ -17,7 +17,7 @@ async def help(user,ch):
         description=("`各URLから公式ヘルプページにジャンプ出来ます。青字でないところはページが未完成です。`"
             +"\n・[BitRPG内の用語](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/1BitRPG%E5%86%85%E3%81%AE%E7%94%A8%E8%AA%9E.md)"
             +"\n・[各コマンドの使い方](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/2%E5%90%84%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9.md)"
-            +"\n・戦闘システム"
+            +"\n・[戦闘システム](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/3%E6%88%A6%E9%97%98%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0.md)"
             +"\n・[アイテム](https://github.com/Sakuraga200323/BitRPG/blob/master/help_page/4%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0.md)"
             +"\n・魔法領域"
             +"\n・未登録(要望があれば増えます)"
