@@ -68,6 +68,7 @@ class Player:
         ] = data_list
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
         self.max_mp = self.now_mp = self.lv_
+        self.now_defe = self.max_defe = self.lv_ * 10 + 10
         self.battle_ch = None
         
 
@@ -214,12 +215,27 @@ class Player:
         return exp, lvup_count
 
     def cut_hp(self, dmg):
-        self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
+        self.now_hp -= dmg if dmg<=self.now_hp else self.now_hp
         return self.now_hp
 
     def cut_mp(self, use_mp):
-        self.now_mp -= use_mp if use_mp <= self.now_mp else self.now_mp
+        self.now_mp -= use_mp if use_mp<=self.now_mp else self.now_mp
         return self.now_mp
+
+    def cut_defe(self, str):
+        if self.now_defe <= 0:
+            dmg = str
+            self.now_defe = self.max_defe
+        else:
+            dmg -= self.now_defe
+            self.now_defe -= str
+            dmg = 0 if dmg<0 else dmg
+            self.now_defe = 0 if self.now_defe<0 else self.now_defe
+        return dmg
+
+    def damaged(self,str):
+        dmg = self.cut_defe(str)
+        self.cut_hp(dmg)
 
     def battle_start(self, id):
         if self.battle_ch and id != self.battle_ch:
@@ -257,6 +273,23 @@ class Mob:
             self.max_hp = self.now_hp = self.dtd["lv"] * 110 + 10
             set = mob_data.select(self.dtd["lv"])
             self.type, self.name, self.img_url = set.values()
+            defe_correction ={
+                "Bicorn":1.3,
+                "GoblinSoldier":1,"Golem":2,
+                "Kerberos":1.3,
+                "LizardGoblin":1.1,"Lorg":0.8,
+                "Manticore":1.3,"Mummy":0.8,
+                "Orc":1.2,
+                "Phelios":0.7,
+                "Roguenite":1.2,
+                "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
+                "Theaf":0.8,
+                "Valkyrie":1.3,
+            }
+            if self.name in defe_correction:
+                self.now_defe = int(self.max_defe = self.dtd["lv"] * 10 + 10)*defe_correction[self.name]
+            else:
+                self.now_defe = int(self.max_defe = self.dtd["lv"] * 10 + 10)*defe_correction[self.name]
             if not id in box.mobs:
                 box.mobs[id] = self
 
@@ -357,6 +390,21 @@ class Mob:
     def cut_hp(self, dmg):
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
+
+    def cut_defe(self, str):
+        if self.now_defe <= 0:
+            dmg = str
+            self.now_defe = self.max_defe
+        else:
+            dmg -= self.now_defe
+            self.now_defe -= str
+            dmg = 0 if dmg<0 else dmg
+            self.now_defe = 0 if self.now_defe<0 else self.now_defe
+        return dmg
+
+    def damaged(self,str):
+        dmg = self.cut_defe(str)
+        self.cut_hp(dmg)
 
     def spawn(self):
         set = mob_data.select(self.lv())
