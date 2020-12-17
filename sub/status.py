@@ -140,15 +140,18 @@ async def divid(user, ch, result):
     target = result.group(1)
     point = int(result.group(2))
     if not target in ("str","def","agi"):
-        await ch.send(f"{target}は強化項目の一覧にありません。`str`,`def`,`agi` の中から選んでください。")
+        em = discord.Embed(description=f"{target}は強化項目の一覧にありません `str`,`def`,`agi` の中から選んでください")
+        await ch.send(embed=em)
         return
     if p_data.now_stp() < point:
-        await ch.send(f"{p_data.user.mention}の所持ポイントを{point - p_data.now_stp()}超過しています。{p_data.now_stp()}以下にしてください。")
+        em = discord.Embed(description=f"{p_data.user.mention} の所持ポイントを{point - p_data.now_stp()}超過しています。{p_data.now_stp()}以下にしてください。")
+        await ch.send(embed=em)
         return
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    await ch.send(f"STP{point}を消費。{p_data.user.mention}の{target}強化量+{result}。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
+    em = discord.Embed(description=f"STP{point}を消費。{p_data.user.mention}の{target}強化量+{result}。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
+    await ch.send(embed=em)
 
 
 # レベル上限解放 #
@@ -157,12 +160,14 @@ async def up_max_lv(user,ch):
     item_num = pg.fetchdict(f"SELECT item->'魔石' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num < 250:
         husoku = 250 - item_num 
-        await ch.send(f"<@{user.id}>のレベル上限解放には魔石が{husoku}ほど足りないようだ…")
+        em = discord.Embed(description=f"<@{user.id}> のレベル上限解放には魔石が{husoku}個不足しています")
+        await ch.send(embed=em)
         return
     item_num -= 250
     player.max_lv(1000)
     player.get_exp(1)
-    await ch.send(f"<@{user.id}>のレベル上限が1000解放されました！")
+    em = discord.Embed(description=f"<@{user.id}> のレベル上限が1000解放されました！")
+    await ch.send(embed=em)
     get_item(user,6,-250)
 
 
@@ -180,11 +185,13 @@ async def use_item(user, ch, item):
     if item in list(items_name.keys()):
         item_name = items_name[item]
     elif not item in list(items_id.keys()):
-        await ch.send(f"{item}と言うアイテムは見たことがないようだ…")
+        em = discord.Embed(description=f"{item}と言うアイテムは見たことがないようだ…")
+        await ch.send(embed=em)
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     if item_num <= 0:
-        await ch.send(f"<@{player.user.id}>のインベントリに{item}は無いようだ…")
+        em = discord.Embed(description=f"<@{player.user.id}>のインベントリに{item}は無いようだ…")
+        await ch.send(embed=em)
         return
     if not item in list(constant_items_name.values()):
         item_num -= 1
