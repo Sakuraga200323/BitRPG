@@ -139,7 +139,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         else: text = f"{a.name}を倒した"
     else:
         text = f"{a.name}の{atk_word}->"
-        if a.ID() in list(box.stun.keys())+list(box.nerf,keys()):
+        if a.ID() in list((box.stun).keys())+list((box.nerf).keys()):
             if a.ID() in box.stun:
                 dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
                 text += f"動けない！"
