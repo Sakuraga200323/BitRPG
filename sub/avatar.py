@@ -376,6 +376,14 @@ class Mob:
         else:
             return result
 
+    def STR(self):
+        return self.str()
+    def DEFE(self):
+        return self.defe()
+    def AGI(self):
+        return self.agi()
+
+
     def reward(self):
         if self.type == "UltraRare":
             exp,money = self.lv()*100,50000
