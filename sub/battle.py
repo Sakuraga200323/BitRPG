@@ -135,7 +135,7 @@ async def battle_result(player, mob):
 
 def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
-        if "#" in a.name: result_text = f"{a.name()}はやられてしまった"
+        if "#" in a.name: text = f"{a.name()}はやられてしまった"
         else: text = f"{a.name()}を倒した"
     else:
         text = f"{a.name}の{atk_word}->"
@@ -167,14 +167,14 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n{b.name} ({b.now_hp}/{b.max_hp})\n{hp_gauge(b)}"
+        text += f"\n{b.name} ({now_hp}/{b.max_hp})\n{hp_gauge(b)}"
     return text
 
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
     guage_1 = ((num)*"∫")+((20-num)*" ")
-    return ('-[' if num<5 else "+[") + ("-"*20 if avatar.now_hp<=0 else guage_1) + ']'
+    return ('-HP:[' if num<5 else "+HP[") + ("-"*20 if avatar.now_hp<=0 else guage_1) + ']'
 
 # ダメージがない場合のメッセージ #
 def zero_dmg_text():
