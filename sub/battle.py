@@ -141,22 +141,22 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
         text = f"{a.name}の{atk_word}->"
         if not a.ID() in box.stun:
             if random() <= 0.05:
-                dmg, now_hp = b.damaged(a.STR()*2)
+                dmg,now_defe,now_hp = b.damaged(a.STR()*2)
                 text += f"{dmg}のクリティカルヒット"
             else:
-                dmg, now_hp = b.damaged(a.STR())
+                dmg,now_defe,now_hp = b.damaged(a.STR())
                 text += f"{dmg}のダメージ"
         if a.ID() in box.nerf:
             if random() <= 0.05:
-                dmg, now_hp = b.damaged(a.STR())
+                dmg,now_defe,now_hp = b.damaged(a.STR())
                 text += f"{dmg}のクリティカルヒット"
             else:
-                dmg, now_hp = b.damaged(a.STR()/2)
+                dmg,now_defe,now_hp = b.damaged(a.STR()/2)
                 text += f"{dmg}のダメージ"
             box.stun[a.ID()] -= 1
             if box.stun[a.ID()] <= 0: del box.nstun[a.ID]
         if a.ID() in box.stun:
-            dmg, now_hp = 0, b.now_hp
+            dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
             text += f"動けない！"
             box.nerf[a.ID()] -= 1
             if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
@@ -167,17 +167,24 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n< {b.name} >\n{def_gauge(b)}\n{hp_gauge(b)}"
+        text += f"\n< {b.name} >\n{def_gauge(now_defe,b.DEFE())}\n{hp_gauge(now_hp,b.max_hp)}"
     return text
 
-
+# HPゲージ作成関数 #
+def old_hp_gauge(a,b):
+    num = int((a/b)*20)
+    guage_1 = ((num)*"∫")+((20-num)*" ")
+    return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else guage_1) + ']'
+# DEFゲージ作成関数 #
+def old_def_gauge(a,b):
+    num = int((a/b)*20)
+    guage_1 = ((num)*"∫")+((20-num)*" ")
+    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else guage_1) + ']'
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
     guage_1 = ((num)*"∫")+((20-num)*" ")
     return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if avatar.now_hp<=0 else guage_1) + ']'
-
-
 # DEFゲージ作成関数 #
 def def_gauge(avatar):
     num = int((avatar.now_defe/avatar.max_defe)*20)
