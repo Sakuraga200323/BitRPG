@@ -144,7 +144,7 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
                 dmg, now_hp = b.damaged(a.STR()*2)
                 text += f"{dmg}のクリティカルヒット"
             else:
-                dmg, now_hp = b.damaged(a.STR()*2)
+                dmg, now_hp = b.damaged(a.STR())
                 text += f"{dmg}のダメージ"
         if a.ID() in box.nerf:
             if random() <= 0.05:
