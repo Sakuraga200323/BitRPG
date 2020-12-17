@@ -281,7 +281,7 @@ class Mob:
             else:
                 print(f"新規Mobデータを挿入: {id}")
             self.dtd = pg.fetchdict(f"select lv from mob_tb where id = {id};")[0]
-            self.max_hp = self.now_hp = self.dtd["lv"] * 110 + 10
+            self.max_hp = self.now_hp = self.dtd["lv"] * 110
             set = mob_data.select(self.dtd["lv"])
             self.type, self.name, self.img_url = set.values()
             defe_correction ={
@@ -298,9 +298,9 @@ class Mob:
                 "Valkyrie":1.3,
             }
             if self.name in defe_correction:
-                self.now_defe = self.max_defe = int((self.dtd["lv"] * 10 + 10)*defe_correction[self.name])
+                self.now_defe = self.max_defe = int((self.dtd["lv"] * 10)*defe_correction[self.name])
             else:
-                self.now_defe = self.max_defe = self.dtd["lv"] * 10 + 10
+                self.now_defe = self.max_defe = self.dtd["lv"] * 10
             if not id in box.mobs:
                 box.mobs[id] = self
                 
@@ -322,13 +322,13 @@ class Mob:
     def lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('lv', plus)
-            self.max_hp = self.now_hp = self.lv() * 100 + 10
+            self.max_hp = self.now_hp = self.lv() * 100
         else:
             result = self.get_data('lv')
         return result
 
     def str(self):
-        result = self.lv() * 10 + 10
+        result = self.lv() * 10
         str_correction ={
             "Bicorn":1.3,
             "GoblinSoldier":1,"Golem":1,
@@ -348,7 +348,7 @@ class Mob:
             return result
 
     def defe(self):
-        result = self.lv() * 10 + 10
+        result = self.lv() * 10
         defe_correction ={
             "Bicorn":1.3,
             "GoblinSoldier":1,"Golem":2,
@@ -368,7 +368,7 @@ class Mob:
             return result
 
     def agi(self):
-        result = self.lv() * 10 + 10
+        result = self.lv() * 10
         agi_correction ={
             "Bicorn":1.3,
             "GoblinSoldier":1,"Golem":0.7,
@@ -437,7 +437,7 @@ class Mob:
     def spawn(self):
         set = mob_data.select(self.lv())
         self.type, self.name, self.img_url = set.values()
-        self.max_hp = self.now_hp = self.lv() * 100 + 10
+        self.max_hp = self.now_hp = self.lv() * 100
         embed=discord.Embed(
             title=f"<{self.type}> {self.name} が出現！",
             description=f"Lv.{self.lv()} HP.{self.max_hp}"
