@@ -233,9 +233,9 @@ class Player:
             dmg = str
             self.now_defe = self.max_defe
         else:
-            dmg -= self.now_defe
+            str -= self.now_defe
             self.now_defe -= str
-            dmg = 0 if dmg<0 else dmg
+            dmg = 0 if str<0 else str
             self.now_defe = 0 if self.now_defe<0 else self.now_defe
         return dmg
 
@@ -414,9 +414,9 @@ class Mob:
             dmg = str
             self.now_defe = self.max_defe
         else:
-            dmg -= self.now_defe
+            str -= self.now_defe
             self.now_defe -= str
-            dmg = 0 if dmg<0 else dmg
+            dmg = 0 if str<0 else str
             self.now_defe = 0 if self.now_defe<0 else self.now_defe
         return dmg
 
