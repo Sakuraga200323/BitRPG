@@ -159,7 +159,6 @@ async def shop(user, ch):
                     if item_dtd[i_name] < data[1]*item_num:
                         husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-item_dtd[i_name]} "
                         continue
-                    status.get_item(user,data[0],-data[1]*item_num)
                 if husoku_text != "":
                     em = discord.Embed(description=f"{husoku_text}が足りないです。")
                     await ch.send(embed=em)
@@ -168,6 +167,9 @@ async def shop(user, ch):
                     em = discord.Embed(description=f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
                     await ch.send(embed=em)
                     return
+                for data in material_dict[item_id]:
+                    i_name = items_name[data[0]]
+                    status.get_item(user,data[0],-data[1]*item_num)
                 status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id]*item_num)
                 em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
