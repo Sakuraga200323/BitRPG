@@ -41,6 +41,7 @@ async def magic_1(player,mob):
     await battle.battle_start(player,mob)
     build_up_num = 1.5 + (player.magic_lv()/100000)
     if player.now_mp < 50: up_num = 0;player.magic_lv(1)
+        em=discord.Embed(description"MPが不足…！");await ch.send(embed=em)
     else: up_num = build_up_num
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
