@@ -65,20 +65,26 @@ async def battle_start(player, mob):
     if not player.battle_start(ch.id):
         channel = client.get_channel(player.battle_ch)
         if channel:
-            await ch.send(f"<@{user.id}> は現在『{channel.mention}』で戦闘中です。")
-            return 0
-        await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
+            em = disocrd.Embed(description=f"<@{user.id}> は現在『{channel.mention}』で戦闘中")
+            await ch.send(embed=em)
+            return False
+        em = disocrd.Embed(description=f"<@{user.id}> が認識できないチャンネルで戦闘中 データの上書き開始")
+        await ch.send(embed=em)
         player.battle_end()
         if player.battle_start(ch.id):
-            await ch.send(f"上書き完了")
+            em = disocrd.Embed(description=f"上書き完了 戦闘に参加")
+            await ch.send(embed=em)
         else:
-            await ch.send(f"上書き失敗、戦闘に参加できていません。")
-            return 0
+            em = disocrd.Embed(description=f"上書き失敗 戦闘に参加できていません")
+            await ch.send(embed=em)
+            return False
     if player.now_hp <= 0:
-        await ch.send(f"<@{user.id}> は既に死亡しています。")
-        return 0
+        await ch.send(f"")
+        em = disocrd.Embed(description=f"<@{user.id}> は既に死亡しています")
+        await ch.send(embed=em)
+        return False
     mob.player_join(user.id)
-    return 1
+    return True
 
 
 
