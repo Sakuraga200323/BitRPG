@@ -51,7 +51,7 @@ async def magic_1(player,mob):
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+        text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
