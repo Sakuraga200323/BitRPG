@@ -160,7 +160,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             text += f"動けない！"
             box.nerf[a.ID()] -= 1
             if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
-        if buff in [1,2] and not a.id in box.stun:
+        if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
             text += f" {buff_dict}"
             if buff == 1:
