@@ -80,7 +80,8 @@ async def shop(user, ch):
     try:
         msg = await client.wait_for("message", timeout=60, check=check)
     except asyncio.TimeoutError:
-        await ch.send(f"冷やかしはお断りだよ！")
+        em = discord.Embed(description=f"冷やかしはお断りだよ！")
+        await ch.send(embed=em)
     else:
         respons = int(msg.content) if msg.content in ("1","2") else 0
         if respons == 1:
@@ -101,17 +102,20 @@ async def shop(user, ch):
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
             except asyncio.TimeoutError:
-                await ch.send(f"冷やかしはお断りだよ、出直してきな！")
+                em = discord.Embed(description=f"冷やかしはお断りだよ、出直してきな！")
+                await ch.send(embed=em)
             else:
                 pattern = r'^(\d+) (\d+)$'
                 result = re.search(pattern, msg.content)
                 if not result:
-                    await ch.send('ちゃんと注文して')
+                    em = discord.Embed(description=f"ちゃんと注文して")
+                    await ch.send(embed=em)
                     return
                 item_id, item_num = int(result.group(1))+1, int(result.group(2))
                 cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300}
                 if player.money() < cost_dict[item_id]*item_num:
-                    await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    em = discord.Embed(description=f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    await ch.send(embed=em)
                     return
                 status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id])
@@ -130,12 +134,14 @@ async def shop(user, ch):
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
             except asyncio.TimeoutError:
-                await ch.send(f"冷やかしはお断りだよ、出直してきな！")
+                em = discord.Embed(description=f"冷やかしはお断りだよ、出直してきな！")
+                await ch.send(embed=em)
             else:
                 pattern = r'^(\d+) (\d+)$'
                 result = re.search(pattern, msg.content)
                 if not result:
-                    await ch.send('ちゃんと注文して')
+                    em = discord.Embed(description=f"ちゃんと注文して")
+                    await ch.send(embed=em)
                     return
                 item_id, item_num = int(result.group(1))+6, int(result.group(2))
                 item_name = items_name[item_id]
@@ -155,17 +161,20 @@ async def shop(user, ch):
                         continue
                     status.get_item(user,data[0],-data[1]*item_num)
                 if husoku_text != "":
-                    await ch.send(f"{husoku_text}が足りないです。")
+                    em = discord.Embed(description=f"{husoku_text}が足りないです。")
+                    await ch.send(embed=em)
                     return
                 if player.money() < cost_dict[item_id]*item_num:
-                    await ch.send(f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    em = discord.Embed(description=f"{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。")
+                    await ch.send(embed=em)
                     return
                 status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id]*item_numd)
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
-            
-                
-                
+                em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
+                await ch.send(embed=em)
+
+
+
 
 
 
