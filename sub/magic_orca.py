@@ -40,33 +40,19 @@ async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
     build_up_num = 0.8 + (player.magic_lv()/100000)
-    dmg1 = calc.dmg((player.STR()*build_up_num),mob.defe())
-    dmg2 = calc.dmg(mob.str(),player.DEFE())
-    if player.now_mp < 80:
-        dmg1 = 0
-        mp_text = 'MP不足で'
+    if random() <= 0.5: buff_num = 1
+    else: buff_num = 0
+    if player.now_mp < 80: up_num = buff_num = 0
+    else: up_num = build_up_num
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+        text2 = create_battle_text(mob,player)
+    # 戦闘処理（Player後手） #
     else:
-        mp_text = ""
-    p_text = m_text = ""
-    p_text += f"{player.user}の『StunFin』->{mp_text}{dmg1}ダメージ！"
-    if random() <= 0.50 and not mp_text:
-        p_text += f"{mob.name}がスタン！"
-        box.stun[mob.mob.id] = 3
-    p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
-    m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
-    if not mob.now_hp <= 0:
-        text = f"{str(dmg2)}のダメージ！"
-        # バフチェック¥
-        if ch.id in box.nerf and box.nerf[ch.id] > 0:
-            dmg2 *= 0.5
-            dmg2 = int(dmg2)
-            box.nerf[ch.id] -= 1
-        if ch.id in box.stun and box.stun[ch.id] > 0:
-            dmg2 = 0
-            box.stun[ch.id] -= 1
-        m_text += f"{text}"
-        m_text += f'\n{player.user}({player.cut_hp(dmg2)}/{player.max_hp})\n{battle.hp_gauge(player)}'
-    magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
+        text1 = create_battle_text(mob,player)
+        text1 = create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.cut_mp(80)
