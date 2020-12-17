@@ -42,10 +42,15 @@ async def magic_1(player,mob):
     build_up_num = 0.8 + (player.magic_lv()/100000)
     if random() <= 0.5:
         buff_num = 1
-        em=discord.Embed(description"MPが不足…！");await ch.send(embed=em)
-    else: buff_num = 0
-    if player.now_mp < 80: up_num = buff_num = 0;player.magic_lv(1)
-    else: up_num = build_up_num
+    else:
+        buff_num = 0
+    if player.now_mp < 80:
+        up_num = buff_num = 0
+        em=discord.Embed(description"MPが不足…！")
+        await ch.send(embed=em)
+    else:
+        up_num = build_up_num
+        player.magic_lv(1)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
