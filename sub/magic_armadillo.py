@@ -15,7 +15,6 @@ import psycopg2, psycopg2.extras
 import traceback
 
 from sub import box, status, avatar, calc, battle
-from sub.battle import create_battle_text
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -47,12 +46,12 @@ async def magic_1(player,mob):
     else: up_num = build_up_num
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        text1 = create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
-        text2 = create_battle_text(mob,player)
+        text1 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+        text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
-        text1 = create_battle_text(mob,player)
-        text1 = create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+        text1 = battle.create_battle_text(mob,player)
+        text1 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
