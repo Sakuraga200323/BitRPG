@@ -112,7 +112,7 @@ async def battle_result(player, mob):
             p.kill_count(1)
             p.money(money)
             result_desc += f"\n<@{p_id}>"
-            result_desc += f"> Exp+{exp} Cell+{money}"
+            result_desc += f"\n> Exp+{exp} Cell+{money}"
             if up_lv > 0:
                 result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
             drop_item_text = ""
