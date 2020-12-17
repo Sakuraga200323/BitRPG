@@ -52,7 +52,7 @@ async def magic_1(player,mob):
         text2 = battle.create_battle_text(player,mob,str_up_num=up_num)
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
-    await battle_result(player, mob)
+    await battle.battle_result(player, mob)
     player.cut_mp(50)
 #  StrengthRein #
 async def magic_2(player,mob):
