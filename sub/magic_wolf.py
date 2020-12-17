@@ -40,7 +40,7 @@ async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
     build_up_num = 1.5 + (player.magic_lv()/100000)
-    if player.now_mp < 50: up_num = 0
+    if player.now_mp < 50: up_num = 0;player.magic_lv(1)
     else: up_num = build_up_num
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
@@ -54,8 +54,6 @@ async def magic_1(player,mob):
     await ch.send(content=battle_log)
     await battle_result(player, mob)
     player.cut_mp(50)
-    if not mp_text:
-        player.magic_lv(1)
 #  StrengthRein #
 async def magic_2(player,mob):
     if player.magic_lv() <= 500:
