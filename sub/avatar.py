@@ -91,7 +91,7 @@ class Player:
             return self.get_data(target)
         
     def name(self):
-        return self.user
+        return f"{self.user}"
 
     # レベル取得
     def lv(self, plus=None):
