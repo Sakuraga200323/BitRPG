@@ -94,6 +94,10 @@ async def battle_result(player, mob):
     user = player.user
     result_em = stp_em = item_em = spawn_em = None
     if mob.now_hp <= 0 :
+        if mob.mob.id in box.nerf:
+            del box.nerf[mob.mob.id]
+        if mob.mob.id in box.stun:
+            del box.stun[mob.mob.id]
         result_desc = ""
         now = datetime.now(JST).strftime("%H:%M")
         exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
