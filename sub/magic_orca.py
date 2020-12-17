@@ -46,7 +46,7 @@ async def magic_1(player,mob):
         buff_num = 0
     if player.now_mp < 80:
         up_num = buff_num = 0
-        em=discord.Embed(description"MPが不足…！")
+        em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
     else:
         up_num = build_up_num
