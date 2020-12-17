@@ -40,7 +40,8 @@ async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
     build_up_num = 0.8 + (player.magic_lv()/100000)
-    if random() <= 0.5: buff_num = 1
+    if random() <= 0.5:
+        buff_num = 1
         em=discord.Embed(description"MPが不足…！");await ch.send(embed=em)
     else: buff_num = 0
     if player.now_mp < 80: up_num = buff_num = 0;player.magic_lv(1)
