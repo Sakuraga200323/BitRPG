@@ -167,7 +167,7 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n< {b.name} >\n{def_gauge(now_defe,b.DEFE())}\n{hp_gauge(now_hp,b.max_hp)}"
+        text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(now_hp,b.max_hp)}"
     return text
 
 # HPゲージ作成関数 #
