@@ -294,9 +294,9 @@ class Mob:
                 "Valkyrie":1.3,
             }
             if self.name in defe_correction:
-                self.now_defe = int(self.max_defe = self.dtd["lv"] * 10 + 10)*defe_correction[self.name]
+                self.now_defe = self.max_defe = int((self.dtd["lv"] * 10 + 10)*defe_correction[self.name])
             else:
-                self.now_defe = int(self.max_defe = self.dtd["lv"] * 10 + 10)*defe_correction[self.name]
+                self.now_defe = self.max_defe = self.dtd["lv"] * 10 + 10
             if not id in box.mobs:
                 box.mobs[id] = self
                 
