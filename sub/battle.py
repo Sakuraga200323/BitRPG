@@ -167,7 +167,7 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n{b.name}\n{def_gauge(b)}\n{hp_gauge(b)}"
+        text += f"\n< {b.name} >\n{def_gauge(b)}\n{hp_gauge(b)}"
     return text
 
 
