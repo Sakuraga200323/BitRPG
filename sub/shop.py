@@ -169,7 +169,7 @@ async def shop(user, ch):
                     await ch.send(embed=em)
                     return
                 status.get_item(user,item_id,item_num)
-                player.money(-cost_dict[item_id]*item_numd)
+                player.money(-cost_dict[item_id]*item_num)
                 em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
                 await ch.send(embed=em)
 
