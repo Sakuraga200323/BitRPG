@@ -270,8 +270,8 @@ async def on_message(message):
                 msg_em = discord.Embed(description=f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1")
                 await m_ch.send(embed=msg_em)
             player = avatar.Player(client, m_author.id)
-            if not m_author.id in box.players:
-                box.players[m_author.id] = player
+            del box.players[m_author.id]
+            box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
             msg_em = discord.Embed(description=f"BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
