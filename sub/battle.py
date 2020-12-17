@@ -100,7 +100,7 @@ async def battle_result(player, mob):
             del box.stun[mob.mob.id]
         result_desc = ""
         now = datetime.now(JST).strftime("%H:%M")
-        exp, money = mob.reward()[0], int(mob.reward()[1]/len(mob.battle_players))
+        exp, money = mob.reward()[0]+1, int(mob.reward()[1]/len(mob.battle_players))
         if  now in ['23:18']:
             exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
@@ -162,7 +162,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             if box.stun[a.ID()] <= 0: del box.stun[a.ID]
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            text += f" {buff_dict}"
+            text += f" {buff_dict[buff]}"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
