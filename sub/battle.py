@@ -66,18 +66,19 @@ async def battle_start(player, mob):
         channel = client.get_channel(player.battle_ch)
         if channel:
             await ch.send(f"<@{user.id}> は現在『{channel.mention}』で戦闘中です。")
-            return
+            return 0
         await ch.send(f"<@{user.id}> が認識できないチャンネルで戦闘中。データの上書きを行ないます。")
         player.battle_end()
         if player.battle_start(ch.id):
             await ch.send(f"上書き完了")
         else:
             await ch.send(f"上書き失敗、戦闘に参加できていません。")
-            return
+            return 0
     if player.now_hp <= 0:
         await ch.send(f"<@{user.id}> は既に死亡しています。")
-        return
+        return 0
     mob.player_join(user.id)
+    return 1
 
 
 
@@ -110,9 +111,10 @@ async def battle_result(player, mob):
             up_exp, up_lv = p.get_exp(exp)
             p.kill_count(1)
             p.money(money)
-            result_desc += f"\n<@{p_id}> Exp+{exp} Cell+{money} "
+            result_desc += f"\n<@{p_id}>"
+            result_desc += f"> Exp+{exp} Cell+{money}"
             if up_lv > 0:
-                result_desc += f"\nLvUP {p.lv()-up_lv} -> {p.lv()}"
+                result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
             drop_item_text = ""
             # ドロップアイテムfor #
             for id in reward_items:
@@ -120,7 +122,7 @@ async def battle_result(player, mob):
                 if item_was_droped:
                     status.get_item(user,id,num)
                     drop_item_text += f"{item_emoji_a[id]}×{num} "
-            result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
+            result_desc += f"\n> DropItem： {'-' if not drop_item_text else drop_item_text}"
             p.battle_end()
         if random() <= 0.01 and mob.lv() > player.lv():
             player.now_stp(mob.lv())
@@ -212,7 +214,8 @@ def zero_dmg_text():
 # 戦闘 #
 async def cbt_proc(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
-    await battle_start(player, mob)
+    start_check = await battle_start(player, mob)
+    if start_check is False: return
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
