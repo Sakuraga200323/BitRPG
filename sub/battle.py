@@ -133,7 +133,7 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
+def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if "#" in a.name: text = f"{a.name}はやられてしまった"
         else: text = f"{a.name}を倒した"
@@ -141,17 +141,17 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
         text = f"{a.name}の{atk_word}->"
         if not a.ID() in box.stun:
             if random() <= 0.05:
-                dmg,now_defe,now_hp = b.damaged(a.STR()*2)
+                dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
                 text += f"{dmg}のクリティカルヒット"
             else:
-                dmg,now_defe,now_hp = b.damaged(a.STR())
+                dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
                 text += f"{dmg}のダメージ"
         if a.ID() in box.nerf:
             if random() <= 0.05:
-                dmg,now_defe,now_hp = b.damaged(a.STR())
+                dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
                 text += f"{dmg}のクリティカルヒット"
             else:
-                dmg,now_defe,now_hp = b.damaged(a.STR()/2)
+                dmg,now_defe,now_hp = b.damaged(a.STR()/2*str_up_num)
                 text += f"{dmg}のダメージ"
             box.stun[a.ID()] -= 1
             if box.stun[a.ID()] <= 0: del box.nstun[a.ID]
@@ -202,27 +202,6 @@ def zero_dmg_text():
 async def cbt_proc(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     await battle_start(player, mob)
-    # モンスターとの戦闘で使うダメージ、運の計算およびログの定義 #
-    dmg1,dmg2 = calc.dmg(player.STR(), mob.defe()),calc.dmg(mob.str(), player.DEFE())
-    dmg2 = int(dmg2*1.45) if mob.name=="古月" else dmg2
-    log1_1 = log2_1 = ""
-
-
-    a,b = random(),random()
-    t,x = ("極",5) if a>=0.95 else ("超",2) if a>=0.9 else ("強",1.5) if a>=0.85 else ("",1)
-    t2,x2 = ("極",5) if b>=0.95 else ("超",2) if b>=0.9 else ("強",1.5) if b>=0.85 else ("",1)
-    t += "ダメージ！"
-    t2 += "ダメージ！"
-    
-        
-    # バフチェック
-    if ch.id in box.nerf and box.nerf[ch.id] > 0:
-        dmg2 *= 0.5
-        dmg2 = int(dmg2)
-        box.nerf[ch.id] -= 1
-    if ch.id in box.stun and box.stun[ch.id] > 0:
-        dmg2 = 0
-        box.stun[ch.id] -= 1
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
