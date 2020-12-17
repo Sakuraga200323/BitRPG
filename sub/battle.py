@@ -142,29 +142,21 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         if not a.ID() in box.stun:
             if random() <= 0.05:
                 dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
-                if dmg <= 0:
-                    text += "躱されてしまった"
-                else:
-                    text += f"{dmg}のクリティカルヒット"
+                if dmg <= 0: text += "躱されてしまった"
+                else: text += f"{dmg}のクリティカルヒット"
             else:
                 dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                if dmg <= 0:
-                    text += "躱されてしまった"
-                else:
-                    text += f"{dmg}のダメージ"
+                if dmg <= 0: text += "躱されてしまった"
+                else: text += f"{dmg}のダメージ"
         if a.ID() in box.nerf:
             if random() <= 0.05:
                 dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                if dmg <= 0:
-                    text += "躱されてしまった"
-                else:
-                    text += f"{dmg}の弱クリティカルヒット"
+                if dmg <= 0: text += "躱されてしまった"
+                else: text += f"{dmg}の弱クリティカルヒット"
             else:
                 dmg,now_defe,now_hp = b.damaged(a.STR()/2*str_up_num)
-                if dmg <= 0:
-                    text += "躱されてしまった"
-                else:
-                    text += f"{dmg}の弱ダメージ"
+                if dmg <= 0: text += "躱されてしまった"
+                else: text += f"{dmg}の弱ダメージ"
             box.nerf[a.ID()] -= 1
             if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
         if a.ID() in box.stun:
