@@ -211,14 +211,12 @@ async def cbt_proc(user, ch):
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = create_battle_text(player,mob)
-        if not mob.now_hp <= 0:
-            text2 = create_battle_text(mob,player)
+        text2 = create_battle_text(mob,player)
 
     # 戦闘処理（Player後手） #
     else:
         text1 = create_battle_text(mob,player)
-        if not player.now_hp <= 0 :
-            text2 = create_battle_text(player,mob)
+        text2 = create_battle_text(player,mob)
 
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
