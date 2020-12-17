@@ -240,7 +240,7 @@ class Player:
                 dmg = 0
                 defe = self.now_defe - str
                 self.now_defe -= str
-        return dmg, defe
+        return [dmg, defe]
 
     def damaged(self,str):
         return self.cut_defe(str).append(self.cut_hp(dmg))
@@ -425,7 +425,7 @@ class Mob:
                 dmg = 0
                 defe = self.now_defe - str
                 self.now_defe -= str
-        return dmg, defe
+        return [dmg, defe]
 
     def damaged(self,str):
         return self.cut_defe(str).append(self.cut_hp(dmg))
