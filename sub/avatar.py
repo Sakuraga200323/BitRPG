@@ -231,10 +231,12 @@ class Player:
             dmg = str
             self.now_defe = self.max_defe
         else:
-            str -= self.now_defe
-            self.now_defe -= str
-            dmg = 0 if str<0 else str
-            self.now_defe = 0 if self.now_defe<0 else self.now_defe
+            if str >= self.now_defe:
+                dmg -= self.now_defe
+                self.now_defe = 0
+            else:
+                dmg = 0
+                self.now_defe -= str
         return dmg
 
     def damaged(self,str):
@@ -412,10 +414,12 @@ class Mob:
             dmg = str
             self.now_defe = self.max_defe
         else:
-            str -= self.now_defe
-            self.now_defe -= str
-            dmg = 0 if str<0 else str
-            self.now_defe = 0 if self.now_defe<0 else self.now_defe
+            if str >= self.now_defe:
+                dmg -= self.now_defe
+                self.now_defe = 0
+            else:
+                dmg = 0
+                self.now_defe -= str
         return dmg
 
     def damaged(self,str):
