@@ -70,6 +70,9 @@ class Player:
         self.max_mp = self.now_mp = self.lv_
         self.now_defe = self.max_defe = self.lv_ * 10 + 10
         self.battle_ch = None
+
+    def ID(self):
+        return self.user.id
         
 
     # データの取得
@@ -296,6 +299,9 @@ class Mob:
                 self.now_defe = int(self.max_defe = self.dtd["lv"] * 10 + 10)*defe_correction[self.name]
             if not id in box.mobs:
                 box.mobs[id] = self
+                
+    def ID(self):
+        return self.mob.id
 
     def get_data(self, target):
         return pg.fetchdict(f"select {target} from mob_tb where id = {self.mob.id};")[0][target]
