@@ -161,6 +161,45 @@ async def cbt_proc(user, ch):
     t += "ダメージ！"
     t2 += "ダメージ！"
     
+    def create_battle_text(a,b,atk_word="攻撃",buff=0):
+        if a.now_hp <= 0:
+            if "#" in a.name: result_text = f"{a.name}はやられてしまった"
+            else: text = f"{a.name}を倒した"
+        else:
+            text = f"{a.name}の{atk_word}->"
+            if not a.ID() in box.stun:
+                if random() <= 0.05:
+                    dmg, now_hp = b.damaged(a.STR()*2)
+                    text += f"{dmg}のクリティカルヒット"
+                else:
+                    dmg, now_hp = b.damaged(a.STR()*2)
+                    text += f"{dmg}のダメージ"
+            if a.ID() in box.nerf:
+                if random() <= 0.05:
+                    dmg, now_hp = b.damaged(a.STR())
+                    text += f"{dmg}のクリティカルヒット"
+                else:
+                    dmg, now_hp = b.damaged(a.STR()/2)
+                    text += f"{dmg}のダメージ"
+                box.stun[a.ID()] -= 1
+                if box.stun[a.ID()] <= 0: del box.nstun[a.ID]
+            if a.ID() in box.stun:
+                dmg, now_hp = 0, b.now_hp
+                text += f"動けない！"
+                box.nerf[a.ID()] -= 1
+                if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
+            if buff in [1,2] and not a.id in box.stun:
+                buff_dict = {1:"Stun",2:"Nerf"}
+                text += f" {buff_dict}"
+                if buff == 1:
+                    box.stun[b.ID()] = 3
+                if buff == 2:
+                    box.nerf[b.ID()] = 5
+            text += f"\n{b.name} ({b.now_hp}/{b.max_hp})\n{hp_gauge(b)}"
+        return text
+        
+                    
+    
     # バフチェック
     if ch.id in box.nerf and box.nerf[ch.id] > 0:
         dmg2 *= 0.5
