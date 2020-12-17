@@ -122,7 +122,7 @@ async def battle_result(player, mob):
                     drop_item_text += f"{item_emoji_a[id]}×{num} "
             result_desc += f"\nDropItem： {'-' if not drop_item_text else drop_item_text}"
             p.battle_end()
-        if random() <= 0.01:
+        if random() <= 0.01 and mob.lv() > player.lv():
             player.now_stp(mob.lv())
             stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
