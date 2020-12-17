@@ -174,13 +174,13 @@ def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
     guage_1 = ((num)*"∫")+((20-num)*" ")
-    return ('-HP :[' if num<5 else "+HP [") + ("-"*20 if avatar.now_hp<=0 else guage_1) + ']'
+    return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if avatar.now_hp<=0 else guage_1) + ']'
 
 # DEFゲージ作成関数 #
 def def_gauge(avatar):
     num = int((avatar.now_defe/avatar.max_defe)*20)
     guage_1 = ((num)*"∫")+((20-num)*" ")
-    return ('-DEF:[' if num<5 else "+DEF [") + ("-"*20 if avatar.now_defe<=0 else guage_1) + ']'
+    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if avatar.now_defe<=0 else guage_1) + ']'
 
 # ダメージがない場合のメッセージ #
 def zero_dmg_text():
