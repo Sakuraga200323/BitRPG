@@ -133,6 +133,43 @@ async def battle_result(player, mob):
 
 
 
+def create_battle_text(a,b,str_up_num=1,def_up_num=1,atk_word="攻撃",buff=0):
+    if a.now_hp <= 0:
+        if "#" in a.name: result_text = f"{a.name}はやられてしまった"
+        else: text = f"{a.name}を倒した"
+    else:
+        text = f"{a.name}の{atk_word}->"
+        if not a.ID() in box.stun:
+            if random() <= 0.05:
+                dmg, now_hp = b.damaged(a.STR()*2)
+                text += f"{dmg}のクリティカルヒット"
+            else:
+                dmg, now_hp = b.damaged(a.STR()*2)
+                text += f"{dmg}のダメージ"
+        if a.ID() in box.nerf:
+            if random() <= 0.05:
+                dmg, now_hp = b.damaged(a.STR())
+                text += f"{dmg}のクリティカルヒット"
+            else:
+                dmg, now_hp = b.damaged(a.STR()/2)
+                text += f"{dmg}のダメージ"
+            box.stun[a.ID()] -= 1
+            if box.stun[a.ID()] <= 0: del box.nstun[a.ID]
+        if a.ID() in box.stun:
+            dmg, now_hp = 0, b.now_hp
+            text += f"動けない！"
+            box.nerf[a.ID()] -= 1
+            if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
+        if buff in [1,2] and not a.id in box.stun:
+            buff_dict = {1:"Stun",2:"Nerf"}
+            text += f" {buff_dict}"
+            if buff == 1:
+                box.stun[b.ID()] = 3
+            if buff == 2:
+                box.nerf[b.ID()] = 5
+        text += f"\n{b.name} ({b.now_hp}/{b.max_hp})\n{hp_gauge(b)}"
+    return text
+
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
@@ -161,45 +198,7 @@ async def cbt_proc(user, ch):
     t += "ダメージ！"
     t2 += "ダメージ！"
     
-    def create_battle_text(a,b,atk_word="攻撃",buff=0):
-        if a.now_hp <= 0:
-            if "#" in a.name: result_text = f"{a.name}はやられてしまった"
-            else: text = f"{a.name}を倒した"
-        else:
-            text = f"{a.name}の{atk_word}->"
-            if not a.ID() in box.stun:
-                if random() <= 0.05:
-                    dmg, now_hp = b.damaged(a.STR()*2)
-                    text += f"{dmg}のクリティカルヒット"
-                else:
-                    dmg, now_hp = b.damaged(a.STR()*2)
-                    text += f"{dmg}のダメージ"
-            if a.ID() in box.nerf:
-                if random() <= 0.05:
-                    dmg, now_hp = b.damaged(a.STR())
-                    text += f"{dmg}のクリティカルヒット"
-                else:
-                    dmg, now_hp = b.damaged(a.STR()/2)
-                    text += f"{dmg}のダメージ"
-                box.stun[a.ID()] -= 1
-                if box.stun[a.ID()] <= 0: del box.nstun[a.ID]
-            if a.ID() in box.stun:
-                dmg, now_hp = 0, b.now_hp
-                text += f"動けない！"
-                box.nerf[a.ID()] -= 1
-                if box.nerf[a.ID()] <= 0: del box.nerf[a.ID]
-            if buff in [1,2] and not a.id in box.stun:
-                buff_dict = {1:"Stun",2:"Nerf"}
-                text += f" {buff_dict}"
-                if buff == 1:
-                    box.stun[b.ID()] = 3
-                if buff == 2:
-                    box.nerf[b.ID()] = 5
-            text += f"\n{b.name} ({b.now_hp}/{b.max_hp})\n{hp_gauge(b)}"
-        return text
         
-                    
-    
     # バフチェック
     if ch.id in box.nerf and box.nerf[ch.id] > 0:
         dmg2 *= 0.5
@@ -211,29 +210,17 @@ async def cbt_proc(user, ch):
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        log1_1 += f'{player.user}の攻撃->'
-        dmg1 = round(x * dmg1)
-        log1_1 += f"{dmg1}の{t}" if dmg1!=0 else f"{mob.name}は動けない！" if ch.id in box.stun else zero_dmg_text()
-        log1_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
-        log2_1 += f'{mob.name}を倒した！！' if mob.now_hp<=0 else f'{mob.name}の攻撃->'
+        text1 = create_battle_text(player,mob)
         if not mob.now_hp <= 0:
-            dmg2 = round(x2 * dmg2)
-            log2_1 += f"{dmg2}の{t2}" if dmg2>0 else zero_dmg_text()
-            log2_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
+            text2 = create_battle_text(mob,player)
 
     # 戦闘処理（Player後手） #
     else:
-        log1_1 += f'{mob.name}の攻撃->'
-        dmg2 = round(x2 * dmg2)
-        log1_1 += f"{str(dmg2)}の{t2}" if dmg2!=0 else f"{mob.name}は動けない！" if ch.id in box.stun else zero_dmg_text()
-        log1_1 += f'\n{user}({player.cut_hp(dmg2)}/{player.max_hp})\n{hp_gauge(player)}'
-        log2_1 += f'{user}はやられてしまった！！' if player.now_hp<=0 else f'{user}の攻撃->'
+        text1 = create_battle_text(mob,player)
         if not player.now_hp <= 0 :
-            dmg1 = round(x * dmg1)
-            log2_1 += f"{str(dmg1)}の{t}" if dmg1>0 else zero_dmg_text()
-            log2_1 += f'\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{hp_gauge(mob)}'
+            text2 = create_battle_text(player,mob)
 
-    battle_log = f"```diff\n{log1_1}``````diff\n{log2_1}```"
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle_result(player, mob)
 
