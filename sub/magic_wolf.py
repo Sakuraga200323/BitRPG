@@ -40,32 +40,19 @@ async def magic_1(player,mob):
     ch = mob.mob
     await battle.battle_start(player,mob)
     build_up_num = 1.5 + (player.magic_lv()/100000)
-    dmg1 = calc.dmg(player.STR()*build_up_num,mob.defe())
-    dmg2 = calc.dmg(mob.str(),player.DEFE()*0.5)
-    if player.now_mp < 50:
-        dmg1 = 0
-        mp_text = 'MP不足で'
+    if player.now_mp < 50: up_num = 0
+    else: up_num = build_up_num
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
+        text2 = create_battle_text(mob,player)
+    # 戦闘処理（Player後手） #
     else:
-        mp_text = ""
-    p_text = m_text = ""
-    p_text += f"{player.user}の『BeeRay』->{mp_text}{dmg1}ダメージ！"
-    p_text += f"\n{mob.name}({mob.cut_hp(dmg1)}/{mob.max_hp})\n{battle.hp_gauge(mob)}"
-    m_text += f"{mob.name}を倒した！！" if mob.now_hp<=0 else f"{mob.name}の攻撃->"
-    if not mob.now_hp <= 0:
-        text = f"{str(dmg2)}ののダメージ！"
-        # バフチェック
-        if ch.id in box.nerf and box.nerf[ch.id] > 0:
-            dmg2 *= 0.5
-            dmg2 = int(dmg2)
-            box.nerf[ch.id] -= 1
-        if ch.id in box.stun and box.stun[ch.id] > 0:
-            dmg2 = 0
-            box.stun[ch.id] -= 1
-        m_text += f"{text}" if dmg2>=0 else battle.zero_dmg_text()
-        m_text += f'\n{player.user}({player.cut_hp(dmg2)}/{player.max_hp})\n{battle.hp_gauge(player)}'
-    magic_log = f"```diff\n{p_text}``````diff\n{m_text}```"
-    await mob.mob.send(content=magic_log)
-    await battle.battle_result(player, mob)
+        text1 = create_battle_text(mob,player)
+        text2 = create_battle_text(player,mob,str_up_num=up_num)
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    await ch.send(content=battle_log)
+    await battle_result(player, mob)
     player.cut_mp(50)
     if not mp_text:
         player.magic_lv(1)
