@@ -118,7 +118,7 @@ async def shop(user, ch):
                     await ch.send(embed=em)
                     return
                 status.get_item(user,item_id,item_num)
-                player.money(-cost_dict[item_id])
+                player.money(-cost_dict[item_id]*item_num)
                 await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
 
         elif respons == 2:
