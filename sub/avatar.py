@@ -229,19 +229,22 @@ class Player:
     def cut_defe(self, str):
         if self.now_defe <= 0:
             dmg = str
+            defe = 0
             self.now_defe = self.max_defe
         else:
             if str >= self.now_defe:
                 dmg = str - self.now_defe
+                defe = 0
                 self.now_defe = 0
             else:
                 dmg = 0
+                defe = self.now_defe - str
                 self.now_defe -= str
-        return dmg
+        return dmg, defe
 
     def damaged(self,str):
-        dmg = self.cut_defe(str)
-        return dmg, self.cut_hp(dmg)
+        dmg,now_defe,now_hp = self.cut_defe(str),self.cut_hp(dmg)
+        return dmg,now_hp,now_defe
         
 
     def battle_start(self, id):
@@ -412,19 +415,22 @@ class Mob:
     def cut_defe(self, str):
         if self.now_defe <= 0:
             dmg = str
+            defe = 0
             self.now_defe = self.max_defe
         else:
             if str >= self.now_defe:
                 dmg = str - self.now_defe
+                defe = 0
                 self.now_defe = 0
             else:
                 dmg = 0
+                defe = self.now_defe - str
                 self.now_defe -= str
-        return dmg
+        return dmg, defe
 
     def damaged(self,str):
-        dmg = self.cut_defe(str)
-        return dmg, self.cut_hp(dmg)
+        dmg,now_defe,now_hp = self.cut_defe(str),self.cut_hp(dmg)
+        return dmg,now_hp,now_defe
 
     def spawn(self):
         set = mob_data.select(self.lv())
