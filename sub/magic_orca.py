@@ -15,7 +15,7 @@ import psycopg2, psycopg2.extras
 import traceback
 
 from sub import box, status, avatar, calc, battle
-from battle import create_battle_text
+from sub.battle import create_battle_text
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
