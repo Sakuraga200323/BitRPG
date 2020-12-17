@@ -243,8 +243,7 @@ class Player:
         return dmg, defe
 
     def damaged(self,str):
-        dmg,now_defe,now_hp = self.cut_defe(str)+self.cut_hp(dmg)
-        return dmg,now_hp,now_defe
+        return self.cut_defe(str).append(self.cut_hp(dmg))
         
 
     def battle_start(self, id):
@@ -429,8 +428,7 @@ class Mob:
         return dmg, defe
 
     def damaged(self,str):
-        dmg,now_defe,now_hp = self.cut_defe(str)+self.cut_hp(dmg)
-        return dmg,now_hp,now_defe
+        return self.cut_defe(str).append(self.cut_hp(dmg))
 
     def spawn(self):
         set = mob_data.select(self.lv())
