@@ -68,13 +68,16 @@ async def check_macro(client, user, ch):
         if doubt_count[user.id] >= 5:
             check_flag = False
             doubt_count[user.id] = 0
-            await ch.send(f'不正カウントが規定量に達しました。貴方のプレイヤーデータを即座に終了します。現在はテスト版なので、実際に消去はされません。')
-            # await ch.send(f"「この画像は誰が見てもわからんやろ！？」等の異議申し立てがある場合は`^^claim {check_id}`と送信してください。運営人の検知画像肉眼チェックの上然るべき対応をさせていただきます。")
+            await ch.send(f'不正カウントが規定量に達しました。ログを送信します。')
         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
         embed.add_field(name="CheckID", value=check_id, inline=False)
         embed.add_field(name="Result", value=result, inline=False)
+        embed.add_field(name="MissNum", value=doubt_count[user.id], inline=False)
         embed.add_field(name="UserData", value=P_list, inline=False)
         embed.set_image(url="attachment://temp.png")
         await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
+        if str(num) != str(answer.content):
+            await client.get_channel(789051180978143261).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
+                
         macro_checking.remove(user.id)
         return result
