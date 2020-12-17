@@ -86,6 +86,9 @@ class Player:
             else:
                 pg.execute(f'update player_tb set {target}={target}+{plus} where id = {self.user.id};')
             return self.get_data(target)
+        
+    def name(self):
+        return self.user
 
     # レベル取得
     def lv(self, plus=None):
