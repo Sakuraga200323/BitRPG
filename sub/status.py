@@ -144,13 +144,13 @@ async def divid(user, ch, result):
         await ch.send(embed=em)
         return
     if p_data.now_stp() < point:
-        em = discord.Embed(description=f"{p_data.user.mention} の所持ポイントを{point - p_data.now_stp()}超過しています。{p_data.now_stp()}以下にしてください。")
+        em = discord.Embed(description=f"{p_data.user.mention} の所持ポイントを{point - p_data.now_stp()}超過しています {p_data.now_stp()}以下にしてください")
         await ch.send(embed=em)
         return
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    em = discord.Embed(description=f"STP{point}を消費。{p_data.user.mention}の{target}強化量+{result}。STP{p_data.now_stp()+point}->{p_data.now_stp()}")
+    em = discord.Embed(description=f"{p_data.user.mention}の{target}+{result-point} -> {result} STP{p_data.now_stp()+point} -> {p_data.now_stp()}")
     await ch.send(embed=em)
 
 
@@ -251,7 +251,7 @@ async def use_item(user, ch, item):
             item_em = discord.Embed(description=f"MPは既に満タンのようだ…無駄消費乙！")
     if item == "魔硬貨":
         print("魔硬貨:",player.user)
-        result = random.choice("裏","表")
+        result = random.choice(("裏","表"))
         item_em = discord.Embed(description=f"コインを投げた…{result}!")
     if item == "冒険者カード":
         players_ranking = [ i["id"] for i in pg.fetchdict(f"SELECT id FROM player_tb order by lv desc;") ]
