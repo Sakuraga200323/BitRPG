@@ -209,7 +209,7 @@ async def use_item(user, ch, item):
                   text = f"<@{player.user.id}>のHPが{cure_num}回復"
             item_em = discord.Embed(description=text)
         else:
-            item_em = discord.Embed(description=f"なにも起こらなかった…")
+            item_em = discord.Embed(description=f"HPは既に満タンのようだ…無駄消費乙！")
     if item == "MP回復薬":
         print("MP回復薬:",player.user)
         if player.now_mp < player.max_mp:
@@ -222,7 +222,7 @@ async def use_item(user, ch, item):
                   text = f"<@{player.user.id}>のMPが{cure_num}回復"
             item_em = discord.Embed(description=text)
         else:
-            item_em = discord.Embed(description=f"なにも起こらなかった…")
+            item_em = discord.Embed(description=f"MPは既に満タンのようだ…無駄消費乙！")
     if item == "HP全回復薬":
         print("HP全回復薬:",player.user)
         if player.now_hp < player.max_hp:
@@ -235,7 +235,7 @@ async def use_item(user, ch, item):
                   text = f"<@{player.user.id}>のHPが{cure_num}回復"
             item_em = discord.Embed(description=text)
         else:
-            item_em = discord.Embed(description=f"なにも起こらなかった…")
+            item_em = discord.Embed(description=f"HPは既に満タンのようだ…無駄消費乙！")
     if item == "MP全回復薬":
         print("MP全回復薬:",player.user)
         if player.now_mp < player.max_mp:
@@ -248,7 +248,7 @@ async def use_item(user, ch, item):
                   text = f"<@{player.user.id}>のMPが{cure_num}回復"
             item_em = discord.Embed(description=text)
         else:
-            item_em = discord.Embed(description=f"なにも起こらなかった…")
+            item_em = discord.Embed(description=f"MPは既に満タンのようだ…無駄消費乙！")
     if item == "魔硬貨":
         print("魔硬貨:",player.user)
         result = random.choice("裏","表")
