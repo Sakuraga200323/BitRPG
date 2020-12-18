@@ -146,8 +146,8 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         if "#" in a.name: text = f"{a.name}はやられてしまった"
         else: text = f"{a.name}を倒した"
     else:
-        if "#" in a.name: no_dmg_text = f"盛大に避けた！"
-        else: no_dmg_text = f"避けられてしまった！"
+        if "#" in a.name: no_dmg_text = f"避けられてしまった！"
+        else: no_dmg_text = f"盛大に避けた！"
         text = f"{a.name}の{atk_word}->"
         if a.ID() in list((box.stun).keys())+list((box.nerf).keys()):
             if a.ID() in box.stun:
@@ -256,7 +256,7 @@ async def reset(user, ch):
             print(f"Mobデータ挿入(battle.py->cbt_proc)： {mob.name}")
     if not player.battle_ch:
         player.now_hp = player.max_hp
-        await ch.send(f"HPを全回復しました。")
+        await ch.send(f"戦闘に参加して今買ったのでHPを全回復しました。")
         return
     now_ch = client.get_channel(player.battle_ch)
     if player.battle_ch != ch.id:
