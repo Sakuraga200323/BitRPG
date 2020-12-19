@@ -214,6 +214,7 @@ async def on_message(message):
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
                 except asyncio.TimeoutError:
+                    break
                     return
                 else:
                     if msg.content in ("y","Y"):
@@ -224,6 +225,7 @@ async def on_message(message):
                     else:
                         msg_em = discord.Embed(description="キャセルン！！")
                         await m_ch.send(embed=msg_em)
+                        break
                         return
             msg_em = discord.Embed(description=f"{m_author.mention}さんの冒険者登録を開始。")
             await m_ch.send(embed=msg_em)
