@@ -14,7 +14,20 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, battle, rank, status, avatar, check_macro, help, shop, magic_wolf, magic_orca,magic_armadillo,tarining
+from sub import (
+    avatar,
+    battle,
+    box,
+    check_macro,
+    help,
+    magic_wolf,
+    magic_armadillo,
+    magic_orca,
+    rank,
+    shop,
+    status,
+    training,
+)
 
 
 
