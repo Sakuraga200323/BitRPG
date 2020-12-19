@@ -75,7 +75,7 @@ async def abc_training(user,ch):
     await ch.send(embed=em)
     def check(m):
         if m.author.id != user.id: return 0
-        if m.channel.id != user.id: return 0
+        if m.channel.id != ch.id: return 0
         if not m.content in taple("1234"): return 0
         return 1
     try:
