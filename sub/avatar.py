@@ -129,7 +129,7 @@ class Player:
 
     def STR(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int(self.str()+self.str_p()*1.1)
+        if magic_class == 2: return int((self.str()+self.str_p())*1.1)
         else: return self.str()+self.str_p()
 
     def defe(self):
@@ -143,7 +143,7 @@ class Player:
 
     def DEFE(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int((self.defe()+self.defe_p()*1.1)
+        if magic_class == 2: return int((self.defe()+self.defe_p())*1.1)
         else: return self.defe()+self.defe_p()
 
     def agi(self):
@@ -158,7 +158,7 @@ class Player:
 
     def AGI(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int((self.agi()+self.agi_p()*1.1)
+        if magic_class == 2: return int((self.agi()+self.agi_p())*1.1)
         else: return self.agi()+self.agi_p()
 
     def now_stp(self, plus=None):
@@ -191,12 +191,9 @@ class Player:
 
     def magic_class(self):
         self.magic_class_ =  self.get_data("magic_class")
-        if self.magic_class_ == 1:
-            return "Wolf"
-        elif self.magic_class_ == 2:
-            return "Armadillo"
-        elif self.magic_class_ == 3:
-            return "Orca"
+        if self.magic_class_ == 1: return "Wolf"
+        elif self.magic_class_ == 2: return "Armadillo"
+        elif self.magic_class_ == 3: return "Orca"
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
