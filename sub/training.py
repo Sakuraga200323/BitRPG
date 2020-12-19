@@ -79,7 +79,7 @@ async def abc_training(user,ch):
         if not m.content in tuple("1234"): return 0
         return 1
     try:
-        aswer_message = await client.wait_for("message",timeout=30,check=check)
+        answer_message = await client.wait_for("message",timeout=30,check=check)
     except asyncio.TimeoutError:
         result_text = "時間切れ！"
     else:
