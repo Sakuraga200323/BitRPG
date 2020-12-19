@@ -60,7 +60,7 @@ async def abc_training(user,ch):
     if answer_abc_index > 25: answer_abc_index = 25
     answer_abc = abc_list[answer_abc_index]
     answer_abc_moved = answer_abc_index - abc_index
-    em = discord.Embed(title="ABC.Q!!",description=f"**{abc}**から**{answer_abc_moved}**個目にあたるアルファベットは何ですか？ 番号で答えなさい")
+    em = discord.Embed(title="ABC.Q!!",description=f"**{abc.upper()}**から**{str(answer_abc_moved).upper}**個目にあたるアルファベットは何ですか？ 番号で答えなさい")
     abc_list.remove(answer_abc)
     abc_list2 = sample(abc_list,3)
     abc_list2.append(answer_abc)
@@ -68,7 +68,7 @@ async def abc_training(user,ch):
     answer_num = answer_abc_num = 0
     for i in sample(abc_list2,4):
         answer_num += 1
-        answer_choices_text += f"\n`{answer_num}.`*{i}*"
+        answer_choices_text += f"\n`{str(answer_num).upper()}.{i.upper()}`"
         if i == answer_abc:
             answer_abc_num = answer_num
     em.add_field(name="選択肢",value=answer_choices_text)
