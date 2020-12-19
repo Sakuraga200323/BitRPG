@@ -79,7 +79,6 @@ async def battle_start(player, mob):
             await ch.send(embed=em)
             return False
     if player.now_hp <= 0:
-        await ch.send(f"")
         em = discord.Embed(description=f"<@{user.id}> は既に死亡しています")
         await ch.send(embed=em)
         return False
