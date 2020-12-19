@@ -214,7 +214,8 @@ async def on_message(message):
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
                 except asyncio.TimeoutError:
-                    break
+                    msg_em = discord.Embed(description="キャセルン！！")
+                    await m_ch.send(embed=msg_em)
                     return
                 else:
                     if msg.content in ("y","Y"):
@@ -223,9 +224,6 @@ async def on_message(message):
                         magic_type_flag = True
                         pg.execute(f"delete from player_tb where id = {m_author.id}")
                     else:
-                        msg_em = discord.Embed(description="キャセルン！！")
-                        await m_ch.send(embed=msg_em)
-                        break
                         return
             msg_em = discord.Embed(description=f"{m_author.mention}さんの冒険者登録を開始。")
             await m_ch.send(embed=msg_em)
@@ -244,6 +242,7 @@ async def on_message(message):
                 except asyncio.TimeoutError:
                     msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい ")
                     await m_ch.send(embed=msg_em)
+                    break
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
                     if not respons in (1,2,3):
@@ -258,6 +257,7 @@ async def on_message(message):
                     except asyncio.TimeoutError:
                         msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい")
                         await m_ch.send(embed=msg_em)
+                        break
                     else:
                         if msg.content in ("y","Y"):
                             msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します")
@@ -266,7 +266,7 @@ async def on_message(message):
                         elif msg.content in ("n","N"):
                             msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります")
                             await m_ch.send(embed=msg_em)
-                            continue
+                            break
             if not magic_type_flag == True:
                 return
             jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, 'HP全回復薬',1, 'MP全回復薬',1, '魔石',1, '魂の焔',0, '砥石',0, '魔晶',0, '魔硬貨',0"
