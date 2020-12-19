@@ -80,7 +80,7 @@ async def abc_training(user,ch):
         result_text = "時間切れ！"
     else:
         if int(answer_message.content) == answer_abc_moved:
-            exp = int(player.lv()/3)+1
+            exp = int(player.lv()/10)+1
             player.get_exp(exp)
             return_text = "正解！ exp+{exp}"
         else:
