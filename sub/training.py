@@ -50,7 +50,7 @@ client = None
 
 
 
-def abc_training(user,ch):
+async def abc_training(user,ch):
     abc_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     player = box.players[user.id]
     abc = choice(abc_list)
