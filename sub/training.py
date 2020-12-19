@@ -88,7 +88,7 @@ async def abc_training(user,ch):
             lvup = player.get_exp(exp)[1]
             result_text = f"正解！ Exp+{exp}"
             if lvup > 0:
-                result.text += f"\nLvUP {player.lv()-lvup} -> {player.lv()}"
+                result_text += f"\nLvUP {player.lv()-lvup} -> {player.lv()}"
         else:
             result_text = f"不正解！ 正解は{answer_abc_num}"
     em = discord.Embed(description=result_text)
