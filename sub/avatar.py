@@ -69,8 +69,14 @@ class Player:
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
         self.max_mp = self.now_mp = self.lv_
         self.now_defe = self.max_defe = self.lv_ * 10 + 10
+        magic_class = self.dtd["magic_class"]
+        if magic_class == 2:
+            self.max_hp = self.now_hp = int(self.max_hp*1.1)
+        if magic_class == 3:
+            self.max_mp = self.now_mp = int(self.max_mp*1.1)
         self.battle_ch = None
         self.name = str(self.user)
+            
 
     def ID(self):
         return self.user.id
@@ -97,6 +103,12 @@ class Player:
             self.lv_ = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv_ * 100 + 10
             self.max_mp = self.now_mp = self.lv_
+            self.max_defe = self.now_defe = (self.lv_+1)*10
+            if magic_class == 2:
+                self.max_hp = self.now_hp = int(self.max_hp*1.1)
+                self.max_defe = self.now_defe = int(self.max_defe*1.1)
+            if magic_class == 3:
+                self.max_mp = self.now_mp = int(self.max_mp*1.1)
         self.lv_ =  self.get_data("lv")
         return self.lv_
 
@@ -116,7 +128,9 @@ class Player:
         return self.str_p_
 
     def STR(self):
-        return self.str() + self.str_p()
+        magic_class = self.dtd["magic_class"]
+        if magic_class == 2: return int((self.str()+self.str_p()*1.1)
+        else: return self.str()+self.str_p()
 
     def defe(self):
         return self.lv() * 10 + 10
@@ -128,7 +142,9 @@ class Player:
         return self.defe_p_
 
     def DEFE(self):
-        return self.defe() + self.defe_p()
+        magic_class = self.dtd["magic_class"]
+        if magic_class == 2: return int((self.defe()+self.defe_p()*1.1)
+        else: return self.defe()+self.defe_p()
 
     def agi(self):
         result = self.lv() * 10 + 10
@@ -141,7 +157,9 @@ class Player:
         return self.agi_p_
 
     def AGI(self):
-        return self.agi() + self.agi_p()
+        magic_class = self.dtd["magic_class"]
+        if magic_class == 2: return int((self.agi()+self.agi_p()*1.1)
+        else: return self.agi()+self.agi_p()
 
     def now_stp(self, plus=None):
         if isinstance(plus,int):
@@ -194,21 +212,13 @@ class Player:
 
     def share_stp(self, target, point):
         self.now_stp(-point)
-        if target == "str":
-            self.str_p(point)
-            temp = self.str_p_
-        if target == "def":
-            self.defe_p(point)
-            temp = self.defe_p_
-        if target == "agi":
-            self.agi_p(point)
-            temp = self.agi_p_
-        return temp
+        if target == "str": return self.str_p(point)
+        if target == "def": return self.defe_p(point)
+        if target == "agi": return self.agi_p(point)
 
     def get_exp(self, exp):
         self.max_exp(exp)
         lvup_count = 0
-        self.now_exp()
         while self.now_exp() >= (self.lv()+1) and self.max_lv() > self.lv():
             lvup_count += 1
             self.now_exp(-self.lv(1))
@@ -216,6 +226,12 @@ class Player:
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
+            self.max_defe = self.now_defe = (self.lv()+1)*10
+            if magic_class == 2:
+                self.max_hp = self.now_hp = int(self.max_hp*1.1)
+                self.max_defe = self.now_defe = int(self.max_defe*1.1)
+            if magic_class == 3:
+                self.max_mp = self.now_mp = int(self.max_mp*1.1)
         return exp, lvup_count
 
     def cut_hp(self, dmg):
@@ -226,21 +242,16 @@ class Player:
         self.now_mp -= use_mp if use_mp<=self.now_mp else self.now_mp
         return self.now_mp
 
-    def cut_defe(self, str):
+    def cut_defe(self, strength):
         if self.now_defe <= 0:
-            dmg = str
-            defe = 0
             self.now_defe = self.max_defe
+            return strength, 0
+        elif str >= self.now_defe:
+            self.now_defe = 0
+            return strength - self.now_defe, 0
         else:
-            if str >= self.now_defe:
-                dmg = str - self.now_defe
-                defe = 0
-                self.now_defe = 0
-            else:
-                dmg = 0
-                defe = self.now_defe - str
-                self.now_defe -= str
-        return dmg, defe
+            self.now_defe -= str
+            return 0, self.now_defe - str
 
     def damaged(self,str):
         dmg,defe = self.cut_defe(int(str))
