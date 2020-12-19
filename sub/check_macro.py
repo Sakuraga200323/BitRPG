@@ -37,7 +37,7 @@ async def check_macro(client, user, ch):
         cv2.imwrite('anti_macro/num_img/temp.png', img)
         check_em = discord.Embed(
             title = "マクロ検知ぃいい！！(迫真)",
-            description=f'{user.mention}さんのマクロチェックです。\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください。\n※`CheckID『{check_id}』`')
+            description=f'{user.mention}さんのマクロチェックです(突然の冷静)\n以下の画像に書かれている数字を20秒以内に**半角**で送信してください\n※`CheckID『{check_id}』`')
         check_em.set_image(url="attachment://temp.png")
         check_msg = await ch.send(embed=check_em,file=discord.File(fp="anti_macro/num_img/temp.png"))
         def check(m):
