@@ -49,9 +49,8 @@ pg = None
 client = None
 
 
-def training(user,ch):
 
-def training(user,ch):
+def abc_training(user,ch):
     abc_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     player = box.players[user.id]
     abc = choice(abc_list)
@@ -78,8 +77,14 @@ def training(user,ch):
     try:
         aswer_message = await client.wait_for("message",timeout=30,check=check)
     except asyncio.Timeouterror:
-        pass
+        result_text = "時間切れ！"
     else:
         if int(answer_message.content) == answer_abc_moved:
-            pass
+            exp = int(player.lv()/3)+1
+            player.get_exp(exp)
+            return_text = "正解！ exp+{exp}"
+        else:
+            return_text = "不正解！"
+    em = discord.Embed(description=return_text)
+    await ch.send(embed=em)
 
