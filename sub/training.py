@@ -51,7 +51,7 @@ client = None
 
 
 async def abc_training(user,ch):
-    abc_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    abc_list = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     player = box.players[user.id]
     abc = choice(abc_list)
     abc_index = abc_list.index(abc)
