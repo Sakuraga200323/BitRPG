@@ -65,7 +65,8 @@ async def abc_training(user,ch):
     abc_list2 = sample(abc_list,3)
     answer_choices_text = ""
     answer_num = 0
-    for i in abc_list (abc_list2.append(answer_abc)):
+    abc_list2.append(answer_abc)
+    for i in abc_list abc_list2:
         answer_num += 1
         answer_choices_text += f"\n`{answer_num}.`*{i}*"
     em.add_field(name="選択肢",value=answer_choices_text)
