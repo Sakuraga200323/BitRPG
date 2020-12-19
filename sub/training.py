@@ -61,7 +61,8 @@ async def abc_training(user,ch):
     answer_abc = abc_list[answer_abc_index]
     answer_abc_moved = answer_abc_index - abc_index
     em = discord.Embed(title="ABC.Q!!",description=f"**{abc}**から**{answer_abc_moved}**個目にあたるアルファベットは何ですか？ 番号で答えなさい")
-    abc_list2 = sample(abc_list.remove(abc),3)
+    abc_list.remove(abc)
+    abc_list2 = sample(abc_list,3)
     answer_choices_text = ""
     answer_num = 0
     for i in abc_list (abc_list2.append(answer_abc)):
