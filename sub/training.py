@@ -4,7 +4,7 @@ import cv2
 from datetime import datetime, timedelta, timezone
 import math
 import os
-from random import random, randint, choice
+from random import random, randint, choice, shuffle
 import re
 import sys
 
@@ -48,14 +48,38 @@ item_emoji_a = {
 pg = None
 client = None
 
-abc_taple = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def training(user,ch):
+
+def training(user,ch):
+    abc_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     player = box.players[user.id]
-    abc = choice(abc_taple)
-    abc_index = abc_taple.index("abc")
-    target_index = abc_index + randint(-4,4)
-    if target_index < 0: target_index = 0
-    if target_index > 27: target_index = 27
-    target_abc = abc_taple[target_index]
-    
+    abc = choice(abc_list)
+    abc_index = abc_list.index(abc)
+    answer_abc_index = abc_index + randint(-4,4)
+    if answer_abc_index < 0: answer_abc_index = 0
+    if answer_abc_index > 27: answer_abc_index = 27
+    answer_abc = abc_list[answer_abc_index]
+    answer_abc_moved = answer_abc_index - abc_index
+    em = discord.Embed(title="ABC.Q!!",description=f"**{abc}**から**{answer_abc_moved}**個目にあたるアルファベットは何ですか？ 番号で答えなさい")
+    abc_list2 = shuffle(abc_list.remove(abc))
+    answer_choices_text = ""
+    answer_num = 0
+    for i in abc_list (abc_list2[:3]+answer_abc):
+        answer_num += 1
+        answer_choices_text += f"\n`{answer_num}.`*{i}*"
+    em.add_field(name="選択肢",value=answer_choices_text)
+    await ch.send(embed=em)
+    def check(m):
+        if m.author.id != user.id: return 0
+        if m_channel.id != user.id: return 0
+        if not m.content in taple("1234"): return 0
+        return 1
+    try:
+        aswer_message = await client.wait_for("message",timeout=30,check=check)
+    except asyncio.Timeouterror:
+        pass
+    else:
+        if int(answer_message.content) == answer_abc_moved:
+            pass
+
