@@ -361,6 +361,17 @@ async def on_message(message):
                 if result: await battle.reset(m_author, m_ch)
 
 
+            # training #
+            if m_ctt.startswith("^^tr"):
+                print("^^training: ",m_author)
+                temp = m_ctt
+                pattern = r"^\^\^(tr|training|training (.+)|tr (.+))$"
+                result = re.search(pattern, temp)
+                if result:
+                    training.client, training.pg = client, pg
+                    await training.abc_training(m_author, m_ch)
+
+
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 print("^^point: ",m_author)
