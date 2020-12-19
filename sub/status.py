@@ -88,14 +88,29 @@ async def open_status(user,ch):
     mc = p_data.magic_class_
     embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff)
     embed.add_field(name=f"Player", value=f"{p_data.user.mention}", inline=False)
-    embed.add_field(name=f"Level (Now/Limit)", value=f"*{p_data.lv()} / {p_data.max_lv()}*")
-    embed.add_field(name=f"MagicLevel", value=f"*{p_data.magic_lv()}*")
-    embed.add_field(name=f"HitPoint (Now/Max)", value=f"*{p_data.now_hp} / {p_data.max_hp}*")
-    embed.add_field(name=f"MagicPoint (Now/Max)", value=f"*{p_data.now_mp} / {p_data.max_mp}*", inline=False)
-    embed.add_field(name=f"Strength", value=f"*{p_data.STR()}* (+{p_data.str_p()})")
-    embed.add_field(name=f"Defense", value=f"*{p_data.DEFE()}* (+{p_data.defe_p()})")
-    embed.add_field(name=f"Agility", value=f"*{p_data.AGI()}* (+{p_data.agi_p()})")
-    embed.add_field(name=f"StatusPoint", value=f"*{p_data.now_stp()}*")
+    embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()} / {p_data.max_lv()}`")
+    embed.add_field(name=f"MagicLevel", value=f"`{p_data.magic_class} Lv.{p_data.magic_lv()}`")
+    if p_data.magic_class() == "Armadillo":
+        embed.add_field(name=f"HitPoint (Now/Max)", value=f"`{p_data.now_hp} / {p_data.max_hp} (+10%)`", inline=False)
+    else:
+        embed.add_field(name=f"HitPoint (Now/Max)", value=f"`{p_data.now_hp} / {p_data.max_hp}`", inline=False)
+    if p_data.magic_class() == "Orca":
+        embed.add_field(name=f"MagicPoint (Now/Max)", value=f"`{p_data.now_mp} / {p_data.max_mp} (+10%)`", inline=False)
+    else:
+        embed.add_field(name=f"MagicPoint (Now/Max)", value=f"`{p_data.now_mp} / {p_data.max_mp}`", inline=False)
+    if p_data.magic_class() == "Wolf":
+        embed.add_field(name=f"Strength", value=f"`{p_data.STR()} (+{p_data.str_p()} +10%)`")
+    else:
+        embed.add_field(name=f"Strength", value=f"`{p_data.STR()} (+{p_data.str_p()})`")
+    if p_data.magic_class() == "Armadillo":
+        embed.add_field(name=f"Defense (Now/Limit)", value=f"`{p_data.now_defe} / {p_data.max_defe} (+{p_data.defe_p()} +10%)`")
+    else:
+        embed.add_field(name=f"Defense (Now/Limit)", value=f"`{p_data.now_defe} / {p_data.max_defe} (+{p_data.defe_p()})`")
+    if p_data.magic_class() == "Orca":
+        embed.add_field(name=f"Agility", value=f"`{p_data.AGI()} (+{p_data.agi_p()} +10%)`")
+    else:
+        embed.add_field(name=f"Agility", value=f"`{p_data.AGI()} (+{p_data.agi_p()})`")
+    embed.add_field(name=f"StatusPoint", value=f"`{p_data.now_stp()}`")
     gauge_edge_reft = "<:_end:784330415624290306>"
     gauge_edge_right = "<:end_:784330344748417024>"
     def gauge(x,y):
@@ -105,7 +120,7 @@ async def open_status(user,ch):
         s = f"{gauge(p_data.str_p(), all_stp)}"
         d = f"{gauge(p_data.defe_p(), all_stp)}"
         a = f"{gauge(p_data.agi_p(), all_stp)}"
-        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"Total:*{p_data.STP()}*\n{gauge_edge_reft}`{s}⧱{d}⧱{a}`{gauge_edge_right}", inline=False)
+        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"`Total: {p_data.STP()}`\n{gauge_edge_reft}`{s}⧱{d}⧱{a}`{gauge_edge_right}", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
@@ -114,7 +129,7 @@ async def open_status(user,ch):
     exp_gauge_1 = '<:1_:784323561052569642>'*exp_gauge_num
     exp_gauge_0 = (10 - exp_gauge_num) * '<:0_:784323507110150144>'
     embed.add_field(name = f"Experience", value=(
-          f"Total:*{p_data.max_exp()}*"
+          f"`Total: {p_data.max_exp()}`"
         + f"\n{gauge_edge_reft}{exp_gauge_1 + exp_gauge_0}{gauge_edge_right}"
         + f"\n`({p_data.now_exp()} / {p_data.lv()+1})`"))
     embed.set_thumbnail(url=user.avatar_url)
