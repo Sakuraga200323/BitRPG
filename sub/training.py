@@ -86,7 +86,7 @@ async def abc_training(user,ch):
         if int(answer_message.content) == answer_abc_num:
             exp = int(player.lv()/10)+1
             lvup = player.get_exp(exp)[1]
-            result_text = f"正解！ eEp+{exp}"
+            result_text = f"正解！ Exp+{exp}"
             if lvup > 0:
                 result.text += f"\nLvUP {player.lv()-lvup} -> {player.lv()}"
         else:
