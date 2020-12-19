@@ -84,8 +84,8 @@ async def abc_training(user,ch):
         if int(answer_message.content) == answer_abc_moved:
             exp = int(player.lv()/10)+1
             player.get_exp(exp)
-            return_text = "正解！ exp+{exp}"
+            result_text = "正解！ exp+{exp}"
         else:
-            return_text = "不正解！"
-    em = discord.Embed(description=return_text)
+            result_text = "不正解！"
+    em = discord.Embed(description=result_text)
     await ch.send(embed=em)
