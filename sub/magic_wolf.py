@@ -37,17 +37,16 @@ client = None
 
 # BeeRay #
 async def magic_1(player,mob):
+    if player.now_mp < 50:
+        em=discord.Embed(description="MPが足りないようだ…")
+        await ch.send(embed=em)
+        return
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     build_up_num = 1.5 + (player.magic_lv()/100000)
-    if player.now_mp < 50:
-        up_num = 0
-        em=discord.Embed(description="MPが不足…！")
-        await ch.send(embed=em)
-    else:
-        up_num = build_up_num
-        player.magic_lv(1)
+    up_num = build_up_num
+    player.magic_lv(1)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
@@ -55,32 +54,55 @@ async def magic_1(player,mob):
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,str_up_num=up_num)
+        text2 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
     player.cut_mp(50)
-#  StrengthRein #
+
+# StrengthRein #
 async def magic_2(player,mob):
-    if player.magic_lv() <= 500:
-        await mob.mob.send(f"<@{player.id}> の熟練度が{500 - player.magic_lv()}足りません。")
+    if player.magic_lv() < 500:
+        em = discord.Embed(description=f"熟練度が足りないようだ…")
+        await ch.send(embed=em)
         return
-    pass
+    if player.now_mp < 100:
+        em=discord.Embed(description="MPが足りないようだ…")
+        await ch.send(embed=em)
+        return
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    up_num = = 2 + (player.magic_lv()/100000)
+    player.magic_lv(1)
+    # 戦闘処理（Player後手） #
+    text1 = battle.create_battle_text(mob,player)
+    text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
+    text3 = f"{player.user}に{int(player.max_hp/5)}の反動"
+    if 0 >= player.cut_hp(int(player.max_hp/5)):
+        text3 += "\n{player.user}は死んでしまった！"
+    battle_log = f"```diff\n{text1}``````diff\n{text2}``````css\n{text3}```"
+    await ch.send(content=battle_log)
+    await battle.battle_result(player, mob)
+    player.cut_mp(100)
+
 # IgnisStrike #
 async def magic_3(player,mob):
-    if player.magic_lv() <= 1000:
+    if player.magic_lv() < 1000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{1000 - player.magic_lv()}足りません。")
         return
     pass
+
 # StrengthRein+ #
 async def magic_4(player,mob):
-    if player.magic_lv() <= 2000:
+    if player.magic_lv() < 2000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{2000 - player.magic_lv()}足りません。")
         return
     pass
+
 # PyrobolusLacrima #
 async def magic_5(player,mob):
-    if player.magic_lv() <= 4000:
+    if player.magic_lv() < 4000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{4000 - player.magic_lv()}足りません。")
         return
     pass
@@ -101,4 +123,6 @@ async def use_magic(user,ch,magic):
     mob = box.mobs[ch.id]
     if magic in ["1","BeeRay","BR"]:
         await magic_1(player,mob)
+    if magic in ["2","StrengthRein","SR"]:
+        await magic_2(player,mob)
     
