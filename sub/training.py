@@ -89,4 +89,3 @@ async def abc_training(user,ch):
             return_text = "不正解！"
     em = discord.Embed(description=return_text)
     await ch.send(embed=em)
-
