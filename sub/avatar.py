@@ -130,7 +130,7 @@ class Player:
 
     def STR(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int((self.str()+self.str_p())*1.1)
+        if magic_class == 1: return int((self.str()+self.str_p())*1.1)
         else: return self.str()+self.str_p()
 
     def defe(self):
@@ -159,7 +159,7 @@ class Player:
 
     def AGI(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int((self.agi()+self.agi_p())*1.1)
+        if magic_class == 3: return int((self.agi()+self.agi_p())*1.1)
         else: return self.agi()+self.agi_p()
 
     def now_stp(self, plus=None):
