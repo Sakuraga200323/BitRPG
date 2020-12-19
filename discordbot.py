@@ -231,21 +231,21 @@ async def on_message(message):
             while not magic_type_flag is True:
                 magic_type_em = discord.Embed(
                     title=f"{m_author.name} の所属魔法領域を選択",
-                    description=("所属する魔法領域の対応番号を半角英数字で送信してください。\n再選択は出来ません。詳しくは[GitHub](https://github.com/Sakuraga200323/BitRPG/blob/master/README.md)の**各システムの解説->魔法システム**")
+                    description=("所属する魔法領域の対応番号を半角英数字で送信してください 再選択は出来ません")
                 )
-                magic_type_em.add_field(name="1:Wolf",value="`火力特化の魔法領域です。`")
-                magic_type_em.add_field(name="2:Armadillo",value="`防御特化の魔法領域です。`")
-                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化の魔法領域です。`")
+                magic_type_em.add_field(name="1:Wolf",value="`火力特化`")
+                magic_type_em.add_field(name="2:Armadillo",value="`防御特化`")
+                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化`")
                 await m_ch.send(embed=magic_type_em)
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
                 except asyncio.TimeoutError:
-                    msg_em = discord.Embed(description=f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                    msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい ")
                     await m_ch.send(embed=msg_em)
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
                     if not respons in (1,2,3):
-                        msg_em = discord.Embed(description=f"`1,2,3`で答えて下さい。")
+                        msg_em = discord.Embed(description=f"`1,2,3`で答えて下さい ")
                         await m_ch.send(embed=msg_em)
                         continue
                     select_magic_type = "Wolf" if respons==1 else "Armadillo" if respons==2 else "Orca" 
@@ -254,15 +254,15 @@ async def on_message(message):
                     try:
                         msg = await client.wait_for("message", timeout=10, check=check2)
                     except asyncio.TimeoutError:
-                        msg_em = discord.Embed(description=f"時間切れです。もう一度`^^start`でやり直して下さい。")
+                        msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい")
                         await m_ch.send(embed=msg_em)
                     else:
                         if msg.content in ("y","Y"):
-                            msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します。")
+                            msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します")
                             await m_ch.send(embed=msg_em)
                             magic_type_flag = True
                         elif msg.content in ("n","N"):
-                            msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります。")
+                            msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります")
                             await m_ch.send(embed=msg_em)
                             continue
             if not magic_type_flag == True:
@@ -280,7 +280,7 @@ async def on_message(message):
                 await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
             else:
                 emojis = status.items_emoji_a
-                msg_em = discord.Embed(description=f"<@{m_author.id}> さんの冒険者登録が完了しました。\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1")
+                msg_em = discord.Embed(description=f"<@{m_author.id}> さんの冒険者登録が完了しました\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1")
                 await m_ch.send(embed=msg_em)
             player = avatar.Player(client, m_author.id)
             if m_author.id in id_list:
@@ -288,18 +288,29 @@ async def on_message(message):
             box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
-            msg_em = discord.Embed(description=f"BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
+            msg_em = discord.Embed(
+                title="初期行動リスト",
+                description=(
+                    f"・`^^help`でHelpページの確認"
+                    + f"\n・`^^url`で公式サーバーに参加"
+                    + f"\n・`^^tr`でトレーニングをし、まずはLv2を目指す"
+                    + f"\n・`^^status`で上がったステータスを確認"
+                    + f"\n・`^^item 冒険者カード`で上がったステータスを確認"
+                    + f"\n・`^^item`で所持アイテムを確認"
+                    + f"\n・`^^point str 10`でLvUPで手に入ったSTPでStrength(攻撃力)を強化"
+                    + f"\n・適当なLv１チャンネルで`^^attack`"
+                    + f"\n・`^^magic`で自分の魔法を確認"
+            ))
             await m_author.send(embed=msg_em)
-            msg_em = discord.Embed(title="初心者がすべきこと！！",description=(
-                f"・`^^help`でHelpページの確認"
-                + f"\n・`^^url`で公式サーバーに参加"
-                + f"\n・`^^tr`でトレーニングをし、まずはLv2を目指す"
-                + f"\n・`^^status`で上がったステータスを確認"
-                + f"\n・`^^item 冒険者カード`で上がったステータスを確認"
-                + f"\n・`^^item`で所持アイテムを確認"
-                + f"\n・`^^point str 10`でLvUPで手に入ったSTPでストレングスを強化"
-                + f"\n・適当なLv１チャンネルで`^^attack`"
-                + f"\n・`^^magic`で自分の魔法を確認"
+            msg_em = discord.Embed(
+                title="開発者から挨拶",
+                description=(
+                    + ". こんにちは。BitRPG2代目開発者の**Sakuraga**です。この度は**BitRPG**にご登録いただきまことにありがとうございます。"
+                    + "\n　**BitRPG**は知名度の高い**TAO**や**ReStart**と異なり、**プレイヤー間の協力と戦略**に視点を向けたRPGです。敵との戦闘においても、個々人の性能だけで戦うのには限度があります。"
+                    + "魔法領域の性能面も各々がかなり偏っており、個人戦闘には基本向きません。ですが仮に敵一体に**Wolf・Armadillo・Orca**の３人で挑めば、勝率や戦略性が広がります。"
+                    + "まずは`^^url`で、公式サーバーに参加し、BitRPGの遊び方を覚えるとともに他のPlayerと関係を築くことをお勧めします。"
+                    + "\n　`【追記】\nBitRPGは比較的入り組んだデザインをしており、Playerによっては名前の長さ上、見栄えが悪くなるような不自然な改行などが発生することがございます。"
+                    + "極力そのようなことがないようデザインに力を注いではいるのですが、念のためスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）に設定し直しますようお願いいたします。`"
             ))
             await m_author.send(embed=msg_em)
         if client.get_channel(761571389345759232).name=='true':
