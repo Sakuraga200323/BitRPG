@@ -65,10 +65,12 @@ async def abc_training(user,ch):
     abc_list2 = sample(abc_list,3)
     abc_list2.append(answer_abc)
     answer_choices_text = ""
-    answer_num = 0
+    answer_num = answer_abc_num = 0
     for i in abc_list2:
         answer_num += 1
         answer_choices_text += f"\n`{answer_num}.`*{i}*"
+        if i == answer_abc:
+            answer_abc_num = answer_num
     em.add_field(name="選択肢",value=answer_choices_text)
     await ch.send(embed=em)
     def check(m):
@@ -81,11 +83,11 @@ async def abc_training(user,ch):
     except asyncio.TimeoutError:
         result_text = "時間切れ！"
     else:
-        if int(answer_message.content) == answer_abc_moved:
+        if int(answer_message.content) == answer_abc_num:
             exp = int(player.lv()/10)+1
             player.get_exp(exp)
             result_text = "正解！ exp+{exp}"
         else:
-            result_text = "不正解！"
+            result_text = "不正解！ 正解は{answer_abc_num}"
     em = discord.Embed(description=result_text)
     await ch.send(embed=em)
