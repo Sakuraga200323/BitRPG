@@ -88,7 +88,7 @@ async def open_status(user,ch):
     mc = p_data.magic_class_
     embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff)
     embed.add_field(name=f"Player", value=f"{p_data.user.mention}", inline=False)
-    embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()} / {p_data.max_lv()}`")
+    embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()}/{p_data.max_lv()}`")
     embed.add_field(name=f"MagicLevel", value=f"`{p_data.magic_class()} Lv.{p_data.magic_lv()}`")
     if p_data.magic_class() == "Armadillo":
         embed.add_field(name=f"HitPoint (Now/Max)", value=f"`{p_data.now_hp}/{p_data.max_hp} (+10%)`", inline=False)
