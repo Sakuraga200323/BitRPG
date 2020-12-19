@@ -73,7 +73,7 @@ async def magic_2(player,mob):
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    up_num = = 2 + (player.magic_lv()/100000)
+    up_num = 2 + (player.magic_lv()/100000)
     player.magic_lv(1)
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
