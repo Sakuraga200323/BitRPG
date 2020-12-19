@@ -56,8 +56,8 @@ async def abc_training(user,ch):
     abc = choice(abc_list)
     abc_index = abc_list.index(abc)
     answer_abc_index = abc_index + randint(-4,4)
-    if answer_abc_index < 0: answer_abc_index = 0
-    if answer_abc_index > 27: answer_abc_index = 27
+    if answer_abc_index < 2: answer_abc_index = 0
+    if answer_abc_index > 25: answer_abc_index = 25
     answer_abc = abc_list[answer_abc_index]
     answer_abc_moved = answer_abc_index - abc_index
     em = discord.Embed(title="ABC.Q!!",description=f"**{abc}**から**{answer_abc_moved}**個目にあたるアルファベットは何ですか？ 番号で答えなさい")
