@@ -290,7 +290,7 @@ async def on_message(message):
             await help.help(m_ch, m_author)
             msg_em = discord.Embed(description=f"BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
             await m_author.send(embed=msg_em)
-            msg_em = discord.Embed(title="初心者がすべきこと！！"description=(
+            msg_em = discord.Embed(title="初心者がすべきこと！！",description=(
                 f"・`^^help`でHelpページの確認"
                 + f"\n・`^^url`で公式サーバーに参加"
                 + f"\n・`^^tr`でトレーニングをし、まずはLv2を目指す"
