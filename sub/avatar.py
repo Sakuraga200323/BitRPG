@@ -67,7 +67,7 @@ class Player:
             self.kill_count_, self.item_, self.money_
         ] = data_list
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
-        self.max_mp = self.now_mp = self.lv_c
+        self.max_mp = self.now_mp = self.lv_
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
             self.max_hp = self.now_hp = int(self.max_hp*1.1)
