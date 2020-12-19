@@ -67,8 +67,7 @@ class Player:
             self.kill_count_, self.item_, self.money_
         ] = data_list
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
-        self.max_mp = self.now_mp = self.lv_
-        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_stp_
+        self.max_mp = self.now_mp = self.lv_c
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
             self.max_hp = self.now_hp = int(self.max_hp*1.1)
@@ -224,7 +223,7 @@ class Player:
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
-            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_stp_
+            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_hp = self.now_hp = int(self.max_hp*1.1)
