@@ -78,7 +78,7 @@ async def abc_training(user,ch):
         return 1
     try:
         aswer_message = await client.wait_for("message",timeout=30,check=check)
-    except asyncio.Timeouterror:
+    except asyncio.TimeoutError:
         result_text = "時間切れ！"
     else:
         if int(answer_message.content) == answer_abc_moved:
