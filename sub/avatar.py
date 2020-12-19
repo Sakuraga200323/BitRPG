@@ -225,6 +225,7 @@ class Player:
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
             self.max_defe = self.now_defe = (self.lv()+1)*10
+            magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_hp = self.now_hp = int(self.max_hp*1.1)
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
