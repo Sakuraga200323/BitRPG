@@ -129,7 +129,7 @@ class Player:
 
     def STR(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 2: return int((self.str()+self.str_p()*1.1)
+        if magic_class == 2: return int(self.str()+self.str_p()*1.1)
         else: return self.str()+self.str_p()
 
     def defe(self):
