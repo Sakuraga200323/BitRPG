@@ -4,7 +4,7 @@ import cv2
 from datetime import datetime, timedelta, timezone
 import math
 import os
-from random import random, randint, choice, shuffle
+from random import random, randint, choice, sample
 import re
 import sys
 
