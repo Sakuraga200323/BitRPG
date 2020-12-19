@@ -76,7 +76,7 @@ async def abc_training(user,ch):
     def check(m):
         if m.author.id != user.id: return 0
         if m.channel.id != ch.id: return 0
-        if not m.content in taple("1234"): return 0
+        if not m.content in tuple("1234"): return 0
         return 1
     try:
         aswer_message = await client.wait_for("message",timeout=30,check=check)
