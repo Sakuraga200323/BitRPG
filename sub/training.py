@@ -66,7 +66,7 @@ async def abc_training(user,ch):
     abc_list2.append(answer_abc)
     answer_choices_text = ""
     answer_num = answer_abc_num = 0
-    for i in abc_list2:
+    for i in sample(abc_list2,4):
         answer_num += 1
         answer_choices_text += f"\n`{answer_num}.`*{i}*"
         if i == answer_abc:
@@ -85,8 +85,10 @@ async def abc_training(user,ch):
     else:
         if int(answer_message.content) == answer_abc_num:
             exp = int(player.lv()/10)+1
-            player.get_exp(exp)
-            result_text = f"正解！ exp+{exp}"
+            lvup = player.get_exp(exp)[1]
+            result_text = f"正解！ eEp+{exp}"
+            if lvup > 0:
+                result.text += f"\nLvUP {player.lv()-lvup} -> {player.lv()}"
         else:
             result_text = f"不正解！ 正解は{answer_abc_num}"
     em = discord.Embed(description=result_text)
