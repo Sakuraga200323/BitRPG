@@ -289,7 +289,19 @@ async def on_message(message):
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
             msg_em = discord.Embed(description=f"BitRPGは比較的入り組んだデザインをしています。\nスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）にしていただけると、快適にプレイできます。")
-            await m_ch.send(embed=msg_em)
+            await m_author.send(embed=msg_em)
+            msg_em = discord.Embed(title="初心者がすべきこと！！"description=(
+                f"・`^^help`でHelpページの確認"
+                + f"\n・`^^url`で公式サーバーに参加"
+                + f"\n・`^^tr`でトレーニングをし、まずはLv2を目指す"
+                + f"\n・`^^status`で上がったステータスを確認"
+                + f"\n・`^^item 冒険者カード`で上がったステータスを確認"
+                + f"\n・`^^item`で所持アイテムを確認"
+                + f"\n・`^^point str 10`でLvUPで手に入ったSTPでストレングスを強化"
+                + f"\n・適当なLv１チャンネルで`^^attack`"
+                + f"\n・`^^magic`で自分の魔法を確認"
+            ))
+            await m_author.send(embed=msg_em)
         if client.get_channel(761571389345759232).name=='true':
             user_roles = [i.name for i in m_author.roles]
             clearance_lv3_user = "Clearance-Lv3" in user_roles
