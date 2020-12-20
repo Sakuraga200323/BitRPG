@@ -316,7 +316,12 @@ async def on_message(message):
             ))
             await m_author.send(embed=msg_em)
         if client.get_channel(761571389345759232).name=='true':
-            user_roles = [i.name for i in m_author.roles]
+            guild = client.get_guild(official_guild_id)
+            if not m_author in guild.members:
+                msg_em = discord.Embed(description=f"現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。")
+                await m_ch.send(embed=msg_em)
+                return
+            user_roles = [i.name for i in guild.get_member(m_author.id).roles]
             clearance_lv3_user = "Clearance-Lv3" in user_roles
             clearance_lv4_user = "Clearance-Lv4" in user_roles
             clearance_lv5_user = "Clearance-Lv5" in user_roles
@@ -521,10 +526,11 @@ async def on_message(message):
 
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
-        user_is_c_lv2 = (client.get_guild(official_guild_id)).get_role(c_lv2) in m_author.roles
-        user_is_c_lv3 = (client.get_guild(official_guild_id)).get_role(c_lv3) in m_author.roles
-        user_is_c_lv4 = (client.get_guild(official_guild_id)).get_role(c_lv4) in m_author.roles
-        user_is_c_lv5 = (client.get_guild(official_guild_id)).get_role(c_lv5) in m_author.roles
+        guild = client.get_guild(official_guild_id)
+        user_is_c_lv2 = (.get_role(c_lv2) in m_author.roles
+        user_is_c_lv3 = guild.get_role(c_lv3) in guild.get_member(m_author.id).roles
+        user_is_c_lv4 = guild.get_role(c_lv4) in guild.get_member(m_author.id).roles
+        user_is_c_lv5 = guild.get_role(c_lv5) in guild.get_member(m_author.id).roles
         if not user_is_c_lv4 and not user_is_c_lv5:
             clv = 3 if user_is_c_lv3 else 2 if user_is_c_lv2 else 1
             await m_ch.send(f"*<@{m_author.id}> is CrealanceLv{clv}. You need at least ClearanceLv4 to call the system.*")
