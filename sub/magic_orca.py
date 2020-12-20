@@ -40,18 +40,15 @@ async def magic_1(player,mob):
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    build_up_num = 0.8 + (player.magic_lv()/100000)
-    if random() <= 0.5:
-        buff_num = 1
-    else:
-        buff_num = 0
+    if player.magic_lv() < -:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
     if player.now_mp < 80:
-        up_num = buff_num = 0
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
-    else:
-        up_num = build_up_num
-        player.magic_lv(1)
+        return
+    up_num = 0.8 + (player.magic_lv()/100000)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
@@ -63,6 +60,7 @@ async def magic_1(player,mob):
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
+    player.magic_lv(1)
     player.cut_mp(80)
 # PalePiscis #
 async def magic_2(player,mob):
@@ -77,12 +75,10 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    build_up_num = 1.1 + (player.magic_lv()/100000)
+    up_num = 1.1 + (player.magic_lv()/100000)
     if mob.ID() in box.stun:
-        build_up_num += 0.5
+        up_num += 0.5
         del box.stun[mob.ID()]
-    up_num = build_up_num
-    player.magic_lv(1)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num)
@@ -94,7 +90,8 @@ async def magic_2(player,mob):
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
-    player.cut_mp(80)
+    player.magic_lv(1)
+    player.cut_mp(150)
 # IgnisStrike #
 async def magic_3(player,mob):
     pass
