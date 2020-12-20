@@ -81,20 +81,16 @@ async def magic_2(player,mob):
     if mob.ID() in box.stun:
         build_up_num += 0.5
         del box.stun[mob.ID()]
-    if random() <= 0.5:
-        buff_num = 1
-    else:
-        buff_num = 0
     up_num = build_up_num
     player.magic_lv(1)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        text1 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num,buff=buff_num)
+        text1 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num)
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num,buff=buff_num)
+        text2 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
