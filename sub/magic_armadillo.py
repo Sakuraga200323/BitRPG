@@ -57,12 +57,6 @@ async def magic_1(player,mob):
         text1 = battle.create_battle_text(mob,player)
         text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
-        return
-    start_check = await battle.battle_start(player,mob)
-    if start_check is False: return
-    up_num = 0.8 + (player.magic_lv()/100000)
-    if random() <= 0.25: buff_num = 2
-    else: buff_num = 0
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
