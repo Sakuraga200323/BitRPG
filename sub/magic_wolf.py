@@ -37,11 +37,11 @@ client = None
 
 # BeeRay #
 async def magic_1(player,mob):
+    ch = mob.mob
     if player.now_mp < 50:
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     build_up_num = 1.5 + (player.magic_lv()/100000)
