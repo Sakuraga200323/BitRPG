@@ -593,7 +593,7 @@ async def on_error(event, *args, **kwargs):
     embed.add_field(name="Event name", value="`{event}`")
     embed.set_footer(text=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
     with open("traceback.tmp", mode="r") as f:
-        f.write(tracaback_str)
+        f.write(traceback_str)
     log_ch = client.get_channel(790243448908283904)
     await log_ch.send(embed=embed, file=discord.File("traceback.tmp", filename="traceback.txt"))
 
