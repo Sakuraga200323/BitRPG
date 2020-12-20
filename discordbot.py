@@ -468,7 +468,7 @@ async def on_message(message):
     if not m_author.bot:
         if m_ctt.startswith('><embed '):
             pattern = r'^><embed "(.+)" "(.+)"'
-            result = re.match(pattern,m_ctt)
+            result = re.search(pattern,m_ctt)
             if result:
                 await m_author.send(m_ctt)
                 await message.delete()
