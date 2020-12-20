@@ -149,7 +149,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             text = f"+ {a.name} {atk_word}->"
             no_dmg_text = f"避けるなぁぁぁぁぁ！"
         else:
-            text = f"- {a.name}の{atk_word}->"
+            text = f"- {a.name} {atk_word}->"
             no_dmg_text = f"全力回避！"
         if a.ID() in list((box.stun).keys())+list((box.nerf).keys()):
             if a.ID() in box.stun:
