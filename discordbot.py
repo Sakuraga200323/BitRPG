@@ -425,6 +425,8 @@ async def on_message(message):
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 print("^^point: ",m_author)
+                if m_ctt == "^^point":
+                    em = discord.Embed("`^^point 強化対象 強化量`\n強化対象: str def agi")
                 pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result: await status.divid(m_author, m_ch, result)
