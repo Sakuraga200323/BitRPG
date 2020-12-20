@@ -73,7 +73,7 @@ async def magic_2(player,mob):
         return
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    up_num = 2 + (player.magic_lv()/100000)
+    up_num = 3 + (player.magic_lv()/100000)
     player.magic_lv(1)
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
@@ -110,8 +110,8 @@ async def magic_5(player,mob):
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="`1.`BeeRay",value=f"MagicLv.**0** MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
-    magic_em.add_field(name="`2.`StrengthRein",value=f"未実装",inline=False)
+    magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
+    magic_em.add_field(name="`1.`StrengthRein",value=f"必要熟練度.**0**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()/1000)}**%の攻撃魔法 後手確定 最大HPの**20**%の反動",inline=False)
     magic_em.add_field(name="`3.`IgnisStrike",value=f"未実装",inline=False)
     magic_em.add_field(name="`4.`StrengthRein+",value=f"未実装",inline=False)
     magic_em.add_field(name="`5.`PyrobolusLacrima",value=f"未実装",inline=False)
