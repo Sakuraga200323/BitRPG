@@ -71,14 +71,14 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
     now_hp = player.cut_hp(int(player.max_hp/5))
     text = f"**『命を力に…！』** <{player.ID()}> に{int(player.max_hp/5)}の反動"
     if 0 >= now_hp:
         text += "\n{player.user}は死んでしまった！"
         await ch.send(f"```c\n{text}```}")
         return
-    start_check = await battle.battle_start(player,mob)
-    if start_check is False: return
     up_num = 3 + (player.magic_lv()/100000)
     player.magic_lv(1)
     # 戦闘処理（Player後手） #
