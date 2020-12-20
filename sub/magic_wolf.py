@@ -77,7 +77,7 @@ async def magic_2(player,mob):
     text = f"**『命を力に…！』** <{player.ID()}> に{int(player.max_hp/5)}の反動"
     if 0 >= now_hp:
         text += "\n{player.user}は死んでしまった！"
-        await ch.send(f"```c\n{text}```}")
+        await ch.send(f"```c\n{text}```")
         return
     up_num = 3 + (player.magic_lv()/100000)
     player.magic_lv(1)
