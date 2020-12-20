@@ -165,7 +165,7 @@ async def divid(user, ch, result):
     result = p_data.share_stp(target, point)
     target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
     print("Point:" ,user.id, target, "+", point)
-    em = discord.Embed(description=f"{p_data.user.mention}の{target}+{result-point} -> {result} STP{p_data.now_stp()+point} -> {p_data.now_stp()}")
+    em = discord.Embed(description=f"{p_data.user.mention}\nの{target}を強化\n{target}+{result-point} -> {result}\nSTP{p_data.now_stp()+point} -> {p_data.now_stp()}")
     await ch.send(embed=em)
 
 
