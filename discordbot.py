@@ -9,11 +9,6 @@ import re
 import signal
 import sys
 
-def handler(signum, frame):
-    loop = asyncio.get_event_loop()
-    loop.create_task(client.change_presence(activity=discord.Game(name=f"今から落ちるよ…")))
-
-signal.signal(signal.SIGTERM, handler)
 
 import discord
 from discord.ext import tasks, commands
@@ -112,6 +107,12 @@ create table player_tb(
 )
 
 """
+
+def handler(signum, frame):
+    loop = asyncio.get_event_loop()
+    loop.create_task(client.change_presence(activity=discord.Game(name=f"今から落ちるよ…")))
+
+signal.signal(signal.SIGTERM, handler)
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
