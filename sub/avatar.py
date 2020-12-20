@@ -218,10 +218,15 @@ class Player:
     def get_exp(self, exp):
         self.max_exp(exp)
         lvup_count = 0
-        while self.now_exp() >= (self.lv()+1) and self.max_lv() > self.lv():
+        now_exp = self.now_exp()
+        lv = self.lv()
+        while now_exp >= (self.lv()+1) and self.max_lv() > lv:
             lvup_count += 1
-            self.now_exp(-self.lv(1))
+            lv += 1
+            now_exp -= lv
         if lvup_count > 0:
+            self.lv(lvup_count)
+            self.now_exp(now_exp-self.now_exp())
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = self.lv() * 100 + 10
             self.max_mp = self.now_mp = self.lv()
