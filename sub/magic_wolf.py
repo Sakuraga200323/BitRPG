@@ -62,6 +62,7 @@ async def magic_1(player,mob):
 
 # StrengthRein #
 async def magic_2(player,mob):
+    ch = mob.mob
     if player.magic_lv() < 500:
         em = discord.Embed(description=f"熟練度が足りないようだ…")
         await ch.send(embed=em)
@@ -70,7 +71,6 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     up_num = 2 + (player.magic_lv()/100000)
