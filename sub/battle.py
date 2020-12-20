@@ -151,7 +151,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         else:
             text = f"- {a.name} {atk_word}->"
             no_dmg_text = f"全力回避！"
-        if a.ID() in list((box.stun).keys())+list((box.nerf).keys()):
+        if a.ID() in box.stun).keys() or a.ID() in box.nerf.keys():
             if a.ID() in box.stun:
                 dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
                 text += f"動けない！"
@@ -185,7 +185,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 else: text += f"{dmg}のダメージ"
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            text += f" {buff_dict[buff]}"
+            text += f" {buff_dict[buff]}付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
