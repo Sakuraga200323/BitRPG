@@ -94,21 +94,18 @@ async def magic_3(player,mob):
     if player.magic_lv() < 1000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{1000 - player.magic_lv()}足りません。")
         return
-    pass
 
 # StrengthRein+ #
 async def magic_4(player,mob):
     if player.magic_lv() < 2000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{2000 - player.magic_lv()}足りません。")
         return
-    pass
 
 # PyrobolusLacrima #
 async def magic_5(player,mob):
     if player.magic_lv() < 4000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{4000 - player.magic_lv()}足りません。")
         return
-    pass
 
 async def open_magic(user,ch):
     player = box.players[user.id]
