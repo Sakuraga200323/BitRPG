@@ -8,6 +8,7 @@ import random
 import re
 import signal
 import sys
+import traceback
 
 
 import discord
@@ -589,6 +590,23 @@ async def on_message(message):
                         
                 finally:
                     await m_ch.send("*Completed. System was already closed.*")
+
+@client.event
+async def on_error(event, *args, **kwargs):
+    exc_info = sys.exc_info()
+    traceback_str = ''.join(traceback.TracebackException.from_exception(exc_info[1]).format())
+    embed = discord.Embed(
+        title="エラーログ",
+        description="Unhandled exception happend.",
+        color=discord.Colour.dark_red()
+    )
+    embed.add_field(name="Exception name", value="`{exc_info[0].__name__}`")
+    embed.add_field(name="Event name", value="`{event}`")
+    embed.set_footer(name=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
+    with open("traceback.tmp", mode="r") as f:
+        f.write(tracaback_str)
+    log_ch = client.get_channel(790243448908283904)
+    await log_ch.send(embed=embed, file=discord.File("traceback.tmp", filename="traceback.txt"))
 
 
 
