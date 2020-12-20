@@ -48,15 +48,19 @@ async def magic_1(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
+    if random() <= 0.5:
+        buff_num = 1
+    else:
+        buff_num = 0
     up_num = 0.8 + (player.magic_lv()/100000)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num)
+        text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff_num=buff_num)
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num)
+        text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff_num=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
