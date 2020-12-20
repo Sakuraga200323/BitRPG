@@ -602,7 +602,7 @@ async def on_error(event, *args, **kwargs):
     )
     embed.add_field(name="Exception name", value="`{exc_info[0].__name__}`")
     embed.add_field(name="Event name", value="`{event}`")
-    embed.set_footer(name=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
+    embed.set_footer(text=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
     with open("traceback.tmp", mode="r") as f:
         f.write(tracaback_str)
     log_ch = client.get_channel(790243448908283904)
