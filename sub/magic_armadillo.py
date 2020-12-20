@@ -81,7 +81,7 @@ async def magic_5(player,mob):
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="`1.`DrumFang",value=f"MagicLv.**0** MP.**２0**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵を**5**ターンNerf状態にする ",inline=False)
+    magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**20**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`StrengthRein",value=f"未実装",inline=False)
     magic_em.add_field(name="`3.`IgnisStrike",value=f"未実装",inline=False)
     magic_em.add_field(name="`4.`StrengthRein+",value=f"未実装",inline=False)
