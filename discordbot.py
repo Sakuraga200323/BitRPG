@@ -350,12 +350,12 @@ async def on_message(message):
             if not m_author.id in box.players:
                 id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
                 if m_author.id in id_list:
-                    msg_em = discord.Embed(description=f"<@{m_author.id}>のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
+                    msg_em = discord.Embed(description=f"<@{m_author.id}> のデータがプレイヤー一覧に入っていませんでした。強制的に挿入します。")
                     await m_ch.send(embed=msg_em)
                     player = avatar.Player(client, m_author.id)
                     box.players[m_author.id] = player
                 else:
-                    msg_em = discord.Embed(description=f"<@{m_author.id}>は冒険者登録をしていません。`^^start`で登録してください。")
+                    msg_em = discord.Embed(description=f"<@{m_author.id}> は冒険者登録をしていません。`^^start`で登録してください。")
                     await m_ch.send(embed=msg_em)
                     return
 
@@ -480,7 +480,7 @@ async def on_message(message):
                 description = (
                     'こんにちは、開発者代理の**天乃 結**です!'
                     +'\nレポート確認開始! 今から5分間待つから、その間にレポートをできるだけ詳しく書いて送信してね。'
-                    +'\n最初のメッセージしか送信しないから注意してね。ちなみに画像も一緒に送信できるよd(˙꒳˙* )'))
+                    +'\nちなみに画像も一緒に送信できるよd(˙꒳˙* )'))
             # embed.set_footer(text='待機中…')
             await m_ch.send(embed=embed)
             def check(m):
