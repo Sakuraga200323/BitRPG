@@ -455,7 +455,7 @@ async def on_message(message):
         if m_ctt.startswith('><embed '):
             pattern = r'^><embed "(.+)" "(.+)"'
             result = re.match(pattern,m_ctt)
-            if result
+            if result:
                 await m_author.send(m_ctt)
                 await message.delete()
                 embed = discord.Embed(title=result.group(1),description=result.group(2))
