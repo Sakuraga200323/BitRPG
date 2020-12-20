@@ -37,16 +37,14 @@ client = None
 
 # BeeRay #
 async def magic_1(player,mob):
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
     ch = mob.mob
     if player.now_mp < 50:
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    start_check = await battle.battle_start(player,mob)
-    if start_check is False: return
-    build_up_num = 1.5 + (player.magic_lv()/100000)
-    up_num = build_up_num
-    player.magic_lv(1)
+    up_num = 1.5 + (player.magic_lv()/100000)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
@@ -58,6 +56,7 @@ async def magic_1(player,mob):
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
+    player.magic_lv(1)
     player.cut_mp(50)
 
 # StrengthRein #
@@ -80,13 +79,13 @@ async def magic_2(player,mob):
         await ch.send(f"```c\n{text}```")
         return
     up_num = 3 + (player.magic_lv()/100000)
-    player.magic_lv(1)
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
     battle_log = f"```c\n{text}``````diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
+    player.magic_lv(1)
     player.cut_mp(100)
 
 # IgnisStrike #
