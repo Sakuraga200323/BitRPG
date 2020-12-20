@@ -34,26 +34,44 @@ pg = None
 client = None
 
 
-
-# DrumFang #
 async def magic_1(player,mob):
     ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
     if player.now_mp < 30:
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
+        return
+    if random() <= 0.25:
+        buff_num = 2
+    else:
+        buff_num = 0
+    up_num = 0.8 + (player.magic_lv()/100000)
+    player.magic_lv(1)
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+        text2 = battle.create_battle_text(mob,player)
+    # 戦闘処理（Player後手） #
+    else:
+        text1 = battle.create_battle_text(mob,player)
+        text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
         return
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     up_num = 0.8 + (player.magic_lv()/100000)
     if random() <= 0.25: buff_num = 2
     else: buff_num = 0
-    player.magic_lv(1)
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
+    player.magic_lv(1)
     player.cut_mp(30)
 
 # HealPrex #
 async def magic_2(player,mob):
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
     if player.magic_lv() < 500:
         em=discord.Embed(description="魔法練度が不足…！")
         await ch.send(embed=em)
@@ -62,8 +80,6 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    start_check = await battle.battle_start(player,mob)
-    if start_check is False: return
     healing_amount = player.max_hp - player.now_hp
     if healing_amount <= 0:
         em=discord.Embed(description="まだ回復力が無いようだ…")
@@ -83,6 +99,7 @@ async def magic_2(player,mob):
         heal_text += f"\n<@{p.user.id}> のHPを{healing_amount}回復！"
     em=discord.Embed(description=heal_text)
     await ch.send(embed=em)
+    player.magic_lv(1)
     player.cut_mp(80)
     
         
@@ -113,7 +130,4 @@ async def use_magic(user,ch,magic):
     mob = box.mobs[ch.id]
     if magic in ["1","DrumFang","DM"]:
         await magic_1(player,mob)
-    if magic in ["2","HealPrex","HP"]:
-        await magic_1(player,mob)
-    
     
