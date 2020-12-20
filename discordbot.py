@@ -527,7 +527,7 @@ async def on_message(message):
     if m_ctt == "SystemCall":
         m_ctt = m_ctt.split("SystemCall")[1].strip("\n")
         guild = client.get_guild(official_guild_id)
-        user_is_c_lv2 = (.get_role(c_lv2) in m_author.roles
+        user_is_c_lv2 = guild.get_role(c_lv3).get_role(c_lv2) in m_author.roles
         user_is_c_lv3 = guild.get_role(c_lv3) in guild.get_member(m_author.id).roles
         user_is_c_lv4 = guild.get_role(c_lv4) in guild.get_member(m_author.id).roles
         user_is_c_lv5 = guild.get_role(c_lv5) in guild.get_member(m_author.id).roles
