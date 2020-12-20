@@ -196,12 +196,12 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
 def old_hp_gauge(a,b):
     num = int((a/b)*20)
     guage_1 = ((num)*"|")+((20-num)*" ")
-    return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else guage_1) + ']'
+    return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else guage_1) + ']' + f"\n     ({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     guage_1 = ((num)*"|")+((20-num)*" ")
-    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else guage_1) + ']'
+    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else guage_1) + ']' + f"\n     ({a}/{b})"
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
