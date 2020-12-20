@@ -145,12 +145,12 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         if "#" in a.name: text = f"{a.name}はやられてしまった"
         else: text = f"{a.name}を倒した"
     else:
-        if "#" in a.name:
-            text = f"+ {a.name}の{atk_word}->"
-            no_dmg_text = f"避けられてしまった！"
+        if a.ID() in box.players:
+            text = f"+ {a.name} {atk_word}->"
+            no_dmg_text = f"避けるなぁぁぁぁぁ！"
         else:
             text = f"- {a.name}の{atk_word}->"
-            no_dmg_text = f"避けるなぁぁぁぁぁ！"
+            no_dmg_text = f"全力回避！"
         if a.ID() in list((box.stun).keys())+list((box.nerf).keys()):
             if a.ID() in box.stun:
                 dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
