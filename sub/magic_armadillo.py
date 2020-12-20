@@ -113,4 +113,7 @@ async def use_magic(user,ch,magic):
     mob = box.mobs[ch.id]
     if magic in ["1","DrumFang","DM"]:
         await magic_1(player,mob)
+    if magic in ["2","HealPrex","HP"]:
+        await magic_1(player,mob)
+    
     
