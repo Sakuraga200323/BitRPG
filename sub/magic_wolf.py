@@ -72,10 +72,10 @@ async def magic_2(player,mob):
         await ch.send(embed=em)
         return
     now_hp = player.cut_hp(int(player.max_hp/5))
-    em=discord.Embed(description=f"**『命を力に…！』** <{player.ID()}> に{int(player.max_hp/5)}の反動")
-    await ch.send(embed=em)
+    text = f"**『命を力に…！』** <{player.ID()}> に{int(player.max_hp/5)}の反動"
     if 0 >= now_hp:
-        text3 += "\n{player.user}は死んでしまった！"
+        text += "\n{player.user}は死んでしまった！"
+        await ch.send(f"```c\n{text}```}")
         return
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
@@ -84,7 +84,7 @@ async def magic_2(player,mob):
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    battle_log = f"```c\n{text}``````diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
     player.cut_mp(100)
