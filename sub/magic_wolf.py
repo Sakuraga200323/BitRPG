@@ -110,7 +110,7 @@ async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
-    magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**0**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
+    magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
