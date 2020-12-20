@@ -452,6 +452,14 @@ async def on_message(message):
 
 
     if not m_author.bot:
+        if m_ctt.startswith('><embed '):
+            pattern = r'^><embed "(.+)" "(.+)"'
+            result = re.match(pattern,m_ctt)
+            if result
+                await m_author.send(m_ctt)
+                await message.delete()
+                embed = discord.Embed(title=result.group(1),description=result.group(2))
+                await m_ch.send(embed=embed)
         if m_ctt == '><report':
             embed = discord.Embed(
                 title = '<Safe> -YUI- will help you!!',
