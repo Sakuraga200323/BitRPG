@@ -54,14 +54,38 @@ async def magic_1(player,mob):
 
 # HealPrex #
 async def magic_2(player,mob):
-    if player.now_mp < 500:
+    if player.magic_lv() < 500:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 80:
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    if player.now_mp < 30:
-        em=discord.Embed(description="MPが不足…！")
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    healing_amount = player.max_hp - player.now_hp
+    if healing_amount <= 0:
+        em=discord.Embed(description="まだ回復力が無いようだ…")
         await ch.send(embed=em)
         return
+    players == mob.battle_players
+    players.remove(player.ID())
+    if players = []:
+        em=discord.Embed(description="回復出来る人が居ないようだ…")
+        await ch.send(embed=em)
+        return
+    heal_text = ""
+    for id in players:
+        p = box.players[id]
+        p.now_hp += healing_amount
+        if p.now_hp > p.max_hp: p.now_hp = p.max_hp
+        heal_text += f"\n<@{p.user.id}> のHPを{healing_amount}回復！"
+    em=discord.Embed(description=heal_text)
+    await ch.send(embed=em)
+    player.cut_mp(80)
+    
+        
 # IgnisStrike #
 async def magic_3(player,mob):
     pass
