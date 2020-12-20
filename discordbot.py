@@ -127,7 +127,7 @@ async def on_ready():
         if client.get_user(player_id):
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
-            print("Playerデータ挿入： ",player.user,"\n",player.dtd.values())
+            print("Playerデータ挿入： ",player.user)
     print(len(player_ids), len(box.players))
     p_num_result = (len(player_ids)==len(box.players))
     desc = (
@@ -577,17 +577,6 @@ async def on_message(message):
                             await m_ch.send(f"```py\n{result}```")
                         except:
                             await m_ch.send("Error.")
-                    if ctt.startswith("excec "):
-                        cmd = ctt.split("excec ")[1]
-                        await m_ch.send(f"`::python=>{cmd}`")
-                        try:
-                            excec(cmd)
-                        except:
-                            result = False
-                        else:
-                            retult = True
-                        await m_ch.send(result)
-                        
                 finally:
                     await m_ch.send("*Completed. System was already closed.*")
 
