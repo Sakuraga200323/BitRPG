@@ -64,6 +64,7 @@ async def magic_1(player,mob):
 
 # HealPrex #
 async def magic_2(player,mob):
+    ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     if player.magic_lv() < 500:
