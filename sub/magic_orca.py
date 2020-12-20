@@ -40,7 +40,7 @@ async def magic_1(player,mob):
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    if player.magic_lv() < -:
+    if player.magic_lv() < 0:
         em=discord.Embed(description="魔法練度が不足…！")
         await ch.send(embed=em)
         return
