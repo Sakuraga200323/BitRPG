@@ -69,7 +69,7 @@ async def abc_training(user,ch):
     answer_num = answer_abc_num = 0
     for i in sample(abc_list2,4):
         answer_num += 1
-        answer_choices_text += f"\n`{mojimoji.han_to_zen(str(answer_num))}`"
+        answer_choices_text += f"\n`{mojimoji.han_to_zen(str(answer_num))}.{mojimoji.han_to_zen(i)}`"
         if i == answer_abc:
             answer_abc_num = answer_num
     em.add_field(name="選択肢",value=answer_choices_text)
