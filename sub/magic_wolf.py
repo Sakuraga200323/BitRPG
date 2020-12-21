@@ -108,14 +108,14 @@ async def magic_3(player,mob):
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = f"{player.user} 『PowerCharge』->"
-        text1 += f"『IdnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
+        text1 += f"『IgnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
         if player.now_hp > 0:
             text2 = f"{player.user} 『PowerCharge』->"
-            text2 += f"『IdnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
+            text2 += f"『IgnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
         else:
             text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
