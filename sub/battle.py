@@ -148,7 +148,7 @@ async def battle_result(player, mob):
 
 def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
-        if b.ID in box.players:
+        if a.ID() in box.players:
             text = f"{a.name}はやられてしまった"
         else:
             text = f"{a.name}を倒した"
@@ -163,7 +163,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 no_dmg_text = f"防がれた！"
             else:
                 no_dmg_text = f"避けるなぁぁぁぁぁ！"
-        else:
+        elif  a.ID in box.mobs:
             if b.now_defe > 0:
                 no_dmg_text = f"防ぎきった！"
             else:
