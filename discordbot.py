@@ -592,10 +592,19 @@ async def on_error(event, *args, **kwargs):
     embed.add_field(name="Exception name", value=f"`{exc_info[0].__name__}`")
     embed.add_field(name="Event name", value=f"`{event}`")
     embed.set_footer(text=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
+    embed2 = discord.Embed(
+        title="エラーログ2",
+        description="Unhandled exception happend.",
+        color=discord.Colour.dark_red()
+    )
+    embed2.add_field(name="Traceback", value=f"```py\n{traceback_str}```")
+    embed2.set_footer(text=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"))
     with open("traceback.tmp", mode="w") as f:
         f.write(traceback_str)
     log_ch = client.get_channel(790243448908283904)
+    log_ch2 = client.get_channel(790401298582208522)
     await log_ch.send(embed=embed, file=discord.File("traceback.tmp", filename="traceback.txt"))
+    await log_ch2.send(embed=embed2)
 
 
 
