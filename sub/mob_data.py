@@ -18,35 +18,49 @@ normal = {
     15:("Bicorn","http://folce.zatunen.com/m13.png"),
     16:("Kerberos","http://folce.zatunen.com/illust/m15.png"),
     17:("Phelios","http://folce.zatunen.com/m11.png"),
+    18:("GiantBat","https://blog-imgs-38-origin.fc2.com/e/u/r/eurs/m158a.png")
 }
 
 elite = {
-    1:("Ajna","http://folce.zatunen.com/m77.png"),
     2:("RogueniteElite","http://folce.zatunen.com/m19.png"),
     3:("ValkyrieElite","http://folce.zatunen.com/m52.png"),
     4:("LizardGoblinElite","http://folce.zatunen.com/m37.png"),
     5:("DarkKnight","http://folce.zatunen.com/m36.png"),
-    6:("Odin","http://folce.zatunen.com/m62.png")
+    6:("Odin","http://folce.zatunen.com/m62.png"),
+    7:("Estate","https://blog-imgs-29-origin.fc2.com/e/u/r/eurs/m317b.png"),
+    8:("Imvelna","https://blog-imgs-29-origin.fc2.com/e/u/r/eurs/m316b.png"),
+    
+}
+
+catastrophe = {
+    1:("Catastrophe","https://blog-imgs-29-origin.fc2.com/e/u/r/eurs/m284b.png")
 }
   
 worldend = {
     1:("Texa","https://media.discordapp.net/attachments/719489738939301938/719686581174140969/5e804b95f8d7cffb7090ad95733a3d09.gif"),
-    2:("時空の狭間","https://media.discordapp.net/attachments/719489738939301938/719686743280058408/fdf1cd7d2454971cedd30509e02a4648.gif?width=479&height=671")
+    2:("時空の狭間","https://media.discordapp.net/attachments/719489738939301938/719686743280058408/fdf1cd7d2454971cedd30509e02a4648.gif?width=479&height=671"),
+    3:("プレデター","https://blog-imgs-29-origin.fc2.com/e/u/r/eurs/m226a.png"),
+    
 }
 
 rare = {
+    1:("Ajna","http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/c43fb4ea3281e1ae87e168d3bb430d18.png"),
+    2:("ValWolf","http://darts-x.sakura.ne.jp/m/wp-content/uploads/2014/08/50afb13d8d0bcf721b6683e70e0d841b.png")
 }
 
 ultrarare = {
-    "1":("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
+    1:("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
 }
 
 
 
 def select(lv):
-    if random.random() >= 0.999:
+    if random.random() <= 0.001:
         type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
+    if random.random() <= 0.01:
+        type = "Rare"
+        result = random.choice(list(rare.values()))
     elif lv % 1000 == 0:
         type = "WorldEnd"
         result = random.choice(list(worldend.values()))
