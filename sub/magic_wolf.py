@@ -101,7 +101,7 @@ async def magic_3(player,mob):
         return
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    if not player.ID() in box.str_charge:
+    if not player.ID() in box.power_charge:
         box.power_charge[player.ID()] = 0
     box.power_charge[player.ID()] += 1
     power_charge_amount = box.power_charge[player.ID()]*50
