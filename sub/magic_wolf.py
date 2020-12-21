@@ -142,6 +142,8 @@ async def open_magic(user,ch):
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
     magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
+    magic_em.add_field(name="`3.`PowerCharge",value=f"必要熟練度.**1000**\n消費MP.**200**\n仕様毎に 次に使用する『IgnisStrike』の威力が**50**%上昇",inline=False)
+    magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**400**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
