@@ -100,6 +100,8 @@ async def battle_result(player, mob):
     user = player.user
     result_em = stp_em = item_em = spawn_em = None
     if mob.now_hp <= 0 :
+        if mob.ID() in anti_magic:
+            box.anti_magic.remove(mob.ID())
         if mob.mob.id in box.nerf:
             del box.nerf[mob.mob.id]
         if mob.mob.id in box.stun:
@@ -135,6 +137,10 @@ async def battle_result(player, mob):
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
         mob.lv(1)
         spawn_em = mob.battle_end()
+        if mob.type in ("Elite","UltraRare",""):
+            box.anti_magic.append(mob.ID())
+            em = discord.Embed(f"{mob.name}のアンチマジックエリアが発動！")
+            await ch.send(embed=em)
     for em in (result_em, stp_em, item_em, spawn_em):
         if em : await ch.send(embed=em)
 
@@ -295,6 +301,10 @@ async def open_magic(user,ch):
 
 async def use_magic(user,ch,target):
     player,mob = box.players[user.id],box.mobs[ch.id]
+    if ch.id in box.anti_magic:
+        em = discord.Embed(f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
+        await ch.send(embed=em)
+        return
     if player.magic_class() == "Wolf":
         await magic_wolf.use_magic(user,ch,target)
     if player.magic_class() == "Armadillo":
