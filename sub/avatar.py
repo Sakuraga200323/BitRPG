@@ -437,6 +437,8 @@ class Mob:
     def reward(self):
         if self.type == "UltraRare":
             exp,money = self.lv()*100,50000
+        if self.type == "Rare":
+            exp,money = self.lv()*5,5000
         elif self.lv() % 1000 == 0:
             exp,money = self.lv()*50,random.randint(9000, 11000)
         elif self.lv() % 100 == 0:
