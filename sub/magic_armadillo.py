@@ -92,15 +92,38 @@ async def magic_2(player,mob):
         p.now_hp += healing_amount
         if p.now_hp > p.max_hp: p.now_hp = p.max_hp
         heal_text += f"\n<@{p.user.id}> のHPを{healing_amount}回復！"
-    em=discord.Embed(description=heal_text)
+    em=discord.Embed(title="HealPrex",description=heal_text)
     await ch.send(embed=em)
     player.magic_lv(1)
     player.cut_mp(80)
     
         
-# IgnisStrike #
+# FlecteImpetus #
 async def magic_3(player,mob):
-    pass
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    if player.magic_lv() < 1000:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 130:
+        em=discord.Embed(description="MPが不足…！")
+        await ch.send(embed=em)
+        return
+    if player.ID() in box.atk_switch:
+        em=discord.Embed(description="既に発動しているようだ…")
+        await ch.send(embed=em)
+        return
+    box.atk_switch[mob.ID()] = player.ID()
+        em=discord.Embed(description="既に発動しているようだ…")
+        await ch.send(embed=em)
+    magic_text = f"次の{mob.name}の攻撃対象が<@{player.ID()}>になった！"
+    em=discord.Embed(title="HealPrex",description=magic_text)
+    await ch.send(embed=em)
+    player.magic_lv(1)
+    player.cut_mp(130)
+        
 # StrengthRein+ #
 async def magic_4(player,mob):
     pass
