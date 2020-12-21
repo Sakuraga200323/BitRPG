@@ -88,13 +88,44 @@ async def magic_2(player,mob):
     player.magic_lv(1)
     player.cut_mp(100)
 
-# IgnisStrike #
+# PowerCharge #
 async def magic_3(player,mob):
+    ch = mob.mob
     if player.magic_lv() < 1000:
-        await mob.mob.send(f"<@{player.id}> の熟練度が{1000 - player.magic_lv()}足りません。")
+        em = discord.Embed(description=f"熟練度が足りないようだ…")
+        await ch.send(embed=em)
         return
+    if player.now_mp < 200:
+        em=discord.Embed(description="MPが足りないようだ…")
+        await ch.send(embed=em)
+        return
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    if not player.ID() in box.str_charge:
+        box.power_charge[player.ID()] = 0
+    box.power_charge[player.ID()] += 1
+    power_charge_amount = box.power_charge[player.ID()]*50
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = f"{player.user} 『PowerCharge』->"
+        text1 += f"『IdnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
+        text2 = battle.create_battle_text(mob,player)
+    # 戦闘処理（Player後手） #
+    else:
+        text1 = battle.create_battle_text(mob,player)
+        if player.now_hp > 0:
+            text2 = f"{player.user} 『PowerCharge』->"
+            text2 += f"『IdnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
+        else:
+            text2 = f"{player.user} はやられてしまった…"
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    await ch.send(content=battle_log)
+    await battle.battle_result(player, mob)
+    player.magic_lv(1)
+    player.cut_mp(200)
+    
 
-# StrengthRein+ #
+# IgnisStrike #
 async def magic_4(player,mob):
     if player.magic_lv() < 2000:
         await mob.mob.send(f"<@{player.id}> の熟練度が{2000 - player.magic_lv()}足りません。")
@@ -121,4 +152,6 @@ async def use_magic(user,ch,magic):
         await magic_1(player,mob)
     if magic in ["2","StrengthRein","SR"]:
         await magic_2(player,mob)
+    if magic in ["3","PowerCharge","PC"]:
+        await magic_3(player,mob)
     
