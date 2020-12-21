@@ -268,7 +268,7 @@ async def reset(user, ch):
             print(f"Mobデータ挿入(battle.py->cbt_proc)： {mob.name}")
     if not player.battle_ch:
         player.now_hp = player.max_hp
-        await ch.send(f"戦闘に参加して今買ったのでHPを全回復しました。")
+        await ch.send(f"戦闘に参加していなかったのでHPを全回復しました。")
         return
     now_ch = client.get_channel(player.battle_ch)
     if player.battle_ch != ch.id:
