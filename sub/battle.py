@@ -142,7 +142,7 @@ async def battle_result(player, mob):
 
 def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
-        if a.ID in box.players:
+        if b.ID in box.players:
             text = f"{a.name}はやられてしまった"
         else:
             text = f"{a.name}を倒した"
