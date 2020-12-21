@@ -147,4 +147,6 @@ async def use_magic(user,ch,magic):
         await magic_1(player,mob)
     if magic in ["2","HealPrex","HP"]:
         await magic_2(player,mob)
+    if magic in ["3","FlecteImpetus","FI"]:
+        await magic_3(player,mob)
     
