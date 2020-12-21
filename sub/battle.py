@@ -139,7 +139,7 @@ async def battle_result(player, mob):
         spawn_em = mob.battle_end()
         if mob.type in ("Elite","UltraRare",""):
             box.anti_magic.append(mob.ID())
-            em = discord.Embed(f"{mob.name}のアンチマジックエリアが発動！")
+            em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
             await ch.send(embed=em)
     for em in (result_em, stp_em, item_em, spawn_em):
         if em : await ch.send(embed=em)
