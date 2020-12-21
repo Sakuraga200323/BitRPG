@@ -282,7 +282,7 @@ async def open_magic(user,ch):
 async def use_magic(user,ch,target):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if ch.id in box.anti_magic:
-        em = discord.Embed(f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
+        em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
         await ch.send(embed=em)
         return
     if player.magic_class() == "Wolf":
