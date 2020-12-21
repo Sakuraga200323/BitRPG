@@ -12,3 +12,4 @@ nerf = {}
 power_charge = {}
 magic_charge = {}
 atk_switch = {}
+anti_magic = []
