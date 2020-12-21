@@ -135,6 +135,7 @@ async def open_magic(user,ch):
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**30**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`HealPrex",value=f"必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
+    magic_em.add_field(name="`3.`FlecteImpetus",value=f"必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を肩代わり",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
