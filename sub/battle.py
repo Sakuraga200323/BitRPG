@@ -100,7 +100,7 @@ async def battle_result(player, mob):
     user = player.user
     result_em = stp_em = item_em = spawn_em = None
     if mob.now_hp <= 0 :
-        if mob.ID() in anti_magic:
+        if mob.ID() in box.anti_magic:
             box.anti_magic.remove(mob.ID())
         if mob.mob.id in box.nerf:
             del box.nerf[mob.mob.id]
