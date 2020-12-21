@@ -163,7 +163,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 no_dmg_text = f"防がれた！"
             else:
                 no_dmg_text = f"避けるなぁぁぁぁぁ！"
-        elif a.ID in box.mobs:
+        else:
             if b.now_defe > 0:
                 no_dmg_text = f"防ぎきった！"
             else:
