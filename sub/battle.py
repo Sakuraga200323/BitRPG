@@ -158,12 +158,12 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             b = box.players[box.atk_switch[a.ID()]]
             del box.atk_switch[a.ID()]
             text += f"{b.name}が攻撃を防いだ！ "
-        if  a.ID in box.players:
+        if a.ID in box.players:
             if b.now_defe > 0:
                 no_dmg_text = f"防がれた！"
             else:
                 no_dmg_text = f"避けるなぁぁぁぁぁ！"
-        elif  a.ID in box.mobs:
+        elif a.ID in box.mobs:
             if b.now_defe > 0:
                 no_dmg_text = f"防ぎきった！"
             else:
