@@ -116,10 +116,8 @@ async def magic_3(player,mob):
         await ch.send(embed=em)
         return
     box.atk_switch[mob.ID()] = player.ID()
-    em=discord.Embed(description="既に発動しているようだ…")
-    await ch.send(embed=em)
     magic_text = f"次の{mob.name}の攻撃対象が<@{player.ID()}>になった！"
-    em=discord.Embed(title="HealPrex",description=magic_text)
+    em=discord.Embed(title="FlecteImpetus",description=magic_text)
     await ch.send(embed=em)
     player.magic_lv(1)
     player.cut_mp(130)
