@@ -266,6 +266,30 @@ async def reset(user, ch):
 
 
 
+# 戦闘 #
+async def cbt_proc(user, ch):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    start_check = await battle_start(player, mob)
+    if start_check is False: return
+
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = create_battle_text(player,mob)
+        text2 = create_battle_text(mob,player)
+
+    # 戦闘処理（Player後手） #
+    else:
+        text1 = create_battle_text(mob,player)
+        text2 = create_battle_text(player,mob)
+
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    await ch.send(content=battle_log)
+    await battle_result(player, mob)
+
+
+
+
+
 
 # Magic #
 
