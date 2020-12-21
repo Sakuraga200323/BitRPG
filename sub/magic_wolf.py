@@ -156,4 +156,6 @@ async def use_magic(user,ch,magic):
         await magic_2(player,mob)
     if magic in ["3","PowerCharge","PC"]:
         await magic_3(player,mob)
+    if magic in ["4","IgnisStrike","IS"]:
+        await magic_3(player,mob)
     
