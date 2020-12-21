@@ -120,7 +120,7 @@ async def open_status(user,ch):
         s = f"{gauge(p_data.str_p(), all_stp)}"
         d = f"{gauge(p_data.defe_p(), all_stp)}"
         a = f"{gauge(p_data.agi_p(), all_stp)}"
-        embed.add_field(name=f"BuildUpBalance (STR⧰DEF⧰AGI)", value=f"`Total: {p_data.STP()}`\n{gauge_edge_reft}`{s}⧱{d}⧱{a}`{gauge_edge_right}", inline=False)
+        embed.add_field(name=f"StatusPointBalance (STR◆DEF◆AGI)", value=f"`Total: {all_stp}`\n{gauge_edge_reft}`{s}◆{d}◆{a}`{gauge_edge_right}", inline=False)
     have_exp = p_data.now_exp()
     must_exp = p_data.lv() + 1
     exp_gauge_num = int((have_exp / must_exp)*10)
