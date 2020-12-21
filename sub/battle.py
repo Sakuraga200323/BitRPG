@@ -99,6 +99,7 @@ async def battle_result(player, mob):
     ch = mob.mob
     user = player.user
     result_em = stp_em = item_em = spawn_em = None
+    anti_magic_em = None
     if mob.now_hp <= 0 :
         if mob.ID() in box.anti_magic:
             box.anti_magic.remove(mob.ID())
@@ -136,7 +137,6 @@ async def battle_result(player, mob):
             stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
         mob.lv(1)
-        anti_magic_em = None
         spawn_em = mob.battle_end()
         if mob.type in ("Elite","UltraRare",""):
             box.anti_magic.append(mob.ID())
@@ -237,31 +237,6 @@ def zero_dmg_text():
     text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
     return choice(text)
 
-
-# 戦闘 #
-async def cbt_proc(user, ch):
-    player,mob = box.players[user.id],box.mobs[ch.id]
-    start_check = await battle_start(player, mob)
-    if start_check is False: return
-
-    # 戦闘処理（Player先手） #
-    if player.AGI() >= mob.agi():
-        text1 = create_battle_text(player,mob)
-        text2 = create_battle_text(mob,player)
-
-    # 戦闘処理（Player後手） #
-    else:
-        text1 = create_battle_text(mob,player)
-        text2 = create_battle_text(player,mob)
-
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle_result(player, mob)
-
-
-
-
-
 # 戦闘から離脱 #
 async def reset(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
@@ -283,6 +258,10 @@ async def reset(user, ch):
         return
     mob.battle_end()
     await ch.send(embed = mob.spawn())
+    if mob.type in ("Elite","UltraRare",""):
+        box.anti_magic.append(mob.ID())
+        anti_magic_em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
+        await ch.send(embed=em)
                     
 
 
