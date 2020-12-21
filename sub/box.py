@@ -10,4 +10,4 @@ cmd_ch = []
 stun = {}
 nerf = {}
 power_charge = {}
-magic_charge {}
+magic_charge = {}
