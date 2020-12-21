@@ -9,3 +9,5 @@ cmd_ch = []
 # デバフ　バフ系
 stun = {}
 nerf = {}
+power_charge = {}
+magic_charge {}
