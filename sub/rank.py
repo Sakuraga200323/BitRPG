@@ -39,8 +39,8 @@ def mob_ranking_embeds(user, ch):
     for data in mobs_data:
         if len(mobs_result) >= 100:
             break
-        id = data["id"]
-        lv = data["lv"]
+        id = data[0]
+        lv = data[1]
         channel = client.get_channel(id)
         if not channel:
             continue
@@ -74,8 +74,8 @@ def player_ranking_embeds(user, ch):
     for data in players_data:
         if len(players_result) >= 100:
             break
-        id = data["id"]
-        lv = data["lv"]
+        id = data[0]
+        lv = data[1]
         user = client.get_user(id)
         player = box.players[id]
         if not user:
