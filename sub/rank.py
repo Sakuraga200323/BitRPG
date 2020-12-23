@@ -78,10 +78,10 @@ def player_ranking_embeds(user, ch):
     for page_num,data1 in zip(range(10),split_players_result):
         ranking_em_text = ""
         for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
-            client.get_user(data[2])
+            client.get_user(data2[2])
             if not user: player_name = "匿名"
             else: player_name = user
-            ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data[1]})\n"
+            ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data2[1]})\n"
         ranking_em_text += f"・・・\n{players_data2.index(user.id):0>3}: {user.name} (Lv.{box.players[user.id].lv()})\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
