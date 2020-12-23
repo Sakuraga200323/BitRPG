@@ -128,7 +128,7 @@ async def open_ranking(user,ch):
         respons = int(msg.content)
         if respons == 1:
             ranking_flag = True
-            embeds = player_ranking_embeds
+            embeds = player_ranking_embeds(user,ch)
             await ranking_em_msg.edit(embed=embeds[0])
             em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
             await ch.send(embed=em)
