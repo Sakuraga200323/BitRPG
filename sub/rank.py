@@ -55,8 +55,8 @@ def mob_ranking_embeds(user, ch):
             channel = client.get_channel(data2[0])
             if not channel: ch_name = "チャンネルデータ破損"
             else: server_name = channel.guild.name
-            ranking_em_text += f"{mob_num:>3}: {server_name} [Lv.{data[1]}]\n"
-        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):>3}: {ch.guild.name} [Lv.{box.mobs[ch.id].lv()}]\n"
+            ranking_em_text += f"{mob_num:<3}: {server_name} [Lv.{data[1]}]\n"
+        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):<3}: {ch.guild.name} [Lv.{box.mobs[ch.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
@@ -78,9 +78,9 @@ def player_ranking_embeds(user, ch):
             p = client.get_user(data2[0])
             if not p: player_name = "匿名"
             else: player_name = p
-            ranking_em_text += f"{player_num:>3}: {player_name} [Lv.{data2[1]}]\n"
+            ranking_em_text += f"{player_num:<3}: {player_name} [Lv.{data2[1]}]\n"
         user_ranking = players_data2.index(user.id)+1
-        ranking_em_text += f"・・・\n{user_ranking:>3}: {p} [Lv.{box.players[user.id].lv()}]\n"
+        ranking_em_text += f"・・・\n{user_ranking:<3}: {user} [Lv.{box.players[user.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
