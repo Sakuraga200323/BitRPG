@@ -462,6 +462,12 @@ async def on_message(message):
             if m_ctt == "^^shop":
                 print("^^shop: ", m_author)
                 await shop.shop(m_author, m_ch)
+            
+            
+            # ranking #
+            if m_ctt == "^^rank":
+                print("^^rank: ", m_author)
+                await rank.open_ranking
 
         finally:
             cmd_lock[m_ch.id] = False
