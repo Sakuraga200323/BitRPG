@@ -159,12 +159,12 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             del box.atk_switch[a.ID()]
             text += f"{b.name}が攻撃を防いだ！ "
         if a.ID in box.players:
-            if b.now_defe > 0:
+            if b.now_defe > a.STR():
                 no_dmg_text = f"防がれた！"
             else:
                 no_dmg_text = f"避けるなぁぁぁぁぁ！"
         else:
-            if b.now_defe > 0:
+            if b.now_defe > a.STR():
                 no_dmg_text = f"防ぎきった！"
             else:
                 no_dmg_text = f"全力回避！"
@@ -206,7 +206,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(now_hp,b.max_hp)}"
+        text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
     return text
 
 # HPゲージ作成関数 #
