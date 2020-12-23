@@ -27,8 +27,6 @@ def split_list(l, n):
     for idx in range(0, len(l), n):
         yield l[idx:idx + n]
 
-    
-
 
 def mob_ranking_embeds(user, ch):
     guilds_id = []
