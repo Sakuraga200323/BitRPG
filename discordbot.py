@@ -215,7 +215,7 @@ async def on_message(message):
             return
 
         if m_ctt == '^^start':
-            log_text += ("\n^^start: ",m_author)
+            log_text += ("\n^^start: "+m_author)
             id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
             print(id_list)
             def check(m):
@@ -372,7 +372,7 @@ async def on_message(message):
 
             # URL #
             if m_ctt == "^^url":
-                log_text += ("^^url: ",m_author)
+                log_text += ("^^url: "+m_author)
                 await m_ch.send(embed=discord.Embed(
                     title="Invite & Other URL",
                     description="▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
@@ -381,13 +381,13 @@ async def on_message(message):
 
             # ヘルプ #
             if m_ctt == "^^help":
-                log_text += ("\mn^^help: ",m_author)
+                log_text += ("\mn^^help: "+m_author)
                 await help.help(m_author, m_ch)
 
 
             # ステータスの表示 #
             if m_ctt.startswith("^^st"):
-                log_text += ("\n^^st: ",m_author)
+                log_text += ("\n^^st: "+m_author)
                 temp = m_ctt
                 pattern = r"\^\^(st|status|st (.+)|status (.+))$"
                 result = re.search(pattern, temp)
@@ -397,7 +397,7 @@ async def on_message(message):
 
             # 戦闘 #
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
-                log_text += ("\n^^atk: ",m_author)
+                log_text += ("\n^^atk: "+m_author)
                 temp = m_ctt
                 pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
@@ -405,7 +405,7 @@ async def on_message(message):
 
             # アイテム #
             if m_ctt.startswith("^^m"):
-                log_text += ("\n^^magic: ",m_author)
+                log_text += ("\n^^magic: "+m_author)
                 pattern = r"^\^\^(m|magic) (.+)"
                 pattern2 = r"^\^\^(m|magic)$"
                 result = re.search(pattern, m_ctt)
@@ -415,7 +415,7 @@ async def on_message(message):
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
-                print("^^re: ",m_author)
+                print("^^re: "+m_author)
                 temp = m_ctt
                 pattern = r"^\^\^(re|reset|reset (.+)|re (.+))$"
                 result = re.search(pattern, temp)
@@ -424,7 +424,7 @@ async def on_message(message):
 
             # training #
             if m_ctt.startswith("^^tr"):
-                log_text += ("\n^^training: ",m_author)
+                log_text += ("\n^^training: "+m_author)
                 temp = m_ctt
                 pattern = r"^\^\^(tr|training|training (.+)|tr (.+))$"
                 result = re.search(pattern, temp)
@@ -435,7 +435,7 @@ async def on_message(message):
 
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
-                log_text += ("\n^^point: ",m_author)
+                log_text += ("\n^^point: "+m_author)
                 if m_ctt == "^^point":
                     em = discord.Embed("`^^point 強化対象 強化量`\n強化対象: str def agi")
                 pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
@@ -452,7 +452,7 @@ async def on_message(message):
 
             # アイテム #
             if m_ctt.startswith("^^i"):
-                log_text += ("\n^^item: ",m_author)
+                log_text += ("\n^^item: "+m_author)
                 pattern = r"\^\^(i|item) (.+)"
                 pattern2 = r"\^\^(i|item)$"
                 result = re.search(pattern, m_ctt)
@@ -469,13 +469,13 @@ async def on_message(message):
 
             # shop #
             if m_ctt == "^^shop":
-                log_text += ("\n^^shop: ", m_author)
+                log_text += ("\n^^shop: "+m_author)
                 await shop.shop(m_author, m_ch)
             
             
             # ranking #
             if m_ctt == "^^rank":
-                log_text += ("\n^^rank: ", m_author)
+                log_text += ("\n^^rank: "+m_author)
                 await rank.open_ranking(m_author.m_ch)
 
         finally:
