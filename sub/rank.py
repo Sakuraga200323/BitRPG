@@ -49,7 +49,7 @@ def mob_ranking_embeds(user, ch):
     split_mobs_result = tuple(split_list(mobs_result,10))
     embeds = []
     ranking_em_title = "Channel Ranking Bord"
-    for page_num,data1 in zip(range(10),split_mobs_result):
+    for page_num,data1 in zip(range(1,11),split_mobs_result):
         ranking_em_text = ""
         for mob_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
             channel = client.get_channel(data2[0])
@@ -68,14 +68,12 @@ def player_ranking_embeds(user, ch):
     temp = pg.fetch("select id, lv from player_tb order by lv desc;")
     players_data = tuple([ (i["id"],i["lv"]) for i in temp ])
     players_data2 = tuple([ i["id"] for i in temp ])
-    print(players_data)
-    print(players_data2)
     players_result = players_data
     split_players_result = tuple(split_list(players_result,10))
     embeds = []
     ranking_em_title = "Player Ranking Bord"
     print(split_players_result)
-    for page_num,data1 in zip(range(10),split_players_result):
+    for page_num,data1 in zip(range(1,11),split_players_result):
         ranking_em_text = ""
         for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
             client.get_user(data2[0])
@@ -138,6 +136,8 @@ async def open_ranking(user,ch):
                         await ranking_em_msg.edit(embed=embeds[page_num-1])
                     if page_num == 0:
                         ranking_flag = False
+                await asyncio.sleep(5)
+                await msg2.delete()
 
                 
         elif respons == 2:
