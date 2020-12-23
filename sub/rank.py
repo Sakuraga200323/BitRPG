@@ -48,15 +48,15 @@ def mob_ranking_embeds(user, ch):
             guilds_id.append(guild_id)
     split_mobs_result = tuple(split_list(mobs_result,10))
     embeds = []
-    ranking_em_title = "Channel Ranking Bord"
+    ranking_em_title = "Server Ranking Bord"
     for page_num,data1 in zip(range(1,11),split_mobs_result):
         ranking_em_text = ""
         for mob_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
             channel = client.get_channel(data2[0])
             if not channel: ch_name = "チャンネルデータ破損"
-            else: ch_name = channel.name
-            ranking_em_text += f"{mob_num:>3}: {ch_name} (Lv.{data[1]})\n"
-        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):>3}: {ch.name} [Lv.{box.mobs[ch.id].lv()}]\n"
+            else: server_name = channel.guild.name
+            ranking_em_text += f"{mob_num:>3}: {server_name} [Lv.{data[1]}]\n"
+        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):>3}: {ch.guild.name} [Lv.{box.mobs[ch.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
@@ -94,7 +94,7 @@ async def open_ranking(user,ch):
         title="Ranking",
         description=("`表示するランキングの番号を半角英数字で送信してください。`"
             + "\n`1.`Player Lv"
-            + "\n`2.`Channel Lv"
+            + "\n`2.`Server Lv"
     ))
     ranking_em_msg = await ch.send(embed=ranking_em)
     def check(m):
