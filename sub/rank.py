@@ -32,7 +32,7 @@ def split_list(l, n):
 
 def mob_ranking_embeds(user, ch):
     guilds_id = []
-    temp = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
+    temp = pg.fetch("select id, lv from mob_tb order by lv desc;")
     mobs_data = tuple([ (i["id"],i["lv"]) for i in temp ])
     mobs_data2 = tuple([ i["id"] for i in temp ])
     mobs_result = []
@@ -67,7 +67,7 @@ def mob_ranking_embeds(user, ch):
 
 
 def player_ranking_embeds(user, ch):
-    temp = self.pg.fetch("select id, lv from player_tb order by lv desc;")
+    temp = pg.fetch("select id, lv from player_tb order by lv desc;")
     players_data = tuple([ (i["id"],i["lv"]) for i in temp ])
     players_data2 = tuple([ i["id"] for i in temp ])
     players_result = []
@@ -86,7 +86,7 @@ def player_ranking_embeds(user, ch):
     for page_num,data1 in zip(range(10),split_players_result):
         ranking_em_text = ""
         for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
-            self.client.get_user(data[2])
+            client.get_user(data[2])
             if not user: player_name = "匿名"
             else: player_name = user
             ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data[1]})\n"
@@ -146,8 +146,7 @@ async def open_ranking(user,ch):
                         await ranking_em_msg.edit(embed=embeds[page_num-1])
                     if page_num == 0:
                         ranking_flag = False
-                    
-                    
+
                 
         elif respons == 2:
             pass
