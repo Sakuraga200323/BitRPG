@@ -79,7 +79,7 @@ def player_ranking_embeds(user, ch):
             if not p: player_name = "匿名"
             else: player_name = p
             ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data2[1]})\n"
-        ranking_em_text += f"・・・\n{players_data2.index(user.id)+1:" ">3}: {p} (Lv.{box.players[user.id].lv()})\n"
+        ranking_em_text += f"・・・\n{(players_data2.index(user.id)+1):' '>3}: {p} (Lv.{box.players[user.id].lv()})\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
@@ -109,7 +109,7 @@ async def open_ranking(user,ch):
             return 0
         return 1
     try:
-        msg = await client.wait_for("message", timeout=60, check=check)
+        msg = await client.wait_for("message", timeout=20, check=check)
     except asyncio.TimeoutError:
         em = discord.Embed(description=f"指定がないので処理終了しました")
         await ch.send(embed=em)
@@ -123,9 +123,9 @@ async def open_ranking(user,ch):
             await ch.send(embed=em)
             while ranking_flag:
                 try:
-                    msg2 = await client.wait_for("message", timeout=60, check=check)
+                    msg2 = await client.wait_for("message", timeout=20, check=check)
                 except asyncio.TimeoutError:
-                    await ranking_em_mdg.delete()
+                    await ranking_em_msg.delete()
                     em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
                     await ch.send(embed=em)
                     ranking_flag = False
