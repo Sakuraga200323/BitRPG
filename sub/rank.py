@@ -106,7 +106,7 @@ async def open_ranking(user,ch):
             + "\n`1.`Player Lv"
             + "\n`2.`Channel Lv"
     ))
-    ranking_em_msg = await ch.send(embed=shop_em)
+    ranking_em_msg = await ch.send(embed=ranking_em)
     def check(m):
         if not user.id == m.author.id:
             return 0
