@@ -476,7 +476,7 @@ async def on_message(message):
             # ranking #
             if m_ctt == "^^rank":
                 log_text += ("\n^^rank: "+str(m_author))
-                await rank.open_ranking(m_author.m_ch)
+                await rank.open_ranking(m_author,m_ch)
 
         finally:
             cmd_lock[m_ch.id] = False
