@@ -157,6 +157,7 @@ log_text = ""
 
 @tasks.loop(seconds=10)
 async def loop():
+    global log_text
     MEM = psutil.virtual_memory().percent
     sub_msg = '^^start'
     if client.get_channel(761571389345759232).name=='true':
@@ -196,6 +197,7 @@ async def on_guild_remove(guild):
 @client.event
 async def on_message(message):
     global cmd_lock, macro_checking, doubt_count
+    global log_text
 
     m_ctt = message.content
     m_em = message.embeds
