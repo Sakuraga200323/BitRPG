@@ -83,8 +83,8 @@ def player_ranking_embeds(user, ch):
     split_players_result = tuple(split_list(players_result,10))
     embeds = []
     ranking_em_title = "Player Ranking Bord"
-    print(split_players_result))
-    for page_num,data1 in zip(range(10),split_players_result):
+    print(split_players_result)
+    for page_num,data1 in zip(range(10),split_players_result))o:
         ranking_em_text = ""
         for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
             client.get_user(data[2])
