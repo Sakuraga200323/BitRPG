@@ -259,7 +259,7 @@ class Player:
                 self.now_defe = 0
             elif strength < self.now_defe:
                 dmg = 0
-                self.now_defe -= strengthr
+                self.now_defe -= strength
                 defe = self.now_defe
         return dmg, defe
 
@@ -471,7 +471,7 @@ class Mob:
                 defe = 0
             elif strength < self.now_defe:
                 dmg = 0
-                self.now_defe -= strengthr
+                self.now_defe -= strength
                 defe = self.now_defe
         return dmg, defe
 
