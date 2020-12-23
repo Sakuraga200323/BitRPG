@@ -42,7 +42,7 @@ def mob_ranking_embeds(user, ch):
         channel = client.get_channel(id)
         if not channel:
             continue
-        if isinstance("DMChannel",channel):
+        if isinstance(channel,DMChannel):
             continue
         guild_id = channel.guild.id
         if not guild_id in guilds_id:
