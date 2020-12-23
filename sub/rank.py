@@ -55,8 +55,8 @@ def mob_ranking_embeds(user, ch):
             channel = client.get_channel(data2[0])
             if not channel: ch_name = "チャンネルデータ破損"
             else: ch_name = channel.name
-            ranking_em_text += f"{mob_num:0>3}: {ch_name} (Lv.{data[1]})\n"
-        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):0>3}: {ch.name} (Lv.{box.mobs[ch.id].lv()})\n"
+            ranking_em_text += f"{mob_num:>3}: {ch_name} (Lv.{data[1]})\n"
+        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):>3}: {ch.name} [Lv.{box.mobs[ch.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
@@ -78,7 +78,7 @@ def player_ranking_embeds(user, ch):
             p = client.get_user(data2[0])
             if not p: player_name = "匿名"
             else: player_name = p
-            ranking_em_text += f"{player_num:>3}: {player_name} (Lv.{data2[1]})\n"
+            ranking_em_text += f"{player_num:>3}: {player_name} [Lv.{data2[1]}]\n"
         user_ranking = players_data2.index(user.id)+1
         ranking_em_text += f"・・・\n{user_ranking:>3}: {p} [Lv.{box.players[user.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
@@ -130,14 +130,35 @@ async def open_ranking(user,ch):
                     em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
                     await ch.send(embed=em)
                     ranking_flag = False
+                    await msg2.delete()
                 else:
                     page_num = int(msg2.content)
                     if 0 < page_num <= len(embeds):
                         await ranking_em_msg.edit(embed=embeds[page_num-1])
                     if page_num == 0:
                         ranking_flag = False
-                await msg2.delete()
+                    await msg2.delete()
 
                 
         elif respons == 2:
-            pass
+            ranking_flag = True
+            embeds = mob_ranking_embeds(user,ch)
+            await ranking_em_msg.edit(embed=embeds[0])
+            em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
+            await ch.send(embed=em)
+            while ranking_flag:
+                try:
+                    msg2 = await client.wait_for("message", timeout=20, check=check)
+                except asyncio.TimeoutError:
+                    await ranking_em_msg.delete()
+                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
+                    await ch.send(embed=em)
+                    ranking_flag = False
+                    await msg2.delete()
+                else:
+                    page_num = int(msg2.content)
+                    if 0 < page_num <= len(embeds):
+                        await ranking_em_msg.edit(embed=embeds[page_num-1])
+                    if page_num == 0:
+                        ranking_flag = False
+                    await msg2.delete()
