@@ -68,16 +68,9 @@ def player_ranking_embeds(user, ch):
     temp = pg.fetch("select id, lv from player_tb order by lv desc;")
     players_data = tuple([ (i["id"],i["lv"]) for i in temp ])
     players_data2 = tuple([ i["id"] for i in temp ])
-    players_result = []
-    for data in players_data:
-        if len(players_result) >= 100:
-            break
-        id = data[0]
-        lv = data[1]
-        user = client.get_user(id)
-        player = box.players[id]
-        if not user:
-            continue
+    print(players_data)
+    print(players_data2)
+    players_result = players_data
     split_players_result = tuple(split_list(players_result,10))
     embeds = []
     ranking_em_title = "Player Ranking Bord"
