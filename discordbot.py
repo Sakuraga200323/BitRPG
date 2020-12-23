@@ -437,11 +437,12 @@ async def on_message(message):
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 log_text += ("\n^^point: "+str(m_author))
-                if m_ctt == "^^point":
-                    em = discord.Embed("`^^point 強化対象 強化量`\n強化対象: str def agi")
                 pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
                 if result: await status.divid(m_author, m_ch, result)
+                else:
+                    em = discord.Embed(description="`^^point 強化対象 強化量`\n強化対象: str def agi")
+                    await m_ch.send(embed=em)
 
 
             # レベルランキングの表示 #
