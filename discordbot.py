@@ -163,9 +163,9 @@ async def loop():
     if client.get_channel(761571389345759232).name=='true':
         sub_msg = "開発作業中"
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}￤{len(client.guilds)}server"))
-    if log_text:
+    if log_text != "":
         log_ch = client.get_channel(791128460726501378)
-        log_ch.send(log_text)
+        await log_ch.send(log_text)
         log_text = ""
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
