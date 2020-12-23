@@ -1,110 +1,152 @@
-  
-import math
 import ast
 import asyncio
+import cv2
 from datetime import datetime, timedelta, timezone
-import discord
-from discord.ext import tasks
-import glob
+import math
 import os
-import psutil
-import psycopg2
-import psycopg2.extras
 import random
 import re
+import sys
+import discord
+from discord.ext import tasks
+import psutil
+import psycopg2, psycopg2.extras
 import traceback
-import sub.box
-import sub.calc
+
+from sub import box, mob_data
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-dsn = os.environ.get('DATABASE_URL')
-
 pg = None
 
-token = os.environ.get('TOKEN')
-
-admin_list = [
-    715192735128092713,
-    710207828303937626,
-    548058577848238080,
-]
-
-
-loop = asyncio.get_event_loop()
-
-
-getmagic_list = [
-    "001|Heal",
-    "002|FireBall",
-    "003|StrRein",
-    "004|DefRein",
-    "005|AgiRein",
-    "006|LifeConversion"
-]
-
+client = None
 
 def split_list(l, n):
-    """
-    リストをサブリストに分割する
-    :param l: リスト
-    :param n: サブリストの要素数
-    :return:
-    """
+    if len(l) <= n:
+        return l
     for idx in range(0, len(l), n):
         yield l[idx:idx + n]
 
-
-class RankClass:
-    def __init__(self, client):
-        self.client = client
-        self.loop = asyncio.get_event_loop()
-        self.pg = Postgres(dsn)
+    
 
 
+def mob_ranking_embeds(user, ch):
+    guilds_id = []
+    temp = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
+    mobs_data = tuple([ (i["id"],i["lv"]) for i in temp ])
+    mobs_data2 = tuple([ i["id"] for i in temp ])
+    mobs_result = []
+    for data in mobs_data:
+        if len(mobs_result) >= 100:
+            break
+        id = data["id"]
+        lv = data["lv"]
+        channel = client.get_channel(id)
+        if not channel:
+            continue
+        guild_id = channel.guild.id
+        if not guild_id in guilds_id:
+            mobs_result.append((id,lv))
+            guilds_id.append(guild_id)
+    split_mobs_result = tuple(split_list(mobs_result,10))
+    embeds = []
+    ranking_em_title = "Channel Ranking Bord"
+    for page_num,data1 in zip(range(10),split_mobs_result):
+        ranking_em_text = ""
+        for mob_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
+            channel = client.get_channel(data2[0])
+            if not channel: ch_name = "チャンネルデータ破損"
+            else: ch_name = channel.name
+            ranking_em_text += f"{mob_num:0>3}: {ch_name} (Lv.{data[1]})\n"
+        ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):0>3}: {ch.name} (Lv.{box.mobs[ch.id].lv()})\n"
+        embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
+        embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
+        embeds.append(embed)
+    return tuple(embeds)
 
 
-    def channel(self, user, ch):
-        rank_list = []
-        id_list = []
-        result = self.pg.fetch("select id, lv from mob_tb order by lv desc;")
-        for data in result:
-            id = data["id"]
-            lv = data["lv"]
-            channel = self.client.get_channel(id)
-            if channel:
-                prace = channel.guild.id
-                if not prace in id_list:
-                    rank_list.append((prace, lv))
-                    id_list.append(prace)
-                    print(prace, channel.guild.name)
-            else:
-                self.pg.execute(f'delete from mob_tb where id = {id};')
-                continue
-        d = {}
-        for item in rank_list:
-           if not item[0] in d:
-               d[item[0]] = item[1]
-               continue
-           d[item[0]] = max(item[1], d[item[0]])
-        rank_list = list(d.items())
-        rank_list = rank_list[:20]
-        junni = 0
-        page = 0
-        text = ""
-        page += 1
-        for data_set in rank_list:
-            junni += 1
-            g = self.client.get_guild(data_set[0])
-            if g:
-                g_name = g.name
-            else:
-                g_name = "名前データ破損"
-            text += ( "\n" + f"[`{junni}位`]{g_name} (`Lv:{data_set[1]})`")
-        em = discord.Embed(
-            title = f"ChannelRankingBord(1~20)",
-            description = text
-        )
-        loop.create_task(ch.send(embed=em)) 
 
-        
+def player_ranking_embeds(user, ch):
+    temp = self.pg.fetch("select id, lv from player_tb order by lv desc;")
+    players_data = tuple([ (i["id"],i["lv"]) for i in temp ])
+    players_data2 = tuple([ i["id"] for i in temp ])
+    players_result = []
+    for data in players_data:
+        if len(players_result) >= 100:
+            break
+        id = data["id"]
+        lv = data["lv"]
+        user = client.get_user(id)
+        player = box.players[id]
+        if not user:
+            continue
+    split_players_result = tuple(split_list(players_result,10))
+    embeds = []
+    ranking_em_title = "Player Ranking Bord"
+    for page_num,data1 in zip(range(10),split_players_result):
+        ranking_em_text = ""
+        for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
+            self.client.get_user(data[2])
+            if not user: player_name = "匿名"
+            else: player_name = user
+            ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data[1]})\n"
+        ranking_em_text += f"・・・\n{players_data2.index(user.id):0>3}: {user.name} (Lv.{box.players[user.id].lv()})\n"
+        embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
+        embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
+        embeds.append(embed)
+    return tuple(embeds)
+
+
+
+async def open_ranking(user,ch):
+    player = box.players[user.id]
+    ranking_em = discord.Embed(
+        title="Ranking",
+        description=("`表示するランキングの番号を半角英数字で送信してください。`"
+            + "\n`1.`Player Lv"
+            + "\n`2.`Channel Lv"
+    ))
+    ranking_em_msg = await ch.send(embed=shop_em)
+    def check(m):
+        if not user.id == m.author.id:
+            return 0
+        if not m.content in [ str(i) for i in range(0,11)]:
+            return 0
+        return 1
+    def check2(m):
+        if not user.id == m.author.id:
+            return 0
+        if not m.content in ("y","Y","n","N"):
+            return 0
+        return 1
+    try:
+        msg = await client.wait_for("message", timeout=60, check=check)
+    except asyncio.TimeoutError:
+        em = discord.Embed(description=f"指定がないので処理終了しました")
+        await ch.send(embed=em)
+    else:
+        respons = int(msg.content)
+        if respons == 1:
+            ranking_flag = True
+            embeds = player_ranking_embeds
+            await ranking_em_msg.edit(embed=embeds[0])
+            em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
+            await ch.send(embed=em)
+            while ranking_flag:
+                try:
+                    msg2 = await client.wait_for("message", timeout=60, check=check)
+                except asyncio.TimeoutError:
+                    await ranking_em_mdg.delete()
+                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
+                    await ch.send(embed=em)
+                    ranking_flag = False
+                else:
+                    page_num = int(msg2.content)
+                    if 0 < page_num <= len(embeds):
+                        await ranking_em_msg.edit(embed=embeds[page_num-1])
+                    if page_num == 0:
+                        ranking_flag = False
+                    
+                    
+                
+        elif respons == 2:
