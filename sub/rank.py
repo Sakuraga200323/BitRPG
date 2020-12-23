@@ -55,7 +55,7 @@ def mob_ranking_embeds(user, ch):
             channel = client.get_channel(data2[0])
             if not channel: ch_name = "チャンネルデータ破損"
             else: server_name = channel.guild.name
-            ranking_em_text += f"{mob_num:<3}: {server_name} [Lv.{data[1]}]\n"
+            ranking_em_text += f"{mob_num:<3}: {server_name} [Lv.{data２[1]}]\n"
         ranking_em_text += f"・・・\n{mobs_data2.index(ch.id):<3}: {ch.guild.name} [Lv.{box.mobs[ch.id].lv()}]\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}/10｜{(page_num*10-9)}-{(page_num*10+1)}")
