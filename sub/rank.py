@@ -72,15 +72,14 @@ def player_ranking_embeds(user, ch):
     split_players_result = tuple(split_list(players_result,10))
     embeds = []
     ranking_em_title = "Player Ranking Bord"
-    print(split_players_result)
     for page_num,data1 in zip(range(1,11),split_players_result):
         ranking_em_text = ""
         for player_num,data2 in zip(range((page_num*10-9),(page_num*10+1)),data1):
-            client.get_user(data2[0])
-            if not user: player_name = "匿名"
-            else: player_name = user
+            p = client.get_user(data2[0])
+            if not p: player_name = "匿名"
+            else: player_name = p
             ranking_em_text += f"{player_num:0>3}: {player_name} (Lv.{data2[1]})\n"
-        ranking_em_text += f"・・・\n{players_data2.index(user.id):0>3}: {user.name} (Lv.{box.players[user.id].lv()})\n"
+        ranking_em_text += f"・・・\n{players_data2.index(user.id)+1:" ">3}: {p} (Lv.{box.players[user.id].lv()})\n"
         embed = discord.Embed(title=ranking_em_title,description=f"```css\n{ranking_em_text}```")
         embed.set_footer(text=f"Page.{page_num}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
@@ -136,7 +135,6 @@ async def open_ranking(user,ch):
                         await ranking_em_msg.edit(embed=embeds[page_num-1])
                     if page_num == 0:
                         ranking_flag = False
-                await asyncio.sleep(5)
                 await msg2.delete()
 
                 
