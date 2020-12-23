@@ -165,7 +165,8 @@ async def loop():
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}￤{len(client.guilds)}server"))
     if log_text != "":
         log_ch = client.get_channel(791128460726501378)
-        await log_ch.send(log_text)
+        log_em = discord.Embed(title=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"),description=log_text)
+        await log_ch.send(embed=log_em)
         log_text = ""
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
