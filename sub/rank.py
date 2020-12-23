@@ -150,3 +150,4 @@ async def open_ranking(user,ch):
                     
                 
         elif respons == 2:
+            pass
