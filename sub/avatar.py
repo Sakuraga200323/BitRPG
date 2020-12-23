@@ -249,14 +249,19 @@ class Player:
 
     def cut_defe(self, strength):
         if self.now_defe <= 0:
+            dmg = strength
+            defe = 0
             self.now_defe = self.max_defe
-            return strength, 0
-        elif strength >= self.now_defe:
-            self.now_defe = 0
-            return strength - self.now_defe, 0
         else:
-            self.now_defe -= strength
-            return 0, self.now_defe - strength
+            if strength > self.now_defe:
+                dmg = strength - self.now_defe
+                defe = 0
+                self.now_defe = 0
+            elif strength < self.now_defe:
+                dmg = 0
+                self.now_defe -= ststrengthr
+                defe = self.now_defe
+        return dmg, defe
 
     def damaged(self,strength):
         dmg,defe = self.cut_defe(int(strength))
@@ -454,20 +459,20 @@ class Mob:
         self.now_hp -= dmg if dmg <= self.now_hp else self.now_hp
         return self.now_hp
 
-    def cut_defe(self, str):
+    def cut_defe(self, strength):
         if self.now_defe <= 0:
-            dmg = str
+            dmg = strength
             defe = 0
             self.now_defe = self.max_defe
         else:
-            if str >= self.now_defe:
-                dmg = str - self.now_defe
-                defe = 0
+            if strength > self.now_defe:
+                dmg = strength - self.now_defe
                 self.now_defe = 0
-            else:
+                defe = 0
+            elif strength < self.now_defe:
                 dmg = 0
-                defe = self.now_defe - str
-                self.now_defe -= str
+                self.now_defe -= ststrengthr
+                defe = self.now_defe
         return dmg, defe
 
     def damaged(self,str):
