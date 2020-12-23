@@ -80,7 +80,7 @@ def player_ranking_embeds(user, ch):
             ranking_em_text += f"`{player_num:<3}`: {player_name} `Lv.{data2[1]}`\n"
         user_ranking = players_data2.index(user.id)+1
         ranking_em_text += f"・・・\n`{user_ranking:<3}:` {user} `Lv.{box.players[user.id].lv()}`\n"
-        embed = discord.Embed(title=ranking_em_title,description=f"ranking_em_text")
+        embed = discord.Embed(title=ranking_em_title,description=ranking_em_text)
         embed.set_footer(text=f"Page.{page_num}/{len(split_players_result)}｜{(page_num*10-9)}-{(page_num*10+1)}")
         embeds.append(embed)
     return tuple(embeds)
