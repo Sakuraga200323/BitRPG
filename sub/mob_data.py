@@ -49,13 +49,14 @@ rare = {
 }
 
 ultrarare = {
-    1:("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585")
+    1:("古月","https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585"),
+    2:("🎁MerryChristmas！！🎁","https://media.discordapp.net/attachments/719489738939301938/791694439055097866/New_Piskel_9.png?width=867&height=614")
 }
 
 
 
 def select(lv):
-    if random.random() <= 0.001:
+    if random.random() <= 0.00５:
         type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
     if random.random() <= 0.01:
