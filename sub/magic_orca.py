@@ -90,8 +90,12 @@ async def magic_2(player,mob):
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num)
-    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+        text2 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num
+    magic_log = f"```diff\n{text1}``````diff\n{text2}```")
+    if mob.ID() in box.stun:
+        up_num += 0.5
+        del box.stun[mob.ID()]
+        magic_log += f"```diff\n{moster.name}のStunが解除された```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
