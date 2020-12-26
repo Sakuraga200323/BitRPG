@@ -68,6 +68,7 @@ async def magic_1(player,mob):
     player.cut_mp(80)
 # PalePiscis #
 async def magic_2(player,mob):
+    magic_name = "PalePiscis"
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
@@ -80,22 +81,25 @@ async def magic_2(player,mob):
         await ch.send(embed=em)
         return
     up_num = 1.1 + (player.magic_lv()/100000)
-    if mob.ID() in box.stun:
-        up_num += 0.5
-        del box.stun[mob.ID()]
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        text1 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num)
+        if mob.ID() in box.stun:
+            up_num += 0.5
+            del box.stun[mob.ID()]
+            magic_name += "+"
+            magic_log += f"```diff\n{mob.name}のStunが解除された```"
+        text1 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『PalePiscis』",str_up_num=up_num
+        if mob.ID() in box.stun:
+            up_num += 0.5
+            del box.stun[mob.ID()]
+            magic_name += "+"
+            magic_log += f"```diff\n{mob.name}のStunが解除された```"
+        text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num
     magic_log = f"```diff\n{text1}``````diff\n{text2}```")
-    if mob.ID() in box.stun:
-        up_num += 0.5
-        del box.stun[mob.ID()]
-        magic_log += f"```diff\n{moster.name}のStunが解除された```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
