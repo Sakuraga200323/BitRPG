@@ -465,7 +465,7 @@ async def on_message(message):
 
             # Lv上限解放 #
             if m_ctt == "^^lvunlock":
-                log_text += ("\n^^lvunlock: ",str(m_author))
+                log_text += ("\n^^lvunlock: "+str(m_author))
                 await status.up_max_lv(m_author, m_ch)
 
 
