@@ -133,7 +133,7 @@ async def magic_4(player,mob):
         em = discord.Embed(description=f"熟練度が足りないようだ…")
         await ch.send(embed=em)
         return
-    if player.now_mp < 400:
+    if player.now_mp < 10:
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
@@ -155,7 +155,7 @@ async def magic_4(player,mob):
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
-    player.cut_mp(400)
+    player.cut_mp(10)
 
 # PyrobolusLacrima #
 async def magic_5(player,mob):
@@ -170,9 +170,9 @@ async def open_magic(user,ch):
     magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+((player.magic_lv()-500)/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
     magic_em.add_field(name="`3.`PowerCharge",value=f"必要熟練度.**1000**\n消費MP.**200**\n仕様毎に 次に使用する『IgnisStrike』の威力が**50**%上昇",inline=False)
     if user.id in box.power_charge:
-        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**400**\n攻撃力**{100+((player.magic_lv()-2000)/1000)+(box.power_charge[user.id]*0.5)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
+        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)+(box.power_charge[user.id]*0.5)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
     else:
-        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**400**\n攻撃力**{100+((player.magic_lv()-2000)/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
+        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
