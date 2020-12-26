@@ -99,7 +99,7 @@ async def magic_2(player,mob):
             magic_name += "+"
             magic_log += f"```diff\n{mob.name}のStunが解除された```"
         text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
-    magic_log = f"```diff\n{text1}``````diff\n{text2}```")
+    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
