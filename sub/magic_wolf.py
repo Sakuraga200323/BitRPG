@@ -45,7 +45,7 @@ async def magic_1(player,mob):
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    up_num = 1.5 + (player.magic_lv()/100000)
+    up_num = 1.5 + ((player.magic_lv())/100000)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
@@ -79,7 +79,7 @@ async def magic_2(player,mob):
         text += f"\n{player.user}は死んでしまった！"
         await ch.send(f"```c\n{text}```")
         return
-    up_num = 3 + (player.magic_lv()-500/100000)
+    up_num = 3 + ((player.magic_lv()-500)/100000)
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
@@ -109,7 +109,7 @@ async def magic_3(player,mob):
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = f"{player.user} 『PowerCharge』->"
-        text1 += f"{100 + power_charge_amount}%分チャージ完了!"
+        text1 += f"{power_charge_amount}%分チャージ完了!"
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
@@ -139,7 +139,7 @@ async def magic_4(player,mob):
         return
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    up_num = 1 + (player.magic_lv()-2000/100000)
+    up_num = 1 + ((player.magic_lv()-2000)/100000)
     if player.ID() in box.power_charge:
         num = box.power_charge[player.ID()]*0.5
         up_num += num
@@ -148,6 +148,7 @@ async def magic_4(player,mob):
     else:
         str_up_text = ""
     # 戦闘処理（Player後手） #
+    print(up_num)
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
@@ -166,9 +167,9 @@ async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
-    magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
+    magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+(player.magic_lv()-500/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
     magic_em.add_field(name="`3.`PowerCharge",value=f"必要熟練度.**1000**\n消費MP.**200**\n仕様毎に 次に使用する『IgnisStrike』の威力が**50**%上昇",inline=False)
-    magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**400**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
+    magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**400**\n攻撃力**{150+(player.magic_lv()-2000/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
