@@ -79,7 +79,7 @@ async def magic_2(player,mob):
         text += f"\n{player.user}は死んでしまった！"
         await ch.send(f"```c\n{text}```")
         return
-    up_num = 3 + (player.magic_lv()/100000)
+    up_num = 3 + (player.magic_lv()-500/100000)
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
@@ -128,9 +128,33 @@ async def magic_3(player,mob):
 
 # IgnisStrike #
 async def magic_4(player,mob):
+    ch = mob.mob
     if player.magic_lv() < 2000:
-        await mob.mob.send(f"<@{player.id}> の熟練度が{2000 - player.magic_lv()}足りません。")
+        em = discord.Embed(description=f"熟練度が足りないようだ…")
+        await ch.send(embed=em)
         return
+    if player.now_mp < 400:
+        em=discord.Embed(description="MPが足りないようだ…")
+        await ch.send(embed=em)
+        return
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    up_num = 1 + (player.magic_lv()-2000/100000)
+    if player.ID() in box.power_charge:
+        num = box.power_charge[player.ID()]*0.5
+        up_num += num
+        del box.power_charge[player.ID()]
+        str_up_text = f"```diff\nDischarge!! +{num}%```"
+    else:
+        str_up_text = ""
+    # 戦闘処理（Player後手） #
+    text1 = battle.create_battle_text(mob,player)
+    text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",str_up_num=up_num)
+    battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
+    await ch.send(content=battle_log)
+    await battle.battle_result(player, mob)
+    player.magic_lv(1)
+    player.cut_mp(400)
 
 # PyrobolusLacrima #
 async def magic_5(player,mob):
