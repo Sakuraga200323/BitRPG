@@ -80,7 +80,7 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    up_num = 1.1 + (player.magic_lv()-500/100000)
+    up_num = 1.1 + ((player.magic_lv()-500)/100000)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         if mob.ID() in box.stun:
