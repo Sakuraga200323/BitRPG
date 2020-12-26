@@ -59,7 +59,7 @@ def select(lv):
     if random.random() <= 0.001:
         type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
-    if random.random() <= 0.01:
+    elif random.random() <= 0.01:
         type = "Rare"
         result = random.choice(list(rare.values()))
     elif lv % 1000 == 0:
