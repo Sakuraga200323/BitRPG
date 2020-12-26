@@ -262,6 +262,12 @@ async def reset(user, ch):
         await ch.send(f"<@{player.user.id}> は現在『{now_ch.mention}』で戦闘中です。")
         return
     mob.battle_end()
+    if player.ID() in box.power_charge:
+        del box.power_charge[player.ID()]
+    if mob.ID() in box.stun:
+        del box.stun[mob.ID()]
+    if mob.ID() in box.nerf:
+        del box.nerf[mob.ID()]
     await ch.send(embed = mob.spawn())
     if mob.type in ("Elite","UltraRare",""):
         box.anti_magic.append(mob.ID())
