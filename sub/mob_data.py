@@ -56,7 +56,7 @@ ultrarare = {
 
 
 def select(lv):
-    if random.random() <= 0.05:
+    if random.random() <= 0.001:
         type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
     if random.random() <= 0.01:
