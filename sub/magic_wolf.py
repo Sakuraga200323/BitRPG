@@ -144,7 +144,7 @@ async def magic_4(player,mob):
         num = box.power_charge[player.ID()]*0.5
         up_num += num
         del box.power_charge[player.ID()]
-        str_up_text = f"```diff\nDischarge!! +{num*100}%```"
+        str_up_text = f"```diff\nDischarge!! {up_num*100}%(+{num*100}%)```"
     else:
         str_up_text = ""
     # 戦闘処理（Player後手） #
