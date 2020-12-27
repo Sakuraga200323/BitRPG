@@ -208,7 +208,7 @@ async def open_magic(user,ch):
         magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)+(box.power_charge[user.id]*0.5)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
     else:
         magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
-    magic_em.add_field(name="`5.`MasterSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.{battle.items_emoji[4]}×32\n攻撃力**{1000+((player.magic_lv()-4000)/10000)}%の魔法攻撃",inline=False)
+    magic_em.add_field(name="`5.`MasterSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.{box.items_emoji[4]}×32\n攻撃力**{1000+((player.magic_lv()-4000)/10000)}%の魔法攻撃",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
