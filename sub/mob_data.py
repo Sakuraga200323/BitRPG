@@ -56,10 +56,11 @@ ultrarare = {
 
 
 def select(lv):
-    if random.random() <= 0.001:
+    chance = random.random()
+    if chance <= 1:
         type = "UltraRare"
         result = random.choice(list(ultrarare.values()))
-    elif random.random() <= 0.01:
+    elif not chance <= 0.01:
         type = "Rare"
         result = random.choice(list(rare.values()))
     elif lv % 1000 == 0:
