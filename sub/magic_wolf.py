@@ -167,7 +167,7 @@ async def magic_5(player,mob,final=False):
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    soul_fire_num = pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
+    soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
     if soul_fire_num < 32:
         em=discord.Embed(description="触媒が足りないようだ…")
         await ch.send(embed=em)
