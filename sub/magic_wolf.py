@@ -81,7 +81,7 @@ async def magic_2(player,mob):
         await ch.send(f"```c\n{text}```")
         return
     up_num = 3 + ((player.magic_lv()-500)/100000)
-    if up_num > 5: up_num = 5
+    if up_num > 6: up_num = 6
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
@@ -142,7 +142,7 @@ async def magic_4(player,mob):
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     up_num = 1 + ((player.magic_lv()-2000)/100000)
-    if up_num > 5: up_num = 5
+    if up_num > 8: up_num = 8
     if player.ID() in box.power_charge:
         num = box.power_charge[player.ID()]*0.5
         up_num += num
@@ -202,14 +202,14 @@ async def open_magic(user,ch):
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_lv = player.magic_lv()
     percent_num_1 = 150+(magic_lv/1000)
-    if percent_num > 300: percent_num = 300
+    if percent_num1 > 300: percent_num = 300
     percent_num_2 = 300+((magic_lv-500)/1000)
-    if percent_num > 500: percent_num = 500
+    if percent_num2 > 600: percent_num = 600
     percent_num_4 = 100+((magic_lv-1000)/1000)
-    if percent_num > 500: percent_num = 500
+    if percent_num4 > 500: percent_num = 500
     if user.id in box.power_charge: percent_num4 += box.power_charge[user.id]*50
     percent_num_5 = 1000+((magic_lv-1000)/1000)
-    if percent_num > 3000: percent_num = 3000
+    if percent_num4 > 3000: percent_num = 3000
     if magic_lv >= 4000:
         soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
         use_num = soul_fire_num
