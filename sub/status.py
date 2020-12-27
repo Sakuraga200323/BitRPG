@@ -81,7 +81,7 @@ items_image = {
 }
 
 def change_num(a):
-    str(a).translate(str.maketrans("0123456789","⁰¹²³⁴⁵⁶⁷⁸⁹"))
+    str(a).translate(str.maketrans(dict(zip(list("0123456789"),list("⁰¹²³⁴⁵⁶⁷⁸⁹")))))
     return a
 
 
