@@ -202,14 +202,14 @@ async def open_magic(user,ch):
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
     magic_lv = player.magic_lv()
     percent_num_1 = 150+(magic_lv/1000)
-    if percent_num1 > 300: percent_num = 300
+    if percent_num_1 > 300: percent_num_1 = '*300*'
     percent_num_2 = 300+((magic_lv-500)/1000)
-    if percent_num2 > 600: percent_num = 600
+    if percent_num_2 > 600: percent_num_2 = '*600*'
     percent_num_4 = 100+((magic_lv-1000)/1000)
-    if percent_num4 > 500: percent_num = 500
+    if percent_num_4 > 800: percent_num_4 = '*800*'
     if user.id in box.power_charge: percent_num4 += box.power_charge[user.id]*50
     percent_num_5 = 1000+((magic_lv-1000)/1000)
-    if percent_num4 > 3000: percent_num = 3000
+    if percent_num_5 > 3000: percent_num_5 = '*3000*'
     if magic_lv >= 4000:
         soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
         use_num = soul_fire_num
@@ -218,19 +218,19 @@ async def open_magic(user,ch):
             name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",
             inline=False)
     magic_em.add_field(
-        name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num1}**%の攻撃魔法",
+        name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
         inline=False)
     magic_em.add_field(
-        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
+        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num_2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
         inline=False)
     magic_em.add_field(
         name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
         inline=False)
     magic_em.add_field(
-        name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
+        name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
         inline=False)
     magic_em.add_field(
-        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num5}**%の魔法攻撃",
+        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃",
         inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
