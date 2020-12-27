@@ -228,7 +228,7 @@ async def open_magic(user,ch):
         if not use_num < 100:
             up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
             magic_em.add_field(
-                name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",
+                name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃 後手確定",
                 inline=False)
     magic_em.add_field(
         name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
@@ -243,7 +243,7 @@ async def open_magic(user,ch):
         name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
         inline=False)
     magic_em.add_field(
-        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃",
+        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃 後手確定",
         inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
