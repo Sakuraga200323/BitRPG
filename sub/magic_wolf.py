@@ -206,6 +206,7 @@ async def open_magic(user,ch):
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
+
 async def use_magic(user,ch,magic):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
