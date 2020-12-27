@@ -183,8 +183,8 @@ async def magic_5(player,mob,final=False):
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     # 戦闘処理（Player後手） #
-    status.get_item(client.get_user(player.ID()),4,-use_num)
     text1 = battle.create_battle_text(mob,player)
+    status.get_item(client.get_user(player.ID()),4,-use_num)
     text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
