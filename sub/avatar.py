@@ -71,7 +71,6 @@ class Player:
         self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
-            self.max_hp = self.now_hp = int(self.max_hp*1.1)
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
@@ -107,7 +106,6 @@ class Player:
             self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
-                self.max_hp = self.now_hp = int(self.max_hp*1.1)
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
             if magic_class == 3:
                 self.max_mp = self.now_mp = int(self.max_mp*1.1)
@@ -214,6 +212,12 @@ class Player:
         if target == "str": return self.str_p(point)
         if target == "def": return self.defe_p(point)
         if target == "agi": return self.agi_p(point)
+        self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+        magic_class = self.dtd["magic_class"]
+        if magic_class == 2:
+            self.max_defe = int(self.max_defe*1.1)
+        if magic_class == 3:
+            self.now_mp = int(self.max_mp*1.1)
 
     def get_exp(self, exp):
         self.max_exp(exp)
@@ -233,7 +237,6 @@ class Player:
             self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
-                self.max_hp = self.now_hp = int(self.max_hp*1.1)
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
             if magic_class == 3:
                 self.max_mp = self.now_mp = int(self.max_mp*1.1)
