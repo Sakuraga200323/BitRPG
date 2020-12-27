@@ -46,6 +46,7 @@ async def magic_1(player,mob):
         await ch.send(embed=em)
         return
     up_num = 1.5 + ((player.magic_lv())/100000)
+    if up_num > 3: up_num = 3
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         text1 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
@@ -80,6 +81,7 @@ async def magic_2(player,mob):
         await ch.send(f"```c\n{text}```")
         return
     up_num = 3 + ((player.magic_lv()-500)/100000)
+    if up_num > 5: up_num = 5
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
@@ -140,6 +142,7 @@ async def magic_4(player,mob):
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     up_num = 1 + ((player.magic_lv()-2000)/100000)
+    if up_num > 5: up_num = 5
     if player.ID() in box.power_charge:
         num = box.power_charge[player.ID()]*0.5
         up_num += num
@@ -180,6 +183,7 @@ async def magic_5(player,mob,final=False):
         magic_name = "MasterSpark"
         use_num = 32
         up_num = 10 + ((player.magic_lv()-4000)/100000)
+        if up_num > 30: up_num = 30
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
     # 戦闘処理（Player後手） #
@@ -192,24 +196,42 @@ async def magic_5(player,mob,final=False):
     player.magic_lv(1)
     player.cut_mp(10)
 
-
+   
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    if player.magic_lv() >= 4000:
+    magic_lv = player.magic_lv()
+    percent_num_1 = 150+(magic_lv/1000)
+    if percent_num > 300: percent_num = 300
+    percent_num_2 = 300+((magic_lv-500)/1000)
+    if percent_num > 500: percent_num = 500
+    percent_num_4 = 100+((magic_lv-1000)/1000)
+    if percent_num > 500: percent_num = 500
+    if user.id in box.power_charge: percent_num4 += box.power_charge[user.id]*50
+    percent_num_5 = 1000+((magic_lv-1000)/1000)
+    if percent_num > 3000: percent_num = 3000
+    if magic_lv >= 4000:
         soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
         use_num = soul_fire_num
-        up_num = 10 + ((player.magic_lv()-4000)/100000) + (use_num/100)
-        magic_em.add_field(name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",inline=False)
-    magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
-    magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+((player.magic_lv()-500)/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
-    magic_em.add_field(name="`3.`PowerCharge",value=f"必要熟練度.**1000**\n消費MP.**200**\n仕様毎に 次に使用する『IgnisStrike』の威力が**50**%上昇",inline=False)
-    if user.id in box.power_charge:
-        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)+(box.power_charge[user.id]*0.5)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
-    else:
-        magic_em.add_field(name="`4.`IgnisStrike",value=f"必要熟練度.**2000**\n消費MP.**10**\n攻撃力**{100+((player.magic_lv()-2000)/1000)}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",inline=False)
-    magic_em.add_field(name="`5.`MasterSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{1000+((player.magic_lv()-4000)/10000)}**%の魔法攻撃",inline=False)
-    magic_em.set_thumbnail(url=user.avatar_url)
+        up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
+        magic_em.add_field(
+            name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",
+            inline=False)
+    magic_em.add_field(
+        name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num1}**%の攻撃魔法",
+        inline=False)
+    magic_em.add_field(
+        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{300+((player.magic_lv()-500)/1000) if 300+((player.magic_lv()-500)/1000) <= 500}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
+        inline=False)
+    magic_em.add_field(
+        name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
+        inline=False)
+    magic_em.add_field(
+        name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
+        inline=False)
+    magic_em.add_field(
+        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num5}**%の魔法攻撃",
+        inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
@@ -217,7 +239,9 @@ async def open_magic(user,ch):
 async def use_magic(user,ch,magic):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
-    if magic in ["1","BeeRay","BR"]:
+    if magic in ["0","FinalSpark","FS"]:
+        await magic_5(player,mob,final=True)
+    elif magic in ["1","BeeRay","BR"]:
         await magic_1(player,mob)
     elif magic in ["2","StrengthRein","SR"]:
         await magic_2(player,mob)
@@ -227,6 +251,3 @@ async def use_magic(user,ch,magic):
         await magic_4(player,mob)
     elif magic in ["5","MasterSpark","MS"]:
         await magic_5(player,mob)
-    elif magic in ["0","FinalSpark","FS"]:
-        await magic_5(player,mob,final=True)
-    
