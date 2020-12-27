@@ -200,7 +200,7 @@ async def open_magic(user,ch):
         soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
         use_num = soul_fire_num
         up_num = 10 + ((player.magic_lv()-4000)/100000) + (use_num/100)
-        magic_em.add_field(name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.{battle.items_emoji[4]}×{soul_fire_num}\n攻撃力**{up_num}%の魔法攻撃",inline=False)
+        magic_em.add_field(name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.{box.items_emoji[4]}×{soul_fire_num}\n攻撃力**{up_num}%の魔法攻撃",inline=False)
     magic_em.add_field(name="`1.`BeeRay",value=f"必要熟練度.**0**\n消費MP.**50**\n攻撃力**{150+(player.magic_lv()/1000)}**%の攻撃魔法",inline=False)
     magic_em.add_field(name="`2.`StrengthRein",value=f"必要熟練度.**500**\n消費MP.**100**\n攻撃力**{300+((player.magic_lv()-500)/1000)}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",inline=False)
     magic_em.add_field(name="`3.`PowerCharge",value=f"必要熟練度.**1000**\n消費MP.**200**\n仕様毎に 次に使用する『IgnisStrike』の威力が**50**%上昇",inline=False)
