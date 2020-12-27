@@ -81,8 +81,8 @@ items_image = {
 }
 
 def change_num(a):
-    str(a).translate(str.maketrans('0123456789', '⁰¹²³⁴⁵⁶⁷⁸⁹')) 
-    return a 
+    str(a).translate(str.maketrans("0123456789","⁰¹²³⁴⁵⁶⁷⁸⁹"))
+    return a
 
 
 # ステータス #
