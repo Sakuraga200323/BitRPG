@@ -188,14 +188,14 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 box.nerf[a.ID()] -= 1
                 if box.nerf[a.ID()] <= 0:
                     text += " Nerfから回復した！"
-                    del box.nerf[a.ID]
+                    del box.nerf[a.ID()]
             if a.ID() in box.stun and a.ID() in box.nerf:
                 dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
                 text += f"動けない！"
                 box.stun[a.ID()] -= 1
                 if box.stun[a.ID()] <= 0:
                     text += " Nerfから回復した！"
-                    del box.stun[a.ID]
+                    del box.stun[a.ID()]
         elif not a.ID() in box.stun:
             if random() <= 0.05:
                 dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
