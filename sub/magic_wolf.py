@@ -242,7 +242,7 @@ async def open_magic(user,ch):
         name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
         inline=False)
     if magic_lv >= 2000:
-    magic_em.add_field(
+        magic_em.add_field(
         name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
         inline=False)
     if magic_lv >= 4000:
