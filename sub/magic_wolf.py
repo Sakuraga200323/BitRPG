@@ -181,7 +181,7 @@ async def magic_5(player,mob,final=False):
         use_num = 32
         up_num = ((player.magic_lv()-2000)/100000)
     if start_check is False: return
-    start_check = await battle.battle_start(player,mob))
+    start_check = await battle.battle_start(player,mob)
     # 戦闘処理（Player後手） #
     status.get_item(client.get_user(player.ID(),4,-use_num)
     text1 = battle.create_battle_text(mob,player)
