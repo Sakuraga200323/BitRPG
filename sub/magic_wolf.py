@@ -233,16 +233,20 @@ async def open_magic(user,ch):
     magic_em.add_field(
         name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
         inline=False)
-    magic_em.add_field(
+    if magic_lv >= 500:
+        magic_em.add_field(
         name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num_2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
         inline=False)
-    magic_em.add_field(
+    if magic_lv >= 1000:
+        magic_em.add_field(
         name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
         inline=False)
+    if magic_lv >= 2000:
     magic_em.add_field(
         name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
         inline=False)
-    magic_em.add_field(
+    if magic_lv >= 4000:
+        magic_em.add_field(
         name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃 後手確定",
         inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
