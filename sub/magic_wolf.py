@@ -148,7 +148,6 @@ async def magic_4(player,mob):
     else:
         str_up_text = ""
     # 戦闘処理（Player後手） #
-    print(up_num)
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
@@ -157,11 +156,41 @@ async def magic_4(player,mob):
     player.magic_lv(1)
     player.cut_mp(10)
 
-# PyrobolusLacrima #
-async def magic_5(player,mob):
+# MasterSpark #
+async def magic_5(player,mob,final=False):
+    ch = mob.mob
     if player.magic_lv() < 4000:
-        await mob.mob.send(f"<@{player.id}> の熟練度が{4000 - player.magic_lv()}足りません。")
+        em = discord.Embed(description=f"熟練度が足りないようだ…")
+        await ch.send(embed=em)
         return
+    if player.now_mp < 500:
+        em=discord.Embed(description="MPが足りないようだ…")
+        await ch.send(embed=em)
+        return
+    soul_fire_num = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]["魂の焔"]
+    if soul_fire_num < 32:
+        em=discord.Embed(description="触媒が足りないようだ…")
+        await ch.send(embed=em)
+        return
+    if final:
+        magic_name = "FinalSpark"
+        use_num = soul_fire_num
+        up_num = ((player.magic_lv()-2000)/100000) + (use_num/100)
+    elif not final:
+        magic_name = "MasterSpark"
+        use_num = 32
+        up_num = ((player.magic_lv()-2000)/100000)
+    if start_check is False: return
+    start_check = await battle.battle_start(player,mob)
+    # 戦闘処理（Player後手） #
+    status.get_item(client.get_user(player.ID(),4,-use_num)
+    text1 = battle.create_battle_text(mob,player)
+    text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
+    battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
+    await ch.send(content=battle_log)
+    await battle.battle_result(player, mob)
+    player.magic_lv(1)
+    player.cut_mp(10)
 
 async def open_magic(user,ch):
     player = box.players[user.id]
@@ -182,10 +211,14 @@ async def use_magic(user,ch,magic):
     mob = box.mobs[ch.id]
     if magic in ["1","BeeRay","BR"]:
         await magic_1(player,mob)
-    if magic in ["2","StrengthRein","SR"]:
+    elif magic in ["2","StrengthRein","SR"]:
         await magic_2(player,mob)
-    if magic in ["3","PowerCharge","PC"]:
+    elif magic in ["3","PowerCharge","PC"]:
         await magic_3(player,mob)
-    if magic in ["4","IgnisStrike","IS"]:
+    elif magic in ["4","IgnisStrike","IS"]:
         await magic_4(player,mob)
+    elif magic in ["5","MasterSpark","MS"]:
+        await magic_5(player,mob)
+    elif magic in ["0","FinalSpark","FS"]:
+        await magic_5(player,mob,final=True)
     
