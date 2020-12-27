@@ -167,7 +167,7 @@ async def magic_5(player,mob,final=False):
         em=discord.Embed(description="MPが足りないようだ…")
         await ch.send(embed=em)
         return
-    soul_fire_num = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]["魂の焔"]
+    soul_fire_num = pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
     if soul_fire_num < 32:
         em=discord.Embed(description="触媒が足りないようだ…")
         await ch.send(embed=em)
@@ -183,7 +183,7 @@ async def magic_5(player,mob,final=False):
     if start_check is False: return
     start_check = await battle.battle_start(player,mob)
     # 戦闘処理（Player後手） #
-    status.get_item(client.get_user(player.ID(),4,-use_num))
+    status.get_item(client.get_user(player.ID()),4,-use_num))
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
