@@ -221,7 +221,7 @@ async def open_magic(user,ch):
         name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num1}**%の攻撃魔法",
         inline=False)
     magic_em.add_field(
-        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{300+((player.magic_lv()-500)/1000) if 300+((player.magic_lv()-500)/1000) <= 500}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
+        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
         inline=False)
     magic_em.add_field(
         name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
