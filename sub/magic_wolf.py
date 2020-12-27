@@ -54,6 +54,9 @@ async def magic_1(player,mob):
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
+    if player.now_hp > 0:
+        player.magic_lv(1)
+        player.cut_mp(50)
         text2 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
@@ -84,12 +87,13 @@ async def magic_2(player,mob):
     if up_num > 6: up_num = 6
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
+    if player.now_hp > 0:
+        player.magic_lv(1)
+        player.cut_mp(100)
     text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
     battle_log = f"```c\n{text}``````diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
-    player.magic_lv(1)
-    player.cut_mp(100)
 
 # PowerCharge #
 async def magic_3(player,mob):
@@ -117,6 +121,8 @@ async def magic_3(player,mob):
     else:
         text1 = battle.create_battle_text(mob,player)
         if player.now_hp > 0:
+            player.magic_lv(1)
+            player.cut_mp(10)
             text2 = f"{player.user} 『PowerCharge』->"
             text2 += f"『IgnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
         else:
@@ -152,12 +158,13 @@ async def magic_4(player,mob):
         str_up_text = ""
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
+    if player.now_hp > 0:
+        player.magic_lv(1)
+        player.cut_mp(10)
     text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
-    player.magic_lv(1)
-    player.cut_mp(10)
 
 # MasterSpark #
 async def magic_5(player,mob,final=False):
@@ -192,13 +199,14 @@ async def magic_5(player,mob,final=False):
     if start_check is False: return
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
-    status.get_item(client.get_user(player.ID()),4,-use_num)
+    if player.now_hp > 0:
+        player.magic_lv(1)
+        player.cut_mp(10)
+        status.get_item(client.get_user(player.ID()),4,-use_num)
     text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
-    player.magic_lv(1)
-    player.cut_mp(10)
 
    
 async def open_magic(user,ch):
