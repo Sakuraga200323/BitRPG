@@ -192,6 +192,7 @@ async def magic_5(player,mob,final=False):
     player.magic_lv(1)
     player.cut_mp(10)
 
+
 async def open_magic(user,ch):
     player = box.players[user.id]
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
