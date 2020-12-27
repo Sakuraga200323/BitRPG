@@ -162,7 +162,7 @@ async def loop():
     sub_msg = '^^start'
     if client.get_channel(761571389345759232).name=='true':
         sub_msg = "開発作業中"
-    await client.change_presence(activity=discord.Game(name=f"{sub_msg}￤{len(client.guilds)}server"))
+    await client.change_presence(activity=discord.Game(name=f"{sub_msg}｜{len(client.guilds)}server"))
     if log_text != "":
         log_ch = client.get_channel(791128460726501378)
         log_em = discord.Embed(title=datetime.now(JST).strftime("%Y-%m-%d|%H:%M:%S"),description=log_text)
