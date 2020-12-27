@@ -176,6 +176,10 @@ async def magic_5(player,mob,final=False):
         await ch.send(embed=em)
         return
     if final:
+        if soul_fire_num < 100:
+            em=discord.Embed(description="触媒が足りないようだ…")
+            await ch.send(embed=em)
+            return
         magic_name = "FinalSpark"
         use_num = soul_fire_num
         up_num = 10 + ((player.magic_lv()-4000)/100000) + (use_num/100)
@@ -213,10 +217,11 @@ async def open_magic(user,ch):
     if magic_lv >= 4000:
         soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
         use_num = soul_fire_num
-        up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
-        magic_em.add_field(
-            name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",
-            inline=False)
+        if not use_num < 100:
+            up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
+            magic_em.add_field(
+                name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃",
+                inline=False)
     magic_em.add_field(
         name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
         inline=False)
