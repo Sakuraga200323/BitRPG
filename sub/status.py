@@ -80,6 +80,11 @@ items_image = {
     "魔硬貨":"https://media.discordapp.net/attachments/719855399733428244/786984393594896474/magic_coin.gif"
 }
 
+def change_num(a):
+    str(a).translate(str.maketrans('0123456789', '⁰¹²³⁴⁵⁶⁷⁸⁹')) 
+    return a 
+
+
 # ステータス #
 async def open_status(user,ch):
     if not user.id in box.players:
@@ -138,13 +143,13 @@ async def open_status(user,ch):
     await log_ch.send(embed=embed)
 
 
-# インベントリー #
+# インベントリ #
 async def open_inventory(user,ch):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = ""
     for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
         if not item_dtd[item_name] == 0:
-            text += f"{item_emoji}{item_name}：`{item_dtd[item_name]}`\n"
+            text += f"{item_emoji}{item_name}`{change_num(item_dtd[item_name])}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
     await ch.send(embed=embed)
 
