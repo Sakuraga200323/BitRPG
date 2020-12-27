@@ -186,7 +186,7 @@ async def magic_5(player,mob,final=False):
     status.get_item(client.get_user(player.ID()),4,-use_num)
     text1 = battle.create_battle_text(mob,player)
     text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
-    battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
     player.magic_lv(1)
