@@ -149,8 +149,9 @@ async def open_inventory(user,ch):
     text = ""
     for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
         if not item_dtd[item_name] == 0:
-            text += f"{item_emoji}{item_name}`{change_num(item_dtd[item_name])}`\n"
-    embed = discord.Embed(title="Player Inventory Bord",description=f"**{text}**")
+            item_id = items_id[iem_name]
+            text += f"`{item_id}.`**{item_emoji}{item_name}**`{change_num(item_dtd[item_name])}`\n"
+    embed = discord.Embed(title="Player Inventory Bord",description=f"{text}")
     await ch.send(embed=embed)
 
 
