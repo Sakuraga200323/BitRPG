@@ -229,9 +229,9 @@ async def open_magic(user,ch):
     percent_num_5 = 1000+((magic_lv-1000)/1000)
     if percent_num_5 > 3000: percent_num_5 = '*3000*'
     magic_name_0 = '`FinalSpark`'
-    if magic_lv >= 4000 and not use_num < 100: magic_name_0 = 'FinalSpark'
     soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
     use_num = soul_fire_num
+    if magic_lv >= 4000 and not use_num < 100: magic_name_0 = 'FinalSpark'
     up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
     magic_em.add_field(
         name="`0.`"+magic_name_0,value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃 後手確定",
