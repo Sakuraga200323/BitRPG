@@ -228,32 +228,37 @@ async def open_magic(user,ch):
     if user.id in box.power_charge: percent_num4 += box.power_charge[user.id]*50
     percent_num_5 = 1000+((magic_lv-1000)/1000)
     if percent_num_5 > 3000: percent_num_5 = '*3000*'
-    if magic_lv >= 4000:
-        soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
-        use_num = soul_fire_num
-        if not use_num < 100:
-            up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
-            magic_em.add_field(
-                name="`0.`FinalSpark",value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃 後手確定",
-                inline=False)
+    magic_name_0 = '`FinalSpark`'
+    if magic_lv >= 4000 and not use_num < 100: magic_name_0 = 'FinalSpark'
+    soul_fire_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
+    use_num = soul_fire_num
+    up_num = 10 + ((magic_lv-4000)/100000) + (use_num/100)
     magic_em.add_field(
-        name="`1.`BeeRay      ",value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
+        name="`0.`"+magic_name_0,value=f"必要熟練度.**4000**\n消費MP.**10**\n消費触媒.**{box.items_emoji[4]}×{soul_fire_num}**\n攻撃力**{up_num*100}**%の魔法攻撃 後手確定",
         inline=False)
-    if magic_lv >= 500:
-        magic_em.add_field(
-        name="`2.`StrengthRein",value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num_2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
+    magic_name_1 = 'BeeRay'
+    magic_em.add_field(
+        name="`1.`"+magic_name_1,value=f"必要熟練度.**0   **\n消費MP.**50 **\n攻撃力**{percent_num_1}**%の攻撃魔法",
         inline=False)
-    if magic_lv >= 1000:
-        magic_em.add_field(
-        name="`3.`PowerCharge ",value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
+    magic_name_2 = '`StrengthRein`'
+    if magic_lv >= 500:magic_name_2 = 'StrengthRein'
+    magic_em.add_field(
+        name="`2.`"+magic_name_2,value=f"必要熟練度.**500 **\n消費MP.**100**\n攻撃力**{percent_num_2}**%の攻撃魔法 後手確定 最大HPの**50**%の反動",
         inline=False)
-    if magic_lv >= 2000:
-        magic_em.add_field(
-        name="`4.`IgnisStrike ",value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
+    magic_name_3 = '`PowerCharge`'
+    if magic_lv >= 1000: magic_name_3 = 'PowerCharge'
+    magic_em.add_field(
+        name="`3.`"+magic_name_3,value=f"必要熟練度.**1000**\n消費MP.**200**\n次に使用する『IgnisStrike』の威力が**50**%上昇",
         inline=False)
-    if magic_lv >= 4000:
-        magic_em.add_field(
-        name="`5.`MasterSpark ",value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃 後手確定",
+    magic_name_4 = '`IgnisStrike`'
+    if magic_lv >= 2000: magic_name_4 = 'IgnisStrike'
+    magic_em.add_field(
+        name="`4.`"+magic_name_4,value=f"必要熟練度.**2000**\n消費MP.**10 **\n攻撃力**{percent_num_4}**%の攻撃魔法 『PowerCharge』毎に威力が**50**%上昇",
+        inline=False)
+    magic_name_5 = '`MasterSpark`'
+    if magic_lv >= 4000: magic_name_5 = 'MasterSpark'
+    magic_em.add_field(
+        name="`5.`"+magic_name_5,value=f"必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\n攻撃力**{percent_num_5}**%の魔法攻撃 後手確定",
         inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
