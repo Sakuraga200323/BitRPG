@@ -236,7 +236,7 @@ async def open_magic(user,ch):
         magic_info = magic[2]
         if magic_lv < magic[1]:
             magic_name = f'`{magic[0]}`'
-            magic_info = f'`{magic[2].replace('*','')}`'
+            magic_info = f"`{magic[2].replace('*','')}`"
         magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic_info,inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
