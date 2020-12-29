@@ -231,10 +231,10 @@ async def open_magic(user,ch):
             f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5}**% 後手確定'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**")
-    for magic in magic_tuple:
+    for magic,num in zip(magic_tuple,range(0,6)):
         magic_name = magic[0]
         if magic_lv < magic[1]: magic_name = f'`{magic[0]}`'
-        magic_em.add_field(name=magic_name,value=magic[2],inline=False)
+        magic_em.add_field(name=f'`{num}.`'magic_name,value=magic[2],inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
