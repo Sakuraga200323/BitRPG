@@ -52,20 +52,28 @@ async def magic_1(player,mob):
         buff_num = 1
     else:
         buff_num = 0
-    up_num = 0.8 + (player.magic_lv()/100000)
+    up_num = min(0.8 + (player.magic_lv()/100000),2)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
+        player.magic_lv(1)
+        player.cut_mp(80)
         text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
-        text2 = battle.create_battle_text(mob,player)
+        if mob.mow_hp > 0:
+            text2 = battle.create_battle_text(mob,player)
+        else:
+            text2 = f'{mob.name}を倒した！'
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+        if player.now_hp > 0:
+            player.magic_lv(1)
+            player.cut_mp(80)
+            text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+        else:
+            text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
-    player.magic_lv(1)
-    player.cut_mp(80)
 # PalePiscis #
 async def magic_2(player,mob):
     magic_name = "PalePiscis"
@@ -80,33 +88,56 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    up_num = 1.1 + ((player.magic_lv()-500)/100000)
+    up_num = min(2 + ((player.magic_lv()-500)/100000),400)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         if mob.ID() in box.stun:
             up_num += 0.5
-            del box.stun[mob.ID()]
-            magic_name += "+"
-            magic_log += f"```diff\n{mob.name}のStunが解除された```"
+        player.magic_lv(1)
+        player.cut_mp(150)
         text1 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
-        text2 = battle.create_battle_text(mob,player)
+        if mob.now_hp > 0:
+            text2 = battle.create_battle_text(mob,player)
+        else:
+            text2 = f'{mob.name}を倒した！'
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
         if mob.ID() in box.stun:
             up_num += 0.5
-            del box.stun[mob.ID()]
-            magic_name += "+"
-            magic_log += f"```diff\n{mob.name}のStunが解除された```"
-        text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
+        if player.now_hp > 0:
+            player.magic_lv(1)
+            player.cut_mp(150)
+            text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
+        else:
+            text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
-    player.magic_lv(1)
-    player.cut_mp(150)
-# IgnisStrike #
+# GinHex #
 async def magic_3(player,mob):
-    pass
+    magic_name = "GinHex"
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    if player.magic_lv() < 1000:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 300:
+        em=discord.Embed(description="MPが不足…！")
+        await ch.send(embed=em)
+        return
+    if mob.ID() in box.power_charge:
+        del box.anti_magic[mob.ID()]
+        em=discord.Embed(description=f"{mob.name}のアンチマジックリエアをレジスト")
+        await ch.send(embed=em)
+        player.magic_lv(1)
+        player.cut_mp(150)
+        return
+    em=discord.Embed(description="何も起きなかった…")
+    await ch.send(embed=em)
+    return
 # StrengthRein+ #
 async def magic_4(player,mob):
     pass
@@ -116,9 +147,35 @@ async def magic_5(player,mob):
 
 async def open_magic(user,ch):
     player = box.players[user.id]
-    magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="`1.`StunRain",value=f"必要熟練度.**0**\n消費MP.**80**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**3**ターンStun付与 ",inline=False)
-    magic_em.add_field(name="`2.`PalePiscis",value=f"必要熟練度.**500**\n消費MP.**150**\n攻撃力**{110+(player.magic_lv()/1000)}**%の攻撃魔法 敵がスタン状態の時攻撃力**{160+(player.magic_lv()/1000)}**%",inline=False)
+    magic_lv = player.magic_lv()
+    use_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
+    percent_num_0 = 1000 + ((magic_lv-4000)/1000) + use_num
+    percent_num_1 = min(150+(magic_lv/1000),300)
+    percent_num_2 = min(200+((magic_lv-500)/1000),400)
+    percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
+    percent_num_5 = min(1000+((magic_lv-4000)/1000),3000)
+    magic_tuple = (
+       # ('None  ',4000,
+       #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
+        ('StunRain      ',0,
+            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**%'),
+        ('PainPiscis',500,
+            f'必要熟練度.**500**\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% {int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動 後手確定'),
+        ('GinHex ',1000,
+            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト'),
+       # ('IgnisStrike ',2000,
+       #     f'必要熟練度.**2000**\n消費MP.**10 **\nStrength**{percent_num_4:.2f}**% 『PowerCharge』毎にStrength倍率が**50**%上昇 上限なし'),
+       # ('MasterSpark ',4000,
+       #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}**% 後手確定'),
+    )
+    magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
+    for magic,num in zip(magic_tuple,range(0,6)):
+        magic_name = magic[0]
+        magic_info = '>>> '+magic[2]
+        if magic_lv < magic[1]:
+            magic_name = f'`{magic[0]}`'
+            magic_info = f"`{magic[2].replace('*','')}`"
+        magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic_info,inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
@@ -129,4 +186,6 @@ async def use_magic(user,ch,magic):
         await magic_1(player,mob)
     if magic in ["2","PalePiscis","PP"]:
         await magic_2(player,mob)
+    if magic in ["3","GinHex","GH"]:
+        await magic_3(player,mob)
     
