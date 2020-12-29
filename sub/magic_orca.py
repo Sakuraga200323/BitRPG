@@ -160,7 +160,7 @@ async def open_magic(user,ch):
         ('StunRain      ',0,
             f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**%'),
         ('PainPiscis',500,
-            f'必要熟練度.**500**\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% {int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動 後手確定'),
+            f'必要熟練度.**500**\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
         ('GinHex ',1000,
             f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト'),
        # ('IgnisStrike ',2000,
@@ -169,7 +169,7 @@ async def open_magic(user,ch):
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}**% 後手確定'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
-    for magic,num in zip(magic_tuple,range(0,6)):
+    for magic,num in zip(magic_tuple,range(1,6)):
         magic_name = magic[0]
         magic_info = '>>> '+magic[2]
         if magic_lv < magic[1]:
