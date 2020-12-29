@@ -222,7 +222,7 @@ async def open_magic(user,ch):
         ('BeeRay      ',0,
             f'必要熟練度.**0   **\n消費MP.**50 **\nStrength**{percent_num_1}**%'),
         ('StrengthRein',500,
-            f'必要熟練度.**2000**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% {int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動 後手確定'),
+            f'必要熟練度.**500**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% {int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動 後手確定'),
         ('PowerCharge ',1000,
             f'必要熟練度.**1000**\n消費MP.**200**\n『IgnisStrike』のStrength倍率が**50**%上昇 上限なし'),
         ('IgnisStrike ',2000,
@@ -236,7 +236,7 @@ async def open_magic(user,ch):
         magic_info = magic[2]
         if magic_lv < magic[1]:
             magic_name = f'`{magic[0]}`'
-            magic_info = f'~~{magic[2]}~~'
+            magic_info = f'`{magic[2].replace('*','')}`'
         magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic_info,inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
