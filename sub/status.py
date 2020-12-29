@@ -83,6 +83,10 @@ items_image = {
 def change_num(a):
     a = str(a).translate(str.maketrans(dict(zip(list("0123456789"),list("⁰¹²³⁴⁵⁶⁷⁸⁹")))))
     return a
+def change_abc(a):
+    temp = 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
+    a = str(a).translate(str.maketrans(dict(zip(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),list(temp)))))
+    return a
 
 
 # ステータス #
@@ -150,7 +154,7 @@ async def open_inventory(user,ch):
     for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
         if not item_dtd[item_name] == 0:
             item_id = items_id[item_name]
-            text += f"`{item_id:<2}.`**{item_emoji}{item_name:<10}**:┃`{item_dtd[item_name]}`\n"
+            text += f"`{item_id:<2}.`**{item_emoji}{change_abc(item_name):'　'<6}**:┃`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"{text}")
     await ch.send(embed=embed)
 
