@@ -183,6 +183,28 @@ class Player:
         self.max_exp_ =  self.get_data("max_exp")
         return self.max_exp_
 
+    def item_num(self, target):
+        if target in box.items_name:
+            target = box.items_name[target]
+        if not target in box.items_id:
+            return None
+        else:
+            return pg.fetchdict(f"select item from player_tb where id = {self.user.id};")[0]["item"][target]
+
+    def get_item(self,  target, num):
+        if target in box.items_name:
+            target = box.items_name[target]
+        if not target in box.items_id:
+            return None
+        item_num = pg.fetchdict(f"select item from player_tb where id = {self.user.id};")[0]["item"][target]
+        try:
+            pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{target}', {item_num + num})::jsonb where id = {self.user.id};")
+        except:
+            return None
+        else:
+            return item_num + num
+
+
     def kill_count(self, plus=None):
         if isinstance(plus,int):
             self.kill_count_ = self.plus('kill_count', plus)
