@@ -317,11 +317,14 @@ async def open_magic(user,ch):
 async def use_magic(user,ch,target):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if ch.id in box.anti_magic:
-        if player.magic_class() == "Orca":
-            if not target in ['3','GinHex','GH']:
-                em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
-                await ch.send(embed=em)
-                return
+        if player.magic_class() != "Orca":
+            em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
+            await ch.send(embed=em)
+            return
+        if not target in ['3','GinHex','GH']:
+            em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
+            await ch.send(embed=em)
+            return
     if player.magic_class() == "Wolf":
         await magic_wolf.use_magic(user,ch,target)
     if player.magic_class() == "Armadillo":
