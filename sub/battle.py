@@ -132,16 +132,19 @@ async def battle_result(player, mob):
                     drop_item_text += f"{item_emoji_a[id]}×{num} "
             result_desc += f"\n> DropItem： {'-' if not drop_item_text else drop_item_text}"
             p.battle_end()
-        if random() <= 0.01 and mob.lv() > player.lv():
-            player.now_stp(mob.lv())
-            stp_em = discord.Embed(description=f"<@{user.id}> STP+{mob.lv()}")
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
+        if random() <= 0.001:
+            player.now_stp(mob.lv())
+            result_em.add_field(name=f"Lucky Bonus",value=f"<@{player.id}>\n>>> STP+{mob.lv()}")
+        if mob.lv() % 100 == 0:
+            player.money(250)
+            result_em.add_field(name=f"Last Attack Bonus",value=f"<@{player.id}>\n>>> Cell+1000")
         mob.lv(1)
         spawn_em = mob.battle_end()
         if mob.type in ("Elite","UltraRare",""):
             box.anti_magic.append(mob.ID())
             anti_magic_em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
-    for em in (result_em, stp_em, item_em, spawn_em, anti_magic_em):
+    for em in (result_em, spawn_em, anti_magic_em):
         if em : await ch.send(embed=em)
 
 
@@ -215,15 +218,19 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
     return text
 
+gauge_design = '='
+
 # HPゲージ作成関数 #
 def old_hp_gauge(a,b):
     num = int((a/b)*20)
-    guage_1 = ((num)*"|")+((20-num)*" ")
+    guage_1 = (num)*gauge_design
+    gauge_1 = f"{gauge_1:<20}"
     return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else guage_1) + ']' + f"\n     ({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
-    guage_1 = ((num)*"|")+((20-num)*" ")
+    guage_1 = (num)*gauge_design
+    gauge_1 = f"{gauge_1:<20}"
     return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else guage_1) + ']' + f"\n     ({a}/{b})"
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
