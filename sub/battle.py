@@ -135,10 +135,10 @@ async def battle_result(player, mob):
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
         if random() <= 0.001:
             player.now_stp(mob.lv())
-            result_em.add_field(name=f"Lucky Bonus",value=f"<@{player.id}>\n>>> STP+{mob.lv()}")
+            result_em.add_field(name=f"Lucky Bonus",value=f"<@{user.id}>\n>>> STP+{mob.lv()}")
         if mob.lv() % 100 == 0:
-            player.money(250)
-            result_em.add_field(name=f"Last Attack Bonus",value=f"<@{player.id}>\n>>> Cell+1000")
+            player.money(1000)
+            result_em.add_field(name=f"Last Attack Bonus",value=f"<@{user.id}>\n>>> Cell+1000")
         mob.lv(1)
         spawn_em = mob.battle_end()
         if mob.type in ("Elite","UltraRare",""):
