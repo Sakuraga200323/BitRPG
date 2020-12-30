@@ -207,6 +207,10 @@ def get_item(user, item_id, num):
 # アイテムの使用 #
 async def use_item(user, ch, item):
     player = box.players[user.id]
+    if player.now_hp <= 0:
+        em = discord.Embed(description=f"<@{user.id}> の返事がない ただのしかばねのようだ…")
+        await ch.send(embed=em)
+        return
     if item in list(items_name.keys()):
         item_name = items_name[item]
     elif not item in list(items_id.keys()):
