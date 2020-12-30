@@ -128,7 +128,7 @@ async def battle_result(player, mob):
             for id in reward_items:
                 num,item_was_droped = reward_items[id]
                 if item_was_droped:
-                    status.get_item(user,id,num)
+                    status.get_item(p.user,id,num)
                     drop_item_text += f"{item_emoji_a[id]}×{num} "
             result_desc += f"\n> DropItem： {'-' if not drop_item_text else drop_item_text}"
             p.battle_end()
