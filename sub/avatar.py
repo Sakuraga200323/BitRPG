@@ -15,7 +15,7 @@ import psutil
 import psycopg2, psycopg2.extras
 import traceback
 
-from sub import box, mob_data
+from sub import box, mob_data, status
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
@@ -203,6 +203,11 @@ class Player:
             return None
         else:
             return item_num + num
+
+
+    def pouch(self,space_id,set_item=None):
+        item_name = pg.fetchdict(f"select pouch from player_tb where id = {self.user.id};")[0]["puch"][space_id]
+        
 
 
     def kill_count(self, plus=None):
