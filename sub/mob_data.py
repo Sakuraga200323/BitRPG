@@ -2,7 +2,7 @@ import random
 
 normal = {
 '西表猫娘':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2015/07/136a7883e32cc95a7e38f6208e750f09.png',
-'DeatWeed':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/toubyo_1.png',
+'死ノ草':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/toubyo_1.png',
 'バニーウィッチ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/2fcb790238f2dbd181836bc11436be85.png',
 '白兎':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/d36583829d974b8d432b6fd0a7c0b828.png',
 '黒兎':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/9c16d386f8183f2cedff86261577cb64.png',
@@ -42,7 +42,7 @@ elite = {
 'ラミエル':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/8e13afa0e6256e72d755c60d0afe4bb4.png',
 'ラミエル':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/8e704e898fd57a2f6ce0e0aa86de9c3b.png',
 '武装-ケルベロス':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/09/b7c16922da9de6556c2a80d7316687ab.png',
-'三女神ノ一柱':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/2b6756d998233192a490ab0bf87f391a.png',
+'三女神ノ一柱':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/9962b8759ce0db9f2288dce709d6d62e.png',
 '三女神ノ一柱':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/2b6756d998233192a490ab0bf87f391a.png',
 '三女神ノ一柱':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/bcd1c21445c0f66532a6909a28a7417b.png',
 'クトゥルフ実娘-クティーラ':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/04/Cthylla_3L.png',
