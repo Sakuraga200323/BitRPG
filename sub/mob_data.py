@@ -6,7 +6,6 @@ normal = {
 'バニーウィッチ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/2fcb790238f2dbd181836bc11436be85.png',
 '白兎':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/d36583829d974b8d432b6fd0a7c0b828.png',
 '黒兎':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/9c16d386f8183f2cedff86261577cb64.png',
-'プレイシュヴァ':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/02/breasvha.png',
 'シャドウ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/93df8db1f2c031cd4ae314be6c768b6a.png',
 'ファントム':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/811239edbe34099b17c4f233974cd92f.png',
 'ネクロマンサー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/a793f38be632f4b3bc001c69a3ae0ec8.png',
@@ -54,7 +53,7 @@ catastrophe = {
   
 worldend = {
 '三女神':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/2da57be77b70a9eaca606109dfc41822.png',
-
+'プレイシュヴァ':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/02/breasvha.png',
 }
 
 rare = {
@@ -75,11 +74,11 @@ ultrarare = {
 
 def select(lv):
     chance = random.random()
-    if chance <= 0.001:
+    if chance <= 0.005:
         type = "UltraRare"
         name = random.choice(list(ultrarare.keys()))
-        img = utlrarare[name]
-    elif chance <= 0.01:
+        img = ultrarare[name]
+    elif chance <= 0.05:
         type = "Rare"
         name = random.choice(list(rare.keys()))
         img = rare[name]
