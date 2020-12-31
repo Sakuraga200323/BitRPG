@@ -58,7 +58,7 @@ async def magic_1(player,mob):
         player.magic_lv(1)
         player.cut_mp(80)
         text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
-        if mob.mow_hp > 0:
+        if mob.now_hp > 0:
             text2 = battle.create_battle_text(mob,player)
         else:
             text2 = f'{mob.name}を倒した！'
