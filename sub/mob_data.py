@@ -38,7 +38,7 @@ normal = {
 '雷の精霊':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2014/06/4b5d5fb3c4569234ddb2657438a74271.png',
 'ガーゴイル':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2014/06/63e8fef26f6dc883380f7ca1876b127f.png',
 '天使':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2011/07/angel_11.png',
-'黒塚':http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/04/kurotsuka_1.png',
+'黒塚':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/04/kurotsuka_1.png',
 'ドラゴノイド':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/dragonoid_r.png',
 '騎士':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2010/12/armor_b.png',
 'ミートホープ':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2010/12/kotori.png'
@@ -69,12 +69,12 @@ catastrophe = {
 '覚醒龍格闘家-龍姫':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2011/10/ryuho_ki_L_efect.png',
 '超覚醒-ドラゴノイド':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/dragonoid_infinity_r.png',
 'デュラハン':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2010/12/armor_d.png',
-'氷の女王-シヴァ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2012/03/shiva_l.png'
+'氷の女王-シヴァ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2012/03/shiva_l.png',
 }
 
 worldend = {
 'プレイシュヴァ':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/02/breasvha.png',
-'真理':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2010/12/abronxless_2.png'
+'真理':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2010/12/abronxless_2.png',
 }
 
 rare = {
@@ -84,7 +84,7 @@ rare = {
 'スターウィザード':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
 'ゴールド-モノリス':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/e591677f3dcebe6d5f001844a7ccb877.png',
 'モロナイ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2018/06/574126928be7084ff3cf07433a1f2b17.png',
-'サキュバス':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/Succubus_1.png'
+'サキュバス':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/Succubus_1.png',
 }
 
 ultrarare = {
