@@ -108,7 +108,7 @@ def select(lv):
         name = random.choice(list(worldend.keys()))
         img = worldend[name]
     elif lv % 100 == 0:
-        type = "Elite"
+        type = "Catastrophe"
         name = random.choice(list(catastrophe.keys()))
         img = catastrophe[name]
     elif lv % 10 == 0:
