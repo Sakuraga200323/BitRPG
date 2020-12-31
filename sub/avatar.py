@@ -410,8 +410,8 @@ class Mob:
             exp *= 100
             money *= 100
         elif self.type == "Rare":
-            exp *= 100
-            money *= 100
+            exp *= 10
+            money *= 10
         elif self.lv() % 1000 == 0:
             exp *= 50
             money *= 50
