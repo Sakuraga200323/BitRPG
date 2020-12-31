@@ -7,7 +7,7 @@
 #### 初代開発者-ClearanceLevel4
 * **Amanohashi**#6870
 * **Amanohashi**#9999 ※同一人物、故人。
-#### 二代目開発者群-ClearanceLevel4
+#### 二代目開発者群-ClearanceLevel5
 * **Sakuraga**#2806
 * **daima3629**#1235
 #### 運営陣の皆様-ClearanceLevel4
