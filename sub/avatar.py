@@ -341,23 +341,7 @@ class Mob:
             self.max_hp = self.now_hp = self.dtd["lv"] * 110
             set = mob_data.select(self.dtd["lv"])
             self.type, self.name, self.img_url = set.values()
-            defe_correction ={
-                "Bicorn":1.3,
-                "GoblinSoldier":1,"Golem":2,
-                "Kerberos":1.3,
-                "LizardGoblin":1.1,"Lorg":0.8,
-                "Manticore":1.3,"Mummy":0.8,
-                "Orc":1.2,
-                "Phelios":0.7,
-                "Roguenite":1.2,
-                "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
-                "Theaf":0.8,
-                "Valkyrie":1.3,
-            }
-            if self.name in defe_correction:
-                self.now_defe = self.max_defe = int((self.dtd["lv"] * 10)*defe_correction[self.name])
-            else:
-                self.now_defe = self.max_defe = self.dtd["lv"] * 10
+            self.now_defe = self.max_defe = self.dtd["lv"] * 10
             if not id in box.mobs:
                 box.mobs[id] = self
                 
@@ -380,93 +364,44 @@ class Mob:
         if isinstance(plus,int):
             result = self.plus('lv', plus)
             self.max_hp = self.now_hp = self.lv() * 100
-            defe_correction ={
-                "Bicorn":1.3,
-                "GoblinSoldier":1,"Golem":2,
-                "Kerberos":1.3,
-                "LizardGoblin":1.1,"Lorg":0.8,
-                "Manticore":1.3,"Mummy":0.8,
-                "Orc":1.2,
-                "Phelios":0.7,
-                "Roguenite":1.2,
-                "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
-                "Theaf":0.8,
-                "Valkyrie":1.3,
-            }
-            if self.name in defe_correction:
-                self.now_defe = self.max_defe = int((self.dtd["lv"] * 10)*defe_correction[self.name])
-            else:
-                self.now_defe = self.max_defe = self.dtd["lv"] * 10
+            self.now_defe = self.max_defe = self.dtd["lv"] * 10
         else:
             result = self.get_data('lv')
         return result
 
     def str(self):
-        result = self.lv() * 10
-        str_correction ={
-            "Bicorn":1.3,
-            "GoblinSoldier":1,"Golem":1,
-            "Kerberos":1.3,
-            "LizardGoblin":1.1,"Lorg":1,
-            "Manticore":1.3,"Mummy":1,
-            "Orc":1.2,
-            "Phelios":0.7,
-            "Roguenite":1.2,
-            "Skeleton":0.8,"Sludge":1,"Succubus":0.8,
-            "Theaf":0.9,
-            "Valkyrie":1.3,
-        }
-        if self.name in str_correction:
-            return int(result*str_correction[self.name])
-        else:
-            return result
+        num = self.lv() * 10
+        if self.type == "UltraRare":num*=5
+        elif self.lv() % 1000 == 0:num*=10
+        elif self.lv() % 100 == 0:num*=5
+        elif self.lv() % 10 == 0:num*=2
+        return num
 
     def defe(self):
-        result = self.lv() * 10
-        defe_correction ={
-            "Bicorn":1.3,
-            "GoblinSoldier":1,"Golem":2,
-            "Kerberos":1.3,
-            "LizardGoblin":1.1,"Lorg":0.8,
-            "Manticore":1.3,"Mummy":0.8,
-            "Orc":1.2,
-            "Phelios":0.7,
-            "Roguenite":1.2,
-            "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
-            "Theaf":0.8,
-            "Valkyrie":1.3,
-        }
-        if self.name in defe_correction:
-            return int(result*defe_correction[self.name])
-        else:
-            return result
+        num = self.lv() * 10
+        if self.type == "UltraRare":num*=5
+        elif self.lv() % 1000 == 0:num*=10
+        elif self.lv() % 100 == 0:num*=5
+        elif self.lv() % 10 == 0:num*=2
+        return num
 
     def agi(self):
-        result = self.lv() * 10
-        agi_correction ={
-            "Bicorn":1.3,
-            "GoblinSoldier":1,"Golem":0.7,
-            "Kerberos":1.3,
-            "LizardGoblin":1.2,"Lorg":0.8,
-            "Manticore":1.3,"Mummy":0.8,
-            "Orc":1.2,
-            "Phelios":1.2,
-            "Roguenite":1,
-            "Skeleton":1,"Sludge":0.8,"Succubus":1.1,
-            "Theaf":1.5,
-            "Valkyrie":1.3,
-        }
-        if self.name in agi_correction:
-            return int(result*agi_correction[self.name])
-        else:
-            return result
+        num = self.lv() * 10
+        if self.type == "UltraRare":num*=5
+        elif self.lv() % 1000 == 0:num*=0
+        elif self.lv() % 100 == 0:num*=5
+        elif self.lv() % 10 == 0:num*=2
+        return num
 
     def STR(self):
-        return self.str()
+        num = self.str()
+        return num
     def DEFE(self):
-        return self.defe()
+        num = self.defe()
+        return num
     def AGI(self):
-        return self.agi()
+        num = self.agi()
+        return num
 
 
     def reward(self):
