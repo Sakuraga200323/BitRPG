@@ -14,7 +14,7 @@ normal = {
 'ブッシュ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/8d30d6dce9fee3435990e649cceaf507.png',
 'スライム':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/05/fc1677e1f8efb82042659c49edeb48a9.png',
 '格闘家':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/03/6d21225503049c00ff05f03f343af506.png',
-'拳闘士':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/02/67e38db69797db556fcdffe661c1d919.png' ,
+'拳闘士':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/02/67e38db69797db556fcdffe661c1d919.png',
 'ミクロラプトル・グイ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/07/ef4df1e60bb57ce43926148883335e35.png',
 'アマビエ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/03/b23125c46c37fecb018cfa25121d4094.png',
 '寿':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/11/cf426c2f7fa97af5034449c1ba215f3d.png',
@@ -62,7 +62,7 @@ rare = {
 '人化-寿':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/11/72a9e322afc325ee2132393ed1d1b25c.png',
 'アルビノ-ブラッドレター':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/07/56bcb287530e2be50552c25dd1f5bd85.png',
 'スターウィザード':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
-'ゴールド-モノリス':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/e591677f3dcebe6d5f001844a7ccb877.png'
+'ゴールド-モノリス':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/e591677f3dcebe6d5f001844a7ccb877.png',
 'モロナイ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2018/06/574126928be7084ff3cf07433a1f2b17.png',
 
 }
