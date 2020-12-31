@@ -119,20 +119,23 @@ async def battle_result(player, mob):
             up_exp, up_lv = p.get_exp(exp)
             p.kill_count(1)
             p.money(money)
-            result_desc += f"\n<@{p_id}>"
+            if p.ID() == player.ID():
+                result_desc += f"\n**<@{p_id}>**"
+            else:
+                result_desc += f"\n<@{p_id}>"
             result_desc += f"\n> Exp+{exp} Cell+{money}"
             if up_lv > 0:
                 result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
-            drop_item_text = ""
-            # ドロップアイテムfor #
-            for id in reward_items:
-                num,item_was_droped = reward_items[id]
-                if item_was_droped:
-                    status.get_item(p.user,id,num)
-                    drop_item_text += f"{item_emoji_a[id]}×{num} "
-            result_desc += f"\n> DropItem： {'-' if not drop_item_text else drop_item_text}"
             p.battle_end()
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
+        # ドロップアイテムfor #
+        drop_item_text = ''
+        for id in reward_items:
+            num,item_was_droped = reward_items[id]
+            if item_was_droped:
+                status.get_item(player.user,id,num)
+                drop_item_text += f"{item_emoji_a[id]}×{num} "
+        result_em.add_field(name=f"Drop Item",value=f"<@{user.id}>\n>>> {drop_item_text}")
         if random() <= 0.001:
             player.now_stp(mob.lv())
             result_em.add_field(name=f"Lucky Bonus",value=f"<@{user.id}>\n>>> STP+{mob.lv()}")
