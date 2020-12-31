@@ -35,8 +35,8 @@ normal = {
 elite = {
 'ダークグール':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2014/06/%E3%82%B0%E3%83%BC%E3%83%AB_2.png',
 'ヴァルキリー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/497ee39d4e650c5d5e4033c677c7926a.png',
-'レインボースライム','http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/05/c211c0e4782fdef1fb6a9014ce9e31af.png',
-'オークライダー','http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/f24cb922ca3de847ddb2a8a5ba5ccd4e.png',
+'レインボースライム':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/05/c211c0e4782fdef1fb6a9014ce9e31af.png',
+'オークライダー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/f24cb922ca3de847ddb2a8a5ba5ccd4e.png',
 '覚醒格闘家-龍姫':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/03/a77c93f5b8cb49ca86b756b02a7342ff.png',
 '水神-アマビエ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/03/b23125c46c37fecb018cfa25121d4094.png',
 'ラミエル':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/8e13afa0e6256e72d755c60d0afe4bb4.png',
