@@ -120,7 +120,7 @@ async def battle_result(player, mob):
             p.kill_count(1)
             p.money(money)
             if p.ID() == player.ID():
-                result_desc += f"\n**<@{p_id}>**"
+                result_desc += f"\n*<@{p_id}>*"
             else:
                 result_desc += f"\n<@{p_id}>"
             result_desc += f"\n> Exp+{exp} Cell+{money}"
