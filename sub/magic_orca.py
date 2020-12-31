@@ -128,14 +128,24 @@ async def magic_3(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
+    magic_text = ''
     if mob.ID() in box.power_charge:
         del box.anti_magic[mob.ID()]
         em=discord.Embed(description=f"{mob.name}のアンチマジックリエアをレジスト")
         await ch.send(embed=em)
         player.magic_lv(1)
         player.cut_mp(150)
-        return
-    em=discord.Embed(description="何も起きなかった…")
+        magic_text += '\nアンチマジックエリアをレジスト！'
+    percent = min(0.25 + ((player.magic_lv()-500)/100000),0.75)
+    if random.random() <= percent:
+        box.stun[mob.ID()] = 3
+        magic_text += f'\n{mob.name}に3ターンのStunを付与！'
+    if random.random() <= percent:
+        box.nerf[mob.ID()] = 3
+        magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
+    if magic_text == '':
+        magic_text = '何も起きなかった…'
+    em=discord.Embed(description=magic_text)
     await ch.send(embed=em)
     return
 # StrengthRein+ #
@@ -152,6 +162,7 @@ async def open_magic(user,ch):
     percent_num_0 = 1000 + ((magic_lv-4000)/1000) + use_num
     percent_num_1 = min(150+(magic_lv/1000),300)
     percent_num_2 = min(200+((magic_lv-500)/1000),400)
+    percent_num_3 = min(0.25 + ((player.magic_lv()-500)/100000),0.75)*100
     percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
     percent_num_5 = min(1000+((magic_lv-4000)/1000),3000)
     magic_tuple = (
@@ -160,9 +171,9 @@ async def open_magic(user,ch):
         ('StunRain      ',0,
             f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**%'),
         ('PainPiscis',500,
-            f'必要熟練度.**500**\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
+            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
         ('GinHex ',1000,
-            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト'),
+            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}**%で敵に3ターンのStun付与 **{percent_num_3:.2f}**%で敵に3ターンのNerf付与'),
        # ('IgnisStrike ',2000,
        #     f'必要熟練度.**2000**\n消費MP.**10 **\nStrength**{percent_num_4:.2f}**% 『PowerCharge』毎にStrength倍率が**50**%上昇 上限なし'),
        # ('MasterSpark ',4000,
