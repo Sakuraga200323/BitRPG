@@ -218,7 +218,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
     return text
 
-gauge_design = '='
+gauge_design = '‖'
 
 # HPゲージ作成関数 #
 def old_hp_gauge(a,b):
