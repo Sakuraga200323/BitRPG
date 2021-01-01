@@ -131,6 +131,36 @@ def get_zukan(type):
             em.set_image(url=url)
             em.set_footer(text=f'Page.{list(normal.keys()).index(name)+1}/{len(normal)}')
             embeds[name] = em
+    if type == 'Elite':
+        for name,url in zip(list(elite.keys()),list(elite.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{list(elite.keys()).index(name)+1}/{len(elite)}')
+            embeds[name] = em
+    if type == 'Catastrophe':
+        for name,url in zip(list(catastrophe.keys()),list(catastrophe.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{list(catastrophe.keys()).index(name)+1}/{len(catastrophe)}')
+            embeds[name] = em
+    if type == 'WorldEnd':
+        for name,url in zip(list(worldend.keys()),list(worldend.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{list(worldend.keys()).index(name)+1}/{len(worldend)}')
+            embeds[name] = em
+    if type == 'Rare':
+        for name,url in zip(list(rare.keys()),list(rare.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{list(rare.keys()).index(name)+1}/{len(rare)}')
+            embeds[name] = em
+    if type == 'UltraRare':
+        for name,url in zip(list(ultrarare.keys()),list(ultrarare.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{list(ultrarare.keys()).index(name)+1}/{len(ultrarare)}')
+            embeds[name] = em
     return embeds
 
 async def open_zukan(user,ch):
@@ -165,6 +195,7 @@ async def open_zukan(user,ch):
         if not respons in range(0,7):
             return
         zukan_flag = True
+        await msg.delete()
         if respons == 1:
             embeds_dict = get_zukan('Normal')
         if respons == 2:
