@@ -448,7 +448,6 @@ async def on_message(message):
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
                 log_text += ("\n^^zukan: "+str(m_author))
-                ranking = rank.RankClass(client)
                 mob_data.open_zukan(m_author,m_ch)
 
 
