@@ -70,7 +70,7 @@ client = discord.Client(intents=discord.Intents.all())
 bot = commands.Bot(command_prefix="^^")
 pg = Postgres(dsn)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
-shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_armadillo.client = magic_orca = client
+shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_armadillo.client = magic_orca.client = mob_data.client = client
 
 
 # コマンド使用中のチャンネル
@@ -450,6 +450,13 @@ async def on_message(message):
                 log_text += ("\n^^ranking: ",str(m_author))
                 ranking = rank.RankClass(client)
                 ranking.channel(m_author,m_ch)
+
+
+            # レベルランキングの表示 #
+            if m_ctt == "^^zukan":
+                log_text += ("\n^^zukan: ",str(m_author))
+                ranking = rank.RankClass(client)
+                mob_data.open_zukan(m_author,m_ch)
 
 
             # アイテム #
