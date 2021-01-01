@@ -131,6 +131,7 @@ def get_zukan(type):
             em.set_image(url=url)
             em.set_footer(text=f'Page.{list(normal.keys()).index(name)+1}/{len(normal)}')
             embeds[name] = em
+    return embeds
 
 async def open_zukan(user,ch):
     zukan_em = discord.Embed(
@@ -160,7 +161,8 @@ async def open_zukan(user,ch):
         respons = int(msg.content)
         if respons == 1:
             zukan_flag = True
-            embeds = get_zukan('Normal')
+            embeds_dict = get_zukan('Normal')
+            embeds = list(embeds_dict.values())
             await zukan_em_msg.edit(embed=embeds[0])
             em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
             em_msg = await ch.send(embed=em)
