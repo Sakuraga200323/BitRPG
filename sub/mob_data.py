@@ -129,7 +129,7 @@ def get_zukan(type):
         for name,url in zip(list(normal.keys()),list(normal.values())):
             em = discord.Embed(title='Monster Dictionary',description=f'{name}')
             em.set_image(url=url)
-            em.set_footer(text=f'Page.{normal.index(name)+1}/{len(normal)}')
+            em.set_footer(text=f'Page.{list(normal.keys()).index(name)+1}/{len(normal)}')
             embeds[name] = em
 
 async def open_zukan(user,ch):
