@@ -120,3 +120,69 @@ def select(lv):
         name = random.choice(list(normal.keys()))
         img = normal[name]
     return {"type":type, "name":name, "img_url":img}
+
+
+def get_zukan(type):
+    embeds = {}
+    if type == 'Normal':
+        for name,url in zip(list(normal.keys()),list(normal.values())):
+            em = discord.Embed(title='Monster Dictionary',description=f'{name}')
+            em.set_image(url=url)
+            em.set_footer(text=f'Page.{normal.index(name)+1}/{len(normal)}')
+            embeds[name] = em
+
+async def open_zukan(user,ch,type):
+    player = box.players[user.id]
+    zukan_em = discord.Embed(
+        title="Ranking",
+        description=("`表示する図鑑の番号を半角英数字で送信してください。`"
+            + "\n`1.`Normal Monster"
+    ))
+    zukan_em_msg = await ch.send(embed=zukan_em)
+    def check(m):
+        if not user.id == m.author.id:
+            return 0
+        if not m.content in [ str(i) for i in range(0,11)]:
+            return 0
+        return 1
+    def check2(m):
+        if not user.id == m.author.id:
+            return 0
+        if not m.content in ("y","Y","n","N"):
+            return 0
+        return 1
+    try:
+        msg = await client.wait_for("message", timeout=20, check=check)
+    except asyncio.TimeoutError:
+        em = discord.Embed(description=f"指定がないので処理終了しました")
+        await ch.send(embed=em)
+    else:
+        respons = int(msg.content)
+        if respons == 1:
+            zukan_flag = True
+            embeds = get_zukan('Normal')
+            await zukan_em_msg.edit(embed=embeds[0])
+            em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
+            em_msg = await ch.send(embed=em)
+            while zukan_flag:
+                try:
+                    msg2 = await client.wait_for("message", timeout=20, check=check)
+                except asyncio.TimeoutError:
+                    await zukan_em_msg.delete()
+                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
+                    await em_msg.edit(embed=em)
+                    zukan_flag = False
+                else:
+                    page_num = int(msg2.content)
+                    if 0 < page_num <= len(embeds):
+                        await zukan_em_msg.edit(embed=embeds[page_num-1])
+                    if page_num == 0:
+                        ranking_flag = False
+                        await em_msg.delete()
+                    await msg2.delete()
+                    
+
+
+
+
+
