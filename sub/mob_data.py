@@ -131,7 +131,7 @@ def get_zukan(type):
             em.set_footer(text=f'Page.{normal.index(name)+1}/{len(normal)}')
             embeds[name] = em
 
-async def open_zukan(user,ch,type):
+async def open_zukan(user,ch):
     player = box.players[user.id]
     zukan_em = discord.Embed(
         title="Ranking",
