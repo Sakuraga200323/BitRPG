@@ -445,17 +445,9 @@ async def on_message(message):
                     em = discord.Embed(description="`^^point 強化対象 強化量`\n強化対象: str def agi")
                     await m_ch.send(embed=em)
 
-
-            # レベルランキングの表示 #
-            if m_ctt == "^^ranking":
-                log_text += ("\n^^ranking: ",str(m_author))
-                ranking = rank.RankClass(client)
-                ranking.channel(m_author,m_ch)
-
-
-            # レベルランキングの表示 #
+            # 図鑑の表示 #
             if m_ctt == "^^zukan":
-                log_text += ("\n^^zukan: ",str(m_author))
+                log_text += ("\n^^zukan: "+str(m_author))
                 ranking = rank.RankClass(client)
                 mob_data.open_zukan(m_author,m_ch)
 
