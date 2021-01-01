@@ -488,7 +488,7 @@ async def on_message(message):
             title,desc = m_ctt.split('"')[1],m_ctt.split('"')[3]
             await m_author.send(m_ctt)
             await message.delete()
-            embed = discord.Embed(title=result.group(1),description=result.group(2))
+            embed = discord.Embed(title=title,description=desc)
             await m_ch.send(embed=embed)
         if m_ctt == '><report':
             embed = discord.Embed(
