@@ -448,7 +448,7 @@ async def on_message(message):
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
                 log_text += ("\n^^zukan: "+str(m_author))
-                mob_data.open_zukan(m_author,m_ch)
+                await mob_data.open_zukan(m_author,m_ch)
 
 
             # アイテム #
@@ -485,13 +485,11 @@ async def on_message(message):
 
     if not m_author.bot:
         if m_ctt.startswith('><embed '):
-            pattern = r'^><embed "(.+)" "(.+)"'
-            result = re.search(pattern,m_ctt)
-            if result:
-                await m_author.send(m_ctt)
-                await message.delete()
-                embed = discord.Embed(title=result.group(1),description=result.group(2))
-                await m_ch.send(embed=embed)
+            title,desc = m_ctt.split('"')[1][3]
+            await m_author.send(m_ctt)
+            await message.delete()
+            embed = discord.Embed(title=result.group(1),description=result.group(2))
+            await m_ch.send(embed=embed)
         if m_ctt == '><report':
             embed = discord.Embed(
                 title = '<Safe> -YUI- will help you!!',
