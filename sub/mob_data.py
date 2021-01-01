@@ -132,7 +132,6 @@ def get_zukan(type):
             embeds[name] = em
 
 async def open_zukan(user,ch):
-    player = box.players[user.id]
     zukan_em = discord.Embed(
         title="Ranking",
         description=("`表示する図鑑の番号を半角英数字で送信してください。`"
