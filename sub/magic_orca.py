@@ -74,6 +74,7 @@ async def magic_1(player,mob):
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
+
 # PalePiscis #
 async def magic_2(player,mob):
     magic_name = "PalePiscis"
@@ -114,6 +115,7 @@ async def magic_2(player,mob):
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
+
 # GinHex #
 async def magic_3(player,mob):
     magic_name = "GinHex"
@@ -129,12 +131,12 @@ async def magic_3(player,mob):
         await ch.send(embed=em)
         return
     magic_text = ''
-    if mob.ID() in box.power_charge:
+    if mob.ID() in box.anti_magic:
         del box.anti_magic[mob.ID()]
         em=discord.Embed(description=f"{mob.name}のアンチマジックリエアをレジスト")
         await ch.send(embed=em)
         player.magic_lv(1)
-        player.cut_mp(150)
+        player.cut_mp(300)
         magic_text += '\nアンチマジックエリアをレジスト！'
     percent = min(0.25 + ((player.magic_lv()-500)/100000),0.75)
     if random.random() <= percent:
@@ -148,9 +150,36 @@ async def magic_3(player,mob):
     em=discord.Embed(description=magic_text)
     await ch.send(embed=em)
     return
-# StrengthRein+ #
+
+# ImmortalRecover #
 async def magic_4(player,mob):
-    pass
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    if player.magic_lv() < 2000:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 600:
+        em=discord.Embed(description="MPが不足…！")
+        await ch.send(embed=em)
+        return
+    players = mob.battle_players
+    players.remove(player.ID())
+    if players == []:
+        em=discord.Embed(description="回復出来る人が居ないようだ…")
+        await ch.send(embed=em)
+        return
+    recover_text = ""
+    for id in players:
+        p = box.players[id]
+        if p.now_hp <= 0: p.now_hp = 1
+        recover_text += f"\n<@{p.user.id}> をHP1で強制復活！"
+    em=discord.Embed(title="HealPrex",description=heal_text)
+    await ch.send(embed=em)
+    player.magic_lv(1)
+    player.cut_mp(80)
+
 # PyrobolusLacrima #
 async def magic_5(player,mob):
     pass
@@ -166,16 +195,16 @@ async def open_magic(user,ch):
     percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
     percent_num_5 = min(1000+((magic_lv-4000)/1000),3000)
     magic_tuple = (
-       # ('None  ',4000,
+       # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
-        ('StunRain      ',0,
+        ('StunRain',0,
             f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**%'),
         ('PainPiscis',500,
             f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
-        ('GinHex ',1000,
+        ('GinHex',1000,
             f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}**%で敵に3ターンのStun付与 **{percent_num_3:.2f}**%で敵に3ターンのNerf付与'),
-       # ('IgnisStrike ',2000,
-       #     f'必要熟練度.**2000**\n消費MP.**10 **\nStrength**{percent_num_4:.2f}**% 『PowerCharge』毎にStrength倍率が**50**%上昇 上限なし'),
+        ('ImmortalRecover',2000,
+            f'必要熟練度.**2000**\n消費MP.**600**\n死亡している全味方をHP**1**で強制復活'),
        # ('MasterSpark ',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}**% 後手確定'),
     )
