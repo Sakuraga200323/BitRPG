@@ -92,15 +92,21 @@ ultrarare = {
     "古月":"https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585",
 }
 
-
+ultraero = {
+'初代開発者が所持していたエロ画像act.1':'https://cdn.discordapp.com/attachments/794581744954114048/794581767435976724/images.jpeg',
+}
 
 def select(lv):
     chance = random.random()
-    if chance <= 0.005:
+    if chance <= 0.0005:
+        type = "UltraEro"
+        name = random.choice(list(ultraero.keys()))
+        img = ultraero[name]
+    if chance <= 0.001:
         type = "UltraRare"
         name = random.choice(list(ultrarare.keys()))
         img = ultrarare[name]
-    elif chance <= 0.05:
+    elif chance <= 0.01:
         type = "Rare"
         name = random.choice(list(rare.keys()))
         img = rare[name]
