@@ -26,6 +26,7 @@ from sub import (
     magic_wolf,
     magic_armadillo,
     magic_orca,
+    mob_data,
     rank,
     shop,
     status,
