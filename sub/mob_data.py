@@ -138,12 +138,15 @@ async def open_zukan(user,ch):
         title="Ranking",
         description=("`表示する図鑑の番号を半角英数字で送信してください。`"
             + "\n`1.`Normal Monster"
+            + "\n`2.`Elite Monster"
+            + "\n`3.`Catastrophe Monster"
+            + "\n`4.`WorldEnd Monster"
+            + "\n`5.`Rare Monster"
+            + "\n`6.`UltraRare Monster"
     ))
     zukan_em_msg = await ch.send(embed=zukan_em)
     def check(m):
         if not user.id == m.author.id:
-            return 0
-        if not m.content in [ str(i) for i in range(0,11)]:
             return 0
         return 1
     def check2(m):
@@ -159,29 +162,41 @@ async def open_zukan(user,ch):
         await ch.send(embed=em)
     else:
         respons = int(msg.content)
+        if not respons in range(0,7):
+            return
+        zukan_flag = True
         if respons == 1:
-            zukan_flag = True
             embeds_dict = get_zukan('Normal')
-            embeds = list(embeds_dict.values())
-            await zukan_em_msg.edit(embed=embeds[0])
-            em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
-            em_msg = await ch.send(embed=em)
-            while zukan_flag:
-                try:
-                    msg2 = await client.wait_for("message", timeout=20, check=check)
-                except asyncio.TimeoutError:
-                    await zukan_em_msg.delete()
-                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
-                    await em_msg.edit(embed=em)
-                    zukan_flag = False
-                else:
-                    page_num = int(msg2.content)
-                    if 0 < page_num <= len(embeds):
-                        await zukan_em_msg.edit(embed=embeds[page_num-1])
-                    if page_num == 0:
-                        ranking_flag = False
-                        await em_msg.delete()
-                    await msg2.delete()
+        if respons == 2:
+            embeds_dict = get_zukan('Elite')
+        if respons == 3:
+            embeds_dict = get_zukan('Catastrophe')
+        if respons == 4:
+            embeds_dict = get_zukan('WorldEnd')
+        if respons == 5:
+            embeds_dict = get_zukan('Rare')
+        if respons == 6:
+            embeds_dict = get_zukan('UltraRare')
+        embeds = list(embeds_dict.values())
+        await zukan_em_msg.edit(embed=embeds[0])
+        em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
+        em_msg = await ch.send(embed=em)
+        while zukan_flag:
+            try:
+                msg2 = await client.wait_for("message", timeout=20, check=check)
+            except asyncio.TimeoutError:
+                await zukan_em_msg.delete()
+                em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
+                await em_msg.edit(embed=em)
+                zukan_flag = False
+            else:
+                page_num = int(msg2.content)
+                if 0 < page_num <= len(embeds):
+                    await zukan_em_msg.edit(embed=embeds[page_num-1])
+                if page_num == 0:
+                    ranking_flag = False
+                    await em_msg.delete()
+                await msg2.delete()
                     
 
 
