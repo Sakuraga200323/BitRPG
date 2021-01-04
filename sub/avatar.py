@@ -206,7 +206,7 @@ class Player:
 
 
     def pouch(self,space_id,set_item=None):
-        return pg.fetchdict(f"select pouch from player_tb where id = {self.user.id};")[0]["pouch"][space_id]
+        return pg.fetchdict(f"select pouch from player_tb where id = {self.user.id};")[0]["pouch"][str(space_id)]
         
 
 
