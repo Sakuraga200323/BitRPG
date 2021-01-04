@@ -474,7 +474,7 @@ async def on_message(message):
             # ポーチ #
             if m_ctt.startswith("^^p"):
                 log_text += ("\n^^pouch: "+str(m_author))
-                pattern1 = r"^\^\^(pouch|p)"
+                pattern1 = r"^\^\^(pouch|p)$"
                 pattern2 = r"^\^\^(pouch|p) (1|2|3)$"
                 pattern3 = r"^\^\^(pouch|p) (1|2|3) (.+)$"
                 result1 = re.match(pattern1, m_ctt)
