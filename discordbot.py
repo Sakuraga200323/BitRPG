@@ -401,19 +401,22 @@ async def on_message(message):
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
                 log_text += ("\n^^atk: "+str(m_author))
                 temp = m_ctt
-                pattern = r"\^\^(atk|attack|atk (.+)|attack (.+))$"
+                pattern = r"^\^\^(atk|attack|atk (.+)|attack (.+))$"
                 result = re.search(pattern, temp)
                 if result: await battle.cbt_proc(m_author,m_ch)
 
-            # アイテム #
+            # 魔法 #
             if m_ctt.startswith("^^m"):
                 log_text += ("\n^^magic: "+str(m_author))
                 pattern = r"^\^\^(m|magic) (.+)"
                 pattern2 = r"^\^\^(m|magic)$"
                 result = re.search(pattern, m_ctt)
+                if result:
+                    await battle.use_magic(m_author,m_ch,result.group(2))
+                    return
                 result2 = re.search(pattern2, m_ctt)
-                if result:await battle.use_magic(m_author,m_ch,result.group(2))
-                elif result2:await battle.open_magic(m_author,m_ch)
+                if result2:
+                    await battle.open_magic(m_author,m_ch)
 
             # 戦闘から離脱 #
             if m_ctt.startswith("^^re"):
@@ -440,7 +443,8 @@ async def on_message(message):
                 log_text += ("\n^^point: "+str(m_author))
                 pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
                 result = re.search(pattern, m_ctt)
-                if result: await status.divid(m_author, m_ch, result)
+                if result:
+                    await status.divid(m_author, m_ch, result)
                 else:
                     em = discord.Embed(description="`^^point 強化対象 強化量`\n強化対象: str def agi")
                     await m_ch.send(embed=em)
@@ -458,9 +462,32 @@ async def on_message(message):
                 pattern2 = r"\^\^(i|item)$"
                 result = re.search(pattern, m_ctt)
                 result2 = re.search(pattern2, m_ctt)
-                if result:await status.use_item(m_author, m_ch, result.group(2))
-                elif result2: await status.open_inventory(m_author, m_ch)
+                if result:
+                    await status.use_item(m_author, m_ch, result.group(2))
+                elif result2:
+                    await status.open_inventory(m_author, m_ch)
+                else:
+                    em = discord.Embed(description="`^^item アイテム名`")
+                    await m_ch.send(embed=em)
 
+            # ポーチ #
+            if m_ctt.startswith("^^p"):
+                log_text += ("\n^^pouch: "+str(m_author))
+                pattern1 = r"^\^\^(pouch|p)"
+                pattern2 = r"^\^\^(pouch|p) (1|2|3)$"
+                pattern3 = r"^\^\^(pouch|p) (1|2|3) (.+)$"
+                result1 = re.search(pattern1, m_ctt)
+                result2 = re.search(pattern2, m_ctt)
+                result3 = re.search(pattern3, m_ctt)
+                if result1:
+                    await status.open_pouch(m_author, m_ch)
+                elif result2:
+                    await status.use_pouch(m_author, m_ch, result.group(2))
+                elif result3:
+                    await status.set_pouch(m_author, m_ch, result.group(2), result.group(3))
+                else:
+                    em = discord.Embed(description="アイテム使用┃`^^pouch 番号`\nアイテム割当┃`^^pouch 番号 アイテム名`")
+                    await m_ch.send(embed=em)
 
             # Lv上限解放 #
             if m_ctt == "^^lvunlock":
