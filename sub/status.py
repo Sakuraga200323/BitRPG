@@ -306,10 +306,21 @@ async def use_item(user, ch, item):
         await ch.send(embed=item_em)
 
 
+async def open_pouch(user,ch):
+    player = box.players[user.id]
+    item1_name = player.pouch(1)
+    item2_name = player.pouch(2)
+    item3_name = player.pouch(3)
+    text = ''
+    text += f'\n`1.`┃`{item1_name}`'
+    text += f'\n`2.`┃`{item2_name}`'
+    text += f'\n`3.`┃`{item3_name}`'
+    pouch_em = discord.Embed(title='Player Pouch',description=text)
+    await ch.send(embed=em)
+
+async def use_pouch(user,ch,num):
+    player = box.players[user.id]
+    item_name = player.pouch(num)
+    await use_item(user,ch,item_name)
 
 
-                  
-                  
-                  
-                  
-                  
