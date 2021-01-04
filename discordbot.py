@@ -477,9 +477,9 @@ async def on_message(message):
                 pattern1 = r"^\^\^(pouch|p)"
                 pattern2 = r"^\^\^(pouch|p) (1|2|3)$"
                 pattern3 = r"^\^\^(pouch|p) (1|2|3) (.+)$"
-                result1 = re.search(pattern1, m_ctt)
-                result2 = re.search(pattern2, m_ctt)
-                result3 = re.search(pattern3, m_ctt)
+                result1 = re.match(pattern1, m_ctt)
+                result2 = re.match(pattern2, m_ctt)
+                result3 = re.match(pattern3, m_ctt)
                 if result1:
                     await status.open_pouch(m_author, m_ch)
                 elif result2:
