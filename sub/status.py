@@ -323,3 +323,11 @@ async def use_pouch(user,ch,num):
     item_name = player.pouch(num)
     await use_item(user,ch,item_name)
 
+async set_pouch(user,ch,num,item):
+    player = box.players[user.id]
+    player.pouch(num,set_item=item)
+    text = f"Pouchの**{num}**枠目に**{item}**{box.items_emoji[box.items_id[item]]}をセット"
+    pouch_em = discord.Embed(description=text)
+    await ch.send(embed=pouch_em)
+    
+
