@@ -483,9 +483,9 @@ async def on_message(message):
                 if result1:
                     await status.open_pouch(m_author, m_ch)
                 elif result2:
-                    await status.use_pouch(m_author, m_ch, result.group(2))
+                    await status.use_pouch(m_author, m_ch, result2.group(2))
                 elif result3:
-                    await status.set_pouch(m_author, m_ch, result.group(2), result.group(3))
+                    await status.set_pouch(m_author, m_ch, result3.group(2), result3.group(3))
                 else:
                     em = discord.Embed(description="アイテム使用┃`^^pouch 番号`\nアイテム割当┃`^^pouch 番号 アイテム名`")
                     await m_ch.send(embed=em)
