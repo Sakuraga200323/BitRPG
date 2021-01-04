@@ -206,6 +206,10 @@ class Player:
 
 
     def pouch(self,space_id,set_item=None):
+        if set_item in box.items_name:
+            set_item = box.items_name[target]
+        if set_item:
+            pg.execute(f"update player_tb set pouch = pouch::jsonb||json_build_object('{num}', '{set_item}')::jsonb where id = {self.user.id};")
         return pg.fetchdict(f"select pouch from player_tb where id = {self.user.id};")[0]["pouch"][str(space_id)]
         
 
