@@ -39,6 +39,7 @@ cmd_info = (
     ('^^training','初心者向け Mobと戦わずにクイズでExpを獲得\n`^^tr`と省略可'),
 )
 async def help(user,ch):
+    global cmd_info
     text = '`0 .┃Helpページの処理を終了`\n'
     cmd_info = sorted([ i[0] for i in cmd_info ], key = lambda x:x[0])
     for i in cmd_info:
