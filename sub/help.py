@@ -38,12 +38,14 @@ cmd_info = (
 `^^point 強化対象 強化量`┃指定Statusを強化 強化対象はstr def agi のみ StatusPoint(STP)を消費'''),
     ('^^training','初心者向け Mobと戦わずにクイズでExpを獲得\n`^^tr`と省略可'),
 )
+
+
 async def help(user,ch):
     global cmd_info
     text = '`0 .┃Helpページの処理を終了`\n'
     cmd_info = sorted([ i[0] for i in cmd_info ], key = lambda x:x[0])
     for i in cmd_info:
-        em = discord.Embed(title=i[0],description=i[1])
+        em = discord.Embed(title=i,description=i[1])
         cmd_em_list.append(em) 
     for i,j in zip(cmd_info,range(1,len(cmd_em_list)+1)):
         text += f'`{j:<2}.┃{i[0]}`\n'
