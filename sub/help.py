@@ -40,7 +40,7 @@ cmd_info = (
 )
 async def help(user,ch):
     text = ''
-    for i,j in zip(list(cmd_info.keys()),range(1,len(cmd_em_list)+1)):
+    for i,j in zip(cmd_info,range(1,len(cmd_em_list)+1)):
         text += f'`{j:<2}.┃{i[0]}`\n'
     help_em = discord.Embed(
         title='Command Help',
