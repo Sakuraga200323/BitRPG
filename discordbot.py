@@ -472,7 +472,7 @@ async def on_message(message):
                     await m_ch.send(embed=em)
 
             # ポーチ #
-            if m_ctt.startswith("^^p"):
+            if m_ctt.startswith("^^p") and not m_ctt.startswith('^^point'):
                 log_text += ("\n^^pouch: "+str(m_author))
                 pattern1 = r"^\^\^(pouch|p)$"
                 pattern2 = r"^\^\^(pouch|p) (1|2|3)$"
