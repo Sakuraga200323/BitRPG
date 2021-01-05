@@ -55,17 +55,18 @@ async def help(user,ch):
         return 1
     help_flag = True
     while help_flag == True:
-    try:
-        respons = await client.wait_for('message',timeout=20,check=check)
-        respons_num = int(respons.content)
-    except asyncio.TimeoutError:
-        em = discord.Embed('時間切れです')
-        await ch.send(embed=em)
-    else:
-        if respons_num in range(1,len(cmd_em_list)+1):
-            await ch.send(embed=cmd_em_list[respons_num-1])
-        if respons_num == 0:
-            em = discord.Embed('処理を終了しました')
+        try:
+            respons = await client.wait_for('message',timeout=20,check=check)
+            respons_num = int(respons.content)
+        except asyncio.TimeoutError:
+            em = discord.Embed('時間切れです')
             await ch.send(embed=em)
             help_flag = False
+        else:
+            if respons_num in range(1,len(cmd_em_list)+1):
+                await ch.send(embed=cmd_em_list[respons_num-1])
+            if respons_num == 0:
+                em = discord.Embed('処理を終了しました')
+                await ch.send(embed=em)
+                help_flag = False
             
