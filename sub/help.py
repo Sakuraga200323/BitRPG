@@ -43,9 +43,9 @@ cmd_info = (
 async def help(user,ch):
     global cmd_info
     text = '`0 .┃Helpページの処理を終了`\n'
-    cmd_info = sorted([ i[0] for i in cmd_info ], key = lambda x:x[0])
+    cmd_info = sorted(cmd_info, key = lambda x:x[0])
     for i in cmd_info:
-        em = discord.Embed(title=i,description=i[1])
+        em = discord.Embed(title=i[0],description=i[1])
         cmd_em_list.append(em) 
     for i,j in zip(cmd_info,range(1,len(cmd_em_list)+1)):
         text += f'`{j:<2}.┃{i[0]}`\n'
