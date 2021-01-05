@@ -59,7 +59,7 @@ async def help(user,ch):
             respons = await client.wait_for('message',timeout=20,check=check)
             respons_num = int(respons.content)
         except asyncio.TimeoutError:
-            em = discord.Embed('時間切れです')
+            em = discord.Embed(description='時間切れです')
             await ch.send(embed=em)
             help_flag = False
         else:
