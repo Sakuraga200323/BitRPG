@@ -56,13 +56,14 @@ async def help(user,ch):
     def check(m):
         if m.author.id != user.id:return 0
         if m.channel.id != ch.id:return 0
-        if not m.content in [ str(i) for range(0,len(cmd_em_list)+1) ]:return 0
+        if not m.content in [ str(i) for i in range(0,len(cmd_em_list)+1) ]:return 0
         return 1
     help_flag = True
     while help_flag == True:
         try:
             respons = await client.wait_for('message',timeout=20,check=check)
             respons_num = int(respons.content)
+            await respons.delete()
         except asyncio.TimeoutError:
             em = discord.Embed(description='時間切れです')
             await ch.send(embed=em)
