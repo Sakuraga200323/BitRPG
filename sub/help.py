@@ -39,7 +39,7 @@ cmd_info = (
     ('^^training','初心者向け Mobと戦わずにクイズでExpを獲得\n`^^tr`と省略可'),
 )
 async def help(user,ch):
-    text = ''
+    text = '`0 .┃Helpページの処理を終了`\n'
     for i in cmd_info:
         em = discord.Embed(title=i[0],description=i[1])
         cmd_em_list.append(em) 
@@ -66,7 +66,7 @@ async def help(user,ch):
             if respons_num in range(1,len(cmd_em_list)+1):
                 await ch.send(embed=cmd_em_list[respons_num-1])
             if respons_num == 0:
-                em = discord.Embed('処理を終了しました')
+                em = discord.Embed(description='処理を終了しました')
                 await ch.send(embed=em)
                 help_flag = False
             
