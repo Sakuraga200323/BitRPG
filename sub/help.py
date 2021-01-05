@@ -40,6 +40,7 @@ cmd_info = (
 )
 async def help(user,ch):
     text = '`0 .┃Helpページの処理を終了`\n'
+    sort(cmd_info, key = lambda x:x[0])
     for i in cmd_info:
         em = discord.Embed(title=i[0],description=i[1])
         cmd_em_list.append(em) 
