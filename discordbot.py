@@ -335,6 +335,9 @@ async def on_message(message):
                     + "極力そのようなことがないようデザインに力を注いではいるのですが、念のためスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）に設定し直しますようお願いいたします。`"
             ))
             await m_author.send(embed=msg_em)
+            ch = client.get_channel(795810767139373076)
+            new_player_em = discord.Embed(title='New Player',description=f'{m_author}({m_author.id}):{respons}')
+            await ch.send(embed=new_player_em)
         if client.get_channel(761571389345759232).name=='true':
             guild = client.get_guild(official_guild_id)
             if not m_author in guild.members:
