@@ -40,15 +40,15 @@ cmd_info = (
 )
 async def help(user,ch):
     text = ''
+    for i in cmd_info:
+        em = discord.Embed(title=i[0],description=i[1])
+        cmd_em_list.append(em) 
     for i,j in zip(cmd_info,range(1,len(cmd_em_list)+1)):
         text += f'`{j:<2}.┃{i[0]}`\n'
     help_em = discord.Embed(
         title='Command Help',
-        description='対応する番号を送信してください\n'+text)
+        description=('対応する番号を送信してください\n'+text))
     await ch.send(embed=help_em)
-    for i in cmd_info:
-        em = discord.Embed(title=i[0],description=i[1])
-        cmd_em_list.append(em)
     def check(m):
         if m.author.id != user.id:return 0
         if m.channel.id != ch.id:return 0
