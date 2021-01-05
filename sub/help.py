@@ -39,7 +39,8 @@ cmd_info = (
     ('^^training','初心者向け Mobと戦わずにクイズでExpを獲得\n`^^tr`と省略可'),
 )
 async def help(user,ch):
-    for i,j in zip(list(cmd_info.keys()),range(1,len(cmd_em_list)+1):
+    text = ''
+    for i,j in zip(list(cmd_info.keys()),range(1,len(cmd_em_list)+1)):
         text += f'`{j:<2}.┃{i}`\n'
     help_em = discord.Embed(
         title='Command Help',
