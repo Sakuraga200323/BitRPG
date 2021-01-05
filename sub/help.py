@@ -51,7 +51,7 @@ async def help(user,ch):
         cmd_em_list.append(em)
     def check(m):
         if m.author.id != user.id:return 0
-        if m.channel.id != ch?id:return 0
+        if m.channel.id != ch.id:return 0
         return 1
     help_flag = True
     while help_flag == True:
