@@ -644,44 +644,4 @@ async def on_error(event, *args, **kwargs):
 
 
 
-@bot.command()
-async def getrole(ctx, num):
-    if ctx.message.channel.id != 725486353151819899:
-        await ctx.send("このコマンドは<@725486353151819899>専用です。")
-        return
-    await ctx.message.delete()
-    annouce_role = ctx.guild.get_role(announce_role)
-    c_lv1 = ctx.guild.get_role(c_lv1)
-    c_lv2 = ctx.guild.get_role(c_lv2)
-    c_lv3 = ctx.guild.get_role(c_lv3)
-    role = announce_role if num=="0" else c_lv1 if num=="1" else c_lv2 if num=="2" else c_lv3 if num=="3" else None
-    result_msg = "該当する役職がありません。"
-    if role:
-        await ctx.message.author.add_role(role)
-        result_msg = f"<@{role.id}> を付与しました。"
-    send_msg = await ctx.send(result_msg)
-    await asyncio.sleep(5)
-    await send.msg.delete()
-
-
-
-@bot.command()
-async def remrole(ctx, role_num):
-    if not ctx.message.channel.id == 725486353151819899:
-        await ctx.send("このコマンドは<@725486353151819899>専用です。")
-        return
-    await ctx.message.delete()
-    annouce_role = ctx.guild.get_role(announce_role)
-    c_lv1 = ctx.guild.get_role(c_lv1)
-    c_lv2 = ctx.guild.get_role(c_lv2)
-    c_lv3 = ctx.guild.get_role(c_lv3)
-    role = announce_role if num=="0" else c_lv1 if num=="1" else c_lv2 if num=="2" else c_lv3 if num=="3" else None
-    result_msg = "該当する役職がありません。"
-    if role:
-        await ctx.message.author.add_role(role)
-        result_msg = f"<@{role.id}> を解除しました。"
-    send_msg = await ctx.send(result_msg)
-    await asyncio.sleep(5)
-    await send.msg.delete()
-
 client.run(token)
