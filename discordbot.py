@@ -65,11 +65,12 @@ def split_n(text, n):
 
 # 時間軸、データベースのURL、ボットのToken、Client、pg変数設定
 JST = timezone(timedelta(hours=+9), 'JST')
-dsn = os.environ.get('DATABASE_URL')
+dsn1 = os.environ.get('DATABASE1_URL')
+dsn2 = os.environ.get('DATABASE2_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
-bot = commands.Bot(command_prefix="^^")
-pg = Postgres(dsn)
+pg = Postgres(dsn1)
+pg2 = Postgres(dsn2)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
 shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_armadillo.client = magic_orca.client = mob_data.client = client
 
@@ -292,10 +293,9 @@ async def on_message(message):
             jsonb_pouch = "'1','冒険者カード', '2','冒険者カード', '3','冒険者カード'"
             cmd = (
                 f"INSERT INTO player_tb VALUES ("
-                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),0"
+                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items})"
                 +");"
             )
-            print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
             try:
                 pg.execute(cmd)
             except Exception as e:
@@ -324,17 +324,6 @@ async def on_message(message):
                     + f"\n・`^^magic`で自分の魔法を確認"
             ))
             await m_author.send(embed=msg_em)
-            msg_em = discord.Embed(
-                title="開発者から挨拶",
-                description=(
-                    ". こんにちは。BitRPG2代目開発者の**Sakuraga**です。この度は**BitRPG**にご登録いただきまことにありがとうございます。"
-                    + "\n　**BitRPG**は知名度の高い**TAO**や**ReStart**と異なり、**プレイヤー間の協力と戦略**に視点を向けたRPGです。敵との戦闘においても、個々人の性能だけで戦うのには限度があります。"
-                    + "魔法領域の性能面も各々がかなり偏っており、個人戦闘には基本向きません。ですが仮に敵一体に**Wolf・Armadillo・Orca**の３人で挑めば、勝率や戦略性が広がります。"
-                    + "まずは`^^url`で、公式サーバーに参加し、BitRPGの遊び方を覚えるとともに他のPlayerと関係を築くことをお勧めします。"
-                    + "\n　`【追記】\nBitRPGは比較的入り組んだデザインをしており、Playerによっては名前の長さ上、見栄えが悪くなるような不自然な改行などが発生することがございます。"
-                    + "極力そのようなことがないようデザインに力を注いではいるのですが、念のためスマホ版Discordを使用している方は、`設定->テーマ`から、テキストサイズを90%以下（80%推奨）に設定し直しますようお願いいたします。`"
-            ))
-            await m_author.send(embed=msg_em)
             ch = client.get_channel(795810767139373076)
             new_player_em = discord.Embed(title='New Player',description=f'{m_author}({m_author.id}):{respons}')
             await ch.send(embed=new_player_em)
@@ -352,6 +341,7 @@ async def on_message(message):
                 msg_em = discord.Embed(description=f"現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。")
                 await m_ch.send(embed=msg_em)
                 return
+            print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
 
         cmd_lock[m_ch.id] = True
         mob = avatar.Mob(client, m_ch.id)
@@ -605,9 +595,12 @@ async def on_message(message):
             else:
                 ctt = remsg.content
                 try:
-                    if ctt.startswith("psql "):
-                        cmd = ctt.split("psql ")[1]
-                        await m_ch.send(f"`::DATABASE=> {cmd}`")
+                    if ctt.startswith("psql"):
+                        if ctt.startswith("psql2 "):
+                            pg = pg2
+                            cmd = ctt.split("psql2 ")[1]
+                        elif ctt.startswith("psql1 "):
+                            cmd = ctt.split("psql1 ")[1]
                         result = None
                         if "select" in cmd:
                             result = f"{pg.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
@@ -618,10 +611,8 @@ async def on_message(message):
                                 result = f"{error}"
                             else:
                                 result = True
-                        try:
-                            await m_ch.send(f"```py\n{result}```")
-                        except:
-                            await m_ch.send("Error.")
+                        await m_ch.send(f"```::DATABASE=> {cmd}```")
+                        await m_ch.send(f"```py\n{result}```")
                 finally:
                     await m_ch.send("*Completed. System was already closed.*")
 
