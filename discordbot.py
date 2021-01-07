@@ -72,9 +72,29 @@ client = discord.Client(intents=discord.Intents.all())
 
 pg = Postgres(dsn1)
 pg2 = Postgres(dsn2)
-shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
-shop.client = battle.client = rank.client = status.client = help.client = avatar.client = check_macro.client = magic_wolf.client = magic_armadillo.client = magic_orca.client = mob_data.client = client
-
+other_files_pg = (
+    shop.pg, 
+    battle.pg, 
+    rank.pg, 
+    status.pg, 
+    avatar.pg, 
+    check_macro.pg
+)
+other_files_clients = (
+    shop.client , 
+    battle.client , 
+    rank.client , 
+    status.client , 
+    help.client , 
+    avatar.client , 
+    check_macro.client , 
+    magic_wolf.client , 
+    magic_armadillo.client , 
+    magic_orca.client , 
+    mob_data.client
+)
+for i,j in zip(other_files_pg,other_files_clients):
+    i,j = pg,client
 
 # コマンド使用中のチャンネル
 cmd_lock = {}
