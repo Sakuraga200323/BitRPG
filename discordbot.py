@@ -200,7 +200,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cmd_lock, macro_checking, doubt_count, pg
+    global cmd_lock, macro_checking, doubt_count
     global log_text
 
     m_ctt = message.content
@@ -220,7 +220,7 @@ async def on_message(message):
 
         if m_ctt == '^^start':
             log_text += ("\n^^start: "+str(m_author))
-            id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;")]
+            id_list = [ i["id"] for i in pg.fetchdict("select id from player_tb;") ]
             print(id_list)
             def check(m):
                 if not m.author.id == m_author.id: return 0
@@ -311,19 +311,6 @@ async def on_message(message):
             box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
             await help.help(m_ch, m_author)
-            msg_em = discord.Embed(
-                title="初期行動リスト",
-                description=(
-                    f"・`^^help`でHelpページの確認"
-                    + f"\n・`^^url`で公式サーバーに参加"
-                    + f"\n・`^^tr`でトレーニングをし、まずはLv2を目指す"
-                    + f"\n・`^^status`で上がったステータスを確認"
-                    + f"\n・`^^item 冒険者カード`で上がったステータスを確認"
-                    + f"\n・`^^item`で所持アイテムを確認"
-                    + f"\n・`^^point str 10`でLvUPで手に入ったSTPでStrength(攻撃力)を強化"
-                    + f"\n・適当なLv１チャンネルで`^^attack`"
-                    + f"\n・`^^magic`で自分の魔法を確認"
-            ))
             await m_author.send(embed=msg_em)
             ch = client.get_channel(795810767139373076)
             new_player_em = discord.Embed(title='New Player',description=f'{m_author}({m_author.id}):{respons}')
