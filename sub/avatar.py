@@ -20,6 +20,7 @@ from sub import box, mob_data, status
 JST = timezone(timedelta(hours=+9), 'JST')
 
 pg = None
+client = None
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
