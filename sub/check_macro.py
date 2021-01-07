@@ -21,8 +21,9 @@ from anti_macro import anti_macro
 doubt_count = {}
 macro_checking = []
 pg = None
+client = None
 
-async def check_macro(client, user, ch):
+async def check_macro(user, ch):
     P_list = pg.fetch(f"select * from player_tb where id = {user.id};")
     if not user.id in doubt_count:
         doubt_count[user.id] = 0
