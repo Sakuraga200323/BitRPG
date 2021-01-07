@@ -69,6 +69,7 @@ dsn1 = os.environ.get('DATABASE1_URL')
 dsn2 = os.environ.get('DATABASE2_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
+
 pg = Postgres(dsn1)
 pg2 = Postgres(dsn2)
 shop.pg, battle.pg, rank.pg, status.pg, avatar.pg, check_macro.pg = pg, pg, pg, pg, pg, pg
@@ -199,7 +200,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cmd_lock, macro_checking, doubt_count
+    global cmd_lock, macro_checking, doubt_count, pg
     global log_text
 
     m_ctt = message.content
