@@ -65,7 +65,7 @@ def split_n(text, n):
 
 # 時間軸、データベースのURL、ボットのToken、Client、pg変数設定
 JST = timezone(timedelta(hours=+9), 'JST')
-dsn1 = os.environ.get('DATABASE1_URL')
+dsn1 = os.environ.get('DATABASE_URL')
 dsn2 = os.environ.get('DATABASE2_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
