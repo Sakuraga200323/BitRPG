@@ -70,8 +70,8 @@ dsn2 = os.environ.get('DATABASE2_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 
-client.pg = Postgres(dsn1)
-client.pg2 = Postgres(dsn2)
+pg = Postgres(dsn1)
+pg2 = Postgres(dsn2)
 
 
 other_modules = (
@@ -87,6 +87,7 @@ other_modules = (
     magic_orca , 
     mob_data
 )
+
 for i in other_modules:
     i.set_client(client,pg)
 
