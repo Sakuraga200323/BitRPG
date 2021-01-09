@@ -30,9 +30,9 @@ item_emoji_a = {
 }
 
 
-pg = None
-client = None
-
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 
 # StunRain #
