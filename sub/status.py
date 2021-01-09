@@ -22,7 +22,9 @@ def my_round(val, digit=0):
     p = 10 ** digit
     return (val * p * 2 + 1) // 2 / p
 
-def set_client(c,pg):
+client = pg = None
+def first_set(c,pg):
+    global client, pg
     client = c
     pg = pg
 
