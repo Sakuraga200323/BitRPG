@@ -15,8 +15,10 @@ import traceback
 
 from sub import box, status
 JST = timezone(timedelta(hours=+9), 'JST')
-pg = None
-client = None
+
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 items_name = {
     1:"冒険者カード",
