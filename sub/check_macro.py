@@ -20,8 +20,9 @@ from anti_macro import anti_macro
 
 doubt_count = {}
 macro_checking = []
-pg = None
-client = None
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 async def check_macro(user, ch):
     P_list = pg.fetch(f"select * from player_tb where id = {user.id};")
