@@ -17,9 +17,9 @@ from sub import box, mob_data
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-pg = None
-
-client = None
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 def split_list(l, n):
     if len(l) <= n:
