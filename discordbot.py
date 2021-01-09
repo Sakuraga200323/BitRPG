@@ -87,7 +87,7 @@ other_modules = (
     magic_orca , 
     mob_data
 )
-for i in other_files_clients:
+for i in other_modules:
     i.set_client(client,pg)
 
 # コマンド使用中のチャンネル
