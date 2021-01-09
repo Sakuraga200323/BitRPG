@@ -19,8 +19,12 @@ from sub import box, mob_data, status
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-pg = None
-client = None
+
+client = pg = None
+def first_set(c,pg):
+    global client, pg
+    client = c
+    pg = pg
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
