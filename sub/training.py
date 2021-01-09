@@ -46,9 +46,11 @@ item_emoji_a = {
 }
 
 
-def set_client(c,pg):
+client = pg = None
+def first_set(c,p):
+    global client, pg
     client = c
-    pg = pg
+    pg = p
 
 
 
