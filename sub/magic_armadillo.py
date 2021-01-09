@@ -30,8 +30,9 @@ item_emoji_a = {
 }
 
 
-pg = None
-client = None
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 
 async def magic_1(player,mob):
