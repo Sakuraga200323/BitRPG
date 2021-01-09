@@ -181,7 +181,6 @@ async def loop():
         sub_msg = "開発作業中"
     if pg==None or pg2==None:
         sub_msg = "データベース問題発生"
-    sub_msg = "データベース問題発生中"
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}｜{len(client.guilds)}server"))
     if log_text != "":
         log_ch = client.get_channel(791128460726501378)
