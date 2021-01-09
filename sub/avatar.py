@@ -45,6 +45,7 @@ create table player_tb(
 
 def set_client(c,pg):
     client = c
+    pg = pg
 
 
 class Player:
