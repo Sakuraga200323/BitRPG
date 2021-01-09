@@ -20,7 +20,10 @@ from anti_macro import anti_macro
 
 doubt_count = {}
 macro_checking = []
-def set_client(c,pg):
+
+client = pg = None
+def first_set(c,pg):
+    global client, pg
     client = c
     pg = pg
 
