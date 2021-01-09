@@ -89,7 +89,7 @@ other_modules = (
 )
 
 for i in other_modules:
-    i.set_client(client,pg)
+    i.first_set(client,pg)
 
 # コマンド使用中のチャンネル
 cmd_lock = {}
