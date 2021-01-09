@@ -74,21 +74,21 @@ client.pg = Postgres(dsn1)
 client.pg2 = Postgres(dsn2)
 
 
-other_files_clients = (
-    shop.client , 
-    battle.client , 
-    rank.client , 
-    status.client , 
-    help.client , 
-    avatar.client , 
-    check_macro.client , 
-    magic_wolf.client , 
-    magic_armadillo.client , 
-    magic_orca.client , 
-    mob_data.client
+other_modules = (
+    shop , 
+    battle , 
+    rank , 
+    status , 
+    help , 
+    avatar , 
+    check_macro , 
+    magic_wolf , 
+    magic_armadillo , 
+    magic_orca , 
+    mob_data
 )
-for i,j in zip(other_files_pg,other_files_clients):
-    i,j = pg,client
+for i in other_files_clients:
+    i.set_client(client,pg)
 
 # コマンド使用中のチャンネル
 cmd_lock = {}
