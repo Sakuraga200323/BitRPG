@@ -1,8 +1,12 @@
 import random
 import discord
-def set_client(c,pg):
+
+client = pg = None
+def first_set(c,pg):
+    global client, pg
     client = c
     pg = pg
+
 normal = {
 '西表猫娘':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2015/07/136a7883e32cc95a7e38f6208e750f09.png',
 '死ノ草':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/toubyo_1.png',
