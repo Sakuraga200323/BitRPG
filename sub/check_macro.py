@@ -22,10 +22,10 @@ doubt_count = {}
 macro_checking = []
 
 client = pg = None
-def first_set(c,pg):
+def first_set(c,p):
     global client, pg
     client = c
-    pg = pg
+    pg = p
 
 async def check_macro(user, ch):
     P_list = pg.fetch(f"select * from player_tb where id = {user.id};")
