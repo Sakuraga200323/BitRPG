@@ -5,10 +5,10 @@ import discord
 JST = timezone(timedelta(hours=+9), 'JST')
 
 client = pg = None
-def first_set(c,pg):
+def first_set(c,p):
     global client, pg
     client = c
-    pg = pg
+    pg = p
 
 async def send_em(ch, title, description, timestamp=False):
     embed=discord.Embed(title=title,description=description)
