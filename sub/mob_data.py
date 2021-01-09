@@ -2,10 +2,10 @@ import random
 import discord
 
 client = pg = None
-def first_set(c,pg):
+def first_set(c,p):
     global client, pg
     client = c
-    pg = pg
+    pg = p
 
 normal = {
 '西表猫娘':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2015/07/136a7883e32cc95a7e38f6208e750f09.png',
