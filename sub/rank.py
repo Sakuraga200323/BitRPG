@@ -19,10 +19,10 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 
 client = pg = None
-def first_set(c,pg):
+def first_set(c,p):
     global client, pg
     client = c
-    pg = pg
+    pg = p
 
 def split_list(l, n):
     if len(l) <= n:
