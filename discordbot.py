@@ -70,17 +70,10 @@ dsn2 = os.environ.get('DATABASE2_URL')
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
 
-pg = Postgres(dsn1)
-pg2 = Postgres(dsn2)
+client.pg = Postgres(dsn1)
+client.pg2 = Postgres(dsn2)
 
-other_files_pg = (
-    shop.pg, 
-    battle.pg, 
-    rank.pg, 
-    status.pg, 
-    avatar.pg, 
-    check_macro.pg
-)
+
 other_files_clients = (
     shop.client , 
     battle.client , 
@@ -187,6 +180,7 @@ async def loop():
         sub_msg = "開発作業中"
     if pg==None or pg2==None:
         sub_msg = "データベース問題発生"
+    sub_msg = "データベース問題発生中"
     await client.change_presence(activity=discord.Game(name=f"{sub_msg}｜{len(client.guilds)}server"))
     if log_text != "":
         log_ch = client.get_channel(791128460726501378)
