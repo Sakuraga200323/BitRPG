@@ -43,6 +43,9 @@ create table player_tb(
     primary key (id)
 )"""
 
+def set_client(c,pg):
+    client = c
+
 
 class Player:
     def __init__(self, client, id):
