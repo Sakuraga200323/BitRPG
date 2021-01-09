@@ -3,13 +3,16 @@ import asyncio
 from datetime import datetime,timezone,timedelta
 import discord
 JST = timezone(timedelta(hours=+9), 'JST')
-client = None
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 async def send_em(ch, title, description, timestamp=False):
     embed=discord.Embed(title=title,description=description)
     if timestamp == True:
         embed.timestamp = datetime.now(JST)
     return await ch.send(embed=embed), embed
+
 
 
 cmd_em_list = []
