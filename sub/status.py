@@ -22,9 +22,9 @@ def my_round(val, digit=0):
     p = 10 ** digit
     return (val * p * 2 + 1) // 2 / p
 
-pg = None
-client = None
-
+def set_client(c,pg):
+    client = c
+    pg = pg
 
 # ^^i で消費しないアイテムの {ID:名前} #
 constant_items_name = {1:"冒険者カード", 4:"魂の焔", 5:"砥石", 6:"魔石", 7:"魔晶", 8:"魔硬貨"}
