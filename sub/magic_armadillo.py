@@ -30,12 +30,11 @@ item_emoji_a = {
 }
 
 
-
 client = pg = None
-def first_set(c,pg):
+def first_set(c,p):
     global client, pg
     client = c
-    pg = pg
+    pg = p
 
 async def magic_1(player,mob):
     ch = mob.mob
