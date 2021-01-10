@@ -264,6 +264,7 @@ class Player:
 
     def get_exp(self, exp):
         exp *= self.exp_percent()
+        exp = int(exp)
         self.max_exp(exp)
         lvup_count = 0
         now_exp = self.now_exp()
