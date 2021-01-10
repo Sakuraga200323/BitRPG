@@ -315,7 +315,7 @@ async def on_message(message):
             try:
                 pg.execute(cmd)
             except Exception as e:
-                await m_ch.send('type:' + str(type(e)), '\nargs:' + str(e.args), '\ne自身:' + str(e))
+                await m_ch.send('type:' + str(type(e)) + '\nargs:' + str(e.args) + '\ne自身:' + str(e))
             else:
                 emojis = status.items_emoji_a
                 msg_em = discord.Embed(description=f"<@{m_author.id}> さんの冒険者登録が完了しました\nアイテム配布： 冒険者カード{emojis[1]}×1 HP回復薬{emojis[2]}×10 MP回復薬{emojis[3]}×10 魔石{emojis[6]}×1")
