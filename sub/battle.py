@@ -114,20 +114,31 @@ async def battle_result(player, mob):
         result_desc = ""
         now = datetime.now(JST).strftime("%H:%M")
         exp, money = mob.reward()[0]+1, int(mob.reward()[1]/len(mob.battle_players))
+        guild = client.get_guild(719165196861702205)
         if  now in ['23:18']:
             exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
         print("戦闘参加していたPlayer: ",mob.battle_players)
         for p_id in mob.battle_players:
             p = box.players[p_id]
-            up_exp, up_lv = p.get_exp(exp)
+            EXP = exp
+            user_is_special = guild.get_role(763404511318245416) in guild.get_member(p_id).roles
+            if user_is_special:
+                EXP += int(exp*0.5)
+            user_is_nitro = guild.get_role(763359264672579605) in guild.get_member(p_id).roles
+            if user_is_nitro:
+                EXP += int(exp*0.5)
+            user_is_gold = guild.get_role(763409546424352769) in guild.get_member(p_id).roles
+            if user_is_gold:
+                EXP += int(exp*0.5)
+            up_exp, up_lv = p.get_exp(EXP)
             p.kill_count(1)
             p.money(money)
             if p.ID() == player.ID():
                 result_desc += f"\n*<@{p_id}>*"
             else:
                 result_desc += f"\n<@{p_id}>"
-            result_desc += f"\n> Exp+{int(exp*player.exp_percent())} Cell+{money}"
+            result_desc += f"\n> Exp+{EXP} Cell+{money}"
             if up_lv > 0:
                 result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
             p.battle_end()
