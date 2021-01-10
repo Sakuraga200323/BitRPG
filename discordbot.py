@@ -216,7 +216,7 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_message(message):
-    global cmd_lock, macro_checking, doubt_count
+    global cmd_lock, macro_checking, doubt_count, pg
     global log_text
 
     m_ctt = message.content
