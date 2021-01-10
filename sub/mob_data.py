@@ -1,4 +1,5 @@
 import random
+import asyncio
 import discord
 
 client = pg = None
@@ -232,6 +233,7 @@ async def open_zukan(user,ch):
                 em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
                 await em_msg.edit(embed=em)
                 zukan_flag = False
+                break
             else:
                 page_num = int(msg2.content)
                 if 0 < page_num <= len(embeds):
@@ -239,6 +241,7 @@ async def open_zukan(user,ch):
                 if page_num == 0:
                     ranking_flag = False
                     await em_msg.delete()
+                    break
                 await msg2.delete()
                     
 
