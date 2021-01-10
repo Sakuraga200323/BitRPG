@@ -213,7 +213,7 @@ material_items = (4,5,6,7)
 async def use_item(user, ch, item):
     player = box.players[user.id]
     if player.now_hp <= 0:
-        em = discord.Embed(description=f"<@{user.id}> の返事がない ただのしかばねのようだ…")
+        em = discord.Embed(description=f"<@{user.id}> はもう死んでいる…")
         await ch.send(embed=em)
         return
     if item in list(items_name.keys()):
