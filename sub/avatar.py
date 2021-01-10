@@ -259,8 +259,8 @@ class Player:
             self.now_mp = int(self.max_mp*1.1)
 
 
-    def exp_percent():
-        return self.get_data('exo_percent')
+    def exp_percent(self):
+        return self.get_data('exp_percent')
 
     def get_exp(self, exp):
         exp *= self.exp_percent()
