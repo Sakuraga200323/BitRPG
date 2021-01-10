@@ -127,7 +127,7 @@ async def battle_result(player, mob):
                 result_desc += f"\n*<@{p_id}>*"
             else:
                 result_desc += f"\n<@{p_id}>"
-            result_desc += f"\n> Exp+{exp} Cell+{money}"
+            result_desc += f"\n> Exp+{int(exp*player.exp_percent())} Cell+{money}"
             if up_lv > 0:
                 result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
             p.battle_end()
