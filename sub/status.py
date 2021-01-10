@@ -206,6 +206,9 @@ def get_item(user, item_id, num):
     pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
     
 
+
+material_items = (4,5,6,7)
+
 # アイテムの使用 #
 async def use_item(user, ch, item):
     player = box.players[user.id]
@@ -217,6 +220,10 @@ async def use_item(user, ch, item):
         item_name = items_name[item]
     elif not item in list(items_id.keys()):
         em = discord.Embed(description=f"{item}と言うアイテムは見たことがないようだ…")
+        await ch.send(embed=em)
+        return
+    if items_id[item] in material_items:
+        em = discord.Embed(description=f"{item}は素材系アイテムのようだ…")
         await ch.send(embed=em)
         return
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
