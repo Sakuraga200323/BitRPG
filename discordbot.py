@@ -599,17 +599,18 @@ async def on_message(message):
                 ctt = remsg.content
                 try:
                     if ctt.startswith("psql"):
+                        PG = pg
                         if ctt.startswith("psql2 "):
-                            pg = pg2
+                            PG = pg2
                             cmd = ctt.split("psql2 ")[1]
                         elif ctt.startswith("psql1 "):
                             cmd = ctt.split("psql1 ")[1]
                         result = None
                         if "select" in cmd:
-                            result = f"{pg.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                            result = f"{PG.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
                         else:
                             try:
-                                pg.execute(cmd)
+                                PG.execute(cmd)
                             except Exception as error:
                                 result = f"{error}"
                             else:
