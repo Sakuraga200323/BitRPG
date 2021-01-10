@@ -310,7 +310,7 @@ async def on_message(message):
             jsonb_pouch = "'1','冒険者カード', '2','冒険者カード', '3','冒険者カード'"
             cmd = (
                 f"INSERT INTO player_tb VALUES ("
-                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),1,jsonb_build_object({jsonb_pouch}),None,1"
+                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),1,jsonb_build_object({jsonb_pouch}),None"
                 +");"
             )
             try:
