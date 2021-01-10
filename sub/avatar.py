@@ -258,7 +258,12 @@ class Player:
         if magic_class == 3:
             self.now_mp = int(self.max_mp*1.1)
 
+
+    def exp_percent():
+        return self.get_data('exo_percent')
+
     def get_exp(self, exp):
+        exp *= self.exp_percent()
         self.max_exp(exp)
         lvup_count = 0
         now_exp = self.now_exp()
