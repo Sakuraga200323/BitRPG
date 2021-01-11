@@ -180,14 +180,14 @@ async def shere_stp(user, ch):
         msg = await client.wait_for("message", timeout=60, check=check2)
     except asyncio.TimeoutError:
         em = discord.Embed(
-            title="Custom Status",
+            title="BuildUp Status",
             description=f"指定がないので処理を終了しました")
         await point_msg.edit(embed=em)
     else:
         target,target2 = msg.content,""
         if target == "0":
             em = discord.Embed(
-                title="Custom Status",
+                title="BuildUp Status",
                 description=f"処理をキャセルン")
             await point_msg.edit(embed=em)
             return
@@ -199,24 +199,24 @@ async def shere_stp(user, ch):
             target,target2 = "agi","Agirity"
         else:
             em = discord.Embed(
-                title="Custom Status",
+                title="BuildUp Status",
                 description=f"指定番号に対応する項目がないので処理をキャセルンしました")
             await ch.send(embed=em)
             return
         em = discord.Embed(
-            title="Custom Status",
-            description=f"**{target2}**を強化する量を送信してください\n所持StatusPoint:`{player.now_stp()}"
+            title="BuildUp Status",
+            description=f"**{target2}**を強化する量を送信してください\n所持StatusPoint:`{player.now_stp()}`"
         )
         await point_msg.edit(embed=em)
         try:
             msg2 = await client.wait_for("message", timeout=60, check=check2)
         except asyncio.TimeoutError:
             em = discord.Embed(
-                title="Custom Status",
+                title="BuildUp Status",
                 description=f"指定がないので処理をキャセルンしました")
             await point_msg.edit(embed=em)
         else:
-            point = int(msg2)
+            point = int(msg2.content)
             if player.now_stp() < point:
                 em = discord.Embed(
                     title="Custom Status",
