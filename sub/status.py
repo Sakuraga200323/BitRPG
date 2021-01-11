@@ -166,7 +166,7 @@ async def shere_stp(user, ch):
     player = box.players[user.id]
     em = discord.Embed(
         title="Custom Status",
-        description=f"強化する項目に対応する番号を送信してください\n`1.`┃`Strength(攻撃力)`\n`2.`┃`Defense(防御力)`\n`3.`┃`Agirity(俊敏力)`"
+        description=f"強化する項目に対応する番号を送信してください\n`1.`┃`Strength(攻撃力)`\n`2.`┃`Defense (防御力)`\n`3.`┃`Agirity (俊敏力)`"
     )
     point_msg = await ch.send(embed=em)
     def check(m):
@@ -192,11 +192,11 @@ async def shere_stp(user, ch):
             await point_msg.edit(embed=em)
             return
         elif target == "1":
-            target,target2,target_stp = "str","Strength"
+            target,target2 = "str","Strength"
         elif target == "2":
-            target,target2,target_stp = "def","Defense"
+            target,target2 = "def","Defense"
         elif target == "3":
-            target,target2,target_stp = "agi","Agirity"
+            target,target2 = "agi","Agirity"
         else:
             em = discord.Embed(
                 title="Custom Status",
