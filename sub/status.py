@@ -223,7 +223,7 @@ async def share_stp(user, ch):
                     description=f"所持StatusPointを{point-player.now_stp()}(Max{player.now_stp()})超過しているので処理をキャセルンしました")
                 await point_msg.edit(embed=em)
                 return
-            target_stp = player,share_stp(target,point)
+            target_stp = player.share_stp(target,point)
             em = discord.Embed(
                 title="Custom Status",
                 description=f"**{target2}**の強化量を**+{point}**しました\n所持StatusPoint:{player.now_stp()}\n{target2}強化量:{target_stp}")
