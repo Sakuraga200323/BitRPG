@@ -163,22 +163,71 @@ async def open_inventory(user,ch):
 
 # STP振り分け #
 async def divid(user, ch, result):
-    p_data = box.players[user.id]
-    target = result.group(1)
-    point = int(result.group(2))
-    if not target in ("str","def","agi"):
-        em = discord.Embed(description=f"{target}は強化項目の一覧にありません `str`,`def`,`agi` の中から選んでください")
-        await ch.send(embed=em)
-        return
-    if p_data.now_stp() < point:
-        em = discord.Embed(description=f"{p_data.user.mention} の所持ポイントを{point - p_data.now_stp()}超過しています {p_data.now_stp()}以下にしてください")
-        await ch.send(embed=em)
-        return
-    result = p_data.share_stp(target, point)
-    target = "Strength" if target=="str" else "Defense" if target=="def" else "Agility"
-    print("Point:" ,user.id, target, "+", point)
-    em = discord.Embed(description=f"{p_data.user.mention}\nの{target}を強化\n{target}+{result-point} -> {result}\nSTP{p_data.now_stp()+point} -> {p_data.now_stp()}")
-    await ch.send(embed=em)
+    player = box.players[user.id]
+    em = discord.Embed(
+        title="Custom Status",
+        description=f"強化する項目に対応する番号を送信してください\n`1.`┃`Strength(攻撃力)`\n`2.`┃`Defense(防御力)`\n`3.`┃`Agirity(俊敏力)`"
+    )
+    point_msg = await ch.send(embed=em)
+    def check(m):
+        if not user.id == m.author.id:return 0
+        return 1
+    def check2(m):
+        if not user.id == m.author.id:return 0
+        if not m.content.isdigit():return 0
+        return 1
+    try:
+        msg = await client.wait_for("message", timeout=60, check=check2)
+    except asyncio.TimeoutError:
+        em = discord.Embed(
+            title="Custom Status",
+            description=f"指定がないので処理を終了しました")
+        await point_msg.edit(embed=em)
+    else:
+        target,target2 = msg.content,""
+        if target == "0":
+            em = discord.Embed(
+                title="Custom Status",
+                description=f"処理をキャセルン")
+            await point_msg.edit(embed=em)
+            return
+        elif target == "1":
+            target,target2,target_stp = "str","Strength"
+        elif target == "2":
+            target,target2,target_stp = "def","Defense"
+        elif target == "3":
+            target,target2,target_stp = "agi","Agirity"
+        else:
+            em = discord.Embed(
+                title="Custom Status",
+                description=f"指定番号に対応する項目がないので処理をキャセルンしました")
+            await ch.send(embed=em)
+            return
+        em = discord.Embed(
+            title="Custom Status",
+            description=f"強化する量を送信してください\n所持StatusPoint:`{player.now_stp()}`\n強化項目:`{target2}`"
+        )
+        await point_msg.edit(embed=em)
+        try:
+            msg2 = await client.wait_for("message", timeout=60, check=check2)
+        except asyncio.TimeoutError:
+            em = discord.Embed(
+                title="Custom Status",
+                description=f"指定がないので処理をキャセルンしました")
+            await point_msg.edit(embed=em)
+        else:
+            point = int(msg2)
+            if player.now_stp() < point:
+                em = discord.Embed(
+                    title="Custom Status",
+                    description=f"所持StatusPointを{point-player.now_stp()}(Max{player.now_stp()})超過しているので処理をキャセルンしました")
+                await point_msg.edit(embed=em)
+                return
+            target_stp = player,share_stp(target,point)
+            em = discord.Embed(
+                title="Custom Status",
+                description=f"**{target2}**の強化量を+**{point}**しました\n所持StatusPoint:{player,now_stp}\n{target2}強化量:{target_stp}")
+            await point_msg.edit(embed=em)
 
 
 # レベル上限解放 #
