@@ -441,10 +441,10 @@ async def on_message(message):
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 log_text += ("\n^^point: "+str(m_author))
-                pattern = r"\^\^point (.+)$"
+                pattern = r"\^\^point(| (.+))$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    await status.divid_stp(m_author, m_ch)
+                    await status.shere_stp(m_author, m_ch)
 
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
