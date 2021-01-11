@@ -231,7 +231,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                     else: text += f"{dmg}のダメージ"
             if b.ID() in box.fleez:
                 box.fleez.remove(b.ID())
-                text += f" {b.name()}から回復した！"
+                text += f" {b.name}から回復した！"
         else:
             text += "凍りついて動けない"
         if buff in [1,2] and not a.ID() in box.stun:
