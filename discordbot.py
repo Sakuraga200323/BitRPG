@@ -648,5 +648,4 @@ async def on_error(event, *args, **kwargs):
     await log_ch2.send(embed=embed2)
 
 
-
 client.run(token)
