@@ -40,8 +40,7 @@ cmd_info = (
 全て`^^p`と省略可'''),
     ('^^status','PlayerのStatus表示\n`^^st`と省略可'),
     ('^^rank','ランキング表示'),
-    ('^^point','''StatusPointの振り分け
-`^^point 強化対象 強化量`┃指定Statusを強化 強化対象はstr def agi のみ StatusPoint(STP)を消費'''),
+    ('^^point','''StatusPointを消費してPlayerを強化'''),
     ('^^training','初心者向け Mobと戦わずにクイズでExpを獲得\n`^^tr`と省略可'),
 )
 
