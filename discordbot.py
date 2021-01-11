@@ -305,7 +305,7 @@ async def on_message(message):
                             break
             if not magic_type_flag == True:
                 return
-            jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, 'HP全回復薬',1, 'MP全回復薬',1, '魔石',1, '魂の焔',0, '砥石',0, '魔晶',0, '魔硬貨',0"
+            jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, 'HP全回復薬',1, 'MP全回復薬',1, '魔石',1, '魂の焔',0, '砥石',0, '魔晶',0, '魔硬貨',0,'獲得Exp増加薬',0"
             jsonb_pouch = "'1','冒険者カード', '2','冒険者カード', '3','冒険者カード'"
             cmd = (
                 f"INSERT INTO player_tb VALUES ("
