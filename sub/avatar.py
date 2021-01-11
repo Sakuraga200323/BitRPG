@@ -248,7 +248,7 @@ class Player:
 
     def share_stp(self, target, point):
         self.now_stp(-point)
-        magic_class = player.magic_class()
+        magic_class = self.magic_class()
         if magic_class == 3:
             self.now_mp = int(self.max_mp*1.1)
         if target == "str":
