@@ -205,7 +205,7 @@ async def shere_stp(user, ch):
             return
         em = discord.Embed(
             title="Custom Status",
-            description=f"強化する量を送信してください\n所持StatusPoint:`{player.now_stp()}`\n強化項目:`{target2}`"
+            description=f"**{target2}**を強化する量を送信してください\n所持StatusPoint:`{player.now_stp()}"
         )
         await point_msg.edit(embed=em)
         try:
