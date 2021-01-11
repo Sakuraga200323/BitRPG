@@ -13,6 +13,7 @@ power_charge = {}
 magic_charge = {}
 atk_switch = {}
 anti_magic = []
+exp_up_buff = []
 
 # items_~ #
 items_name = {
