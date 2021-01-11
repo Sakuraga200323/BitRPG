@@ -444,10 +444,7 @@ async def on_message(message):
                 pattern = r"\^\^point (.+)$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    await status.divid(m_author, m_ch, result)
-                else:
-                    em = discord.Embed(description="`^^point")
-                    await m_ch.send(embed=em)
+                    await status.divid_stp(m_author, m_ch)
 
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
