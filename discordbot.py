@@ -441,7 +441,7 @@ async def on_message(message):
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 log_text += ("\n^^point: "+str(m_author))
-                pattern = r"\^\^point(| (.+))$"
+                pattern = r"\^\^(point (.+)|point)$"
                 result = re.search(pattern, m_ctt)
                 if result:
                     await status.shere_stp(m_author, m_ch)
