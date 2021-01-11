@@ -66,11 +66,10 @@ def split_n(text, n):
 JST = timezone(timedelta(hours=+9), 'JST')
 dsn1 = os.environ.get('DATABASE1_URL')
 dsn2 = os.environ.get('DATABASE2_URL')
-token = os.environ.get('TOKEN')
-client = discord.Client(intents=discord.Intents.all())
-
 pg = Postgres(dsn1)
 pg2 = Postgres(dsn2)
+token = os.environ.get('TOKEN')
+client = discord.Client(intents=discord.Intents.all())
 
 
 other_modules = (
@@ -112,19 +111,9 @@ role_id = {
     "4️⃣":743323569668227143
 }
 
-"""
-create table player_tb(
-    id bigint,
-    lv bigint,
-    max_lv bigint, max_exp bigint,
-    now_exp bigint, now_stp bigint,
-    str_p bigint, def_p bigint, agi_p bigint,
-    magic_class int, magic_lv bigint,
-    kill_count bigint, item jsonb, money bigint,
-    primary key (id)
-)
 
-"""
+
+
 
 def handler(signum, frame):
     loop = asyncio.get_event_loop()
@@ -132,7 +121,9 @@ def handler(signum, frame):
 
 signal.signal(signal.SIGTERM, handler)
 
-#━━━━━━━━━━━━━━━#
+
+
+
 
 @client.event
 async def on_ready():
@@ -166,11 +157,11 @@ async def on_ready():
 ⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬛⬛⬛⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜
     """)
 
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+
+
+
 
 log_text = ""
-
 @tasks.loop(seconds=10)
 async def loop():
     global log_text
@@ -187,8 +178,21 @@ async def loop():
         await log_ch.send(embed=log_em)
         log_text = ""
 
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+
+
+
+
+@tasks.loop(seconds=10)
+async def one_second_loop(seconds=1):
+    now = datetime.now(JST)
+    for i in box.exp_up_buff:
+        time_difference = now - i[1]
+        if time_difference.minutes >= 3:
+            box.exp_buff.remove(i)
+
+
+
+
 
 @client.event
 async def on_guild_join(guild):
@@ -200,6 +204,10 @@ async def on_guild_join(guild):
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
 
+
+
+
+
 @client.event
 async def on_guild_remove(guild):
     log_ch = client.get_channel(752551728553132102)
@@ -210,8 +218,9 @@ async def on_guild_remove(guild):
     embed.timestamp=datetime.now(JST)
     await log_ch.send(embed=embed)
 
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+
+
+
 
 @client.event
 async def on_message(message):
@@ -368,7 +377,6 @@ async def on_message(message):
                     await m_ch.send(embed=msg_em)
                     return
 
-
             # URL #
             if m_ctt == "^^url":
                 log_text += ("^^url: "+str(m_author))
@@ -377,12 +385,10 @@ async def on_message(message):
                     description="▶︎[BitRPGBot招待](https://discord.com/api/oauth2/authorize?client_id=715203558357598240&permissions=8&scope=bot)\n▶︎[公式鯖参加](https://discord.gg/NymwEUP)\n"
                 ))
 
-
             # ヘルプ #
             if m_ctt == "^^help":
                 log_text += ("\mn^^help: "+str(m_author))
                 await help.help(m_author, m_ch)
-
 
             # ステータスの表示 #
             if m_ctt.startswith("^^st"):
@@ -392,7 +398,6 @@ async def on_message(message):
                 result = re.search(pattern, temp)
                 if result:
                     await status.open_status(m_author, m_ch)
-
 
             # 戦闘 #
             if m_ctt.startswith("^^attack") or m_ctt.startswith("^^atk"):
@@ -423,7 +428,6 @@ async def on_message(message):
                 result = re.search(pattern, temp)
                 if result: await battle.reset(m_author, m_ch)
 
-
             # training #
             if m_ctt.startswith("^^tr"):
                 log_text += ("\n^^training: "+str(m_author))
@@ -434,23 +438,21 @@ async def on_message(message):
                     training.client, training.pg = client, pg
                     await training.abc_training(m_author, m_ch)
 
-
             # STPの振り分け #
             if m_ctt.startswith("^^point"):
                 log_text += ("\n^^point: "+str(m_author))
-                pattern = r"\^\^point (str|STR|def|DEF|agi|AGI) (\d{1,})$"
+                pattern = r"\^\^point (.+)$"
                 result = re.search(pattern, m_ctt)
                 if result:
                     await status.divid(m_author, m_ch, result)
                 else:
-                    em = discord.Embed(description="`^^point 強化対象 強化量`\n強化対象: str def agi")
+                    em = discord.Embed(description="`^^point")
                     await m_ch.send(embed=em)
 
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
                 log_text += ("\n^^zukan: "+str(m_author))
                 await mob_data.open_zukan(m_author,m_ch)
-
 
             # アイテム #
             if m_ctt.startswith("^^i"):
@@ -491,12 +493,10 @@ async def on_message(message):
                 log_text += ("\n^^lvunlock: "+str(m_author))
                 await status.up_max_lv(m_author, m_ch)
 
-
             # shop #
             if m_ctt == "^^shop":
                 log_text += ("\n^^shop: "+str(m_author))
                 await shop.shop(m_author, m_ch)
-            
             
             # ranking #
             if m_ctt == "^^rank":
@@ -619,6 +619,10 @@ async def on_message(message):
                         await m_ch.send(f"```py\n{result}```")
                 finally:
                     await m_ch.send("*Completed. System was already closed.*")
+
+
+
+
 
 @client.event
 async def on_error(event, *args, **kwargs):
