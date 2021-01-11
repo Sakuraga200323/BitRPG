@@ -162,7 +162,7 @@ async def open_inventory(user,ch):
 
 
 # STP振り分け #
-async def shere_stp(user, ch):
+async def share_stp(user, ch):
     player = box.players[user.id]
     em = discord.Embed(
         title="Custom Status",
