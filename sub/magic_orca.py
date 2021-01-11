@@ -238,8 +238,8 @@ async def open_magic(user,ch):
             f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}**%で敵に3ターンのStun付与 **{percent_num_3:.2f}**%で敵に3ターンのNerf付与'),
         ('ImmortalRecover',2000,
             f'必要熟練度.**2000**\n消費MP.**600**\n死亡している全味方をHP**1**で強制復活'),
-       ('permafrost',4000,
-            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}**% 先手確定 50%で敵に3ターンのStun付与 50%で敵をFreeze状態にする'),
+       ('PermaFrost',4000,
+            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     for magic,num in zip(magic_tuple,range(1,6)):
@@ -261,4 +261,8 @@ async def use_magic(user,ch,magic):
         await magic_2(player,mob)
     if magic in ["3","GinHex","GH"]:
         await magic_3(player,mob)
+    if magic in ["4","ImmortalRecover","IR"]:
+        await magic_4(player,mob)
+    if magic in ["5","PermaFrost","PF"]:
+        await magic_5(player,mob)
     
