@@ -444,7 +444,7 @@ async def on_message(message):
                 pattern = r"\^\^(point (.+)|point)$"
                 result = re.search(pattern, m_ctt)
                 if result:
-                    await status.shere_stp(m_author, m_ch)
+                    await status.share_stp(m_author, m_ch)
 
             # 図鑑の表示 #
             if m_ctt == "^^zukan":
