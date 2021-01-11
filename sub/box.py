@@ -14,6 +14,7 @@ magic_charge = {}
 atk_switch = {}
 anti_magic = []
 exp_up_buff = []
+fleez = []
 
 # items_~ #
 items_name = {
