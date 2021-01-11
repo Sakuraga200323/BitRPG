@@ -181,11 +181,43 @@ async def magic_4(player,mob):
     em=discord.Embed(title="HealPrex",description=heal_text)
     await ch.send(embed=em)
     player.magic_lv(1)
-    player.cut_mp(80)
+    player.cut_mp(600)
 
-# PyrobolusLacrima #
+# PermaFrost #
 async def magic_5(player,mob):
-    pass
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    if player.magic_lv() < 4000:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 1200:
+        em=discord.Embed(description="MPが不足…！")
+        await ch.send(embed=em)
+        return
+    fleez = False
+    if random() <= 0.5:
+        buff_num = 1
+        if random() <= 0.5:
+            fleez = True
+    else:
+        buff_num = 0
+    up_num = min(2.5 + ((player.magic_lv()-4000)/100000),2)
+    player.magic_lv(1)
+    player.cut_mp(1200)
+    text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",str_up_num=up_num,buff=buff_num)
+    if mob.now_hp > 0:
+        text2 = battle.create_battle_text(mob,player)
+    else:
+        text2 = f'{mob.name}を倒した！'
+    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+    if fleez:
+        text3 = f"{mob.name}は凍りついた！"
+        magic_log += f"```diff\n{text3}```"
+        fleez.append(mob.ID())
+    await mob.mob.send(content=magic_log)
+    await battle.battle_result(player, mob)
 
 async def open_magic(user,ch):
     player = box.players[user.id]
@@ -201,14 +233,14 @@ async def open_magic(user,ch):
        # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
         ('StunRain',0,
-            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**%'),
+            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**% **50**%で敵に3ターンのStun付与'),
         ('PainPiscis',500,
             f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
         ('GinHex',1000,
             f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}**%で敵に3ターンのStun付与 **{percent_num_3:.2f}**%で敵に3ターンのNerf付与'),
         ('ImmortalRecover',2000,
             f'必要熟練度.**2000**\n消費MP.**600**\n死亡している全味方をHP**1**で強制復活'),
-       # ('MasterSpark ',4000,
+       ('permafrost',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}**% 後手確定'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
