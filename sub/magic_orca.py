@@ -201,7 +201,7 @@ async def magic_5(player,mob):
         buff_num = 1
     else:
         buff_num = 0
-    up_num = min(2.5 + ((player.magic_lv()-4000)/100000),100)
+    up_num = min(6 + ((player.magic_lv()-4000)/100000),100)
     player.magic_lv(1)
     player.cut_mp(1200)
     text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",str_up_num=up_num,buff=buff_num)
@@ -213,7 +213,7 @@ async def magic_5(player,mob):
     if random() <= 0.5:
         text3 = f"{mob.name}は凍りついた！"
         magic_log += f"```diff\n{text3}```"
-        fleez.append(mob.ID())
+        box.fleez.append(mob.ID())
     await mob.mob.send(content=magic_log)
     await battle.battle_result(player, mob)
 
@@ -226,7 +226,7 @@ async def open_magic(user,ch):
     percent_num_2 = min(200+((magic_lv-500)/1000),400)
     percent_num_3 = min(0.25 + ((player.magic_lv()-500)/100000),0.75)*100
     percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
-    percent_num_5 = min(250+((magic_lv-4000)/1000),10000)
+    percent_num_5 = min(600+((magic_lv-4000)/1000),10000)
     magic_tuple = (
        # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
