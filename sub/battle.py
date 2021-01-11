@@ -177,57 +177,63 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             text = f"{a.name}を倒した"
     else:
         text = f"+ {a.name} {atk_word}->"
-        if a.ID() in box.atk_switch and b.ID() in box.players:
-            b = box.players[box.atk_switch[a.ID()]]
-            del box.atk_switch[a.ID()]
-            text += f"{b.name}が攻撃を防いだ！ "
-        if a.ID in box.players:
-            if b.now_defe > a.STR():
-                no_dmg_text = f"防がれた！"
-            else:
-                no_dmg_text = f"避けるなぁぁぁぁぁ！"
-        else:
-            if b.now_defe > a.STR():
-                no_dmg_text = f"防ぎきった！"
-            else:
-                no_dmg_text = f"全力回避！"
-        if a.ID() in box.stun or a.ID() in box.nerf:
-            if a.ID() in box.stun:
-                dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
-                text += f"動けない！"
-                box.stun[a.ID()] -= 1
-                if box.stun[a.ID()] <= 0:
-                    text += " Stunから回復した！"
-                    del box.stun[a.ID()]
-            elif a.ID() in box.nerf:
-                if random() <= 0.05:
-                    dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                    if dmg <= 0: text += no_dmg_text 
-                    else: text += f"{dmg}の弱クリティカルヒット"
+        if not a.ID() in box.fleez:
+            if a.ID() in box.atk_switch and b.ID() in box.players:
+                b = box.players[box.atk_switch[a.ID()]]
+                del box.atk_switch[a.ID()]
+                text += f"{b.name}が攻撃を防いだ！ "
+            if a.ID in box.players:
+                if b.now_defe > a.STR():
+                    no_dmg_text = f"防がれた！"
                 else:
-                    dmg,now_defe,now_hp = b.damaged(a.STR()/2*str_up_num)
-                    if dmg <= 0: text += no_dmg_text
-                    else: text += f"{dmg}の弱ダメージ"
-                box.nerf[a.ID()] -= 1
-                if box.nerf[a.ID()] <= 0:
-                    text += " Nerfから回復した！"
-                    del box.nerf[a.ID()]
-            if a.ID() in box.stun and a.ID() in box.nerf:
-                dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
-                text += f"動けない！"
-                box.stun[a.ID()] -= 1
-                if box.stun[a.ID()] <= 0:
-                    text += " Nerfから回復した！"
-                    del box.stun[a.ID()]
-        elif not a.ID() in box.stun:
-            if random() <= 0.05:
-                dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
-                if dmg <= 0: text += no_dmg_text
-                else: text += f"{dmg}のクリティカルヒット"
+                    no_dmg_text = f"避けるなぁぁぁぁぁ！"
             else:
-                dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                if dmg <= 0: text += no_dmg_text
-                else: text += f"{dmg}のダメージ"
+                if b.now_defe > a.STR():
+                    no_dmg_text = f"防ぎきった！"
+                else:
+                    no_dmg_text = f"全力回避！"
+            if a.ID() in box.stun or a.ID() in box.nerf:
+                if a.ID() in box.stun:
+                    dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
+                    text += f"動けない！"
+                    box.stun[a.ID()] -= 1
+                    if box.stun[a.ID()] <= 0:
+                        text += " Stunから回復した！"
+                        del box.stun[a.ID()]
+                elif a.ID() in box.nerf:
+                    if random() <= 0.05:
+                        dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
+                        if dmg <= 0: text += no_dmg_text 
+                        else: text += f"{dmg}の弱クリティカルヒット"
+                    else:
+                        dmg,now_defe,now_hp = b.damaged(a.STR()/2*str_up_num)
+                        if dmg <= 0: text += no_dmg_text
+                        else: text += f"{dmg}の弱ダメージ"
+                    box.nerf[a.ID()] -= 1
+                    if box.nerf[a.ID()] <= 0:
+                        text += " Nerfから回復した！"
+                        del box.nerf[a.ID()]
+                if a.ID() in box.stun and a.ID() in box.nerf:
+                    dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
+                    text += f"動けない！"
+                    box.stun[a.ID()] -= 1
+                    if box.stun[a.ID()] <= 0:
+                        text += " Nerfから回復した！"
+                        del box.stun[a.ID()]
+            elif not a.ID() in box.stun:
+                if random() <= 0.05:
+                    dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
+                    if dmg <= 0: text += no_dmg_text
+                    else: text += f"{dmg}のクリティカルヒット"
+                else:
+                    dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
+                    if dmg <= 0: text += no_dmg_text
+                    else: text += f"{dmg}のダメージ"
+            if b.ID() in box.fleez:
+                box.fleez.remove(b.ID())
+                text += f" {b.name()}から回復した！"
+        else:
+            text += "凍りついて動けない"
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
             text += f" {buff_dict[buff]}付与"
