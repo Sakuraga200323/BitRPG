@@ -55,14 +55,14 @@ async def magic_1(player,mob):
     else:
         text1 = battle.create_battle_text(mob,player)
         if player.now_hp > 0:
-            player.magic_lv(1)
-            player.cut_mp(50)
             text2 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",str_up_num=up_num)
         else:
             text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
     await ch.send(content=battle_log)
     await battle.battle_result(player, mob)
+    player.magic_lv(1)
+    player.cut_mp(50)
 
 # StrengthRein #
 async def magic_2(player,mob):
@@ -115,6 +115,8 @@ async def magic_3(player,mob):
     power_charge_amount = box.power_charge[player.ID()]*50
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
+        player.magic_lv(1)
+        player.cut_mp(10)
         text1 = f"{player.user} 『PowerCharge』->"
         text1 += f"{power_charge_amount}%分チャージ完了!"
         text2 = battle.create_battle_text(mob,player)
