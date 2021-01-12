@@ -169,7 +169,7 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
+def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name}はやられてしまった"
@@ -178,7 +178,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
     else:
         battle_text = f"+ {a.name}の{atk_word}"
         irregular_text = ''
-        a_strength = int(a.STR()*str_percent)
+        a_strength = int(a.STR()*str_up_num)
         a_id = a.ID()
         a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
         if a_id in box.nerf:
