@@ -169,79 +169,60 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
+def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
             text = f"{a.name}はやられてしまった"
         else:
             text = f"{a.name}を倒した"
     else:
-        text = f"+ {a.name} {atk_word}->"
-        if not a.ID() in box.fleez:
-            if a.ID() in box.atk_switch and b.ID() in box.players:
-                b = box.players[box.atk_switch[a.ID()]]
-                del box.atk_switch[a.ID()]
-                text += f"{b.name}が攻撃を防いだ！ "
-            if a.ID in box.players:
-                if b.now_defe > a.STR():
-                    no_dmg_text = f"防がれた！"
-                else:
-                    no_dmg_text = f"避けるなぁぁぁぁぁ！"
-            else:
-                if b.now_defe > a.STR():
-                    no_dmg_text = f"防ぎきった！"
-                else:
-                    no_dmg_text = f"全力回避！"
-            if a.ID() in box.stun or a.ID() in box.nerf:
-                if a.ID() in box.stun:
-                    dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
-                    text += f"動けない！"
-                    box.stun[a.ID()] -= 1
-                    if box.stun[a.ID()] <= 0:
-                        text += " Stunから回復した！"
-                        del box.stun[a.ID()]
-                elif a.ID() in box.nerf:
-                    if random() <= 0.05:
-                        dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                        if dmg <= 0: text += no_dmg_text 
-                        else: text += f"{dmg}の弱クリティカルヒット"
-                    else:
-                        dmg,now_defe,now_hp = b.damaged(a.STR()/2*str_up_num)
-                        if dmg <= 0: text += no_dmg_text
-                        else: text += f"{dmg}の弱ダメージ"
-                    box.nerf[a.ID()] -= 1
-                    if box.nerf[a.ID()] <= 0:
-                        text += " Nerfから回復した！"
-                        del box.nerf[a.ID()]
-                if a.ID() in box.stun and a.ID() in box.nerf:
-                    dmg,now_defe,now_hp = 0,b.now_defe,b.now_hp
-                    text += f"動けない！"
-                    box.stun[a.ID()] -= 1
-                    if box.stun[a.ID()] <= 0:
-                        text += " Nerfから回復した！"
-                        del box.stun[a.ID()]
-            elif not a.ID() in box.stun:
-                if random() <= 0.05:
-                    dmg,now_defe,now_hp = b.damaged(a.STR()*2*str_up_num)
-                    if dmg <= 0: text += no_dmg_text
-                    else: text += f"{dmg}のクリティカルヒット"
-                else:
-                    dmg,now_defe,now_hp = b.damaged(a.STR()*str_up_num)
-                    if dmg <= 0: text += no_dmg_text
-                    else: text += f"{dmg}のダメージ"
-            if b.ID() in box.fleez:
-                box.fleez.remove(b.ID())
-                text += f" Fleezeから回復した！"
-        else:
-            text += "凍りついて動けない"
+        battle_text = f"+ {a.name}の{atk_word}"
+        irregular_text = ''
+        a_strength = int(a.STR()*str_percent)
+        a_id = a.ID()
+        a_was_stun,a_was_nerf,a_was_fleeze = False,Flase,Flase
+        if a_id in box.nerf:
+            a_was_nerf = True
+            a_strength = int(a_strength/2)
+            irregular_text = '\n┣力が入らない！(Strength→50%)'
+            box.nerf[a_id] -= 1
+            if box.nerf[a_id] <= 0:
+                del box.nerf[a_id]
+        if a_id in box.stun:
+            a_strength = 0
+            irregular_text = '\n┣痺れて動けない！ (Strength→0%)'
+            a_was_stun = True
+            box.stun[a_id] -= 1
+            if box.stun[a_id] <= 0:
+                del box.stun[a_id]
+        if a_id in box.fleez:
+            a_strength = 0
+            irregular_text = '\n┣凍って動けない！ (Strength→0%)'
+            a_was_fleeze = True
+            box.fleez.remove(a_id)
+        if not a_strength == 0:
+            if random() <= 0.05:
+                a_strength *= 5
+                irregular_text += '\n┣クリティカルヒット！ (Strength→500%)'
+            else random() <= min((b.AGI()/a.AGI() - 0.75), 0.75):
+                irregular_text += '\n┣クリティカルヒット！ (Strength→500%)'
+            if a_id in box.atk_swith:
+                b_id = box.atk_switch[a_ud]
+                if b_id in box.players:
+                    b = box.players[b_id]
+                    del box.atk_switch[a_id]
+                    irregular_text += f"\n┣{b.name}が攻撃を防いだ！ (Target→{b.name})"
+        battle_text += irregular_text
+        b_dmg = b.dameged(a_strength)
+        battle_text += f'\n┣{b_dmg}のダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            text += f" {buff_dict[buff]}付与"
+            battle_text += f"\n┣{buff_dict[buff]}付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
+        battle_text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
     return text
 
 gauge_design = '|'
@@ -251,13 +232,13 @@ def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n     ({a}/{b})"
+    return ('┏-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┇     ({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n     ({a}/{b})"
+    return ('┇-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗     ({a}/{b})"
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
