@@ -199,8 +199,8 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
             a_strength = 0
             irregular_text = '\n┣━ 凍って動けない！ (Strength → 0%)'
             a_was_fleeze = True
-            box.fleez.remove(a_id)
         if not a_strength == 0:
+            box.fleez.remove(b.ID())
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength → 500%)'
@@ -215,16 +215,17 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
                     irregular_text += f"\n┣━ {b.name}が攻撃を防いだ！ (Target → {b.name})"
         battle_text += irregular_text
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
-        battle_text += f'\n┣━ {b_dmg}ダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
+        battle_text += f'\n┗━ {b_dmg}ダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
-            battle_text += '\n┣━ Stunから回復'
+            battle_text.replace('┗','┣')
+            battle_text += '\n┗━ Stunから回復'
         if a_was_nerf and not a_id in box.nerf:
-            battle_text += '\n┣━ Nerfから回復'
-        if a_was_fleeze and not a_id in box.fleez:
-            battle_text += '\n┣━ Fleezeから回復'
+            battle_text.replace('┗','┣')
+            battle_text += '\n┗━ Nerfから回復'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            battle_text += f"\n┣━ {buff_dict[buff]}付与"
+            battle_text.replace('┗','┣')
+            battle_text += f"\n┗━ {buff_dict[buff]}付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
