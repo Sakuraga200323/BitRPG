@@ -200,7 +200,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
             irregular_text = '\n┣━ 凍って動けない！ (Strength → 0%)'
             a_was_fleeze = True
         if not a_strength == 0:
-            if b.ID() in bix.fleez:
+            if b.ID() in box.fleez:
                 box.fleez.remove(b.ID())
             if random() <= 0.05:
                 a_strength *= 5
