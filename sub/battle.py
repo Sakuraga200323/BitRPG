@@ -239,13 +239,13 @@ def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+'-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
+    return ('┏'+('-HP :[' if num<5 else "+HP :[")) + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+'-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
+    return ('┏'+('-DEF:[' if num<5 else "+DEF:[")) + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
