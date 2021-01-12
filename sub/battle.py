@@ -215,7 +215,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
                     irregular_text += f"\n┣━ {b.name}が攻撃を防いだ！ (Target→{b.name})"
         battle_text += irregular_text
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
-        battle_text += f'\n┣━ {b_dmg}のダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
+        battle_text += f'\n┣━ {b_dmg}ダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
             battle_text += '\n┣━ Stunから回復'
         if a_was_nerf and not a_id in box.nerf:
@@ -239,13 +239,13 @@ def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏ -HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
+    return ('┏'+'-HP :[' if num<5 else "+HP :[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏ -DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
+    return ('┏'+'-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if a<=0 else gauge_1) + ']' + f"\n┗      ({a}/{b})"
 # HPゲージ作成関数 #
 def hp_gauge(avatar):
     num = int((avatar.now_hp/avatar.max_hp)*20)
