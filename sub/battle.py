@@ -230,7 +230,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
             if buff == 2:
                 box.nerf[b.ID()] = 5
         battle_text += f"\n< {b.name} >\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
-    return text
+    return battle_text
 
 gauge_design = '|'
 
