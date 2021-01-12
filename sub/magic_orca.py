@@ -135,7 +135,7 @@ async def magic_3(player,mob):
         return
     magic_text = ''
     if mob.ID() in box.anti_magic:
-        del box.anti_magic[mob.ID()]
+        box.anti_magic.remove(mob.ID())
         em=discord.Embed(description=f"{mob.name}のアンチマジックリエアをレジスト")
         await ch.send(embed=em)
         player.magic_lv(1)
