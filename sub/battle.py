@@ -214,7 +214,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
                     del box.atk_switch[a_id]
                     irregular_text += f"\n┣{b.name}が攻撃を防いだ！ (Target→{b.name})"
         battle_text += irregular_text
-        b_dmg = b.damaged(a_strength)
+        b_dmg = b.damaged(a_strength)[0]
         battle_text += f'\n┣{b_dmg}のダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
             battle_text += '\n┣Stunから回復'
