@@ -204,9 +204,10 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣クリティカルヒット！ (Strength→500%)'
-            else random() <= min((b.AGI()/a.AGI() - 0.75), 0.75):
-                irregular_text += '\n┣クリティカルヒット！ (Strength→500%)'
-            if a_id in box.atk_swith:
+            elif random() <= min((b.AGI()/a.AGI() - 0.75), 0.75):
+                a_strength = 0
+                irregular_text += '\n┣{b.name}が避けた！ (Strength→0%)'
+            elif a_id in box.atk_swith:
                 b_id = box.atk_switch[a_ud]
                 if b_id in box.players:
                     b = box.players[b_id]
