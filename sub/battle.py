@@ -234,30 +234,20 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
         battle_text += f"\n< {b.name} >\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return battle_text
 
-gauge_design = '|'
+gauge_design = '='
 
 # HPゲージ作成関数 #
 def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-HP ╊' if num<5 else "+HP ╊")) + ("-"*20 if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return ('┏'+('-HP ╊' if num<5 else "+HP ╊")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
     return ('┏'+('-DEF╊' if num<5 else "+DEF╊")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
-# HPゲージ作成関数 #
-def hp_gauge(avatar):
-    num = int((avatar.now_hp/avatar.max_hp)*20)
-    guage_1 = ((num)*"|")+((20-num)*" ")
-    return ('-HP :[' if num<5 else "+HP :[") + ("     Break Down     " if avatar.now_hp<=0 else guage_1) + ']'
-# DEFゲージ作成関数 #
-def def_gauge(avatar):
-    num = int((avatar.now_defe/avatar.max_defe)*20)
-    guage_1 = ((num)*"|")+((20-num)*" ")
-    return ('-DEF:[' if num<5 else "+DEF:[") + ("-"*20 if avatar.now_defe<=0 else guage_1) + ']'
 
 
 # ダメージがない場合のメッセージ #
