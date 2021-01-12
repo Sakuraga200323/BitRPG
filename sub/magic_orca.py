@@ -142,10 +142,10 @@ async def magic_3(player,mob):
         player.cut_mp(300)
         magic_text += '\nアンチマジックエリアをレジスト！'
     percent = min(0.25 + ((player.magic_lv()-500)/100000),0.75)
-    if random.random() <= percent:
+    if random() <= percent:
         box.stun[mob.ID()] = 3
         magic_text += f'\n{mob.name}に3ターンのStunを付与！'
-    if random.random() <= percent:
+    if random() <= percent:
         box.nerf[mob.ID()] = 3
         magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
     if magic_text == '':
