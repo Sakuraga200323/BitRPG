@@ -142,7 +142,7 @@ async def battle_result(player, mob):
                 result_desc += f"\n<@{p_id}>"
             result_desc += f"\n> Exp+{EXP} Cell+{money}"
             if up_lv > 0:
-                result_desc += f"\n> LvUP {p.lv()-up_lv} -> {p.lv()}"
+                result_desc += f"\n> LvUP {p.lv()-up_lv} → {p.lv()}"
             p.battle_end()
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
         # ドロップアイテムfor #
@@ -184,35 +184,35 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
         if a_id in box.nerf:
             a_was_nerf = True
             a_strength = int(a_strength/2)
-            irregular_text = '\n┣━ 力が入らない！(Strength→50%)'
+            irregular_text = '\n┣━ 力が入らない！(Strength → 50%)'
             box.nerf[a_id] -= 1
             if box.nerf[a_id] <= 0:
                 del box.nerf[a_id]
         if a_id in box.stun:
             a_strength = 0
-            irregular_text = '\n┣━ 痺れて動けない！ (Strength→0%)'
+            irregular_text = '\n┣━ 痺れて動けない！ (Strength → 0%)'
             a_was_stun = True
             box.stun[a_id] -= 1
             if box.stun[a_id] <= 0:
                 del box.stun[a_id]
         if a_id in box.fleez:
             a_strength = 0
-            irregular_text = '\n┣━ 凍って動けない！ (Strength→0%)'
+            irregular_text = '\n┣━ 凍って動けない！ (Strength → 0%)'
             a_was_fleeze = True
             box.fleez.remove(a_id)
         if not a_strength == 0:
             if random() <= 0.05:
                 a_strength *= 5
-                irregular_text += '\n┣━ クリティカルヒット！ (Strength→500%)'
+                irregular_text += '\n┣━ クリティカルヒット！ (Strength → 500%)'
             elif random() <= min((b.AGI()/a.AGI() - 0.75), 0.75):
                 a_strength = 0
-                irregular_text += f'\n┣━ {b.name}は避けた！ (Strength→0%)'
+                irregular_text += f'\n┣━ {b.name}は華麗に避けた！ (Strength → 0%)'
             elif a_id in box.atk_switch:
                 b_id = box.atk_switch[a_ud]
                 if b_id in box.players:
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
-                    irregular_text += f"\n┣━ {b.name}が攻撃を防いだ！ (Target→{b.name})"
+                    irregular_text += f"\n┣━ {b.name}が攻撃を防いだ！ (Target → {b.name})"
         battle_text += irregular_text
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┣━ {b_dmg}ダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
