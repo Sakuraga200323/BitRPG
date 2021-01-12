@@ -214,7 +214,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
                     del box.atk_switch[a_id]
                     irregular_text += f"\n┣{b.name}が攻撃を防いだ！ (Target→{b.name})"
         battle_text += irregular_text
-        b_dmg = b.damaged(a_strength)[0]
+        b_dmg,b_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┣{b_dmg}のダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
             battle_text += '\n┣Stunから回復'
@@ -229,7 +229,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n< {b.name} >\n{old_def_gauge(now_defe,b.DEFE())}\n{old_hp_gauge(b.now_hp,b.max_hp)}"
+        battle_text += f"\n< {b.name} >\n{old_def_gauge(b_now_defe,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return text
 
 gauge_design = '|'
