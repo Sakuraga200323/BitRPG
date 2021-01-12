@@ -180,7 +180,7 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
         irregular_text = ''
         a_strength = int(a.STR()*str_percent)
         a_id = a.ID()
-        a_was_stun,a_was_nerf,a_was_fleeze = False,Flase,Flase
+        a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
         if a_id in box.nerf:
             a_was_nerf = True
             a_strength = int(a_strength/2)
@@ -216,6 +216,12 @@ def create_battle_text(a,b,str_percent=1,atk_word="攻撃",buff=0):
         battle_text += irregular_text
         b_dmg = b.dameged(a_strength)
         battle_text += f'\n┣{b_dmg}のダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
+        if a_was_stun and not a_id in box.stun:
+            battle_text += '\n┣Stunから回復'
+        if a_was_nerf and not a_id in box.nerf:
+            battle_text += '\n┣Nerfから回復'
+        if a_was_fleeze and not a_id in box.fleez:
+            battle_text += '\n┣Fleezeから回復'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
             battle_text += f"\n┣{buff_dict[buff]}付与"
