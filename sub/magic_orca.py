@@ -136,11 +136,9 @@ async def magic_3(player,mob):
     magic_text = ''
     if mob.ID() in box.anti_magic:
         box.anti_magic.remove(mob.ID())
-        em=discord.Embed(description=f"{mob.name}のアンチマジックリエアをレジスト")
-        await ch.send(embed=em)
         player.magic_lv(1)
         player.cut_mp(300)
-        magic_text += '\nアンチマジックエリアをレジスト！'
+        magic_text += '\n{mob.name}のアンチマジックエリアをレジスト！'
     percent = min(0.25 + ((player.magic_lv()-500)/100000),0.75)
     if random() <= percent:
         box.stun[mob.ID()] = 3
