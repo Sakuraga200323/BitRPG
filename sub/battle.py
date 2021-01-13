@@ -209,7 +209,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 a_strength = 0
                 irregular_text += f'\n┣━ {b.name}は華麗に避けた！ (Strength → 0%)'
             elif a_id in box.atk_switch:
-                b_id = box.atk_switch[a_ud]
+                b_id = box.atk_switch[a_id]
                 if b_id in box.players:
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
