@@ -176,6 +176,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         else:
             battle_text = f"{a.name} を倒した"
     else:
+        plus_or_minus = ""
         if a.ID() in box.players:
             plus_or_minus = "-"
         else:
