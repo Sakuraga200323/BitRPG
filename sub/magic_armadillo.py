@@ -59,10 +59,12 @@ async def magic_1(player,mob):
         text1 = battle.create_battle_text(mob,player)
         text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await mob.mob.send(content=magic_log)
-    await battle.battle_result(player, mob)
     player.magic_lv(1)
     player.cut_mp(30)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # HealPrex #
 async def magic_2(player,mob):
