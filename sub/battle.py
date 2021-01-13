@@ -176,6 +176,10 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         else:
             battle_text = f"{a.name} を倒した"
     else:
+        if a.ID() in box.players:
+            plus_or_mminus = "-"
+        else:
+            plus_or_mminus = "+"
         battle_text = f"■+ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
@@ -206,7 +210,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength → 500%)'
-            elif random() <= min((b.AGI()/a.AGI() - 1), 0.75):
+            elif random() <= max((b.AGI()/a.AGI() - 1), 1):
                 a_strength = 0
                 irregular_text += f'\n┣━ {b.name} は華麗に避けた！ (Strength → 0%)'
             elif a_id in box.atk_switch:
@@ -232,23 +236,23 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n■{b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
+        battle_text += f"\n\n{plus_or_minus} ■{b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return battle_text
 
-gauge_design = '|'
+gauge_design = '■'
 
 # HPゲージ作成関数 #
 def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-HP ╋' if num<5 else "+HP ╋")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return ('┏'+('-HP ╋' if num<5 else "+HP ┣")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-DEF╋' if num<5 else "+DEF╋")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return ('┏'+('-DEF╋' if num<5 else "+DEF┣")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
 
 
 # ダメージがない場合のメッセージ #
