@@ -59,10 +59,12 @@ async def magic_1(player,mob):
         else:
             text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle.battle_result(player, mob)
     player.magic_lv(1)
     player.cut_mp(50)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=battle_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # StrengthRein #
 async def magic_2(player,mob):
@@ -93,8 +95,10 @@ async def magic_2(player,mob):
     else:
         text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```c\n{text}``````diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # PowerCharge #
 async def magic_3(player,mob):
@@ -131,8 +135,10 @@ async def magic_3(player,mob):
         else:
             text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
     
 
 # IgnisStrike #
@@ -163,8 +169,10 @@ async def magic_4(player,mob):
         player.cut_mp(10)
     text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",str_up_num=up_num)
     battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # MasterSpark #
 async def magic_5(player,mob,final=False):
@@ -206,8 +214,10 @@ async def magic_5(player,mob,final=False):
     else:
         text2 = f"{player.user} はやられてしまった…"
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
    
 async def open_magic(user,ch):
