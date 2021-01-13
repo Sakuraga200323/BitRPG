@@ -16,7 +16,6 @@ normal = {
 '黒兎':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/10/9c16d386f8183f2cedff86261577cb64.png',
 'シャドウ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/93df8db1f2c031cd4ae314be6c768b6a.png',
 'ファントム':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/811239edbe34099b17c4f233974cd92f.png',
-'ネクロマンサー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/a793f38be632f4b3bc001c69a3ae0ec8.png',
 'グール':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2014/06/%E3%82%B0%E3%83%BC%E3%83%AB.png',
 'ブッシュ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2020/12/8d30d6dce9fee3435990e649cceaf507.png',
 'スライム':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/05/fc1677e1f8efb82042659c49edeb48a9.png',
@@ -89,14 +88,15 @@ rare = {
 'アルビノ-ミクロラプトル・グイ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/07/05b540a17ec3687a5a2725cb5ce7b85b.png',
 '人化-寿':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/11/72a9e322afc325ee2132393ed1d1b25c.png',
 'アルビノ-ブラッドレター':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/07/56bcb287530e2be50552c25dd1f5bd85.png',
-'スターウィザード':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
 'ゴールド-モノリス':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2017/06/e591677f3dcebe6d5f001844a7ccb877.png',
 'モロナイ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2018/06/574126928be7084ff3cf07433a1f2b17.png',
 'サキュバス':'http://darts-x.sakura.ne.jp/m//wp-content/uploads/2011/03/Succubus_1.png',
 }
 
 ultrarare = {
-    "古月":"https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585",
+"古月":"https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585",
+'スターウィザード':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
+'ネクロマンサー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/a793f38be632f4b3bc001c69a3ae0ec8.png',
 }
 
 ultraero = {
