@@ -181,7 +181,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             a_mark,b_mark = "+","-"
         else:
             a_mark,b_mark = "-","+"
-        battle_text = f"■{a_mark} {a.name} の{atk_word}"
+        battle_text = f"{a_mark}■ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
         a_id = a.ID()
@@ -237,7 +237,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n■{b_mark} b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
+        battle_text += f"\n\n{b_mark}■ b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return battle_text
 
 gauge_design = '■'
@@ -247,13 +247,13 @@ def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-HP ╋' if num<5 else "+HP ┣")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return (('-┏HP ╋' if num<5 else "+┏HP ┣")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-DEF╋' if num<5 else "+DEF┣")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return (('-┏DEF╋' if num<5 else "+┏DEF┣")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
 
 
 # ダメージがない場合のメッセージ #
