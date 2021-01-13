@@ -178,10 +178,10 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     else:
         plus_or_minus = ""
         if a.ID() in box.players:
-            plus_or_minus = "-"
+            a_mark,b_mark = "+","-"
         else:
-            plus_or_minus = "+"
-        battle_text = f"■+ {a.name} の{atk_word}"
+            a_mark,b_mark = "-","+"
+        battle_text = f"■{a_mark} {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
         a_id = a.ID()
@@ -237,7 +237,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{plus_or_minus} ■{b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
+        battle_text += f"\n\n■{b_mark} b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return battle_text
 
 gauge_design = '■'
