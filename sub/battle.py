@@ -177,9 +177,9 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             battle_text = f"{a.name} を倒した"
     else:
         if a.ID() in box.players:
-            plus_or_mminus = "-"
+            plus_or_minus = "-"
         else:
-            plus_or_mminus = "+"
+            plus_or_minus = "+"
         battle_text = f"■+ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
