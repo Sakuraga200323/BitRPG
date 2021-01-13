@@ -75,8 +75,10 @@ async def magic_1(player,mob):
         else:
             text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await mob.mob.send(content=magic_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # PalePiscis #
 async def magic_2(player,mob):
@@ -116,8 +118,10 @@ async def magic_2(player,mob):
         else:
             text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await mob.mob.send(content=magic_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # GinHex #
 async def magic_3(player,mob):
@@ -214,8 +218,10 @@ async def magic_5(player,mob):
     else:
         text2 = f'{mob.name}を倒した！'
         magic_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await mob.mob.send(content=magic_log)
-    await battle.battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 async def open_magic(user,ch):
     player = box.players[user.id]
