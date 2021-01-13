@@ -129,7 +129,7 @@ async def magic_3(player,mob):
         text1 = battle.create_battle_text(mob,player)
         if player.now_hp > 0:
             player.magic_lv(1)
-            player.cut_mp()
+            player.cut_mp(200)
             text2 = f"{player.user} 『PowerCharge』->"
             text2 += f"『IgnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
         else:
