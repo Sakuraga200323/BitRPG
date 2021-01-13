@@ -177,7 +177,7 @@ async def magic_4(player,mob):
         p = box.players[id]
         if p.now_hp <= 0: p.now_hp = 1
         recover_text += f"\n<@{p.user.id}> をHP1で強制復活！"
-    em=discord.Embed(title="HealPrex",description=heal_text)
+    em=discord.Embed(title="ImmortalRecover",description=recover_text)
     await ch.send(embed=em)
     player.magic_lv(2)
     player.cut_mp(600)
