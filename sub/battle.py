@@ -164,8 +164,7 @@ async def battle_result(player, mob):
         if mob.type in ("Elite","UltraRare",""):
             box.anti_magic.append(mob.ID())
             anti_magic_em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
-    for em in (result_em, spawn_em, anti_magic_em):
-        if em : await ch.send(embed=em)
+    return result_em, spawn_em, anti_magic_em
 
 
 
@@ -314,8 +313,10 @@ async def cbt_proc(user, ch):
         text2 = create_battle_text(player,mob)
 
     battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    await ch.send(content=battle_log)
-    await battle_result(player, mob)
+    result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
+    await ch.send(content=battle_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 
 
