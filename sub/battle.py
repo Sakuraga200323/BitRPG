@@ -234,20 +234,20 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         battle_text += f"\n< {b.name} >\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
     return battle_text
 
-gauge_design = '='
+gauge_design = '|'
 
 # HPゲージ作成関数 #
 def old_hp_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-HP ╊' if num<5 else "+HP ╊")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return ('┏'+('-HP ╋' if num<5 else "+HP ╋")) + ("    You Are Dead    " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
 # DEFゲージ作成関数 #
 def old_def_gauge(a,b):
     num = int((a/b)*20)
     gauge_1 = (num)*gauge_design
     gauge_1 = f"{gauge_1:<20}"
-    return ('┏'+('-DEF╊' if num<5 else "+DEF╊")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
+    return ('┏'+('-DEF╋' if num<5 else "+DEF╋")) + ("     Break Down     " if a<=0 else gauge_1) + '┫' + f"\n┗━━━━({a}/{b})"
 
 
 # ダメージがない場合のメッセージ #
