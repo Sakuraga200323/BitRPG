@@ -211,7 +211,7 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength → 500%)'
-            elif random() <= max((b.AGI()/a.AGI() - 1), 1):
+            elif random() <= min((b.AGI()/a.AGI() - 1), 0.75):
                 if not (b.ID() in box.stun or b.ID() in box.fleez)
                     a_strength = 0
                     irregular_text += f'\n┣━ {b.name} は華麗に避けた！ (Strength → 0%)'
@@ -226,14 +226,14 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         battle_text += f'\n┗━ {b_dmg}ダメージ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
             battle_text = battle_text.replace('┗','┣')
-            battle_text += '\n┗━ Stunから回復'
+            battle_text += '\n┗━ Stun から回復'
         if a_was_nerf and not a_id in box.nerf:
             battle_text = battle_text.replace('┗','┣')
-            battle_text += '\n┗━ Nerfから回復'
+            battle_text += '\n┗━ Nerf から回復'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
             battle_text = battle_text.replace('┗','┣')
-            battle_text += f"\n┗━ {buff_dict[buff]}付与"
+            battle_text += f"\n┗━ {buff_dict[buff]} 付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
