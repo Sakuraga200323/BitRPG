@@ -218,14 +218,14 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ！！ ({a_strength-b_dmg}Dmg Defensed)'
         if a_was_stun and not a_id in box.stun:
-            battle_text.replace('┗','┣')
+            battle_text = battle_text.replace('┗','┣')
             battle_text += '\n┗━ Stunから回復'
         if a_was_nerf and not a_id in box.nerf:
-            battle_text.replace('┗','┣')
+            battle_text = battle_text.replace('┗','┣')
             battle_text += '\n┗━ Nerfから回復'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            battle_text.replace('┗','┣')
+            battle_text = battle_text.replace('┗','┣')
             battle_text += f"\n┗━ {buff_dict[buff]}付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
