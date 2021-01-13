@@ -136,8 +136,6 @@ async def magic_3(player,mob):
     magic_text = ''
     if mob.ID() in box.anti_magic:
         box.anti_magic.remove(mob.ID())
-        player.magic_lv(1)
-        player.cut_mp(300)
         magic_text += '\n{mob.name}のアンチマジックエリアをレジスト！'
     percent = min(0.25 + ((player.magic_lv()-500)/100000),0.75)
     if random() <= percent:
@@ -148,6 +146,9 @@ async def magic_3(player,mob):
         magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
     if magic_text == '':
         magic_text = '何も起きなかった…'
+    else:
+        player.magic_lv(1)
+        player.cut_mp(300)
     em=discord.Embed(description=magic_text)
     await ch.send(embed=em)
     return
@@ -178,7 +179,7 @@ async def magic_4(player,mob):
         recover_text += f"\n<@{p.user.id}> をHP1で強制復活！"
     em=discord.Embed(title="HealPrex",description=heal_text)
     await ch.send(embed=em)
-    player.magic_lv(1)
+    player.magic_lv(2)
     player.cut_mp(600)
 
 # PermaFrost #
@@ -200,7 +201,7 @@ async def magic_5(player,mob):
     else:
         buff_num = 0
     up_num = min(6 + ((player.magic_lv()-4000)/100000),100)
-    player.magic_lv(1)
+    player.magic_lv(2)
     player.cut_mp(1200)
     text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",str_up_num=up_num,buff=buff_num)
     if mob.now_hp > 0:
