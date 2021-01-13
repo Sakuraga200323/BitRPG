@@ -314,7 +314,13 @@ async def on_message(message):
                             break
             if not magic_type_flag == True:
                 return
-            cmd = (f"INSERT INTO player_tb (id,magic_class) VALUES ({m_author.id},{respons});")
+            jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, 'HP全回復薬',1, 'MP全回復薬',1, '魔石',1, '魂の焔',0, '砥石',0, '魔晶',0, '魔硬貨',0,'獲得Exp増加薬',0,'キャラメル鉱石',0,'ブラッド鉱石',0,'ゴールド鉱石',0,'ダーク鉱石',0,'ミスリル鉱石',0,'オリハルコン鉱石',0,'キャラメル鋼',0,'ブラッド鋼',0,'ゴールド鋼',0,'ダーク鋼',0,'ミスリル鋼',0,'オリハルコン鋼',0"
+            jsonb_pouch = "'1','冒険者カード', '2','HP回復薬', '3','MP回復薬'"
+            cmd = (
+                f"INSERT INTO player_tb VALUES ("
+                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),1,jsonb_build_object({jsonb_pouch}),NULL"
+                +");"
+            )
             try:
                 pg.execute(cmd)
             except Exception as e:
@@ -339,15 +345,14 @@ async def on_message(message):
                 msg_em = discord.Embed(description=f"現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。")
                 await m_ch.send(embed=msg_em)
                 return
-            user_roles = [i.name for i in guild.get_member(m_author.id).roles]
-            clearance_lv3_user = "Clearance-Lv3" in user_roles
-            clearance_lv4_user = "Clearance-Lv4" in user_roles
-            clearance_lv5_user = "Clearance-Lv5" in user_roles
-            if not clearance_lv3_user or not clearance_lv4_user or not clearance_lv5_user:
+            guild = client.get_guild(official_guild_id)
+            user_is_c_lv3 = guild.get_role(c_lv3) in guild.get_member(m_author.id).roles
+            user_is_c_lv4 = guild.get_role(c_lv4) in guild.get_member(m_author.id).roles
+            user_is_c_lv5 = guild.get_role(c_lv5) in guild.get_member(m_author.id).roles
+            if not user_is_c_lv3 and not user_is_c_lv4 and not user_is_c_lv5:
                 msg_em = discord.Embed(description=f"現在開発作業中につき、ClearanceLv3未満のプレイヤーのコマンド使用を制限しています。")
                 await m_ch.send(embed=msg_em)
                 return
-            print(f"NewPlayer：{m_author}({m_author.id}),{select_magic_type}")
 
         cmd_lock[m_ch.id] = True
         mob = avatar.Mob(client, m_ch.id)
