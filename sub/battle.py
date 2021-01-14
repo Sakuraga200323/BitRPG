@@ -293,8 +293,9 @@ async def reset(user, ch):
     if mob.ID() in box.nerf:
         del box.nerf[mob.ID()]
     await ch.send(embed = mob.spawn())
-    if mob.type in ("Elite","UltraRare",""):
-        box.anti_magic.append(mob.ID())
+    if mob.type in ("Elite","UltraRare","Catastrophe"):
+        if not mob.ID() in ant_magic:
+           box.anti_magic.append(mob.ID())
         anti_magic_em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
         await ch.send(embed=anti_magic_em)
                     
