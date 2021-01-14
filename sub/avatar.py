@@ -492,23 +492,7 @@ class Mob:
         for p_id in self.battle_players:
             if p_id in box.players:
                 box.players[p_id].battle_end()
-                defe_correction ={
-                    "Bicorn":1.3,
-                    "GoblinSoldier":1,"Golem":2,
-                    "Kerberos":1.3,
-                    "LizardGoblin":1.1,"Lorg":0.8,
-                    "Manticore":1.3,"Mummy":0.8,
-                    "Orc":1.2,
-                    "Phelios":0.7,
-                    "Roguenite":1.2,
-                    "Skeleton":0.8,"Sludge":1.5,"Succubus":0.8,
-                    "Theaf":0.8,
-                    "Valkyrie":1.3,
-                }
-                if self.name in defe_correction:
-                    self.now_defe = self.max_defe = int((self.dtd["lv"] * 10)*defe_correction[self.name])
-                else:
-                    self.now_defe = self.max_defe = self.dtd["lv"] * 10
+        self.now_defe = self.max_defe = self.dtd["lv"] * 10
         self.battle_players = []
         return self.spawn()
 
