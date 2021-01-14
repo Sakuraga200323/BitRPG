@@ -169,6 +169,9 @@ async def battle_result(player, mob):
 
 
 def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    start_check = await battle_start(player, mob)
+    if start_check is False: return
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name} はやられてしまった"
@@ -266,6 +269,30 @@ def zero_dmg_text():
     text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
     return choice(text)
 
+
+# 戦闘 #
+async def cbt_proc(user, ch):
+    player,mob = box.players[user.id],box.mobs[ch.id]
+    start_check = await battle_start(player, mob)
+    if start_check is False: return
+
+    # 戦闘処理（Player先手） #
+    if player.AGI() >= mob.agi():
+        text1 = create_battle_text(player,mob)
+        text2 = create_battle_text(mob,player)
+
+    # 戦闘処理（Player後手） #
+    else:
+        text1 = create_battle_text(mob,player)
+        text2 = create_battle_text(player,mob)
+
+    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
+    await ch.send(content=battle_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
+
+
 # 戦闘から離脱 #
 async def reset(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
@@ -301,28 +328,6 @@ async def reset(user, ch):
                     
 
 
-
-# 戦闘 #
-async def cbt_proc(user, ch):
-    player,mob = box.players[user.id],box.mobs[ch.id]
-    start_check = await battle_start(player, mob)
-    if start_check is False: return
-
-    # 戦闘処理（Player先手） #
-    if player.AGI() >= mob.agi():
-        text1 = create_battle_text(player,mob)
-        text2 = create_battle_text(mob,player)
-
-    # 戦闘処理（Player後手） #
-    else:
-        text1 = create_battle_text(mob,player)
-        text2 = create_battle_text(player,mob)
-
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
-    result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
-    await ch.send(content=battle_log,embed=result_em)
-    if spawn_em:await ch.send(embed=spawn_em)
-    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 
 
