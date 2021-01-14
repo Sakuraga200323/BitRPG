@@ -496,3 +496,59 @@ class Mob:
         self.battle_players = []
         return self.spawn()
 
+
+
+class weapon:
+    """
+    psql2 create table weapon_tb (
+        id bigint primary key,
+        name text,
+        img_id bigint,
+        rank int,
+        lv bigint,
+        now_exp bigint,
+        limit_lv bigint
+    )
+    """
+
+    def __init__(self, client, id):
+        self.user = client.get_user(id)
+        if not self.user:
+            print(f"Playerデータ取得失敗: {id}のuserがNone。")
+            return
+        self.pg = client.pg2
+        self.client = client
+        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {self.user.id};")[0]
+        self.id_ = self.dtd["id"]
+        self.name = self.dtd["name"]
+        self.img_id_ = self.dtd["img_id"]
+        self.rank_ = self.dtd["rank"]
+        self.lv_ = self.dtd["lv"]
+        self.now_exp_ = self.did["now_exp"]
+        self.limit_lv_ = self.dtd["limit_lv"]
+
+    def get_data(self, target):
+        return pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
+    def plus(self, target, plus):
+        if target == 'id':
+            return None
+        else:
+            if plus < 0:
+                pg.execute(f'update mob_tb set {target}={target}{plus} where id = {self.id_};')
+            else:
+                pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.id_};')
+            return self.get_data(target)
+
+    # レベル取得
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            self.lv_ = self.plus('lv', plus)
+        self.lv_ =  self.get_data("lv")
+        return self.lv_
+
+    def strenftg(self,x=False):
+        str_x = 1
+        if x:
+            rank_dict = { 1:0.5, 2:0.75, 3:1.0, 4:1.25, 5:1.5, }
+            str_x = rank_dict[self.rank_]
+        return self.lv()*5*str_x
