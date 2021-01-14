@@ -272,9 +272,6 @@ def zero_dmg_text():
 
 # 戦闘 #
 async def cbt_proc(user, ch):
-    player,mob = box.players[user.id],box.mobs[ch.id]
-    start_check = await battle_start(player, mob)
-    if start_check is False: return
 
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
