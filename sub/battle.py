@@ -169,9 +169,6 @@ async def battle_result(player, mob):
 
 
 def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
-    player,mob = box.players[user.id],box.mobs[ch.id]
-    start_check = await battle_start(player, mob)
-    if start_check is False: return
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name} はやられてしまった"
