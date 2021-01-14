@@ -120,9 +120,16 @@ async def open_ranking(user,ch):
         await ch.send(embed=em)
     else:
         respons = int(msg.content)
+        embeds = None
         if respons == 1:
             ranking_flag = True
             embeds = player_ranking_embeds(user,ch)
+
+        elif respons == 2:
+            ranking_flag = True
+            embeds = mob_ranking_embeds(user,ch)
+
+        if ranking_flag:
             await ranking_em_msg.edit(embed=embeds[0])
             em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
             em_msg = await ch.send(embed=em)
@@ -131,34 +138,10 @@ async def open_ranking(user,ch):
                     msg2 = await client.wait_for("message", timeout=20, check=check)
                 except asyncio.TimeoutError:
                     await ranking_em_msg.delete()
-                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
-                    await em_msg.edit(embed=em)
-                    ranking_flag = False
-                else:
-                    page_num = int(msg2.content)
-                    if 0 < page_num <= len(embeds):
-                        await ranking_em_msg.edit(embed=embeds[page_num-1])
-                    if page_num == 0:
-                        ranking_flag = False
-                        await em_msg.delete()
-                    await msg2.delete()
-                    
-
-                
-        elif respons == 2:
-            ranking_flag = True
-            embeds = mob_ranking_embeds(user,ch)
-            await ranking_em_msg.edit(embed=embeds[0])
-            em = discord.Embed(description=f"番号を送信するとページが切り替わります 0と送信すると処理が停止してメッセージが残ります")
-            await ch.send(embed=em)
-            while ranking_flag:
-                try:
-                    msg2 = await client.wait_for("message", timeout=20, check=check)
-                except asyncio.TimeoutError:
-                    await ranking_em_msg.delete()
-                    em = discord.Embed(description=f"指定がないのでメッセージを消去しました")
+                    em = discord.Embed(description=f"指定がないので処理を終了しました")
                     await ch.send(embed=em)
                     ranking_flag = False
+                    break
                 else:
                     page_num = int(msg2.content)
                     if 0 < page_num <= len(embeds):
@@ -166,4 +149,5 @@ async def open_ranking(user,ch):
                     if page_num == 0:
                         ranking_flag = False
                         await em_msg.delete()
+                        break
                     await msg2.delete()
