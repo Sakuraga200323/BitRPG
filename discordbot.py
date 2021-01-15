@@ -316,7 +316,7 @@ async def on_message(message):
                 return
             weapon_id = int（datetime.now(JST).strftime("%d%m%y%H%M%S%f")）
             weapons_id = f"'{" + f"{weapon_id}" +"}'"
-            weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
+            weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
             cmd = (f"INSERT INTO player_tb (id,magic_class,weapon,weapons) VALUES ({m_author.id},{respons},{weapon_id},{weapons_id});")
             cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},{weapon_name},{box.shop_weapons[weapon_name][0]},2);")
             try:
