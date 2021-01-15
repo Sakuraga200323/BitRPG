@@ -205,10 +205,10 @@ async def shop(user, ch):
             embeds = tuple(embeds)
             desc_first_text = "`対応するローマ字を送信で購入\n数字を送信するとページ切り替え\nRankは購入時にランダムで決められるランクの最大値です`"
             first_em = discord.Embed(description=desc_first_text)
+            first_em_msg = await ch.send(embed=first_em)
             page_num = 1
             while client:
                 shop_em_msg = await ch.send(embed=embeds[page_num-1])
-                first_em_msg = await ch.send(embed=first_em)
                 try:
                     weapon_shop_msg = await client.wait_for("message", timeout=20, check=check)
                 except asyncio.TimeoutError:
@@ -222,7 +222,7 @@ async def shop(user, ch):
                         em = discord.Embed(description=f"処理を終了しました")
                         await first_em_msg.edit(embed=em)
                         break
-                    if 0 < respons <= len(embeds):
+                    if 0 < respons < len(embeds):
                         em = embeds[respons-1]
                         await shop_em_msg.edit(embed=embeds[page_num-1])
                     
