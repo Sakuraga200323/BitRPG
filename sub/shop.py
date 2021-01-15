@@ -23,6 +23,12 @@ def first_set(c,p):
     client = c
     pg = p
 
+def split_list(l, n):
+    if len(l) <= n:
+        return l
+    for idx in range(0, len(l), n):
+        yield l[idx:idx + n]
+
 items_name = {
     1:"冒険者カード",
     2:"HP回復薬",
@@ -70,6 +76,7 @@ async def shop(user, ch):
         description=("`該当するサービスの番号を半角英数字で送信してください。`"
             + "\n`1.`アイテム購入"
             + "\n`2.`アイテム合成"
+            + "\n`3.`武器購入"
     ))
     shop_em_msg = await ch.send(embed=shop_em)
     def check(m):
@@ -77,10 +84,8 @@ async def shop(user, ch):
             return 0
         return 1
     def check2(m):
-        if not user.id == m.author.id:
-            return 0
-        if not m.content in ("y","Y","n","N"):
-            return 0
+        if not user.id == m.author.id:return 0
+        if not m.content in ("y","Y","n","N"):return 0
         return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check)
@@ -91,7 +96,7 @@ async def shop(user, ch):
         respons = int(msg.content) if msg.content in ("1","2") else 0
         if respons == 1:
             service_em1 = discord.Embed(
-                title="アイテム購入",
+                title="アイテムショップ",
                 description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
                     + f"\n`1.`{items_emoji_a[2] }`HP回復薬　`[100cell]\n`Info: HPを30%回復`"
                     + f"\n`2.`{items_emoji_a[3] }`MP回復薬　`[100cell]\n`Info: MPを30%回復`"
@@ -124,12 +129,13 @@ async def shop(user, ch):
                     return
                 status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id]*item_num)
-                await ch.send(f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。またのご来店をお待ちしております！")
+                result_em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。\nまたのご来店をお待ちしております！")
+                await ch.send(embed=result_em)
 
         elif respons == 2:
             service_em2 = discord.Embed(
-                title="アイテム購入",
-                description=("`該当するアイテムの番号と購入数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
+                title="合成場",
+                description=("`該当するアイテムの番号と合成数を半角英数字で送信してください。\n例(HP回復薬を10個購入)『1 10』`"
                     + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]\n`Info: 素材アイテム`"
                     + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]\n`Info: とある魔法の触媒`"
                     + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]\n`Info: HPを100%回復`"
@@ -177,12 +183,47 @@ async def shop(user, ch):
                     status.get_item(user,data[0],-data[1]*item_num)
                 status.get_item(user,item_id,item_num)
                 player.money(-cost_dict[item_id]*item_num)
-                em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。またのご来店をお待ちしております！")
+                em = discord.Embed(description=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。\nまたのご来店をお待ちしております！")
                 await ch.send(embed=em)
 
 
 
-
+        elif respons == 3:
+            split_weapons_key = tuple(split_list(box.shop_weapons,10))
+            embeds = []
+            em_title = "武具店"
+            rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S
+            for page_num,weapons_name in zip(range(1,100),split_weapons_key):
+                weapon_em_text = ""
+                for abc,weapon_name in zip(tuple("abcdefghij"),weapons_name):
+                    weapon_data = box.shop_weapons[weapon_name]
+                    weapon_em_text += f"\n`{abc}.`{weapon_data[0]}{weapon_name} [Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]"
+                embed = discord.Embed(title=em_title,description=desc_first_text+weapon_em_text)
+                embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
+                embeds.append(embed)
+            embeds = tuple(embeds)
+            desc_first_text = "`対応するローマ字を送信で購入\n数字を送信するとページ切り替え\nRankは購入時にランダムで決められるランクの最大値です`")
+            first_em = discord.Embed(description=desc_first_text}
+            first_em_msg = await ch.send(embed=first_em)
+            page_num = 1
+            while client:
+                shop_em_msg = await ch.send(embed=embeds[page_num-1])
+                try:
+                    msg = await client.wait_for("message", timeout=20, check=check)
+                except asyncio.TimeoutError:
+                    em = discord.Embed(description=f"指定がないので処理終了しました")
+                    await first_em_msg.edit(embed=em)
+                    break
+                else:
+                    page_num  = int(msg.content)
+                    if page_num == 0:
+                        em = discord.Embed(description=f"処理を終了しました")
+                        await first_em_msg.edit(embed=em)
+                        break
+                    if 0 < respons <= len(embeds):
+                        em = embeds[respons-1]
+                        await shop_em_msg.edit(embed=embeds[page_num-1])
+                    
 
 
 
