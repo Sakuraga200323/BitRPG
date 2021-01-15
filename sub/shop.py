@@ -76,7 +76,7 @@ async def shop(user, ch):
         description=("`該当するサービスの番号を半角英数字で送信してください。`"
             + "\n`1.`アイテム購入"
             + "\n`2.`アイテム合成"
-            + "\n`3.`武器購入"
+            + "\n`3.`~~武器購入~~"
     ))
     shop_em_msg = await ch.send(embed=shop_em)
     def check(m):
@@ -93,7 +93,7 @@ async def shop(user, ch):
         em = discord.Embed(description=f"冷やかしはお断りだよ！")
         await ch.send(embed=em)
     else:
-        respons = int(msg.content) if msg.content in ("1","2") else 0
+        respons = int(msg.content) if msg.content in ("1","2","3",) else 0
         if respons == 1:
             service_em1 = discord.Embed(
                 title="アイテムショップ",
