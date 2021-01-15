@@ -314,7 +314,7 @@ async def on_message(message):
                             break
             if not magic_type_flag == True:
                 return
-            weapon_id = int（datetime.now(JST).strftime("%d%m%y%H%M%S%f")）
+            weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
             weapons_id = f"'{" + f"{weapon_id}" +"}'"
             weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
             cmd = (f"INSERT INTO player_tb (id,magic_class,weapon,weapons) VALUES ({m_author.id},{respons},{weapon_id},{weapons_id});")
