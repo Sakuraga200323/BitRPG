@@ -24,6 +24,7 @@ def first_set(c,p):
     pg = p
 
 def split_list(l, n):
+    l = list(l)
     if len(l) <= n:
         return l
     for idx in range(0, len(l), n):
