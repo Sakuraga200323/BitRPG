@@ -192,7 +192,7 @@ async def shop(user, ch):
             split_weapons_key = tuple(split_list(box.shop_weapons,10))
             embeds = []
             em_title = "武具店"
-            rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S
+            rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
             for page_num,weapons_name in zip(range(1,100),split_weapons_key):
                 weapon_em_text = ""
                 for abc,weapon_name in zip(tuple("abcdefghij"),weapons_name):
