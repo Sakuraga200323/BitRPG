@@ -126,9 +126,24 @@ async def magic_3(player,mob):
     player.magic_lv(1)
     player.cut_mp(130)
         
-# StrengthRein+ #
+# UnMagicParry #
 async def magic_4(player,mob):
-    pass
+    ch = mob.mob
+    start_check = await battle.battle_start(player,mob)
+    if start_check is False: return
+    parry_percent = min(((player.now_defe/mob.STR()-1) if player.now_defe>0 else 0), 0.75)
+    if random() <= parry_percent:
+        player.now_defe = player.max_defe
+        text1 = battle.create_battle_text(mob,player,parry=True)
+    else:
+        text1 = battle.create_battle_text(mob,player)
+    text2 = battle.create_battle_text(player,mob,atk_word="『UnMagicParry』",str_up_num=up_num,buff=buff_num)
+    magic_log = f"```diff\n+ {player.name} は防御姿勢をとった…``````diff\n{text1}``````diff\n{text2}```"
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_log,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
+
 # PyrobolusLacrima #
 async def magic_5(player,mob):
     pass
@@ -152,4 +167,5 @@ async def use_magic(user,ch,magic):
         await magic_2(player,mob)
     if magic in ["3","FlecteImpetus","FI"]:
         await magic_3(player,mob)
-    
+    if magic in ["4","UnMagicParyy","UMP"]:
+        await magic_4(player,mob)
