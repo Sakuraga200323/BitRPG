@@ -153,9 +153,9 @@ async def open_status(user,ch):
 async def open_inventory(user,ch):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = "`ID.アイテム名　　`┃`所持数`\n"
-    for (item_name,item_emoji) in zip((items_name.values()),list(items_emoji_a.values())):
+    for (item_name,item_emoji) in zip((box.items_name.values()),list(box.items_emoji_a.values())):
         if not item_dtd[item_name] == 0:
-            item_id = items_id[item_name]
+            item_id = box.items_id[item_name]
             text += f"`{item_id:<2}.`{item_emoji}`{change_abc(item_name):　<6}`┃`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Player Inventory Bord",description=f"{text}")
     await ch.send(embed=embed)
@@ -250,7 +250,7 @@ async def up_max_lv(user,ch):
 # アイテムの確保 #
 def get_item(user, item_id, num):
     player = box.players[user.id]
-    item = items_name[item_id]
+    item = box.items_name[item_id]
     item_num = pg.fetchdict(f"SELECT item->'{item}' as item_num FROM player_tb where id = {user.id};")[0]["item_num"]
     pg.execute(f"update player_tb set item = item::jsonb||json_build_object('{item}', {item_num + num})::jsonb where id = {user.id};")
     
