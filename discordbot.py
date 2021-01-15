@@ -314,15 +314,14 @@ async def on_message(message):
                             break
             if not magic_type_flag == True:
                 return
-            jsonb_items = "'冒険者カード',1, 'HP回復薬',10, 'MP回復薬',10, 'HP全回復薬',1, 'MP全回復薬',1, '魔石',1, '魂の焔',0, '砥石',0, '魔晶',0, '魔硬貨',0,'獲得Exp増加薬',0,'キャラメル鉱石',0,'ブラッド鉱石',0,'ゴールド鉱石',0,'ダーク鉱石',0,'ミスリル鉱石',0,'オリハルコン鉱石',0,'キャラメル鋼',0,'ブラッド鋼',0,'ゴールド鋼',0,'ダーク鋼',0,'ミスリル鋼',0,'オリハルコン鋼',0"
-            jsonb_pouch = "'1','冒険者カード', '2','HP回復薬', '3','MP回復薬'"
-            cmd = (
-                f"INSERT INTO player_tb VALUES ("
-                +f"{m_author.id},1,1000,1,1,10,1,1,1,{respons},0,0,jsonb_build_object({jsonb_items}),1,jsonb_build_object({jsonb_pouch}),NULL"
-                +");"
-            )
+            weapon_id = int（datetime.now(JST).strftime("%d%m%y%H%M%S%f")）
+            weapons_id = f"'{" + f"{weapon_id}" +"}'"
+            weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
+            cmd = (f"INSERT INTO player_tb (id,magic_class,weapon,weapons) VALUES ({m_author.id},{respons},{weapon_id},{weapons_id});")
+            cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},{weapon_name},{box.shop_weapons[weapon_name][0]},2);")
             try:
                 pg.execute(cmd)
+                pg2.execute(cmd2)
             except Exception as e:
                 await m_ch.send('type:' + str(type(e)) + '\nargs:' + str(e.args) + '\ne自身:' + str(e))
             else:
