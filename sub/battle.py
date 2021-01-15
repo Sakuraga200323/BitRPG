@@ -357,11 +357,10 @@ async def use_magic(user,ch,target):
                 em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
                 await ch.send(embed=em)
                 return
-        if player.magic_class() == "Armadillo":
-            if not target in ["4","UnMagicParry","UMP"]:
-                em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
-                await ch.send(embed=em)
-                return
+        else:
+            em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動中 魔法が使えない！")
+            await ch.send(embed=em)
+            return
     if player.magic_class() == "Wolf":
         await magic_wolf.use_magic(user,ch,target)
     if player.magic_class() == "Armadillo":
