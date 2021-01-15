@@ -137,8 +137,7 @@ async def magic_4(player,mob):
         text1 = battle.create_battle_text(mob,player,parry=True)
     else:
         text1 = battle.create_battle_text(mob,player)
-    text2 = battle.create_battle_text(player,mob,atk_word="『UnMagicParry』")
-    magic_log = f"```diff\n+ {player.name} は防御姿勢をとった…``````diff\n{text1}``````diff\n{text2}```"
+    magic_log = f"```diff\n+ {player.name} は防御姿勢をとった…!``````diff\n{text1}```"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
