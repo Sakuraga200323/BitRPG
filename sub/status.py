@@ -153,7 +153,7 @@ async def open_status(user,ch):
 async def open_inventory(user,ch):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = "`ID.アイテム名　　`┃`所持数`\n"
-    for (item_name,item_emoji) in zip((box.items_name.values()),list(box.items_emoji_a.values())):
+    for (item_name,item_emoji) in zip((box.items_name.values()),list(box.items_emoji.values())):
         if not item_dtd[item_name] == 0:
             item_id = box.items_id[item_name]
             text += f"`{item_id:<2}.`{item_emoji}`{change_abc(item_name):　<6}`┃`{item_dtd[item_name]}`\n"
