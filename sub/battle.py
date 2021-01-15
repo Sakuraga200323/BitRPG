@@ -224,8 +224,10 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
                     del box.atk_switch[a_id]
                     irregular_text += f"\n┣━ {b.name} が攻撃を防いだ！ (Target{b.name})"
             elif parry:
+                if not b.ID() in box.stun:
+                    box.stun[b.ID()] = 0
                 box.stun[b.ID()] += 1
-                irregular_text += f"\n┣━ {b.name} が攻撃をParry (Strength0%)\n┣━  Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
+                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength0%)\n┣━  Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
         battle_text += irregular_text
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
