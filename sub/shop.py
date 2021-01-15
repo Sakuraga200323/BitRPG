@@ -93,7 +93,7 @@ async def shop(user, ch):
         return 1
     def check3(m):
         if not user.id == m.author.id:return 0
-        if not m.content.isdigit()return 0
+        if not m.content.isdigit():return 0
         return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check3)
