@@ -199,7 +199,7 @@ async def shop(user, ch):
                 for abc,weapon_name in zip(tuple("abcdefghij"),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
                     weapon_em_text += f"\n`{abc}.`{weapon_data[0]}{weapon_name} [Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]"
-                embed = discord.Embed(title=em_title,description=desc_first_text+weapon_em_text)
+                embed = discord.Embed(title=em_title,description=weapon_em_text)
                 embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(embed)
             embeds = tuple(embeds)
