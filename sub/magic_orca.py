@@ -150,10 +150,10 @@ async def magic_3(player,mob):
         magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
     if magic_text == '':
         magic_text = '何も起きなかった…'
-    else:
+    if not magic_text == "":
         player.magic_lv(1)
         player.cut_mp(300)
-    em=discord.Embed(description=magic_text)
+    em = discord.Embed(description=magic_text)
     await ch.send(embed=em)
     return
 
