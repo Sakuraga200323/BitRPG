@@ -415,7 +415,7 @@ class Mob:
         return num
 
     def STR(self):
-        num = self.str() + 
+        num = self.str()
         return num
     def DEFE(self):
         num = self.defe()
