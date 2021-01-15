@@ -118,7 +118,7 @@ async def battle_result(player, mob):
         if  now in ['23:18']:
             exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
-        print(mob.name,mob.lv(),"を",mob.battle_players,"が討伐")
+        print(f"『{mob.name　<15}』(Lv.{mob.lv})を{[ client.get_user(i) for i in mob.battle_players]}が討伐")
         for p_id in mob.battle_players:
             p = box.players[p_id]
             EXP = exp
@@ -213,7 +213,8 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
                 if not a.ID() in box.stun:
                     box.stun[a.ID()] = 0
                 box.stun[a.ID()] += 1
-                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength0%)\n┣━  Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
+                a_strength = 0
+                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength0%)\n┣━ Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0), 0.75) and not b.ID() in box.fleez:
                 if b.ID() in box.stun:
                     if random() <= 0.5:
