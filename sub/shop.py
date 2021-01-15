@@ -208,7 +208,7 @@ async def shop(user, ch):
             first_em_msg = await ch.send(embed=first_em)
             page_num = 1
             while client:
-                shop_em_msg = await ch.send(embed=embeds[page_num-1])
+                await shop_em_msg.edit(embed=embeds[page_num-1])
                 try:
                     weapon_shop_msg = await client.wait_for("message", timeout=20, check=check)
                 except asyncio.TimeoutError:
