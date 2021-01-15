@@ -82,7 +82,7 @@ async def shop(user, ch):
     ))
     shop_em2 = discord.Embed(description="`該当するサービスの番号を半角英数字で送信してください。`")
     shop_msg1 = await ch.send(embed=shop_em1)
-    shop_msg2 = await ch.send(embed=shop_em2).isdigit()
+    shop_msg2 = await ch.send(embed=shop_em2)
     def check(m):
         if not user.id == m.author.id:return 0
         return 1
