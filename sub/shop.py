@@ -94,6 +94,7 @@ async def shop(user, ch):
         return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check)
+        await msg.delete()
     except asyncio.TimeoutError:
         em = discord.Embed(description=f"指定がないので処理を終了しました")
         await shop_msg2.edit(embed=em)
@@ -102,7 +103,7 @@ async def shop(user, ch):
         if respons == 1:
             service_em1 = discord.Embed(
                 title="アイテムショップ",
-                description=(f"所持Cell{player.money()}"
+                description=(f"所持Cell:{player.money()}"
                     + f"\n`1.`{items_emoji_a[2] }`HP回復薬　`[100cell]\n`Info: HPを30%回復`"
                     + f"\n`2.`{items_emoji_a[3] }`MP回復薬　`[100cell]\n`Info: MPを30%回復`"
                     + f"\n`3.`{items_emoji_a[4] }`魂の焔　  `[10cell]\n`Info: 素材アイテム`"
@@ -118,6 +119,7 @@ async def shop(user, ch):
             await shop_msg2.edit(embed=em)
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
+                await msg.delete()
             except asyncio.TimeoutError:
                 em = discord.Embed(description=f"指定がないので処理を終了しました")
                 await shop_msg2.edit(embed=em)
@@ -142,7 +144,7 @@ async def shop(user, ch):
         elif respons == 2:
             service_em2 = discord.Embed(
                 title="合成場",
-                description=(f"所持Cell{player.money()}"
+                description=(f"所持Cell:{player.money()}"
                     + f"\n`1.`{items_emoji_a[7] }`魔　晶  　`[500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1]\n`Info: 素材アイテム`"
                     + f"\n`2.`{items_emoji_a[8] }`魔硬貨  　`[750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1]\n`Info: とある魔法の触媒`"
                     + f"\n`3.`{items_emoji_a[9] }`HP全回復薬`[200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]\n`Info: HPを100%回復`"
@@ -153,6 +155,7 @@ async def shop(user, ch):
             await shop_msg2.edit(embed=em)
             try:
                 msg = await client.wait_for("message", timeout=60, check=check)
+                await msg.delete()
             except asyncio.TimeoutError:
                 em = discord.Embed(description=f"冷やかしはお断りだよ、出直してきな！")
                 await ch.send(embed=em)
@@ -203,10 +206,10 @@ async def shop(user, ch):
             em_title = "武具店"
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
             for page_num,weapons_name in zip(range(1,100),split_weapons_key):
-                weapon_em_text = ""
+                weapon_em_text = f"所持Cell:{player.money()}"
                 for abc,weapon_name in zip(tuple("abcdefghij"),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
-                    weapon_em_text += f"\n`{abc}.`{weapon_data[0]}{weapon_name} [Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]"
+                    weapon_em_text += f"\n`{abc}.`{weapon_data[0]}`{weapon_name}`\n ┗━[Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]"
                 embed = discord.Embed(title=em_title,description=weapon_em_text)
                 embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(embed)
@@ -219,6 +222,7 @@ async def shop(user, ch):
                 await shop_msg1.edit(embed=embeds[page_num-1])
                 try:
                     weapon_shop_msg = await client.wait_for("message", timeout=20, check=check)
+                    await weapon_shop_msg.delete()
                 except asyncio.TimeoutError:
                     em = discord.Embed(description=f"指定がないので処理終了しました")
                     await shop_msg2.edit(embed=em)
