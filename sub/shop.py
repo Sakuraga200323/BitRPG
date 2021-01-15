@@ -211,7 +211,7 @@ async def shop(user, ch):
                 weapon_em_text = f"所持Cell:{player.money()}"
                 for abc,weapon_name in zip(tuple("abcdefghij"),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
-                    weapon_em_text += f"\n`{abc}.`{weapon_data[0]}`{weapon_name}`\n ┗━[Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]"
+                    weapon_em_text += f"\n`{abc}.`{weapon_data[0]}`{weapon_name}`\n`  ┗━[Rank.{rank_dict[weapon_data[2]]} {weapon_data[1]}Cell]`"
                 embed = discord.Embed(title=em_title,description=weapon_em_text)
                 embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(embed)
@@ -230,14 +230,13 @@ async def shop(user, ch):
                     await shop_msg2.edit(embed=em)
                     break
                 else:
-                    page_num  = int(weapon_shop_msg.content)
+                    page_num = int(weapon_shop_msg.content)
                     if page_num == 0:
                         await weapon_shop_msg.delete()
                         em = discord.Embed(description=f"処理を終了しました")
                         await shop_msg2.edit(embed=em)
                         break
-                    if 0 < respons < len(embeds):
-                        em = embeds[respons-1]
+                    if 0 < page_num < len(embeds):
                         await shop_msg1.edit(embed=embeds[page_num-1])
                     
 
