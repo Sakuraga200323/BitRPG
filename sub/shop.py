@@ -83,17 +83,20 @@ async def shop(user, ch):
     ))
     shop_em2 = discord.Embed(description="`該当するサービスの番号を半角英数字で送信してください。`")
     shop_msg1 = await ch.send(embed=shop_em1)
-    shop_msg2 = await ch.send(embed=shop_em2)
+    shop_msg2 = await ch.send(embed=shop_em2).isdigit()
     def check(m):
-        if not user.id == m.author.id:
-            return 0
+        if not user.id == m.author.id:return 0
         return 1
     def check2(m):
         if not user.id == m.author.id:return 0
         if not m.content in ("y","Y","n","N"):return 0
         return 1
+    def check3(m):
+        if not user.id == m.author.id:return 0
+        if not m.content.isdigit()return 0
+        return 1
     try:
-        msg = await client.wait_for("message", timeout=60, check=check)
+        msg = await client.wait_for("message", timeout=60, check=check3)
         await msg.delete()
     except asyncio.TimeoutError:
         em = discord.Embed(description=f"指定がないので処理を終了しました")
@@ -221,7 +224,7 @@ async def shop(user, ch):
             while client:
                 await shop_msg1.edit(embed=embeds[page_num-1])
                 try:
-                    weapon_shop_msg = await client.wait_for("message", timeout=20, check=check)
+                    weapon_shop_msg = await client.wait_for("message", timeout=20, check=check3)
                     await weapon_shop_msg.delete()
                 except asyncio.TimeoutError:
                     em = discord.Embed(description=f"指定がないので処理終了しました")
