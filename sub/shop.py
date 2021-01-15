@@ -202,7 +202,7 @@ async def shop(user, ch):
                 embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(embed)
             embeds = tuple(embeds)
-            desc_first_text = "`対応するローマ字を送信で購入\n数字を送信するとページ切り替え\nRankは購入時にランダムで決められるランクの最大値です`")
+            desc_first_text = "`対応するローマ字を送信で購入\n数字を送信するとページ切り替え\nRankは購入時にランダムで決められるランクの最大値です`"
             first_em = discord.Embed(description=desc_first_text}
             first_em_msg = await ch.send(embed=first_em)
             page_num = 1
