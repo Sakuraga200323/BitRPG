@@ -118,7 +118,7 @@ async def battle_result(player, mob):
         if  now in ['23:18']:
             exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
-        print(f"『{mob.name}』(Lv.{mob.lv})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
+        print(f"『{mob.name}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
         for p_id in mob.battle_players:
             p = box.players[p_id]
             EXP = exp
