@@ -137,6 +137,7 @@ async def magic_4(player,mob):
         text1 = battle.create_battle_text(mob,player,parry=True)
     else:
         text1 = battle.create_battle_text(mob,player)
+    text1 = battle.create_battle_text(player,mob,str_up_num=min(0.8+(player.defe_p()/player.str_p()),20))
     magic_log = f"```diff\n+ {player.name} は防御姿勢をとった…!``````diff\n{text1}```"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_log,embed=result_em)
@@ -154,7 +155,7 @@ async def open_magic(user,ch):
     magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**30**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`HealPrex",value=f"必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
     magic_em.add_field(name="`3.`FlecteImpetus",value=f"必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を肩代わり",inline=False)
-    magic_em.add_field(name="`4.`UnMagicParry",value=f"必要熟練度.**0**\n消費MP.**0**\n敵の攻撃をパリイ 成功すると被ダメを0にし 敵のStunのターン数を+1する Stun状態でない場合も有効",inline=False)
+    magic_em.add_field(name="`4.`UnMagicParry",value=f"必要熟練度.**0**\n消費MP.**0**\n敵の攻撃をパリイ 成功すると被ダメを0にし 敵のStunのターン数を+1する Stun状態でない場合も有効 その後Strength**{min(0.8+(player.defe_p()/player.str_p()),20)*100}**%の攻撃 STRとDEFのSTPから計算",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
