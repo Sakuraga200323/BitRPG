@@ -213,7 +213,7 @@ async def shop(user, ch):
             embeds = tuple(embeds)
             desc_first_text = "`対応するローマ字を送信で購入\n数字を送信するとページ切り替え\nRankは購入時にランダムで決められるランクの最大値です`"
             first_em = discord.Embed(description=desc_first_text)
-            await shop_msg1.edit(embed=first_em)
+            await shop_msg2.edit(embed=first_em)
             page_num = 1
             while client:
                 await shop_msg1.edit(embed=embeds[page_num-1])
