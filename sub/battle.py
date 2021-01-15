@@ -209,8 +209,8 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength → 500%)'
-            elif random() <= min((b.AGI()/a.AGI() - 1) if a.AGI() > 0 else 0, 0.75):
-                if (b.ID() in box.stun or b.ID() in box.fleez):
+            elif random() <= min((b.AGI()/a.AGI() - 1) if a.AGI() > 0 else 0, 0.75) and not b.ID() in box.fleez):
+                if (b.ID() in box.stun:
                     if random() <= 0.5:
                         a_strength = 0
                         irregular_text += f'\n┣━ {b.name} はギリギリ避けた！ (Strength → 0%)'
