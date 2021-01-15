@@ -209,6 +209,11 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength500%)'
+            elif parry:
+                if not a.ID() in box.stun:
+                    box.stun[a.ID()] = 0
+                box.stun[a.ID()] += 1
+                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength0%)\n┣━  Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0), 0.75) and not b.ID() in box.fleez:
                 if b.ID() in box.stun:
                     if random() <= 0.5:
@@ -223,11 +228,6 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
                     irregular_text += f"\n┣━ {b.name} が攻撃を防いだ！ (Target{b.name})"
-            elif parry:
-                if not a.ID() in box.stun:
-                    box.stun[a.ID()] = 0
-                box.stun[a.ID()] += 1
-                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength0%)\n┣━  Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
         battle_text += irregular_text
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
