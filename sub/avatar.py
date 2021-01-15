@@ -385,6 +385,11 @@ class Mob:
             result = self.get_data('lv')
         return result
 
+    def weapon(self,get_all=True,get_using=False,sort='lv')
+        if get_all:
+            return self.get_data('weapons')
+        
+
     def str(self):
         num = self.lv() * 10
         if self.type == "UltraRare":num*=5
@@ -410,7 +415,7 @@ class Mob:
         return num
 
     def STR(self):
-        num = self.str()
+        num = self.str() + 
         return num
     def DEFE(self):
         num = self.defe()
