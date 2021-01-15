@@ -138,6 +138,8 @@ async def magic_3(player,mob):
         await ch.send(embed=em)
         return
     magic_text = ''
+    player.magic_lv(1)
+    player.cut_mp(300)
     if mob.ID() in box.anti_magic:
         box.anti_magic.remove(mob.ID())
         magic_text += f'\n{mob.name}のアンチマジックエリアをレジスト！'
@@ -149,10 +151,7 @@ async def magic_3(player,mob):
         box.nerf[mob.ID()] = 3
         magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
     if magic_text == '':
-        magic_text = '何も起きなかった…'
-    if not magic_text == "":
-        player.magic_lv(1)
-        player.cut_mp(300)
+        magic_text = '何も起きなかった…MP無駄消費乙！'
     em = discord.Embed(description=magic_text)
     await ch.send(embed=em)
     return
