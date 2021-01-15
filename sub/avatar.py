@@ -385,7 +385,7 @@ class Mob:
             result = self.get_data('lv')
         return result
 
-    def weapon(self,get_all=True,get_using=False,sort='lv')
+    def weapon(self,get_all=True,get_using=False,sort='lv'):
         if get_all:
             return self.get_data('weapons')
         
