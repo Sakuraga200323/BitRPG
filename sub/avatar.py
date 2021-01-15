@@ -212,7 +212,6 @@ class Player:
         else:
             return item_num + num
 
-
     def pouch(self,space_id,set_item=None):
         if set_item in box.items_name:
             set_item = box.items_name[target]
@@ -220,8 +219,6 @@ class Player:
             pg.execute(f"update player_tb set pouch = pouch::jsonb||json_build_object('{space_id}', '{set_item}')::jsonb where id = {self.user.id};")
         return pg.fetchdict(f"select pouch from player_tb where id = {self.user.id};")[0]["pouch"][str(space_id)]
         
-
-
     def kill_count(self, plus=None):
         if isinstance(plus,int):
             self.kill_count_ = self.plus('kill_count', plus)
@@ -313,7 +310,6 @@ class Player:
         dmg,defe = self.cut_defe(int(strength))
         hp = self.cut_hp(dmg)
         return dmg, defe, hp
-        
 
     def battle_start(self, id):
         if self.battle_ch and id != self.battle_ch:
@@ -333,7 +329,6 @@ class Player:
             self.max_defe = self.now_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
-
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
