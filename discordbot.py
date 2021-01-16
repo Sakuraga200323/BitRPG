@@ -616,7 +616,7 @@ async def on_message(message):
                             await m_ch.send(f"```::DATABASE=> {cmd}```")
                             await m_ch.send(f"```py\n{result}```")
 
-                        if ctt.startseith("player "):
+                        if ctt.startswith("player "):
                             pattern = r"^player (.+) (get_exp|lv|damaged|get_data|plus|get_item) (.+)"
                             result = re.match(pattern, ctt)
                             target_user = None
