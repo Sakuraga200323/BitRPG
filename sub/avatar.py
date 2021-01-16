@@ -535,7 +535,7 @@ class weapon:
         self.emoji = self.dtd["emoji"]
         self.rank_ = self.dtd["rank"]
         self.lv_ = self.dtd["lv"]
-        self.now_exp_ = self.did["now_exp"]
+        self.now_exp_ = self.dtd["now_exp"]
         self.limit_lv_ = self.dtd["limit_lv"]
 
     def get_data(self, target):
