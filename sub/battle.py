@@ -154,11 +154,18 @@ async def battle_result(player, mob):
         result_em = discord.Embed(title="Result",description=result_desc,color=discord.Color.green())
         # ドロップアイテムfor #
         drop_item_text = ''
+        member = guild.get_member(player.ID())
+        user_is_frontier = guild.get_role(799961431536697366) in member.roles
         for id in reward_items:
             num,item_was_droped = reward_items[id]
             if item_was_droped:
                 status.get_item(player.user,id,num)
                 drop_item_text += f"{box.items_emoji[id]}×{num} "
+            else:
+                if user_is_frontier:
+                    if random() <= 0.01:
+                        status.get_item(player.user,id,num)
+                        drop_item_text += f"(開拓者Bonus!!{box.items_emoji[id]}×{num}) "
         result_em.add_field(name=f"Drop Item",value=f"<@{user.id}>\n>>> {drop_item_text}")
         if random() <= 0.001:
             player.now_stp(500)
