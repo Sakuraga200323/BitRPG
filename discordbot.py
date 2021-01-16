@@ -287,7 +287,6 @@ async def on_message(message):
                 except asyncio.TimeoutError:
                     msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい ")
                     await m_ch.send(embed=msg_em)
-                    break
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
                     if not respons in (1,2,3):
@@ -302,7 +301,6 @@ async def on_message(message):
                     except asyncio.TimeoutError:
                         msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい")
                         await m_ch.send(embed=msg_em)
-                        break
                     else:
                         if msg.content in ("y","Y"):
                             msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します")
@@ -311,7 +309,6 @@ async def on_message(message):
                         elif msg.content in ("n","N"):
                             msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります")
                             await m_ch.send(embed=msg_em)
-                            break
             if not magic_type_flag == True:
                 return
             weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
