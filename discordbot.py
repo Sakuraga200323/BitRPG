@@ -519,10 +519,8 @@ async def on_message(message):
                 def check_react(r,user):
                     if r.message.id != menu_msg.id:
                         return 0
-                    print("1")
                     if user.id != m_author.id:
                         return 0
-                    print("2")
                     if not str(r.emoji) in menu_emojis:
                         return 0
                     return 1
@@ -534,7 +532,7 @@ async def on_message(message):
                     print("menu!")
                     emoji = str(reaction.emoji)
                     menu_text2 = ""
-                    for i in menu_text.split("\n):
+                    for i in menu_text.split("\n"):
                         if not i.startswith(emoji):
                             menu_text2 += "\n<:off_icon:800041025288405013>"
                         else:
