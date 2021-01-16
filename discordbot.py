@@ -523,8 +523,7 @@ async def on_message(message):
                     if user.id != m_author.id:
                         return 0
                     print("2")
-                    if str(r.emoji) in menu_emojis:
-                        print(str(r.emoji))
+                    if not str(r.emoji) in menu_emojis:
                         return 0
                     return 1
                 try:
