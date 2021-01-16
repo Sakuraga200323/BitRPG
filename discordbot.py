@@ -514,14 +514,16 @@ async def on_message(message):
                 )
                 menu_em = discord.Embed(description=menu_text,color=0xffffff)
                 menu_msg = await m_ch.send(embed=menu_em)
-                def check_react(r):
-                    if r.message.author.id != m_author.id:
+                for emoji in menu_emojis:
+                    await send_message.add_reaction(emoji)
+                def check_react(r,user):
+                    if r.message.id != menu_msg.id:
                         return 0
                     if str(r.emoji) in menu_emojis:
                         return 0
                     return 1
                 try:
-                    reaction, user = client.wait_for("reaction_add",timeout=60,check=check_react)
+                    reaction, user = await client.wait_for("reaction_add",timeout=60,check=check_react)
                 except asyncio.TimeoutError:
                     await menu_msg.clear_reactions()
                 else:
