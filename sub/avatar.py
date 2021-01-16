@@ -558,5 +558,6 @@ class weapon:
         return self.lv_
 
     def strength(self,x=False):
+        rank_dict={1:0.5,2:0.75,3:1.0,4:1.25,5:1.5}
         str_x = rank_dict[self.rank_]
         return int(self.lv()*5*str_x)
