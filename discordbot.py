@@ -626,12 +626,12 @@ async def on_message(message):
                                 user_key = result.group(1)
                                 cmd = result.group(2)
                                 arg = result.group(3)
-                                if not user_key.isdigit:
+                                if not user_key.isdigit():
                                     target_user = discord.utils.get(m_guild.member,mention=user_key)
                                 else:
                                     target_user = client.get_user(user_key)
                                 if target_user is None:
-                                    m_ch.send(f"```Player is None```")
+                                    await m_ch.send(f"```Player is None```")
                                     continue
                                 player = box.players[target_user.id]
                                 if cmd == "get_exp":
