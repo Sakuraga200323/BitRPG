@@ -276,7 +276,7 @@ class Player:
         lvup_count = 0
         now_exp = self.now_exp()
         lv = self.lv()
-        while now_exp >= (self.lv()+1) and self.max_lv() > lv:
+        while now_exp >= lv and self.max_lv() > lv:
             lvup_count += 1
             lv += 1
             now_exp -= lv
@@ -556,8 +556,47 @@ class weapon:
             self.lv_ = self.plus('lv', plus)
         self.lv_ =  self.get_data("lv")
         return self.lv_
+    
+    def rank(self,get_int=False):
+        if get_int:
+            return self.get_data["rank"]
+        else:
+            rank_dict={1:"D",2:"C"5,3:"B",4:"A",5:"S"}
+            return rank_dict[self.get_data["rank"]]
+
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('lv', plus)
+        else:
+            result = self.get_data('lv')
+
+    def limit_lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('limit_lv', plus)
+        else:
+            result = self.get_data('limit_lv')
+
+    def now_exp(self,num)
+        if isinstance(plus,int):
+            result = self.plus('now_exp', plus)
+        else:
+            result = self.get_data('now_exp')
+
+    def get_exp(self, exp):
+        exp = int(exp)
+        lvup_count = 0
+        now_exp = self.now_exp()
+        lv = self.lv()
+        while now_exp >= lv and self.limit_lv() > lv:
+            lvup_count += 1
+            lv += 1
+            now_exp -= lv
+        if lvup_count > 0:
+            self.lv(lvup_count)
+            self.now_exp(now_exp-self.now_exp())
+        return lvup_count
 
     def strength(self,x=False):
         rank_dict={1:0.5,2:0.75,3:1.0,4:1.25,5:1.5}
-        str_x = rank_dict[self.rank_]
+        str_x = rank_dict[self.rank(get_int=True)]
         return int(self.lv()*5*str_x)
