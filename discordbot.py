@@ -524,8 +524,8 @@ async def on_message(message):
                         return 0
                     print("2")
                     if str(r.emoji) in menu_emojis:
+                        print(str(r.emoji))
                         return 0
-                    print("3")
                     return 1
                 try:
                     reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
