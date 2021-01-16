@@ -497,6 +497,48 @@ async def on_message(message):
                 log_text += ("\n^^rank: "+str(m_author))
                 await rank.open_ranking(m_author,m_ch)
 
+
+
+            if m_ctt == "^^menu":
+                menu_emojis = (
+                    "<:status_icon:800039843668426782>",
+                    "<:inventory_icon:800039843572482079>",
+                    "<:shop_icon:800039843626876938>",
+                    "<:rank_icon:800039843882860544>",
+                ) 
+                menu_text = (
+                    "<:status_icon:800039843668426782> `ステータス`"
+                    +"\n<:inventory_icon:800039843572482079> `インベントリー`"
+                    +"\n<:shop_icon:800039843626876938> `ショップ`"
+                    +"\n<:rank_icon:800039843882860544> `ランキング`"
+                )
+                menu_em = discord.Embed(description=menu_text,color=0xffffff)
+                menu_msg = await m_ch.send(embed=menu_em)
+                def check_react(r):
+                    if r.message.author.id != m_author.id:
+                        return 0
+                    if str(r.emoji) in menu_emojis:
+                        return 0
+                    return 1
+                try:
+                    reaction, user = client.wait_for("reaction_add",timeout=60,check=check_react)
+                except asyncio.TimeoutError:
+                    await menu_msg.clear_reactions()
+                else:
+                    emoji = str(reaction.emoji)
+                    for i in menu_text.split("\n"):
+                        if not i.startswith(emoji):
+                            menu_text.replace(i,"\n<:off_icon:800041025288405013>")
+                    menu_em = discord.Embed(description=menu_text,color=0xffffff)
+                    await menu_msg.edit(embed=menu_msg)
+                    if emoji == menu_emojis[0]:
+                        await status.open_status(m_author, m_ch)
+                    elif emoji == menu_emojis[1]:
+                        await status.open_inventory(m_author, m_ch)
+                    elif emoji == menu_emojis[2]:
+                        await shop.shop(m_author, m_ch)
+                    elif emoji == menu_emojis[3]:
+                        await rank.open_ranking(m_author,m_ch)
         finally:
             cmd_lock[m_ch.id] = False
 
