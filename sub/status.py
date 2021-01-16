@@ -136,7 +136,7 @@ async def i_inventory(player,ch):
 async def w_inventory(player,ch):
     em = discord.Embed(title="Weapon Inventory Bord")
     for weapon in player.weapons:
-        if weapon.id == player.weapon.id_:
+        if weapon.id_ == player.weapon.id:
             em.add_field(name=f"{weapon.emoji_}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
         else:
             em.add_field(name=f"{weapon.emoji_}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
