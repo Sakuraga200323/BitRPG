@@ -632,7 +632,7 @@ async def on_message(message):
                                     target_user = client.get_user(user_key)
                                 if target_user is None:
                                     await m_ch.send(f"```Player is None```")
-                                    continue
+                                    break
                                 player = box.players[target_user.id]
                                 if cmd == "get_exp":
                                     pattern = r"^(\d+)"
