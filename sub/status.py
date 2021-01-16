@@ -142,8 +142,7 @@ async def w_inventory(user,ch):
             em.add_field(name=f"{weapon.emoji_}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
     await ch.send(embed=embed)
 
-
-async def open_inventory(user.ic):
+async def open_inventory(user,ch):
     player = box.players[user.id]
     inventory_em1 = discord.Embed(
         title="Inventory",
