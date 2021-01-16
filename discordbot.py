@@ -528,7 +528,7 @@ async def on_message(message):
                     prtin("3")
                     return 1
                 try:
-                    reaction, user = await client.wait_for("reaction_add",timeout=60.0,check=check_react)
+                    reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
                 except asyncio.TimeoutError:
                     await menu_msg.clear_reactions()
                 else:
