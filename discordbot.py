@@ -507,12 +507,13 @@ async def on_message(message):
                     "<:rank_icon:800039843882860544>",
                 ) 
                 menu_text = (
-                    "<:status_icon:800039843668426782> `ステータス`"
-                    +"\n<:inventory_icon:800039843572482079> `インベントリー`"
-                    +"\n<:shop_icon:800039843626876938> `ショップ`"
-                    +"\n<:rank_icon:800039843882860544> `ランキング`"
+                    "<:status_icon:800039843668426782> [`Status   `]"
+                    +"\n<:inventory_icon:800039843572482079> [`Inventory`]"
+                    +"\n<:magic_icon:800062790081052702> [`Magic    `]"
+                    +"\n<:shop_icon:800039843626876938> [`Shop     `]"
+                    +"\n<:rank_icon:800039843882860544> [`Rankking `]"
                 )
-                menu_em = discord.Embed(description=menu_text,color=0xffffff)
+                menu_em = discord.Embed(description=menu_text,color=0xebebeb)
                 menu_msg = await m_ch.send(embed=menu_em)
                 for emoji in menu_emojis:
                     await menu_msg.add_reaction(emoji)
@@ -536,16 +537,18 @@ async def on_message(message):
                         if not i.startswith(emoji):
                             menu_text2 += "\n<:off_icon:800041025288405013>"
                         else:
-                            menu_text2 += f"\n{i}"
-                    menu_em = discord.Embed(description=menu_text2,color=0xffffff)
+                            menu_text2 += f'\n{i}.replace(" "," ▶︎")'
+                    menu_em = discord.Embed(description=menu_text2,color=0xebebeb)
                     await menu_msg.edit(embed=menu_em)
                     if emoji == menu_emojis[0]:
                         await status.open_status(m_author, m_ch)
                     elif emoji == menu_emojis[1]:
                         await status.open_inventory(m_author, m_ch)
                     elif emoji == menu_emojis[2]:
-                        await shop.shop(m_author, m_ch)
+                        await battle.open_magic(m_author,m_ch)
                     elif emoji == menu_emojis[3]:
+                        await shop.shop(m_author, m_ch)
+                    elif emoji == menu_emojis[4]:
                         await rank.open_ranking(m_author,m_ch)
         finally:
             cmd_lock[m_ch.id] = False
