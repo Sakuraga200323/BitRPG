@@ -70,10 +70,6 @@ async def check_macro(user, ch):
                 await ch.send(f'不正解!! 不正カウント+1(現在{doubt_count[user.id]})')
                 result = False
         print(f"MacroCheck：({user.id}) TrueAnswer[{num}], UsersAnswer[{temp}]")
-        if doubt_count[user.id] >= 5:
-            check_flag = False
-            doubt_count[user.id] = 0
-            await ch.send(f'不正カウントが規定量に達しました。ログを送信します。')
         embed=discord.Embed(title="マクロ検知ログ", color=0x37ff00)
         embed.add_field(name="CheckID", value=check_id, inline=False)
         embed.add_field(name="Result", value=result, inline=False)
@@ -81,6 +77,9 @@ async def check_macro(user, ch):
         embed.add_field(name="UserData", value=P_list, inline=False)
         embed.set_image(url="attachment://temp.png")
         await client.get_channel(763299968353304626).send(embed=embed, file=discord.File(fp="anti_macro/num_img/temp.png"))
-                
         macro_checking.remove(user.id)
+        if doubt_count[user.id] >= 3:
+            check_flag = False
+            await ch.send(f'不正カウントが規定量に達しました。ログを送信します。')
+            await client,get_channel(799960054840557618).send(embed)
         return result
