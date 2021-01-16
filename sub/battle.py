@@ -99,7 +99,14 @@ async def battle_result(player, mob):
         3:(randint(3,6),random()<=0.05),
         4:(1,True),
         5:(randint(1,2),mob.name in ("モノリス",'ゴールド-モノリス')),
-        6:(randint(3,6),random()<=0.03)}
+        6:(randint(3,6),random()<=0.03),
+        11:(randint(3,6),(random()<=0.05 and mob.lv()%10==0) or mob.type in ("Rare","UltraRare",)),
+        13:(randint(3,6),(random()<=0.05 and mob.lv()%10==0) or mob.type in ("Rare","UltraRare",)),
+        15:(randint(2,5),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("Rare","UltraRare",)),
+        17:(randint(2,5),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("Rare","UltraRare",)),
+        19:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
+        21:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
+    }
     ch = mob.mob
     user = player.user
     result_em = stp_em = item_em = spawn_em = None
