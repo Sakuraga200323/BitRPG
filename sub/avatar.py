@@ -199,10 +199,10 @@ class Player:
         else:
             return pg.fetchdict(f"select item from player_tb where id = {self.user.id};")[0]["item"][target]
 
-    def get_item(self,  target, num):
+    def get_item(self, target, num):
         if target in box.items_name:
             target = box.items_name[target]
-        if not target in box.items_id:
+        if not target in box.items_name.keys():
             return None
         item_num = pg.fetchdict(f"select item from player_tb where id = {self.user.id};")[0]["item"][target]
         try:
@@ -428,7 +428,7 @@ class Mob:
         elif self.type == "Rare":
             exp *= 5
             money *= 5
-        elif self.lv() % 1000 == 0:
+        if self.lv() % 1000 == 0:
             exp *= 100
             money *= 100
         elif self.lv() % 100 == 0:
