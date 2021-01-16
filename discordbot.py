@@ -503,14 +503,15 @@ async def on_message(message):
                 menu_emojis = (
                     "<:status_icon:800039843668426782>",
                     "<:inventory_icon:800039843572482079>",
+                    "<:magic_icon:800062790081052702>",
                     "<:shop_icon:800039843626876938>",
                     "<:rank_icon:800039843882860544>",
                 ) 
                 menu_text = (
-                    "<:status_icon:800039843668426782> [`Status   `]"
+                    "<:status_icon:800039843668426782> [` Status  `]"
                     +"\n<:inventory_icon:800039843572482079> [`Inventory`]"
-                    +"\n<:magic_icon:800062790081052702> [`Magic    `]"
-                    +"\n<:shop_icon:800039843626876938> [`Shop     `]"
+                    +"\n<:magic_icon:800062790081052702> [`  Magic  `]"
+                    +"\n<:shop_icon:800039843626876938> [`  Shop   `]"
                     +"\n<:rank_icon:800039843882860544> [`Rankking `]"
                 )
                 menu_em = discord.Embed(description=menu_text,color=0xebebeb)
@@ -537,7 +538,7 @@ async def on_message(message):
                         if not i.startswith(emoji):
                             menu_text2 += "\n<:off_icon:800041025288405013>"
                         else:
-                            menu_text2 += f'\n{i}.replace(" "," ▶︎")'
+                            menu_text2 += f'\n{i.replace(" "," ▶︎")}'
                     menu_em = discord.Embed(description=menu_text2,color=0xebebeb)
                     await menu_msg.edit(embed=menu_em)
                     if emoji == menu_emojis[0]:
