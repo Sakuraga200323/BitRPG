@@ -533,10 +533,13 @@ async def on_message(message):
                 else:
                     print("menu!")
                     emoji = str(reaction.emoji)
-                    for i in menu_text.split("\n"):
+                    menu_text2 = ""
+                    for i in menu_text.split("\n):
                         if not i.startswith(emoji):
-                            menu_text.replace(i,"\n<:off_icon:800041025288405013>")
-                    menu_em = discord.Embed(description=menu_text,color=0xffffff)
+                            menu_text2 += "\n<:off_icon:800041025288405013>"
+                        else:
+                            menu_text2 += f"\n{i}"
+                    menu_em = discord.Embed(description=menu_text2,color=0xffffff)
                     await menu_msg.edit(embed=menu_em)
                     if emoji == menu_emojis[0]:
                         await status.open_status(m_author, m_ch)
