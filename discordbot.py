@@ -597,7 +597,7 @@ async def on_message(message):
                 em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
                 await m_ch.send(embed=em)
                 try:
-                    re_m = await client.wait_for('message', timeout=60, check=check)
+                    re_m,user = await client.wait_for('message', timeout=60, check=check)
                 except asyncio.TimeoutError:
                     await m_ch.send('答えないんなら次行くね?')
                 else:
