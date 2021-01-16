@@ -319,7 +319,7 @@ async def on_message(message):
             cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
             try:
                 pg.execute(cmd)
-                pg2.execute(cmd2)
+                pg.execute(cmd2)
             except Exception as e:
                 await m_ch.send('type:' + str(type(e)) + '\nargs:' + str(e.args) + '\ne自身:' + str(e))
             else:
