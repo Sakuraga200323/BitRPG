@@ -88,9 +88,9 @@ class Player:
         self.weapons = []
         if not (self.dtd["weapons"] or self.dtd["weapon"]):
             weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
-            weapons_id = "'{" + f"{weapon_id}" +"}'"
+            weapons_id = [weapon_id]
             weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
-            self.pg.execute(f"UPDATE player_tb SET weapon = {weapon_id}, weapons = {weapons_id} where ")
+            self.pg.execute(f"UPDATE player_tb SET weapon = {weapon_id}, weapons = ARRAY{weapons_id} where id = {self.user.id}")
             self.pg.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
         for i in self.dtd["weapons"]:
             box.weapons[i] = weapon(i)
