@@ -174,9 +174,9 @@ async def open_inventory(user,ch):
     else:
         respons = int(msg.content)
         if respons == 1:
-            await i_inventory(user,ch)
+            await i_inventory(player,ch)
         if respons == 2:
-            await w_inventory(user,ch)
+            await w_inventory(player,ch)
 
 
 # STP振り分け #
