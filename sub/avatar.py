@@ -530,9 +530,9 @@ class weapon:
         self.client = client
         self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
         self.id_ = self.dtd["id"]
+        self.player_id_ = self.dtd["id"]
         self.name = self.dtd["name"]
         self.emoji = self.dtd["emoji"]
-        self.img_id_ = self.dtd["img_id"]
         self.rank_ = self.dtd["rank"]
         self.lv_ = self.dtd["lv"]
         self.now_exp_ = self.did["now_exp"]
