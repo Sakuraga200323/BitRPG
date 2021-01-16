@@ -559,10 +559,10 @@ class weapon:
     
     def rank(self,get_int=False):
         if get_int:
-            return self.get_data["rank"]
+            return self.get_data("rank")
         else:
             rank_dict={1:"D",2:"C",3:"B",4:"A",5:"S"}
-            return rank_dict[self.get_data["rank"]]
+            return rank_dict[self.get_data("rank")]
 
     def lv(self, plus=None):
         if isinstance(plus,int):
