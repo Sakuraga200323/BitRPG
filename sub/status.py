@@ -81,7 +81,7 @@ async def open_status(user,ch):
     if p_data.weapon:
         strength_text += f" {p_data.weapon.emoji}+({p_data.weapon.strength()})"
     strength_text += ")"
-    embed.add_field(name=f"Strength", value=value)
+    embed.add_field(name=f"Strength", value=strength_text)
     if p_data.magic_class() == "Armadillo":
         embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()} +10%)")
     else:
