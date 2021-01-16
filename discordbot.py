@@ -70,6 +70,7 @@ pg = Postgres(dsn1)
 pg2 = Postgres(dsn2)
 token = os.environ.get('TOKEN')
 client = discord.Client(intents=discord.Intents.all())
+client.pg = pg
 
 
 other_modules = (
