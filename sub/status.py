@@ -150,9 +150,9 @@ async def open_inventory(user,ch):
             "\n`1.`Item"
             + "\n`2.`Weapon"
     ))
-    iventory_em2 = discord.Embed(description="`該当する番号を半角英数字で送信してください`")
-    msg1 = await ch.send(embed=iventory_em1)
-    msg2 = await ch.send(embed=iventory_em2)
+    inventory_em2 = discord.Embed(description="`該当する番号を半角英数字で送信してください`")
+    msg1 = await ch.send(embed=inventory_em1)
+    msg2 = await ch.send(embed=inventory_em2)
     def check(m):
         if not user.id == m.author.id:return 0
         return 1
