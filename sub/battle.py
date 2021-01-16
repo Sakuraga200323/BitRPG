@@ -163,7 +163,7 @@ async def battle_result(player, mob):
                 drop_item_text += f"{box.items_emoji[id]}×{num} "
             else:
                 if user_is_frontier:
-                    if random() <= 0.01:
+                    if random() <= 0.001:
                         status.get_item(player.user,id,num)
                         drop_item_text += f"(開拓者Bonus!!{box.items_emoji[id]}×{num}) "
         result_em.add_field(name=f"Drop Item",value=f"<@{user.id}>\n>>> {drop_item_text}")
