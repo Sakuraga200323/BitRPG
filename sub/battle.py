@@ -155,7 +155,9 @@ async def battle_result(player, mob):
         # ドロップアイテムfor #
         drop_item_text = ''
         member = guild.get_member(player.ID())
-        user_is_frontier = guild.get_role(799961431536697366) in member.roles
+        user_is_frontier = False
+        if member:
+            user_is_frontier = guild.get_role(799961431536697366) in member.roles
         for id in reward_items:
             num,item_was_droped = reward_items[id]
             if item_was_droped:
