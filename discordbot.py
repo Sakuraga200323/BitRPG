@@ -519,6 +519,8 @@ async def on_message(message):
                 def check_react(r,user):
                     if r.message.id != menu_msg.id:
                         return 0
+                    if user.id != m_author.id:
+                        return 0
                     if str(r.emoji) in menu_emojis:
                         return 0
                     return 1
@@ -527,6 +529,7 @@ async def on_message(message):
                 except asyncio.TimeoutError:
                     await menu_msg.clear_reactions()
                 else:
+                    print("menu!")
                     emoji = str(reaction.emoji)
                     for i in menu_text.split("\n"):
                         if not i.startswith(emoji):
