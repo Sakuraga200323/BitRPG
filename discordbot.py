@@ -590,8 +590,6 @@ async def on_message(message):
             else:
                 ctt = remsg.content
                 try:
-                    if ctt in ("close","Close","end","End"):
-                        break
                     if ctt.startswith("psql"):
                         PG = pg
                         if ctt.startswith("psql2 "):
