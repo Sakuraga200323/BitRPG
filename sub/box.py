@@ -1,6 +1,7 @@
 # ※全要素をkey->idで管理するように!!
 players = {}
 mobs = {}
+weapons = {}
 
 # デバフ　バフ系
 stun = {}
