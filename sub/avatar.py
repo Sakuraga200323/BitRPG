@@ -569,12 +569,14 @@ class weapon:
             result = self.plus('lv', plus)
         else:
             result = self.get_data('lv')
+        return result
 
     def limit_lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('limit_lv', plus)
         else:
             result = self.get_data('limit_lv')
+        return result
 
     def now_exp(self,num):
         if isinstance(plus,int):
