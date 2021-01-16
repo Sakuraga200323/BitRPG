@@ -519,13 +519,13 @@ async def on_message(message):
                 def check_react(r,user):
                     if r.message.id != menu_msg.id:
                         return 0
-                    prtin("1")
+                    print("1")
                     if user.id != m_author.id:
                         return 0
-                    prtin("2")
+                    print("2")
                     if str(r.emoji) in menu_emojis:
                         return 0
-                    prtin("3")
+                    print("3")
                     return 1
                 try:
                     reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
