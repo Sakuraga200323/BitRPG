@@ -121,8 +121,8 @@ async def open_status(user,ch):
 
 
 # インベントリ #
-async def i_inventory(user,ch):
-    item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
+async def i_inventory(player,ch):
+    item_dtd = pg.fetchdict(f"select item from player_tb where id = {player.user.id};")[0]["item"]
     text = "`ID.アイテム名　　`┃`所持数`\n"
     for (item_name,item_emoji) in zip((box.items_name.values()),list(box.items_emoji.values())):
         if not item_dtd[item_name] == 0:
@@ -133,7 +133,7 @@ async def i_inventory(user,ch):
 
 
 # ウェポンインベントリ #
-async def w_inventory(user,ch):
+async def w_inventory(player,ch):
     em = discord.Embed(title="Weapon Inventory Bord")
     for weapon in player.weapons:
         if weapon.id == player.weapon.id:
