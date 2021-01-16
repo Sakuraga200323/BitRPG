@@ -314,8 +314,10 @@ async def on_message(message):
             weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
             weapons_id = "'{" + f"{weapon_id}" +"}'"
             weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
-            cmd = (f"INSERT INTO player_tb (id,magic_class,weapon,weapons) VALUES ({m_author.id},{respons},{weapon_id},{weapons_id});")
-            cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji_id,rank) VALUES ({weapon_id},{m_author.id},'{weapon_name}',{list(box.shop_weapons.keys()).index(weapon_name)},2);")
+            item_jsonb = '{"冒険者カード":1,"HP回復薬":10,"MP回復薬":10,"HP全回復薬":1,"MP全回復薬":1,"魔石":1,"魂の焔":0,"砥石":0,"魔晶":0,"魔硬貨":0,"獲得Exp増加薬":0,"キャラメル鉱石":0,"ブラッド鉱石":0,"ゴールド鉱石":0,"ダーク鉱石":0,"ミスリル鉱石":0,"オリハルコン鉱石":0,"キャラメル鋼":0,"ブラッド鋼":0,"ゴールド鋼":0,"ダーク鋼":0,"ミスリル鋼":0,"オリハルコン鋼":0}'
+            item_jsonb = item_jsonb.replace('"',"'")
+            cmd = (f'INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},"{item_jsonb}",{weapon_id},{weapons_id});')
+            cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},'{weapon_name}','{list(box.shop_weapons[weapon_name][0]}',2);")
             try:
                 pg.execute(cmd)
                 pg2.execute(cmd2)
