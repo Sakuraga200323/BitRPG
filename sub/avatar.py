@@ -576,7 +576,7 @@ class weapon:
         else:
             result = self.get_data('limit_lv')
 
-    def now_exp(self,num)
+    def now_exp(self,num):
         if isinstance(plus,int):
             result = self.plus('now_exp', plus)
         else:
