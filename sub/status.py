@@ -118,16 +118,66 @@ async def open_status(user,ch):
     await log_ch.send(embed=embed)
 
 
+
+
 # インベントリ #
-async def open_inventory(user,ch):
+async def i_inventory(user,ch):
     item_dtd = pg.fetchdict(f"select item from player_tb where id = {user.id};")[0]["item"]
     text = "`ID.アイテム名　　`┃`所持数`\n"
     for (item_name,item_emoji) in zip((box.items_name.values()),list(box.items_emoji.values())):
         if not item_dtd[item_name] == 0:
             item_id = box.items_id[item_name]
             text += f"`{item_id:<2}.`{item_emoji}`{change_abc(item_name):　<6}`┃`{item_dtd[item_name]}`\n"
-    embed = discord.Embed(title="Player Inventory Bord",description=f"{text}")
+    embed = discord.Embed(title="Item Inventory Bord",description=f"{text}")
     await ch.send(embed=embed)
+
+
+# ウェポンインベントリ #
+async def w_inventory(user,ch):
+    em = discord.Embed(title="Weapon Inventory Bord")
+    for weapon in player.weapons:
+        if weapon.id == player.weapon.id:
+            em.add_field(name=f"{weapon.emoji_}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+        else:
+            em.add_field(name=f"{weapon.emoji_}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+    await ch.send(embed=embed)
+
+
+async def open_inventory(user.ic):
+    player = box.players[user.id]
+    inventory_em1 = discord.Embed(
+        title="Inventory",
+        description=(
+            "\n`1.`Item"
+            + "\n`2.`Weapon"
+    ))
+    nventory_em2 = discord.Embed(description="`該当する番号を半角英数字で送信してください`")
+    msg1 = await ch.send(embed=nventory_em1)
+    msg2 = await ch.send(embed=nventory_em2)
+    def check(m):
+        if not user.id == m.author.id:return 0
+        return 1
+    def check2(m):
+        if not user.id == m.author.id:return 0
+        if not m.content in ("y","Y","n","N"):return 0
+        return 1
+    def check3(m):
+        if not user.id == m.author.id:return 0
+        if not m.content.isdigit():return 0
+        return 1
+    try:
+        msg = await client.wait_for("message", timeout=60, check=check3)
+        await msg.delete()
+        await msg2.delete()
+    except asyncio.TimeoutError:
+        em = discord.Embed(description=f"指定がないので処理を終了しました")
+        await shop_msg2.edit(embed=em)
+    else:
+        respons = int(msg.content)
+        if respons == 1:
+            await i_inventory(user,ch)
+        if respons == 2:
+            await w_inventory(user,ch)
 
 
 # STP振り分け #
