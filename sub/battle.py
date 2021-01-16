@@ -155,7 +155,7 @@ async def battle_result(player, mob):
         result_em.add_field(name=f"Drop Item",value=f"<@{user.id}>\n>>> {drop_item_text}")
         if random() <= 0.001:
             player.now_stp(500)
-            result_em.add_field(name=f"Lucky Bonus",value=f"<@{user.id}>\n>>> STP+{mob.lv()}")
+            result_em.add_field(name=f"Lucky Bonus",value=f"<@{user.id}>\n>>> STP+500")
         if mob.lv() % 100 == 0:
             player.money(1000)
             result_em.add_field(name=f"Last Attack Bonus",value=f"<@{user.id}>\n>>> Cell+1000")
@@ -168,7 +168,7 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
+def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name} はやられてしまった"
@@ -209,13 +209,6 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0,parry=False):
             if random() <= 0.05:
                 a_strength *= 5
                 irregular_text += '\n┣━ クリティカルヒット！ (Strength500%)'
-            elif parry:
-                if not a.ID() in box.stun:
-                    box.stun[a.ID()] = 0
-                box.stun[a.ID()] += 1
-                a_strength *= 0.1
-                a_strength = int(a_strength)
-                irregular_text += f"\n┣━ {b.name} が攻撃をParry! (Strength10%)\n┣━ Stunのターン数を1増加！ (Stun×{box.stun[a_id]})"
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0), 0.75) and not b.ID() in box.fleez:
                 if b.ID() in box.stun:
                     if random() <= 0.5:
