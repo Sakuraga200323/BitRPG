@@ -170,7 +170,6 @@ async def magic_4(player,mob):
         await ch.send(embed=em)
         return
     players = mob.battle_players
-    players.remove(player.ID())
     if players == []:
         em=discord.Embed(description="回復出来る人が居ないようだ…")
         await ch.send(embed=em)
