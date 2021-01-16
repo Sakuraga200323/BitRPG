@@ -84,6 +84,13 @@ class Player:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
         self.battle_ch = None
         self.name = str(self.user)
+        self.weapon = None
+        self.weapons = []
+        for i in self.dtd["weapons"]:
+            box.weapons[i] = weapon(i)
+            self.weapons.append(box.weapons[i])
+            if i == self.dtd["weapon"]:
+                self.weapon = box.weapons[i]
             
 
     def ID(self):
@@ -138,6 +145,7 @@ class Player:
     def STR(self):
         magic_class = self.dtd["magic_class"]
         if magic_class == 1: return int((self.str()+self.str_p())*1.1)
+        if self.weapon: return int((self.str()+self.str_p())*1.1) + self.weapon.strength()
         else: return self.str()+self.str_p()
 
     def defe(self):
@@ -512,14 +520,11 @@ class weapon:
     )
     """
 
-    def __init__(self, client, id):
-        self.user = client.get_user(id)
-        if not self.user:
-            print(f"Playerデータ取得失敗: {id}のuserがNone。")
-            return
+    def __init__(self,id):
+        
         self.pg = client.pg
         self.client = client
-        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {self.user.id};")[0]
+        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
         self.id_ = self.dtd["id"]
         self.name = self.dtd["name"]
         self.emoji = self.dtd["emoji"]
@@ -549,8 +554,5 @@ class weapon:
         return self.lv_
 
     def strength(self,x=False):
-        str_x = 1
-        if x:
-            rank_dict = { 1:0.5, 2:0.75, 3:1.0, 4:1.25, 5:1.5, }
-            str_x = rank_dict[self.rank_]
+        str_x = rank_dict[self.rank_]
         return int(self.lv()*5*str_x)
