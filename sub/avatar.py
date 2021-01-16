@@ -500,14 +500,15 @@ class Mob:
 
 class weapon:
     """
-    psql2 create table weapon_tb (
+    psql１ create table weapon_tb(
         id bigint primary key,
+        player_id bigint,
         name text,
-        img_id bigint,
+        emoji text,
         rank int,
-        lv bigint,
-        now_exp bigint,
-        limit_lv bigint
+        lv bigint default 1,
+        now_exp bigint default 0,
+        limit_lv bigint default 1000
     )
     """
 
@@ -516,11 +517,12 @@ class weapon:
         if not self.user:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
             return
-        self.pg = client.pg2
+        self.pg = client.pg
         self.client = client
         self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {self.user.id};")[0]
         self.id_ = self.dtd["id"]
         self.name = self.dtd["name"]
+        self.emoji = self.dtd["emoji"]
         self.img_id_ = self.dtd["img_id"]
         self.rank_ = self.dtd["rank"]
         self.lv_ = self.dtd["lv"]
@@ -546,9 +548,9 @@ class weapon:
         self.lv_ =  self.get_data("lv")
         return self.lv_
 
-    def strenftg(self,x=False):
+    def strength(self,x=False):
         str_x = 1
         if x:
             rank_dict = { 1:0.5, 2:0.75, 3:1.0, 4:1.25, 5:1.5, }
             str_x = rank_dict[self.rank_]
-        return self.lv()*5*str_x
+        return int(self.lv()*5*str_x)
