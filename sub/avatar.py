@@ -50,7 +50,7 @@ def set_client(c,pg):
     client = c
     pg = pg
 
-
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 class Player:
     def __init__(self, client, id):
         self.user = client.get_user(id)
@@ -58,6 +58,7 @@ class Player:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
             return
         self.pg = pg
+        self.pg2 = client.pg2
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         data_list = [
@@ -91,7 +92,7 @@ class Player:
             weapons_id = [weapon_id]
             weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
             self.pg.execute(f"UPDATE player_tb SET weapon = {weapon_id}, weapons = ARRAY{weapons_id} where id = {self.user.id}")
-            self.pg.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
+            self.pg2.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
         for i in self.dtd["weapons"]:
             box.weapons[i] = weapon(i)
             self.weapons.append(box.weapons[i])
@@ -342,10 +343,135 @@ class Player:
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
 
-#➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
+
+    def create_weapon(self,name,emoji,rank):
+        weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
+        self.pg2.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',rank);")
+        box.weapons[weapon_id] = Weapon(weapon_id)
+        weapon = box.weapons[weapon_id]
+        weapon.set_owner(self)
+        player.get_weapon(weapon)
+        return weapon
+
+
+    def get_weapon(self,weapon):
+        if len(player.weapons) < 5:
+            weapon.set_player(self)
+
+
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
+class Weapon:
+    """
+    psql2 create table weapon_tb(
+        id bigint primary key,
+        player_id bigint,
+        name text,
+        emoji text,
+        rank int,
+        lv bigint default 1,
+        now_exp bigint default 0,
+        limit_lv bigint default 1000
+    )
+    """
+
+    def __init__(self,id):
+        
+        self.pg = client.pg2
+        self.client = client
+        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
+        self.id_ = self.dtd["id"]
+        self.player_id_ = self.dtd["id"]
+        self.name = self.dtd["name"]
+        self.emoji = self.dtd["emoji"]
+        self.rank_ = self.dtd["rank"]
+        self.lv_ = self.dtd["lv"]
+        self.now_exp_ = self.dtd["now_exp"]
+        self.limit_lv_ = self.dtd["limit_lv"]
+
+    def get_data(self, target):
+        return pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
+    def update_data(self, target, value):
+        if target == 'id':
+            return None
+        else:
+            pg.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
+            return self.get_data(target)
+    def plus(self, target, plus):
+        if target == 'id':
+            return None
+        else:
+            if plus < 0:
+                pg.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
+            else:
+                pg.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
+            return self.get_data(target)
+
+    # レベル取得
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            self.lv_ = self.plus('lv', plus)
+        self.lv_ =  self.get_data("lv")
+        return self.lv_
+    
+    def rank(self,get_int=False):
+        if get_int:
+            return self.get_data("rank")
+        else:
+            rank_dict={1:"D",2:"C",3:"B",4:"A",5:"S"}
+            return rank_dict[self.get_data("rank")]
+
+    def lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('lv', plus)
+        else:
+            result = self.get_data('lv')
+        return result
+
+    def limit_lv(self, plus=None):
+        if isinstance(plus,int):
+            result = self.plus('limit_lv', plus)
+        else:
+            result = self.get_data('limit_lv')
+        return result
+
+    def player_id(self, set_owner=None):
+        if set_owner.ID() in box.players:
+            self.update_data('player_id',set_owner.ID())   
+        return self.get_data('player_id')
+
+    def set_owner(self,player):
+        self.player_id(set_owner=player)
+        player.weapons_id = [ i.id_ for i in player.weapons()]
+        pg.execute(f'update player_tb set weapons = ARRAY({player.weapons_id}) where id = {player.ID()}')
+
+    def now_exp(self,num):
+        if isinstance(plus,int):
+            result = self.plus('now_exp', plus)
+        else:
+            result = self.get_data('now_exp')
+
+    def get_exp(self, exp):
+        exp = int(exp)
+        lvup_count = 0
+        now_exp = self.now_exp()
+        lv = self.lv()
+        while now_exp >= lv and self.limit_lv() > lv:
+            lvup_count += 1
+            lv += 1
+            now_exp -= lv
+        if lvup_count > 0:
+            self.lv(lvup_count)
+            self.now_exp(now_exp-self.now_exp())
+        return lvup_count
+
+    def strength(self,x=False):
+        rank_dict={1:0.5,2:0.75,3:1.0,4:1.25,5:1.5}
+        str_x = rank_dict[self.rank(get_int=True)]
+        return int(self.lv()*5*str_x)
 
 
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 class Mob:
     # id,lv
     def __init__(self, client, id):
@@ -507,98 +633,3 @@ class Mob:
         self.now_defe = self.max_defe = self.dtd["lv"] * 10
         self.battle_players = []
         return self.spawn()
-
-
-
-class weapon:
-    """
-    psql１ create table weapon_tb(
-        id bigint primary key,
-        player_id bigint,
-        name text,
-        emoji text,
-        rank int,
-        lv bigint default 1,
-        now_exp bigint default 0,
-        limit_lv bigint default 1000
-    )
-    """
-
-    def __init__(self,id):
-        
-        self.pg = client.pg
-        self.client = client
-        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
-        self.id_ = self.dtd["id"]
-        self.player_id_ = self.dtd["id"]
-        self.name = self.dtd["name"]
-        self.emoji = self.dtd["emoji"]
-        self.rank_ = self.dtd["rank"]
-        self.lv_ = self.dtd["lv"]
-        self.now_exp_ = self.dtd["now_exp"]
-        self.limit_lv_ = self.dtd["limit_lv"]
-
-    def get_data(self, target):
-        return pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
-    def plus(self, target, plus):
-        if target == 'id':
-            return None
-        else:
-            if plus < 0:
-                pg.execute(f'update mob_tb set {target}={target}{plus} where id = {self.id_};')
-            else:
-                pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.id_};')
-            return self.get_data(target)
-
-    # レベル取得
-    def lv(self, plus=None):
-        if isinstance(plus,int):
-            self.lv_ = self.plus('lv', plus)
-        self.lv_ =  self.get_data("lv")
-        return self.lv_
-    
-    def rank(self,get_int=False):
-        if get_int:
-            return self.get_data("rank")
-        else:
-            rank_dict={1:"D",2:"C",3:"B",4:"A",5:"S"}
-            return rank_dict[self.get_data("rank")]
-
-    def lv(self, plus=None):
-        if isinstance(plus,int):
-            result = self.plus('lv', plus)
-        else:
-            result = self.get_data('lv')
-        return result
-
-    def limit_lv(self, plus=None):
-        if isinstance(plus,int):
-            result = self.plus('limit_lv', plus)
-        else:
-            result = self.get_data('limit_lv')
-        return result
-
-    def now_exp(self,num):
-        if isinstance(plus,int):
-            result = self.plus('now_exp', plus)
-        else:
-            result = self.get_data('now_exp')
-
-    def get_exp(self, exp):
-        exp = int(exp)
-        lvup_count = 0
-        now_exp = self.now_exp()
-        lv = self.lv()
-        while now_exp >= lv and self.limit_lv() > lv:
-            lvup_count += 1
-            lv += 1
-            now_exp -= lv
-        if lvup_count > 0:
-            self.lv(lvup_count)
-            self.now_exp(now_exp-self.now_exp())
-        return lvup_count
-
-    def strength(self,x=False):
-        rank_dict={1:0.5,2:0.75,3:1.0,4:1.25,5:1.5}
-        str_x = rank_dict[self.rank(get_int=True)]
-        return int(self.lv()*5*str_x)
