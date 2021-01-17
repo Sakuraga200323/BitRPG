@@ -144,7 +144,7 @@ async def battle_result(player, mob):
             if member:
                 for role in roles[:-1]:
                     if role in member.roles:
-                        EXP += (exp*1.1)
+                        EXP += (exp*0.1)
             EXP = int(EXP)
             up_exp, up_lv = p.get_exp(EXP)
             p.kill_count(1)
