@@ -323,7 +323,8 @@ async def on_message(message):
                 "コークス":0,"カーボンプレート":0,
                 "ハンマー":0
             }).replace("'",'"')
-            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{item_jsonb}',NULL,'{}';")
+            temp = '{}'
+            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{item_jsonb}',NULL,'{temp}';")
             try:
                 pg.execute(cmd)
             except Exception as e:
