@@ -136,7 +136,7 @@ async def battle_result(player, mob):
             '<@&763404511318245416>',
             '<@&799961431536697366>',
         )
-        roles = tuple([ discord.utils.get(guild.role,mention=i) for i in roles_mention])
+        roles = tuple([ discord.utils.get(guild.roles,mention=i) for i in roles_mention])
         for p_id in mob.battle_players:
             p = box.players[p_id]
             EXP = exp
