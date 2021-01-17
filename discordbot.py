@@ -313,9 +313,6 @@ async def on_message(message):
                             await m_ch.send(embed=msg_em)
             if not magic_type_flag == True:
                 return
-            weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
-            weapons_id = "'{" + f"{weapon_id}" +"}'"
-            weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
             item_jsonb = str({
                 "冒険者カード":1,
                 "HP回復薬":10,"MP回復薬":10,"HP全回復薬":1,"MP全回復薬":1,
@@ -326,11 +323,9 @@ async def on_message(message):
                 "コークス":0,"カーボンプレート":0,
                 "ハンマー":0
             }).replace("'",'"')
-            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{item_jsonb}',{weapon_id},{weapons_id});")
-            cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
+            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{item_jsonb}',NULL,'{}';")
             try:
                 pg.execute(cmd)
-                pg.execute(cmd2)
             except Exception as e:
                 await m_ch.send('type:' + str(type(e)) + '\nargs:' + str(e.args) + '\ne自身:' + str(e))
             else:
