@@ -646,87 +646,86 @@ async def on_message(message):
                 if m.channel.id != m_ch.id: return 0
                 return 1
             while not client.is_closed:
+                await m_ch.send("＊　＊　＊　＊")
                 try:
                     remsg = await client.wait_for("message", check=check)
                 except:
-                    pass
+                    break
                 else:
                     ctt = remsg.content
-                    try:
-                        if ctt == 'close':
-                            break
-                        if ctt.startswith("psql"):
-                            PG = pg
-                            if ctt.startswith("psql2 "):
-                                PG = pg2
-                                cmd = ctt.split("psql2 ")[1]
-                            elif ctt.startswith("psql1 "):
-                                cmd = ctt.split("psql1 ")[1]
-                            result = None
-                            if "select" in cmd:
-                                result = f"{PG.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                    if ctt == 'close':
+                        break
+                    if ctt.startswith("psql"):
+                        PG = pg
+                        if ctt.startswith("psql2 "):
+                            PG = pg2
+                            cmd = ctt.split("psql2 ")[1]
+                        elif ctt.startswith("psql1 "):
+                            cmd = ctt.split("psql1 ")[1]
+                        result = None
+                        if "select" in cmd:
+                            result = f"{PG.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                        else:
+                            try:
+                                PG.execute(cmd)
+                            except Exception as error:
+                                result = f"{error}"
                             else:
-                                try:
-                                    PG.execute(cmd)
-                                except Exception as error:
-                                    result = f"{error}"
-                                else:
-                                    result = True
-                            await m_ch.send(f"```::DATABASE=> {cmd}```")
-                            await m_ch.send(f"```py\n{result}```")
+                                result = True
+                        await m_ch.send(f"```::DATABASE=> {cmd}```")
+                        await m_ch.send(f"```py\n{result}```")
 
-                        if ctt.startswith("player "):
-                            pattern = r"^player (.+) (get_exp|lv|damaged|get_data|plus|get_item) (.+)"
-                            result = re.match(pattern, ctt)
-                            target_user = None
-                            cmd = None
-                            arg = None
-                            if result:
-                                user_key = result.group(1)
-                                cmd = result.group(2)
-                                arg = result.group(3)
-                                if not user_key.isdigit():
-                                    target_user = discord.utils.get(m_guild.member,mention=user_key)
-                                else:
-                                    target_user = client.get_user(int(user_key))
-                                if target_user is None:
-                                    await m_ch.send(f"```Player[{user_key}] is None```")
-                                    return
-                                player = box.players[target_user.id]
-                                if cmd == "get_exp":
-                                    pattern = r"^(\d+)"
-                                    result = re.match(pattern, arg)
-                                    if result:
-                                        exp = int(result.group(1))
-                                        lvup_count = player.get_exp(int(exp))[1]
-                                        await m_ch.send(f"```{target_user} Exp+{int(exp)} NowLv{player.lv()}```")
-                                if cmd == "lv":
-                                    pattern = r"^(\d+)"
-                                    result = re.match(pattern, arg)
-                                    if result:
-                                        lv = player.lv() - int(result.group(1))
-                                        await m_ch.send(f"```{target_user} NowLv{player.lv(lv)}```")
-                                if cmd == "damaged":
-                                    pattern = r"^(\d+)"
-                                    result = re.match(pattern, arg)
-                                    if result:
-                                        set = player.damaged(int(result.group(1)))
-                                        await m_ch.send(f"```{target_user} {set[0]}Damaged NowDefense{set[1]} HP({player.now_hp}/{player.max_hp})```")
-                                if cmd == "get_data":
-                                    result = player.get_data(arg)
-                                    await ch.send("```py\nplayer.{arg} = {result}```")
-                                if cmd == "get_item":
-                                    pattern = r"^(.+) (\d+)"
-                                    result = re.match(pattern, arg)
-                                    if result:
-                                        item_name,num = result.group(0),int(result.group(1))
-                                        result2 = player.get_item(item_name,num)
-                                        if result2:
-                                            await ch.send("{target_user} got {item_name}x{num}")
+                    if ctt.startswith("player "):
+                        pattern = r"^player (.+) (get_exp|lv|damaged|get_data|plus|get_item) (.+)"
+                        result = re.match(pattern, ctt)
+                        target_user = None
+                        cmd = None
+                        arg = None
+                        if result:
+                            user_key = result.group(1)
+                            cmd = result.group(2)
+                            arg = result.group(3)
+                            if not user_key.isdigit():
+                                target_user = discord.utils.get(m_guild.member,mention=user_key)
+                            else:
+                                target_user = client.get_user(int(user_key))
+                            if target_user is None:
+                                await m_ch.send(f"```Player[{user_key}] is None```")
+                                return
+                            player = box.players[target_user.id]
+                            if cmd == "get_exp":
+                                pattern = r"^(\d+)"
+                                result = re.match(pattern, arg)
+                                if result:
+                                    exp = int(result.group(1))
+                                    lvup_count = player.get_exp(int(exp))[1]
+                                    await m_ch.send(f"```{target_user} Exp+{int(exp)} NowLv{player.lv()}```")
+                            if cmd == "lv":
+                                pattern = r"^(\d+)"
+                                result = re.match(pattern, arg)
+                                if result:
+                                    lv = player.lv() - int(result.group(1))
+                                    await m_ch.send(f"```{target_user} NowLv{player.lv(lv)}```")
+                            if cmd == "damaged":
+                                pattern = r"^(\d+)"
+                                result = re.match(pattern, arg)
+                                if result:
+                                    set = player.damaged(int(result.group(1)))
+                                    await m_ch.send(f"```{target_user} {set[0]}Damaged NowDefense{set[1]} HP({player.now_hp}/{player.max_hp})```")
+                            if cmd == "get_data":
+                                result = player.get_data(arg)
+                                await ch.send("```py\nplayer.{arg} = {result}```")
+                            if cmd == "get_item":
+                                pattern = r"^(.+) (\d+)"
+                                result = re.match(pattern, arg)
+                                if result:
+                                    item_name,num = result.group(0),int(result.group(1))
+                                    result2 = player.get_item(item_name,num)
+                                    if result2:
+                                        await ch.send("{target_user} got {item_name}x{num}")
 
 
-                    finally:
-                        await m_ch.send("*Completed. System was already closed.*")
+            await m_ch.send("*Completed. System was already closed.*")
 
 
 
