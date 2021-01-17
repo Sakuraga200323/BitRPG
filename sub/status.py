@@ -129,8 +129,7 @@ async def i_inventory(player,ch):
             item_id = box.items_id[item_name]
             text += f"`{item_id:<2}.`{item_emoji}`{change_abc(item_name):　<6}`┃`{item_dtd[item_name]}`\n"
     embed = discord.Embed(title="Item Inventory Bord",description=f"{text}")
-    await ch.send(embed=embed)
-
+    await ch.send(embed=em)
 
 # ウェポンインベントリ #
 async def w_inventory(player,ch):
@@ -140,7 +139,7 @@ async def w_inventory(player,ch):
             em.add_field(name=f"{weapon.emoji}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
         else:
             em.add_field(name=f"{weapon.emoji}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
-    await ch.send(embed=embed)
+    await ch.send(embed=em)
 
 async def open_inventory(user,ch):
     player = box.players[user.id]
