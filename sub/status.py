@@ -128,7 +128,7 @@ async def i_inventory(player,ch):
         if not item_dtd[item_name] == 0:
             item_id = box.items_id[item_name]
             text += f"`{item_id:<2}.`{item_emoji}`{change_abc(item_name):　<6}`┃`{item_dtd[item_name]}`\n"
-    embed = discord.Embed(title="Item Inventory Bord",description=f"{text}")
+    em = discord.Embed(title="Item Inventory Bord",description=f"{text}")
     await ch.send(embed=em)
 
 # ウェポンインベントリ #
