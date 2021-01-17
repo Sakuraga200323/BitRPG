@@ -445,7 +445,7 @@ class Weapon:
 
     def set_owner(self,player):
         self.player_id(set_owner=player)
-        player.weapons_id = [ i.id_ for i in player.weapons()]
+        player.weapons_id = [ i.id_ for i in player.weapons]
         self.pg.execute(f'update player_tb set weapons = ARRAY({player.weapons_id}) where id = {player.ID()}')
 
     def now_exp(self,num):
