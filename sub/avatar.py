@@ -350,7 +350,7 @@ class Player:
 
     def create_weapon(self,name,emoji,rank):
         weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
-        self.pg2.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',rank);")
+        self.pg2.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank});")
         box.weapons[weapon_id] = Weapon(weapon_id)
         weapon = box.weapons[weapon_id]
         weapon.set_owner(self)
