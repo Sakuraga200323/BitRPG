@@ -87,6 +87,7 @@ class Player:
         self.name = str(self.user)
         self.weapon_id = self.dtd['weapon']
         self.weapons_id = list(self.dtd['weapons'])
+        print(self.weapons_id)
         if self.weapons_id == [] or not self.weapon_id:
             self.weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
             self.weapons_id = [self.weapon_id]
@@ -120,6 +121,20 @@ class Player:
             else:
                 pg.execute(f'update player_tb set {target}={target}+{plus} where id = {self.user.id};')
             return self.get_data(target)
+
+    def create_weapon(self,name,emoji,rank):
+        weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
+        client.pg2.execute(f"INSERT INTO weapon_tb VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank}),1,0,1000;")
+        box.weapons[weapon_id] = Weapon(weapon_id)
+        weapon = box.weapons[weapon_id]
+        weapon.set_owner(self)
+        player.get_weapon(weapon)
+        return weapon
+
+
+    def get_weapon(self,weapon):
+        if len(player.weapons) < 5:
+            weapon.set_player(self)
 
     # レベル取得
     def lv(self, plus=None):
@@ -347,20 +362,6 @@ class Player:
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
 
-
-    def create_weapon(self,name,emoji,rank):
-        weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
-        client.pg2.execute(f"INSERT INTO weapon_tb VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank}),1,0,1000;")
-        box.weapons[weapon_id] = Weapon(weapon_id)
-        weapon = box.weapons[weapon_id]
-        weapon.set_owner(self)
-        player.get_weapon(weapon)
-        return weapon
-
-
-    def get_weapon(self,weapon):
-        if len(player.weapons) < 5:
-            weapon.set_player(self)
 
 
 #🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
