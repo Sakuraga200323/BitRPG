@@ -86,7 +86,7 @@ class Player:
         self.battle_ch = None
         self.name = str(self.user)
         self.weapon = None
-        self.weapons = []
+        self.weapons = list(self.dtd['weapons'])
         if not (self.dtd["weapons"] or self.dtd["weapon"]):
             weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
             weapons_id = [weapon_id]
