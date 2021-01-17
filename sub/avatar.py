@@ -379,10 +379,9 @@ class Weapon:
     """
 
     def __init__(self,id):
-        
         self.pg = client.pg2
         self.client = client
-        self.dtd = pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
+        self.dtd = self.pg.fetchdict(f"select * from weapon_tb where id = {id};")[0]
         self.id_ = self.dtd["id"]
         self.player_id_ = self.dtd["id"]
         self.name = self.dtd["name"]
@@ -393,21 +392,21 @@ class Weapon:
         self.limit_lv_ = self.dtd["limit_lv"]
 
     def get_data(self, target):
-        return pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
+        return self.pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
     def update_data(self, target, value):
         if target == 'id':
             return None
         else:
-            pg.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
+            self.pg.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
             return self.get_data(target)
     def plus(self, target, plus):
         if target == 'id':
             return None
         else:
             if plus < 0:
-                pg.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
+                self.pg.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
             else:
-                pg.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
+                self.pg.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
             return self.get_data(target)
 
     # レベル取得
@@ -446,7 +445,7 @@ class Weapon:
     def set_owner(self,player):
         self.player_id(set_owner=player)
         player.weapons_id = [ i.id_ for i in player.weapons()]
-        pg.execute(f'update player_tb set weapons = ARRAY({player.weapons_id}) where id = {player.ID()}')
+        self.pg.execute(f'update player_tb set weapons = ARRAY({player.weapons_id}) where id = {player.ID()}')
 
     def now_exp(self,num):
         if isinstance(plus,int):
