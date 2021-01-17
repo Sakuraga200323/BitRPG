@@ -133,13 +133,13 @@ async def battle_result(player, mob):
             if member:
                 user_is_special = guild.get_role(763404511318245416) in member.roles
                 if user_is_special:
-                    EXP += int(exp*0.25)
+                    EXP += int(mob.lv()*0.25)
                 user_is_nitro = guild.get_role(763359264672579605) in member.roles
                 if user_is_nitro:
-                    EXP += int(exp*0.25)
+                    EXP += int(mob.lv()*0.25)
                 user_is_gold = guild.get_role(763409546424352769) in member.roles
                 if user_is_gold:
-                    EXP += int(exp*0.25)
+                    EXP += int(mob.lv()*0.25)
             up_exp, up_lv = p.get_exp(EXP)
             p.kill_count(1)
             p.money(money)
