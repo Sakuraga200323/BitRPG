@@ -645,7 +645,7 @@ async def on_message(message):
                 if m.author.id != m_author.id: return 0
                 if m.channel.id != m_ch.id: return 0
                 return 1
-            while not client.is_closed:
+            while True:
                 await m_ch.send("＊　＊　＊　＊")
                 try:
                     remsg = await client.wait_for("message", check=check)
