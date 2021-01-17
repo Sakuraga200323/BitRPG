@@ -688,9 +688,9 @@ async def on_message(message):
                             if not user_key.isdigit():
                                 target_user = discord.utils.get(m_guild.member,mention=user_key)
                             else:
-                                target_user = client.get_user(user_key)
+                                target_user = client.get_user(int(user_key))
                             if target_user is None:
-                                await m_ch.send(f"```Player is None```")
+                                await m_ch.send(f"```Player[{user_key}] is None```")
                                 return
                             player = box.players[target_user.id]
                             if cmd == "get_exp":
@@ -719,7 +719,7 @@ async def on_message(message):
                                 pattern = r"^(.+) (\d+)"
                                 result = re.match(pattern, arg)
                                 if result:
-                                    item_name,num = result.group(0),result.group(1)
+                                    item_name,num = result.group(0),int(result.group(1))
                                     result2 = player.get_item(item_name,num)
                                     if result2:
                                         await ch.send("{target_user} got {item_name}x{num}")
