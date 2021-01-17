@@ -126,20 +126,26 @@ async def battle_result(player, mob):
             exp *= 16
             await ch.send("????『幸運を。死したものより祝福を。』")
         print(f"『{mob.name}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
+        roles_mention = (
+            '<@&800263879607189515>', 
+            '<@&800262422774415381>',
+            '<@&763409546424352769>',
+            '<@&800261859927654401>',
+            '<@&800261583732604928>',
+            '<@&763359264672579605>',
+            '<@&763404511318245416>',
+            '<@&799961431536697366>',
+        )
+        roles = tuple([ discord.utils.get(guild.role,mention=i) for i in roles_mention])
         for p_id in mob.battle_players:
             p = box.players[p_id]
             EXP = exp
             member = guild.get_member(p_id)
             if member:
-                user_is_special = guild.get_role(763404511318245416) in member.roles
-                if user_is_special:
-                    EXP += int(mob.lv()*0.25)
-                user_is_nitro = guild.get_role(763359264672579605) in member.roles
-                if user_is_nitro:
-                    EXP += int(mob.lv()*0.25)
-                user_is_gold = guild.get_role(763409546424352769) in member.roles
-                if user_is_gold:
-                    EXP += int(mob.lv()*0.25)
+                for role in roles[:-1]:
+                    if role in member.roles:
+                        EXP += (exp*1.1)
+            EXP = int(EXP)
             up_exp, up_lv = p.get_exp(EXP)
             p.kill_count(1)
             p.money(money)
@@ -157,7 +163,7 @@ async def battle_result(player, mob):
         member = guild.get_member(player.ID())
         user_is_frontier = False
         if member:
-            user_is_frontier = guild.get_role(799961431536697366) in member.roles
+            user_is_frontier = roles[-1] in member.roles
         for id in reward_items:
             num,item_was_droped = reward_items[id]
             if item_was_droped:
