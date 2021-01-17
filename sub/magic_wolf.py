@@ -89,7 +89,7 @@ async def magic_2(player,mob):
     # 戦闘処理（Player後手） #
     text1 = battle.create_battle_text(mob,player)
     if player.now_hp > 0:
-        player.magic_lv()
+        player.magic_lv(1)
         player.cut_mp(100)
         text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",str_up_num=up_num)
     else:
