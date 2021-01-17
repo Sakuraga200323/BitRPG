@@ -381,7 +381,10 @@ class Weapon:
     def __init__(self,id):
         self.pg = client.pg2
         self.client = client
-        self.dtd = client.pg2.fetchdict(f"select * from weapon_tb where id = {id};")[0]
+        cmd = f"select * from weapon_tb where id = {id}"
+        print(cmd)
+        data =  client.pg2.fetchdict(cmd)[0]
+        self.dtd = data
         self.id_ = self.dtd["id"]
         self.player_id_ = self.dtd["id"]
         self.name = self.dtd["name"]
