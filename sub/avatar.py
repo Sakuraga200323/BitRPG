@@ -85,19 +85,23 @@ class Player:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
         self.battle_ch = None
         self.name = str(self.user)
+        self.weapon_id = self.dtd['weapon']
+        self.weapons_id = list(self.dtd['weapons'])
+        if self.weapons_id == [] or not self.weapon_id):
+            self.weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
+            self.weapons_id = [weapon_id]
+            weapon_name = random.choice(list(box.shop_weapons.keys())[0:3])
+            weapon_info = box.shop_weapons[weapon_name]
+            self.create_weapon(weapon_name,weapon.info[0],2)
+        self.weapons = []
         self.weapon = None
-        self.weapons = list(self.dtd['weapons'])
-        if not (self.dtd["weapons"] or self.dtd["weapon"]):
-            weapon_id = int(datetime.now(JST).strftime("%d%m%y%H%M%S%f"))
-            weapons_id = [weapon_id]
-            weapon_name = random.choice(tuple(box.shop_weapons.keys())[0:3])
-            self.pg.execute(f"UPDATE player_tb SET weapon = {weapon_id}, weapons = ARRAY{weapons_id} where id = {self.user.id}")
-            self.pg2.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
-        for i in self.dtd["weapons"]:
-            box.weapons[i] = weapon(i)
+        for i in self.weapons_id:
+            box.weapons[i] = Weapon(i)
             self.weapons.append(box.weapons[i])
-            if i == self.dtd["weapon"]:
+            if self.weapon_id == i:
                 self.weapon = box.weapons[i]
+             
+            
             
     def ID(self):
         return self.user.id
