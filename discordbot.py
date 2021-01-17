@@ -325,7 +325,7 @@ async def on_message(message):
                 "コークス":0,"カーボンプレート":0,
                 "ハンマー":0
             }
-            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{item_jsonb}',{weapon_id},{weapons_id});")
+            cmd = (f"INSERT INTO player_tb (id,magic_class,item,weapon,weapons) VALUES ({m_author.id},{respons},'{str(item_jsonb).replace("'",'"')}',{weapon_id},{weapons_id});")
             cmd2 = (f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{m_author.id},'{weapon_name}','{box.shop_weapons[weapon_name][0]}',2);")
             try:
                 pg.execute(cmd)
