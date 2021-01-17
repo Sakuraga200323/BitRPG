@@ -92,7 +92,7 @@ class Player:
             self.weapons_id = [self.weapon_id]
             weapon_name = random.choice(list(box.shop_weapons.keys())[0:3])
             weapon_info = box.shop_weapons[weapon_name]
-            self.create_weapon(weapon_name,weapon.info[0],2)
+            self.create_weapon(weapon_name,weapon_info[0],2)
         self.weapons = []
         self.weapon = None
         for i in self.weapons_id:
