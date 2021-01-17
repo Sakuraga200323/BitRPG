@@ -132,7 +132,7 @@ class Player:
 
 
     def get_weapon(self,weapon):
-        if len(player.weapons) < 5:
+        if len(self.weapons) < 5:
             weapon.set_owner(self)
 
     # レベル取得
