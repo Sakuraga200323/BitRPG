@@ -383,9 +383,7 @@ class Weapon:
         self.client = client
         cmd = f"select * from weapon_tb where id = {id}"
         print(cmd)
-        data =  client.pg.fetchdict(cmd)
-        if not data:
-            
+        data =  client.pg.fetchdict(cmd)[0]
         self.dtd = data
         self.id_ = self.dtd["id"]
         self.player_id_ = self.dtd["id"]
