@@ -79,6 +79,7 @@ class Player:
         self.max_mp = self.now_mp = self.lv_
         self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
         self.battle_ch = None
+        self.name = str(self.user)
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
