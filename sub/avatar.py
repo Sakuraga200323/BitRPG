@@ -58,7 +58,7 @@ class Player:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
             return
         self.pg = pg
-        self.pg2 = client.pg2
+        self.pg2 = client.pg
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         data_list = [
@@ -123,7 +123,7 @@ class Player:
 
     def create_weapon(self,name,emoji,rank):
         weapon_id = int(datetime.now(JST).strftime("%y%d%m%H%M%S%f"))
-        client.pg2.execute(f"INSERT INTO weapon_tb VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank},1,0,1000);")
+        client.pg.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank});")
         box.weapons[weapon_id] = Weapon(weapon_id)
         weapon = box.weapons[weapon_id]
         weapon.set_owner(self)
@@ -379,11 +379,13 @@ class Weapon:
     """
 
     def __init__(self,id):
-        self.pg = client.pg2
+        self.pg = client.pg
         self.client = client
         cmd = f"select * from weapon_tb where id = {id}"
         print(cmd)
-        data =  client.pg2.fetchdict(cmd)[0]
+        data =  client.pg.fetchdict(cmd)
+        if not data:
+            
         self.dtd = data
         self.id_ = self.dtd["id"]
         self.player_id_ = self.dtd["id"]
