@@ -86,7 +86,7 @@ class Player:
         self.weapon_id = self.dtd["weapon"]
         self.weapons_id = self.dtd["weapons"]
         if self.weapons_id == []:
-            name = random.choice(list(box.shop_weapons.keys()))
+            name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             id = self.create_weapon(name,emoji,rank)
             self.weapon_id = id
