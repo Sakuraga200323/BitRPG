@@ -89,11 +89,17 @@ async def shop(user, ch):
                     content="`該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP回復薬を10個購入\n1 10`",
                     embed=shop_em1
                 )
+                debugnum = 0
+                def debug_num():
+                    global debugnum
+                    debugnum += 1
+                    return debugnum
                 while True:
-                    print("a")
+                    print(debug_num())
                     try:
-                        print("b")
+                        print(debug_num())
                         msg = await client.wait_for("message", timeout=60, check=check_buy)
+                        print(debug_num())
                         await msg.delete()
                     except asyncio.TimeoutError:
                         await shop_msg.edit(
@@ -101,7 +107,7 @@ async def shop(user, ch):
                             embed=shop_em1
                         )
                     else:
-                        print("c")
+                        print(debug_num())
                         pattern = r'^(\d+) (\d+)$'
                         result = re.search(pattern, msg.content)
                         item_id, item_num = int(result.group(1))+1, int(result.group(2))
