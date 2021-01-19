@@ -196,22 +196,22 @@ async def shop(user, ch):
 
 
         elif respons == 3:
-            split_weapons_key = tuple(split_list(box.shop_weapons,10))
+            split_weapons_key = tuple(split_list(box.shop_weapons,6))
             em_title = "武具店"
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
             embeds = []
             weapons = []
             for page_num,weapons_name in zip(range(1,100),split_weapons_key):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
-                for num,weapon_name in zip(range(1,11),weapons_name):
+                for num,weapon_name in zip(range(1,100),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
-                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}")
+                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}",inline=False)
                 em.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(em)
             embeds = tuple(embeds)
             page_num = 0
             await shop_msg.edit(
-                content=f'`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
                 embed=embeds[0]
             )
             while client:
@@ -236,6 +236,7 @@ async def shop(user, ch):
                     await shop_msg.clear_reactions()
                     break
                 else:
+                    before_page_num = page_num
                     emoji = str(reaction.emoji)
                     if emoji == box.menu_emojis["right"]:
                         if page_num < len(embeds)-1:
@@ -252,11 +253,59 @@ async def shop(user, ch):
                              page_num -= 1
                     elif emoji == box.menu_emojis["buy_mode"]:
                         buy_mode = True
-                    await shop_msg.clear_reactions()
-                    await shop_msg.edit(
-                        content=f'`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
-                        embed=embeds[page_num]
-                    )
+                    if before_page_num != page_num:
+                        await shop_msg.clear_reactions()
+                        await shop_msg.edit(
+                            content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                            embed=embeds[page_num]
+                        )
+
+                    while buy_mode:
+                        try:
+                            msg = await client.wait_for("message", timeout=60, check=check3)
+                            await msg.delete()
+                        except asyncio.TimeoutError:
+                            await shop_msg.edit(
+                                content="```時間経過により処理終了済み```",
+                                embed=shop_em2
+                            )
+                            break
+                        else:
+                            if msg.content == "0":
+                                await shop_msg.edit(
+                                    content="```処理終了済み```",
+                                    embed=shop_em2
+                                )
+                                break
+                            weapon_id = int(msg.content) + (page_num)*6
+                            weapon = npc_weapons[weapon_id]
+                            if player.weapon_id >= 5:
+                                await shop_msg.edit(
+                                    content=f"```既に５個の武器を所持しています。```",
+                                    embed=shop_em2
+                                )
+                                continue
+                            if player.money() < weapon.create_cost:
+                                await shop_msg.edit(
+                                    content=f"```{weapon.create_cost-player.money()}Cell足りません```",
+                                    embed=shop_em2
+                                )
+                                continue
+                            rank = 1
+                            for i in range(1,weapon.max_rank-1):
+                                if random.random() <= weapon.rate_of_rankup:
+                                    rank += 1
+                                    if rank == weapon.max_rank:
+                                        break
+                            weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
+                            player.get_weapon(weapon_obj)
+                            player.money(-cost_dict[item_id]*item_num)
+                            await shop_msg.edit(
+                                content=f"{cost_dict[item_id]*item_num}cellで{weapon_obj.emoji}{weapon_obj.name}(Rank.{weapon_obj.rank_})を購入しました。\nまたのご来店をお待ちしております！",
+                                embed=shop_em1
+                            )
+                        
+                        
 
 
                     
