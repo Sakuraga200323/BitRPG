@@ -237,27 +237,24 @@ async def shop(user, ch):
                     break
                 else:
                     emoji = str(reaction.emoji)
-                    menu_em = discord.Embed(description=menu_text2,color=0xebebeb)
-                    await menu_msg.edit(embed=menu_em)
-                    if emoji == menu_emojis["right"]:
+                    if emoji == box.menu_emojis["right"]:
                         if page_num <= len(embeds)-1:
                              page_num += 1
-                    elif emoji == menu_emojis["close"]:
+                    elif emoji == box.menu_emojis["close"]:
                         await shop_msg.edit(
                             content="```処理終了済み```",
                             embed=embeds[0]
                         )
                         await shop_msg.clear_reactions()
                         break
-                    elif emoji == menu_emojis["left"]:
+                    elif emoji == box.menu_emojis["left"]:
                         if page_num <= len(embeds)-1:
                              page_num -= 1
-                    elif emoji == menu_emojis["buy_mode"]:
+                    elif emoji == box.menu_emojis["buy_mode"]:
                         buy_mode = True
-
-                await shop_msg.edit(
-                    content='`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.gui_emoji["left"]}:一つページを戻す\n{box.gui_emoji["close"]}:処理を終了する\n{box.gui_emoji["right"]}:一つページを進める\n{box.gui_emoji["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
-                    embed=embeds[page_num]
-                )
+                    await shop_msg.edit(
+                        content='`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.gui_emoji["left"]}:一つページを戻す\n{box.gui_emoji["close"]}:処理を終了する\n{box.gui_emoji["right"]}:一つページを進める\n{box.gui_emoji["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                        embed=embeds[page_num]
+                    )
 
 
