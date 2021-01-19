@@ -544,7 +544,7 @@ async def on_message(message):
                         if not i.startswith(emoji):
                             menu_text2 += "\n<:off_icon:800041025288405013>"
                         else:
-                            menu_text2 += f'\n{i.replace("> ","> ▶︎")}'
+                            menu_text2 += f'\n{i.replace("> ","> ◀")}'
                     menu_em = discord.Embed(description=menu_text2,color=0xebebeb)
                     await menu_msg.edit(embed=menu_em)
                     if emoji == menu_emojis[0]:
