@@ -118,7 +118,7 @@ async def shop(user, ch):
                         continue
                     status.get_item(user,item_id,item_num)
                     player.money(-cost_dict[item_id]*item_num)
-                    shop_em21.description = f"所持Cell:{player.money()}"
+                    shop_em2.description = f"所持Cell:{player.money()}"
                     await shop_msg.edit(
                         content=f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。\nまたのご来店をお待ちしております！",
                         embed=shop_em1
