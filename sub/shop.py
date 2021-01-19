@@ -45,7 +45,7 @@ async def shop(user, ch):
             + "\n`2.`アイテム合成"
             + "\n`3.`~~武器購入~~"
     ))
-    shop_msg = await ch.send(embed=shop_em1)
+    shop_msg = await ch.send(embed=shop_em)
     def check(m):
         if not user.id == m.author.id:return 0
         return 1
