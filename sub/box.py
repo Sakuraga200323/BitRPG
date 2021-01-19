@@ -119,6 +119,19 @@ shop_weapons = {
     'ロストソング':('<:w37:798471199729778748>',50000,4),
     '永久のコイン':('<:w39:799848024640716822>',50000,4)
 }
+NpcWeapon = namedtuple("Weapon", [
+    "name",
+    "emoji",
+    "id",
+    "create_cost",
+    "max_rank",
+    "rate_of_rankup"
+])
+npc_weapons = {}
+num = 0
+for name,info in zip(tuple(shop_weapons.keys()),tuple(shop_weapons.values())):
+    num += 1
+    npc_weapons[num] = NpcWeapons(name,info[0],num,info[1],info[2],info[3],info[4],0.75)
 player_weapons = [
     ('サバイバルナイフ', '<:w4:798469938380800011>', 100000), 
     ('１０式シャベル', '<:w1:798469938595495967>', 100000),
