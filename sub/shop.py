@@ -205,7 +205,7 @@ async def shop(user, ch):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
                 for num,weapon_name in zip(range(1,11),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
-                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"`┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}`",inline=False)
+                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}")
                 em.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
                 embeds.append(em)
             embeds = tuple(embeds)
