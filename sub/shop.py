@@ -211,7 +211,7 @@ async def shop(user, ch):
             embeds = tuple(embeds)
             page_num = 0
             await shop_msg.edit(
-                content="```対応する数字を送信で武器購入、リアクションでページ切り替えです。\nMaxRankは購入時にランダムで決められるランクの最大値です```",
+                content=f'`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
                 embed=embeds[0]
             )
             while client:
