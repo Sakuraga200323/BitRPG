@@ -84,7 +84,7 @@ async def shop(user, ch):
                     (f"`9.`{items_emoji_a[10]}MP全回復薬",f"`┗━Price: 300cell┃Info: MPを100%回復`"),
             )
             for i in menu_tuple:
-                shop_em1.add_field(name=i[0],value=i[1])
+                shop_em1.add_field(name=i[0],value=i[1],inline=False)
             await shop_msg.edit(
                 content="```該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP回復薬を10個購入\n1 10```",
                 embed=shop_em1
@@ -104,7 +104,7 @@ async def shop(user, ch):
                     result = re.search(pattern, msg.content)
                     if msg.content == "0":
                         await shop_msg.edit(
-                            content="```時間経過により処理終了済み```",
+                            content="```処理終了済み```",
                             embed=shop_em1
                         )
                         break
@@ -133,7 +133,7 @@ async def shop(user, ch):
                     (f"\n`4.`{items_emoji_a[10]}MP全回復薬",f"┗━Cost: 200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]┃Info: MPを100%回復"),
             )
             for i in menu_tuple:
-                shop_em2.add_field(name=i[0],value=i[1])
+                shop_em2.add_field(name=i[0],value=i[1],inline=False)
             await shop_msg.edit(
                 content="```該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP全回復薬を10個合成\n3 10```",
                 embed=shop_em2
@@ -150,6 +150,12 @@ async def shop(user, ch):
                 else:
                     pattern = r'^(\d+) (\d+)$'
                     result = re.search(pattern, msg.content)
+                    if msg.content == "0":
+                        await shop_msg.edit(
+                            content="```処理終了済み```",
+                            embed=shop_em2
+                        )
+                        break
                     item_id, item_num = int(result.group(1))+6, int(result.group(2))
                     item_name = items_name[item_id]
                     material_dict = {
@@ -200,9 +206,9 @@ async def shop(user, ch):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
                 for num,weapon_name in zip(range(1,11),weapons_name):
                     weapon_data = box.shop_weapons[weapon_name]
-                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"`┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}`")
-                embed.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
-                embeds.append(embed)
+                    em.add_field(name=f"\n`{num}.`{weapon_data[0]}{weapon_name}",value=f"`┗━Price: {weapon_data[1]}cell┃MaxRank: {rank_dict[weapon_data[2]]}`",inline=False)
+                em.set_footer(text=f"Page.{page_num}/{len(split_weapons_key)}")
+                embeds.append(em)
             embeds = tuple(embeds)
             page_num = 0
             await shop_msg.edit(
