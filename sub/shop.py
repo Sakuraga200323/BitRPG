@@ -64,7 +64,7 @@ async def shop(user, ch):
         if not re.search(pattern, m.content):return 0
         return 1
     try:
-        msg = await client.wait_for("message", timeout=60, check=check_buy)
+        msg = await client.wait_for("message", timeout=60, check=check3)
         await msg.delete()
     except asyncio.TimeoutError:
         await shop_msg.edit(embed=shop_em)
@@ -92,7 +92,7 @@ async def shop(user, ch):
                 )
                 while True:
                     try:
-                        msg = await client.wait_for("message", timeout=60, check=check)
+                        msg = await client.wait_for("message", timeout=60, check=check_buy)
                         await msg.delete()
                     except asyncio.TimeoutError:
                         await shop_msg.edit(
