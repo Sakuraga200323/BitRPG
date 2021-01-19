@@ -16,7 +16,7 @@ exp_up_buff = []
 fleez = []
 
 #gui emoji
-gui_emojis = {
+menu_emojis = {
     "left":"<:left:800980952461213706>",
     "close":"<:close:800980952414158908>",
     "right":"<:right:800980952426741770>",
