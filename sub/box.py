@@ -202,4 +202,4 @@ num = 0
 PLAYERmade_weapons = {}
 for data in player_weapons:
     num =+ 1
-    PLAYERmade_weapons[num] = Weapon(data[0],data[1],num,recipe_dict[data[2]],)
+    PLAYERmade_weapons[num] = Weapon(data[0],data[1],num,recipe_dict[data[2]],data[2],rank_dict[data[2]])
