@@ -173,7 +173,7 @@ async def shop(user, ch):
                     if husoku_text != "":
                         await shop_msg.edit(
                             content=f"{husoku_text}が不足しています。",
-                            embed=shop_em1
+                            embed=shop_em
                         )
                         continue
                     if player.money() < cost_dict[item_id]*item_num:
