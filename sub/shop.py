@@ -60,7 +60,7 @@ async def shop(user, ch):
     def check_buy(m):
         if not user.id == m.author.id:return 0
         pattern = r'^(\d+) (\d+)$'
-        if not re.search(pattern, m.content) or not m.content == "0":return 0
+        if not re.search(pattern, m.content) and not m.content == "0":return 0
         return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check3)
