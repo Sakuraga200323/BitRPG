@@ -90,16 +90,17 @@ async def shop(user, ch):
                     embed=shop_em1
                 )
                 debugnum = 0
-                def debug_num():
-                    global debugnum
-                    debugnum += 1
-                    return debugnum
+                debugnum += 1
+                print(debugnum)
                 while True:
-                    print(debug_num())
+                    debugnum += 1
+                    print(debugnum)
                     try:
-                        print(debug_num())
+                        debugnum += 1
+                        print(debugnum)
                         msg = await client.wait_for("message", timeout=60, check=check_buy)
-                        print(debug_num())
+                        debugnum += 1
+                        print(debugnum)
                         await msg.delete()
                     except asyncio.TimeoutError:
                         await shop_msg.edit(
@@ -107,7 +108,8 @@ async def shop(user, ch):
                             embed=shop_em1
                         )
                     else:
-                        print(debug_num())
+                        debugnum += 1
+                        print(debugnum)
                         pattern = r'^(\d+) (\d+)$'
                         result = re.search(pattern, msg.content)
                         item_id, item_num = int(result.group(1))+1, int(result.group(2))
