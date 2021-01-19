@@ -252,9 +252,9 @@ async def shop(user, ch):
                              page_num -= 1
                     elif emoji == box.menu_emojis["buy_mode"]:
                         buy_mode = True
-                    await shop_msg.clear_reaction()
+                    await shop_msg.clear_reactions()
                     await shop_msg.edit(
-                        content='`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.gui_emoji["left"]}:一つページを戻す\n{box.gui_emoji["close"]}:処理を終了する\n{box.gui_emoji["right"]}:一つページを進める\n{box.gui_emoji["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                        content=f'`対応する数字を送信で武器購入、リアクションでページ切り替えです。`\n{box.gui_emoji["left"]}:一つページを戻す\n{box.gui_emoji["close"]}:処理を終了する\n{box.gui_emoji["right"]}:一つページを進める\n{box.gui_emoji["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
                         embed=embeds[page_num]
                     )
 
