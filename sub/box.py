@@ -131,7 +131,7 @@ npc_weapons = {}
 num = 0
 for name,info in zip(tuple(shop_weapons.keys()),tuple(shop_weapons.values())):
     num += 1
-    npc_weapons[num] = NpcWeapons(name,info[0],num,info[1],info[2],info[3],info[4],0.75)
+    npc_weapons[num] = NpcWeapon(name,info[0],num,info[1],info[2],info[3],info[4],0.75)
 player_weapons = [
     ('サバイバルナイフ', '<:w4:798469938380800011>', 100000), 
     ('１０式シャベル', '<:w1:798469938595495967>', 100000),
