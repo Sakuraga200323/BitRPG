@@ -61,7 +61,7 @@ async def shop(user, ch):
         if not user.id == m.author.id:return 0
         if not m.content.isdigit():return 0
         pattern = r'^(\d+) (\d+)$'
-        if not re.search(pattern, m.content):return 0
+        if not re.search(pattern, m.content) or m.content == "0":return 0
         return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check3)
@@ -74,15 +74,15 @@ async def shop(user, ch):
             if respons == 1:
                 shop_em1 = discord.Embed(title="アイテムショップ",description=f"所持Cell:{player.money()}")
                 menu_tuple = (
-                        (f"`1.`{items_emoji_a[2] }HP回復薬",  f"`┗━Price: 100cell┃Have: {player.item_num(2)}┃Info: HPを30%回復`"),
-                        (f"`2.`{items_emoji_a[3] }MP回復薬",  f"`┗━Price: 100cell┃Have: {player.item_num(3)}┃Info: MPを30%回復`"),
-                        (f"`3.`{items_emoji_a[4] }魂の焔",    f"`┗━Price: 10cell┃Have: {player.item_num(4)}┃Info: 素材アイテム とある魔法の触媒`"),
-                        (f"`4.`{items_emoji_a[5] }砥石",      f"`┗━Price: 500cell┃Have: {player.item_num(5)}┃Info: 素材アイテム`"),
-                        (f"`5.`{items_emoji_a[6] }魔石",      f"`┗━Price: 150cell┃Have: {player.item_num(6)}┃Info: 250個でLv上限開放 素材アイテム`"),
-                        (f"`6.`{items_emoji_a[7] }魔晶",      f"`┗━Price: 1000cell┃Have: {player.item_num(7)}┃Info: 素材アイテム`"),
-                        (f"`7.`{items_emoji_a[8] }魔硬貨",    f"`┗━Price: 2000cell┃Have: {player.item_num(8)}┃Info: とある魔法の触媒`"),
-                        (f"`8.`{items_emoji_a[9] }HP全回復薬",f"`┗━Price: 300cell┃Have: {player.item_num(9)}┃Info: HPを100%回復`"),
-                        (f"`9.`{items_emoji_a[10]}MP全回復薬",f"`┗━Price: 300cell┃Have: {player.item_num(10)}┃Info: MPを100%回復`"),
+                        (f"`1.`{items_emoji_a[2] }HP回復薬",  f"`┗━Price: 100cell┃Info: HPを30%回復`"),
+                        (f"`2.`{items_emoji_a[3] }MP回復薬",  f"`┗━Price: 100cell┃Info: MPを30%回復`"),
+                        (f"`3.`{items_emoji_a[4] }魂の焔",    f"`┗━Price: 10cell┃Info: 素材アイテム とある魔法の触媒`"),
+                        (f"`4.`{items_emoji_a[5] }砥石",      f"`┗━Price: 500cell┃Info: 素材アイテム`"),
+                        (f"`5.`{items_emoji_a[6] }魔石",      f"`┗━Price: 150cell┃Info: 250個でLv上限開放 素材アイテム`"),
+                        (f"`6.`{items_emoji_a[7] }魔晶",      f"`┗━Price: 1000cell┃Info: 素材アイテム`"),
+                        (f"`7.`{items_emoji_a[8] }魔硬貨",    f"`┗━Price: 2000cell┃Info: とある魔法の触媒`"),
+                        (f"`8.`{items_emoji_a[9] }HP全回復薬",f"`┗━Price: 300cell┃Info: HPを100%回復`"),
+                        (f"`9.`{items_emoji_a[10]}MP全回復薬",f"`┗━Price: 300cell┃Info: MPを100%回復`"),
                 )
                 for i in menu_tuple:
                     shop_em1.add_field(name=i[0],value=i[1])
