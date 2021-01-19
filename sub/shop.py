@@ -59,7 +59,6 @@ async def shop(user, ch):
         return 1
     def check_buy(m):
         if not user.id == m.author.id:return 0
-        if not m.content.isdigit():return 0
         pattern = r'^(\d+) (\d+)$'
         if not re.search(pattern, m.content) or not m.content == "0":return 0
         return 1
@@ -69,7 +68,7 @@ async def shop(user, ch):
     except asyncio.TimeoutError:
         await shop_msg.edit(embed=shop_em)
     else:
-        respons = int(msg.content) if msg.content in ("1","2","3",) else 0
+        respons = int(msg.content)
         while True:
             if respons == 1:
                 shop_em1 = discord.Embed(title="アイテムショップ",description=f"所持Cell:{player.money()}")
