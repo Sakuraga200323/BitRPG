@@ -69,7 +69,7 @@ def mob_ranking_embeds(user, ch):
 
 
 def player_ranking_embeds(user, ch):
-    temp = pg.fetch("select id, lv from player_tb order by lv desc;")
+    temp = pg.fetch("select id, lv from player_tb order by lv desc, now_exp;")
     players_data = tuple([ (i["id"],i["lv"]) for i in temp ])
     players_data2 = tuple([ i["id"] for i in temp ])
     players_result = players_data
