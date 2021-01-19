@@ -94,18 +94,21 @@ async def battle_start(player, mob):
 
 
 async def battle_result(player, mob):
+    types = ("Normal","Elite","Catastrophe","WorldEnd","Rare","UltraRare","UltraEro")
     reward_items = { # {id:(num,item was droped)}
-        2:(randint(3,6),random()<=0.05),
-        3:(randint(3,6),random()<=0.05),
+        2:(randint(3,6),random()<=0.05 or mob.type in types[2:]),
+        3:(randint(3,6),random()<=0.05 or mob.type in types[2:]),
         4:(1,True),
-        5:(randint(1,2),mob.name in ("モノリス",'ゴールド-モノリス')),
-        6:(randint(3,6),random()<=0.03),
+        5:(randint(1,2),mob.name in ("モノリス",'ゴールド-モノリス') or mob.type in types[1:]),
+        6:(randint(3,6),random()<=0.03 or mob.type in types[2:]),
         11:(randint(3,6),(random()<=0.05 and mob.lv()%10==0) or mob.type in ("UltraRare",)),
         13:(randint(3,6),(random()<=0.05 and mob.lv()%10==0) or mob.type in ("UltraRare",)),
         15:(randint(2,5),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare",)),
         17:(randint(2,5),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare",)),
         19:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
         21:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
+        23:(randint(3,6),(random()<=0.025 or mob.type in types[2:])),
+        27:(mob.name in ("ドワーフ") and random()<=0.001),
     }
     ch = mob.mob
     user = player.user
