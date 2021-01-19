@@ -86,7 +86,7 @@ async def shop(user, ch):
             for i in menu_tuple:
                 shop_em1.add_field(name=i[0],value=i[1])
             await shop_msg.edit(
-                content="`該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP回復薬を10個購入\n1 10`",
+                content="```該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP回復薬を10個購入\n1 10```",
                 embed=shop_em1
             )
             while True:
@@ -95,7 +95,7 @@ async def shop(user, ch):
                     await msg.delete()
                 except asyncio.TimeoutError:
                     await shop_msg.edit(
-                        content="`時間経過により処理終了済み`",
+                        content="```時間経過により処理終了済み```",
                         embed=shop_em1
                     )
                     break
@@ -104,7 +104,7 @@ async def shop(user, ch):
                     result = re.search(pattern, msg.content)
                     if msg.content == "0":
                         await shop_msg.edit(
-                            content="`時間経過により処理終了済み`",
+                            content="```時間経過により処理終了済み```",
                             embed=shop_em1
                         )
                         break
@@ -112,7 +112,7 @@ async def shop(user, ch):
                     cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300}
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
-                            content=f"`{cost_dict[item_id]*item_num-player.money()}Cell足りません`",
+                            content=f"```{cost_dict[item_id]*item_num-player.money()}Cell足りません```",
                             embed=shop_em1
                         )
                         continue
@@ -127,15 +127,15 @@ async def shop(user, ch):
         elif respons == 2:
             shop_em2 = discord.Embed(title="合成場",description=f"所持Cell:{player.money()}")
             menu_tuple = (
-                    (f"\n`1.`{items_emoji_a[7] }魔晶",      f"`┗━Cost: 500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1┃Info: 素材アイテム`"),
-                    (f"\n`2.`{items_emoji_a[8] }魔硬貨",    f"`┗━Cost: 750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1┃Info: とある魔法の触媒`"),
-                    (f"\n`3.`{items_emoji_a[9] }HP全回復薬",f"`┗━Cost: 200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]┃Info: HPを100%回復`"),
-                    (f"\n`4.`{items_emoji_a[10]}MP全回復薬",f"`┗━Cost: 200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]┃Info: MPを100%回復`"),
+                    (f"\n`1.`{items_emoji_a[7] }魔晶",      f"┗━Cost: 500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1┃Info: 素材アイテム"),
+                    (f"\n`2.`{items_emoji_a[8] }魔硬貨",    f"┗━Cost: 750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1┃Info: とある魔法の触媒"),
+                    (f"\n`3.`{items_emoji_a[9] }HP全回復薬",f"┗━Cost: 200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]┃Info: HPを100%回復"),
+                    (f"\n`4.`{items_emoji_a[10]}MP全回復薬",f"┗━Cost: 200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]┃Info: MPを100%回復"),
             )
             for i in menu_tuple:
                 shop_em2.add_field(name=i[0],value=i[1])
             await shop_msg.edit(
-                content="`該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP全回復薬を10個合成\n3 10`",
+                content="```該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP全回復薬を10個合成\n3 10```",
                 embed=shop_em2
             )
             while True:
@@ -144,7 +144,7 @@ async def shop(user, ch):
                     await msg.delete()
                 except asyncio.TimeoutError:
                     await shop_msg.edit(
-                        content="`時間経過により処理終了済み`",
+                        content="```時間経過により処理終了済み```",
                         embed=shop_em1
                     )
                 else:
@@ -163,17 +163,17 @@ async def shop(user, ch):
                     for data in material_dict[item_id]:
                         i_name = items_name[data[0]]
                         if player.item_num(i_name) < data[1]*item_num:
-                            husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-item_dtd[i_name]} "
+                            husoku_text += f"{i_name}{items_emoji_a[data[0]]}×{data[1]*item_num-player.item_num(i_name)} "
                             continue
                     if husoku_text != "":
                         await shop_msg.edit(
-                            content=f"`{husoku_text}が不足しています。`",
+                            content=f"{husoku_text}が不足しています。",
                             embed=shop_em1
                         )
                         continue
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
-                            content=f"`{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです`",
+                            content=f"```{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです```",
                             embed=shop_em1
                         )
                         continue
@@ -206,7 +206,7 @@ async def shop(user, ch):
             embeds = tuple(embeds)
             page_num = 0
             await shop_msg.edit(
-                content="`対応する数字を送信で武器購入、リアクションでページ切り替えです。\nMaxRankは購入時にランダムで決められるランクの最大値です`",
+                content="```対応する数字を送信で武器購入、リアクションでページ切り替えです。\nMaxRankは購入時にランダムで決められるランクの最大値です```",
                 embed=embeds[0]
             )
             while client:
@@ -225,7 +225,7 @@ async def shop(user, ch):
                     reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
                 except asyncio.TimeoutError:
                     await shop_msg.edit(
-                        content="`時間経過により処理終了済み`",
+                        content="```時間経過により処理終了済み```",
                         embed=embeds[0]
                     )
                     await shop_msg.clear_reactions()
@@ -239,7 +239,7 @@ async def shop(user, ch):
                              page_num += 1
                     elif emoji == menu_emojis["close"]:
                         await shop_msg.edit(
-                            content="`処理終了済み`",
+                            content="```処理終了済み```",
                             embed=embeds[0]
                         )
                         await shop_msg.clear_reactions()
