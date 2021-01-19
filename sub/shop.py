@@ -256,7 +256,7 @@ async def shop(user, ch):
                     if before_page_num != page_num:
                         await shop_msg.clear_reactions()
                         await shop_msg.edit(
-                            content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                            content=f'`購入モード\n購入する武器の番号を送信してください。`',
                             embed=embeds[page_num]
                         )
 
