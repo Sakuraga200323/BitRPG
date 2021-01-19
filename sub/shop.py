@@ -238,7 +238,7 @@ async def shop(user, ch):
                 else:
                     emoji = str(reaction.emoji)
                     if emoji == box.menu_emojis["right"]:
-                        if page_num <= len(embeds)-1:
+                        if page_num < len(embeds)-1:
                              page_num += 1
                     elif emoji == box.menu_emojis["close"]:
                         await shop_msg.edit(
@@ -248,7 +248,7 @@ async def shop(user, ch):
                         await shop_msg.clear_reactions()
                         break
                     elif emoji == box.menu_emojis["left"]:
-                        if page_num <= len(embeds)-1:
+                        if page_num > len(embeds)-1:
                              page_num -= 1
                     elif emoji == box.menu_emojis["buy_mode"]:
                         buy_mode = True
