@@ -144,7 +144,7 @@ async def shop(user, ch):
                 except asyncio.TimeoutError:
                     await shop_msg.edit(
                         content="```時間経過により処理終了済み```",
-                        embed=shop_em1
+                        embed=shop_em2
                     )
                 else:
                     pattern = r'^(\d+) (\d+)$'
