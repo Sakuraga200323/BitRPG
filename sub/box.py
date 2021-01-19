@@ -15,6 +15,13 @@ anti_magic = []
 exp_up_buff = []
 fleez = []
 
+#gui emoji
+gui_emoji = {
+    "left":"<:left:800980952461213706>",
+    "close":"<:close:800980952414158908>",
+    "right":"<:right:800980952426741770>",
+}
+
 # items_~ #
 items_name = {
     1:"冒険者カード",
