@@ -119,7 +119,8 @@ class Player:
     def create_weapon(self,name,emoji,rank):
         weapon_id = int(datetime.now(JST).strftime("%y%d%m%H%M%S%f"))
         client.pg.execute(f"INSERT INTO weapon_tb (id,player_id,name,emoji,rank) VALUES ({weapon_id},{self.user.id},'{name}','{box.shop_weapons[name][0]}',{rank});")
-        return weapon_id
+        box.weapons[weapon_id] = Weapon(weapon_id) 
+        return box.weapons[weapon_id]
 
 
     def get_weapon(self,weapon):
