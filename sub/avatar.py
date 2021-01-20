@@ -108,6 +108,13 @@ class Player:
     def get_data(self, target):
         return pg.fetchdict(f"select {target} from player_tb where id = {self.user.id};")[0][target]
 
+    # データの値の上書き
+    def update_data(self, target, temp):
+        if target == 'id':
+            return None
+        else:
+            pg.execute(f'update player_tb set {target}={temp} where id = {self.user.id};')
+
     # データの値の加算
     def plus(self, target, plus):
         if target == 'id':
@@ -125,10 +132,26 @@ class Player:
         box.weapons[weapon_id] = Weapon(weapon_id) 
         return box.weapons[weapon_id]
 
-
     def get_weapon(self,weapon):
         if len(self.weapons_id) < 5:
             weapon.set_owner(self)
+            self.weapons(weapon)
+    
+    def weapon(self,weapon=False):
+        if weapon:
+            self.update_data("weapon",weapon.id)
+        self.weapon_id = self.get_data("weapon")
+        self.weapon = box.weapons[self.weapon_id]
+        return self.weapon
+
+    
+    def weapons(self,weapon=False):
+        if weapon:
+            self.weapons_id.append(weapon.id)
+            pg.execute(f'update player_tb set weapons=ARRAY{self.weapons_id} where id = {self.user.id};')
+        self.weapon_id = list(self.get_data("weapons"))
+        self.weapons = [ box.weapons[i] for i in self.weapons_id ]
+        return self.weapons
 
     # レベル取得
     def lv(self, plus=None):
