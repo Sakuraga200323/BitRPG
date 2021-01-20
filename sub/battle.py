@@ -245,10 +245,12 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
                 if b_id in box.players:
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
-                    irregular_text += f"\n┣━ {b.name} が攻撃を防いだ！ (Target{b.name})"
+                    a_strength *= 0.5
+                    irregular_text += f"\n┣━ {b.name} が攻撃を防いだ！ (Target{b.name} Strength50%)"
             if b.ID() in box.fleez:
                 box.fleez.remove(b.ID())
         battle_text += irregular_text
+        a_strength = int(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
         if a_was_stun and not a_id in box.stun:
