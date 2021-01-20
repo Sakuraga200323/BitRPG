@@ -85,21 +85,16 @@ class Player:
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
-        self._weapon_id = self.dtd["weapon"]
-        self._weapons_id = self.dtd["weapons"]
-        print(self._weapon_id)
-        print(self._weapons_id)
-        if self._weapons_id == []:
+        weapons = pg.fetch_dict(f"select id from weapon_tb where player_id = {welf.user.id}")
+        if not weapons:
             print("CreateFirstWeapon")
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
-            self._weapon_id = weapon.id
-            self._weapons_id = [weapon.id]
-            self._weapon = weapon
-            self._weapons = [weapon]
+            self.weapon(weapon)
+            self.weapons(weapon)
              
-            
+
            
     def ID(self):
         return self.user.id
@@ -140,22 +135,33 @@ class Player:
     def weapon(self,weapon=False):
         if weapon:
             self.update_data("weapon",weapon.id)
-        self._weapon_id = self.get_data("weapon")
-        if self._weapon_id:
-            self._weapon = box.weapons[self._weapon_id]
-            return self._weapon
+        weapon_ = self.get_data("weapon")
+        if weapon_:
+            return weapon_
         else:
             return None
 
+    def weapon_id(self):
+        if self.weapon():
+            weapon_ = box.weapons[self.weapon().id]
+            return weapon_
+        else:
+            return None
     
     def weapons(self,weapon=False):
+        weapons_ = list(self.get_data("weapons"))
         if weapon:
-            self._weapons_id.append(weapon.id)
-            pg.execute(f'update player_tb set weapons=ARRAY{self._weapons_id} where id = {self.user.id};')
-        self._weapon_id = list(self.get_data("weapons"))
-        if self._weapons_id != []:
-            self._weapons = [ box.weapons[i] for i in self._weapons_id if i in box.weapons]
-            return self._weapons
+            pg.execute(f'update player_tb set weapons=ARRAY({[ i.id for i in weapons_ ]}) where id = {self.user.id};')
+        if weapons_ != []:
+            weapons_ = [ box.weapons[i] for i in self._weapons_id if i in box.weapons]
+            return weapons_
+        else:
+            return []
+
+    def weapons_id(self):
+        if self.weapons() != [:
+            weapon_ = [ box.weapons[i] for i in self.weapons()]
+            return weapon_
         else:
             return []
 
