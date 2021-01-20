@@ -256,7 +256,13 @@ async def shop(user, ch):
                     if before_page_num != page_num:
                         await shop_msg.clear_reactions()
                         await shop_msg.edit(
-                            content=f'`購入モード\n購入する武器の番号を送信してください。\n0と送信すると処理が止まります。`',
+                            content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
+                            embed=embeds[page_num]
+                        )
+                    if buy_mode:
+                        await shop_msg.clear_reactions()
+                        await shop_msg.edit(
+                            content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`',
                             embed=embeds[page_num]
                         )
                     shop_em3 = embeds[page_num]
@@ -279,7 +285,7 @@ async def shop(user, ch):
                                 break
                             weapon_id = int(msg.content) + (page_num)*6
                             weapon = box.npc_weapons[weapon_id]
-                            if player.weapons_id >= 5:
+                            if len(player.weapons_id) >= 5:
                                 await shop_msg.edit(
                                     content=f"```既に５個の武器を所持しています。```",
                                     embed=shop_em3
