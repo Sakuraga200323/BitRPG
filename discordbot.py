@@ -627,7 +627,7 @@ async def on_message(message):
 
         if m_ctt == "><help me daima":
             if m_author.id == 715192735128092713:
-                await ch.send(f"Help me Daimaaaaaaaaa!!\n(<@570243143958528010>)")
+                await m_ch.send(f"Help me Daimaaaaaaaaa!!\n(<@570243143958528010>)")
 
 
 
