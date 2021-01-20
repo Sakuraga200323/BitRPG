@@ -259,7 +259,7 @@ async def shop(user, ch):
                             content=f'`購入モード\n購入する武器の番号を送信してください。`',
                             embed=embeds[page_num]
                         )
-
+                    shop_em3 = embeds[page_num]
                     while buy_mode:
                         try:
                             msg = await client.wait_for("message", timeout=60, check=check3)
@@ -267,14 +267,14 @@ async def shop(user, ch):
                         except asyncio.TimeoutError:
                             await shop_msg.edit(
                                 content="```時間経過により処理終了済み```",
-                                embed=shop_em2
+                                embed=shop_em3
                             )
                             break
                         else:
                             if msg.content == "0":
                                 await shop_msg.edit(
                                     content="```処理終了済み```",
-                                    embed=shop_em2
+                                    embed=shop_em3
                                 )
                                 break
                             weapon_id = int(msg.content) + (page_num)*6
@@ -282,13 +282,13 @@ async def shop(user, ch):
                             if player.weapon_id >= 5:
                                 await shop_msg.edit(
                                     content=f"```既に５個の武器を所持しています。```",
-                                    embed=shop_em2
+                                    embed=shop_em3
                                 )
                                 continue
                             if player.money() < weapon.create_cost:
                                 await shop_msg.edit(
                                     content=f"```{weapon.create_cost-player.money()}Cell足りません```",
-                                    embed=shop_em2
+                                    embed=shop_em3
                                 )
                                 continue
                             rank = 1
@@ -302,7 +302,7 @@ async def shop(user, ch):
                             player.money(-cost_dict[item_id]*item_num)
                             await shop_msg.edit(
                                 content=f"{cost_dict[item_id]*item_num}cellで{weapon_obj.emoji}{weapon_obj.name}(Rank.{weapon_obj.rank_})を購入しました。\nまたのご来店をお待ちしております！",
-                                embed=shop_em1
+                                embed=shop_em3
                             )
                         
                         
