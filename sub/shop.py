@@ -305,9 +305,9 @@ async def shop(user, ch):
                                         break
                             weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
                             player.get_weapon(weapon_obj)
-                            player.money(-cost_dict[item_id]*item_num)
+                            player.money(weapon.create_cost)
                             await shop_msg.edit(
-                                content=f"{cost_dict[item_id]*item_num}cellで{weapon_obj.emoji}{weapon_obj.name}(Rank.{weapon_obj.rank_})を購入しました。\nまたのご来店をお待ちしております！",
+                                content=f"{weapon.create_cost}cellで{weapon_obj.emoji}{weapon_obj.name}(Rank.{weapon_obj.rank_})を購入しました。\nまたのご来店をお待ちしております！",
                                 embed=shop_em3
                             )
                         
