@@ -625,6 +625,10 @@ async def on_message(message):
             embed = discord.Embed(description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
             await m_ch.send(embed=embed)
 
+        if m_ctt == "><help me daima":
+            if m_author.id == 561836530398789641:
+                await ch.send(f"Help me Daimaaaaaaaaa!!\n(<@570243143958528010>)")
+
 
 
     if m_ctt == "SystemCall":
