@@ -278,7 +278,7 @@ async def shop(user, ch):
                                 )
                                 break
                             weapon_id = int(msg.content) + (page_num)*6
-                            weapon = npc_weapons[weapon_id]
+                            weapon = box.npc_weapons[weapon_id]
                             if player.weapon_id >= 5:
                                 await shop_msg.edit(
                                     content=f"```既に５個の武器を所持しています。```",
