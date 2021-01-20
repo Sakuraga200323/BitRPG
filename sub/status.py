@@ -78,8 +78,8 @@ async def open_status(user,ch):
     strength_text = f"{p_data.STR()} (+{p_data.str_p()}"
     if p_data.magic_class() == "Wolf":
         strength_text += " +10%"
-    if p_data.weapon:
-        strength_text += f" {p_data.weapon.emoji}+{p_data.weapon.strength()}"
+    if p_data.weapon():
+        strength_text += f" {p_data.weapon().emoji}+{p_data.weapon().strength()}"
     strength_text += ")"
     embed.add_field(name=f"Strength", value=strength_text)
     if p_data.magic_class() == "Armadillo":
@@ -135,7 +135,7 @@ async def i_inventory(player,ch):
 async def w_inventory(player,ch):
     em = discord.Embed(title="Weapon Inventory Bord")
     for weapon in player.weapons():
-        if weapon.id_ == player.weapon.id_:
+        if weapon.id == player.weapon().id:
             em.add_field(name=f"{weapon.emoji}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
         else:
             em.add_field(name=f"{weapon.emoji}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
