@@ -90,7 +90,7 @@ class Player:
         print(self._weapon_id)
         print(self._weapons_id)
         if self._weapons_id == []:
-            print("CreateFistWeapon: PlayerID[self.user.id]")
+            print("CreateFirstWeapon")
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
@@ -141,8 +141,11 @@ class Player:
         if weapon:
             self.update_data("weapon",weapon.id)
         self._weapon_id = self.get_data("weapon")
-        self._weapon = box.weapons[self._weapon_id]
-        return self._weapon
+        if self._weapon_id:
+            self._weapon = box.weapons[self._weapon_id]
+            return self._weapon
+        else:
+            return None
 
     
     def weapons(self,weapon=False):
@@ -150,8 +153,11 @@ class Player:
             self._weapons_id.append(weapon.id)
             pg.execute(f'update player_tb set weapons=ARRAY{self._weapons_id} where id = {self.user.id};')
         self._weapon_id = list(self.get_data("weapons"))
-        self._weapons = [ box.weapons[i] for i in self._weapons_id ]
-        return self._weapons
+        if slf._weapon_id != []:
+            self._weapons = [ box.weapons[i] for i in self._weapons_id ]
+            return self._weapons
+        else:
+            return []
 
     # レベル取得
     def lv(self, plus=None):
