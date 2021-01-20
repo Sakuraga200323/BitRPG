@@ -90,11 +90,11 @@ class Player:
         if self.weapons_id == []:
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
-            id = self.create_weapon(name,emoji,rank)
-            self.weapon_id = id
-            self.weapons_id = [id]
-            self.weapon = Weapon(id)
-            self.weapons = [self.weapon]
+            weapon = self.create_weapon(name,emoji,rank)
+            self.weapon_id = weapon.id
+            self.weapons_id = [weapon.id]
+            self.weapon = weapon
+            self.weapons = [weapon]
              
             
            
