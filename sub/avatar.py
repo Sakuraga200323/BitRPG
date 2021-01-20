@@ -159,7 +159,7 @@ class Player:
             return []
 
     def weapons_id(self):
-        if self.weapons() != [:
+        if self.weapons() != []:
             weapon_ = [ box.weapons[i] for i in self.weapons()]
             return weapon_
         else:
