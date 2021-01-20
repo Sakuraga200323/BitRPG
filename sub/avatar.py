@@ -153,7 +153,7 @@ class Player:
             self._weapons_id.append(weapon.id)
             pg.execute(f'update player_tb set weapons=ARRAY{self._weapons_id} where id = {self.user.id};')
         self._weapon_id = list(self.get_data("weapons"))
-        if self._weapon_id != []:
+        if self._weapons_id != []:
             self._weapons = [ box.weapons[i] for i in self._weapons_id ]
             return self._weapons
         else:
