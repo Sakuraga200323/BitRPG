@@ -85,19 +85,19 @@ class Player:
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
-        self.weapon_id = self.dtd["weapon"]
-        self.weapons_id = self.dtd["weapons"]
-        print(self.weapon_id)
-        print(self.weapons_id)
-        if self.weapons_id == []:
+        self._weapon_id = self.dtd["weapon"]
+        self._weapons_id = self.dtd["weapons"]
+        print(self._weapon_id)
+        print(self._weapons_id)
+        if self._weapons_id == []:
             print("CreateFistWeapon: PlayerID[self.user.id]")
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
-            self.weapon_id = weapon.id
-            self.weapons_id = [weapon.id]
-            self.weapon = weapon
-            self.weapons = [weapon]
+            self._weapon_id = weapon.id
+            self._weapons_id = [weapon.id]
+            self._weapon = weapon
+            self._weapons = [weapon]
              
             
            
@@ -133,25 +133,25 @@ class Player:
         return box.weapons[weapon_id]
 
     def get_weapon(self,weapon):
-        if len(self.weapons_id) < 5:
+        if len(self._weapons_id) < 5:
             weapon.set_owner(self)
             self.weapons(weapon)
     
     def weapon(self,weapon=False):
         if weapon:
             self.update_data("weapon",weapon.id)
-        self.weapon_id = self.get_data("weapon")
-        self.weapon = box.weapons[self.weapon_id]
-        return self.weapon
+        self._weapon_id = self.get_data("weapon")
+        self._weapon = box.weapons[self._weapon_id]
+        return self._weapon
 
     
     def weapons(self,weapon=False):
         if weapon:
-            self.weapons_id.append(weapon.id)
-            pg.execute(f'update player_tb set weapons=ARRAY{self.weapons_id} where id = {self.user.id};')
-        self.weapon_id = list(self.get_data("weapons"))
-        self.weapons = [ box.weapons[i] for i in self.weapons_id ]
-        return self.weapons
+            self._weapons_id.append(weapon.id)
+            pg.execute(f'update player_tb set weapons=ARRAY{self._weapons_id} where id = {self.user.id};')
+        self._weapon_id = list(self.get_data("weapons"))
+        self._weapons = [ box.weapons[i] for i in self._weapons_id ]
+        return self._weapons
 
     # レベル取得
     def lv(self, plus=None):
@@ -186,7 +186,7 @@ class Player:
     def STR(self):
         magic_class = self.dtd["magic_class"]
         if magic_class == 1: return int((self.str()+self.str_p())*1.1)
-        if self.weapon: return int((self.str()+self.str_p())*1.1) + self.weapon.strength()
+        if self.weapon(): return int((self.str()+self.str_p())*1.1) + self.weapon().strength()
         else: return self.str()+self.str_p()
 
     def defe(self):
