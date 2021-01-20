@@ -73,8 +73,8 @@ async def shop(user, ch):
         if respons == 1:
             shop_em1 = discord.Embed(title="アイテムショップ",description=f"所持Cell:{player.money()}")
             menu_tuple = (
-                    (f"`1.`{items_emoji_a[2] }HP回復薬",  f"┗━Price: 100cell┃Info: HPを30%回復"),
-                    (f"`2.`{items_emoji_a[3] }MP回復薬",  f"┗━Price: 100cell┃Info: MPを30%回復"),
+                    (f"`1.`{items_emoji_a[2] }HP回復薬",  f"┗━Price: 100cell┃Info: HPを500回復"),
+                    (f"`2.`{items_emoji_a[3] }MP回復薬",  f"┗━Price: 100cell┃Info: MPを500回復"),
                     (f"`3.`{items_emoji_a[4] }魂の焔",    f"┗━Price: 10cell┃Info: 素材アイテム とある魔法の触媒"),
                     (f"`4.`{items_emoji_a[5] }砥石",      f"┗━Price: 500cell┃Info: 素材アイテム"),
                     (f"`5.`{items_emoji_a[6] }魔石",      f"┗━Price: 150cell┃Info: 250個でLv上限開放 素材アイテム"),
@@ -112,14 +112,14 @@ async def shop(user, ch):
                     cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300}
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
-                            content=f"```{cost_dict[item_id]*item_num-player.money()}Cell足りません```",
+                            content=f"```{cost_dict[item_id]*item_num-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```",
                             embed=shop_em1
                         )
                         continue
                     status.get_item(user,item_id,item_num)
                     player.money(-cost_dict[item_id]*item_num)
                     await shop_msg.edit(
-                        content=f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。\nまたのご来店をお待ちしております！",
+                        content=f"{cost_dict[item_id]*item_num}cellで{items_name[item_id]}{items_emoji_a[item_id]}x{item_num}を購入しました。\n\nそのまま購入を続けられます。終了する場合は0を送信。",
                         embed=shop_em1
                     )
 
@@ -172,13 +172,13 @@ async def shop(user, ch):
                             continue
                     if husoku_text != "":
                         await shop_msg.edit(
-                            content=f"{husoku_text}が不足しています。",
+                            content=f"{husoku_text}が不足しています。\nそのまま購入を続けられます。終了する場合は0を送信。",
                             embed=shop_em2
                         )
                         continue
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
-                            content=f"```{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです```",
+                            content=f"```{cost_dict[item_id]*item_num-player.money()}cell程お金が足りないようです。\nそのまま購入を続けられます。終了する場合は0を送信。```",
                             embed=shop_em2
                         )
                         continue
@@ -189,7 +189,7 @@ async def shop(user, ch):
                     player.money(-cost_dict[item_id]*item_num)
                     shop_em2.description = f"所持Cell:{player.money()}"
                     await shop_msg.edit(
-                        content=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。\nまたのご来店をお待ちしております！",
+                        content=f"{cost_dict[item_id]*item_num}cellで{item_name}{items_emoji_a[item_id]}x{item_num}を合成しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
                         embed=shop_em2
                     )
 
