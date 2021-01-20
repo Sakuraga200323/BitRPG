@@ -134,11 +134,12 @@ async def i_inventory(player,ch):
 # ウェポンインベントリ #
 async def w_inventory(player,ch):
     em = discord.Embed(title="Weapon Inventory Bord")
-    for weapon in player.weapons():
-        if weapon.id == player.weapon().id:
-            em.add_field(name=f"{weapon.emoji}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
-        else:
-            em.add_field(name=f"{weapon.emoji}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+    if player.weapons() != []:
+        for weapon in player.weapons():
+            if weapon.id == player.weapon().id:
+                em.add_field(name=f"{weapon.emoji}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+            else:
+                em.add_field(name=f"{weapon.emoji}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
     await ch.send(embed=em)
 
 async def open_inventory(user,ch):
