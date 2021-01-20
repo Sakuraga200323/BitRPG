@@ -256,7 +256,7 @@ async def shop(user, ch):
                     if before_page_num != page_num:
                         await shop_msg.clear_reactions()
                         await shop_msg.edit(
-                            content=f'`購入モード\n購入する武器の番号を送信してください。`',
+                            content=f'`購入モード\n購入する武器の番号を送信してください。\n0と送信すると処理が止まります。`',
                             embed=embeds[page_num]
                         )
                     shop_em3 = embeds[page_num]
@@ -279,7 +279,7 @@ async def shop(user, ch):
                                 break
                             weapon_id = int(msg.content) + (page_num)*6
                             weapon = box.npc_weapons[weapon_id]
-                            if player.weapon_id >= 5:
+                            if player.weapons_id >= 5:
                                 await shop_msg.edit(
                                     content=f"```既に５個の武器を所持しています。```",
                                     embed=shop_em3
