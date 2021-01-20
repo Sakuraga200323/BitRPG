@@ -183,6 +183,7 @@ class Player:
         self.str_p_ =  self.get_data("str_p")
         return self.str_p_
 
+
     def STR(self):
         magic_class = self.dtd["magic_class"]
         if magic_class == 1: return int((self.str()+self.str_p())*1.1)
