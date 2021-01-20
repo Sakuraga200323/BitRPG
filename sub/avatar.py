@@ -378,6 +378,7 @@ class Weapon:
         data =  client.pg.fetchdict(cmd)[0]
         self.dtd = data
         self.id_ = self.dtd["id"]
+        self.id = self.dtd["id"]
         self.player_id_ = self.dtd["id"]
         self.name = self.dtd["name"]
         self.emoji = self.dtd["emoji"]
