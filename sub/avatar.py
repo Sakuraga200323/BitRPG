@@ -87,7 +87,10 @@ class Player:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
         self.weapon_id = self.dtd["weapon"]
         self.weapons_id = self.dtd["weapons"]
+        print(self.weapon_id)
+        print(self.weapons_id)
         if self.weapons_id == []:
+            print("CreateFistWeapon: PlayerID[self.user.id]")
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
