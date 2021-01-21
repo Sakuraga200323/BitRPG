@@ -135,12 +135,10 @@ async def on_ready():
     for weapon_id in weapons_id:
         weapon = avatar.Weapon(weapon_id)
         box.weapons[weapon_id] = weapon
-        print("Weaponデータ挿入： ", weapon.name, f"Rank.{weapon.rank()} Lv.{weapon.lv()}")
     for player_id in players_id:
         if client.get_user(player_id):
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
-            print("Playerデータ挿入： ",player.user)
     p_num_result = (len(players_id)==len(box.players))
     desc = (
           f"\n+Prefix『^^』"
