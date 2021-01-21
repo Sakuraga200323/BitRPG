@@ -422,6 +422,7 @@ class Weapon:
             self._lv = data["lv"]
             self._limit_lv = data["limit_lv"]
 
+            
     def get_data(self, target):
         return pg2.fetchdict(f"select {target} from weapon_tb where id = {self._id};")[0][target]
     def update_data(self, target, value):
