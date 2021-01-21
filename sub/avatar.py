@@ -128,7 +128,7 @@ class Player:
         return box.weapons[weapon_id]
 
     def get_weapon(self,weapon):
-        if len(self._weapons_id) < 5:
+        if len(self.weapons()) < 5:
             weapon.set_owner(self)
             self.weapons(weapon)
     
