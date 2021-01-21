@@ -416,6 +416,7 @@ class Weapon:
         if data:
             data = data[0]
             self._id = data["id"]
+            self.id = data["id"]
         else:
             print(f"{id}の武器の取得に失敗")
 
