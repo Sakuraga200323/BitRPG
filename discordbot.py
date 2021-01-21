@@ -131,7 +131,7 @@ signal.signal(signal.SIGTERM, handler)
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
     players_id = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
-    weapons_id = [ i["id"] for i in pg.fetchdict("select id from weapon_tb;")]
+    weapons_id = [ i["id"] for i in pg2.fetchdict("select id from weapon_tb;")]
     for weapon_id in weapons_id:
         weapon = avatar.Weapon(weapon_id)
         box.weapons[weapon_id] = weapon
