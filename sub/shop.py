@@ -230,7 +230,6 @@ async def shop(user, ch):
                     try:
                         reaction,msg = None,None
                         reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
-                        msg = await client.wait_for("message",check=check3,timeout=60.0)
                     except asyncio.TimeoutError:
                         await shop_msg.edit(
                             content="```時間経過により処理終了済み```",
@@ -263,17 +262,8 @@ async def shop(user, ch):
                         if buy_mode:
                             await shop_msg.clear_reactions()
                             content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
-                    elif msg:
-                        page_num = int(msg.content)
-                        if page_num == 0:
-                            await shop_msg.edit(
-                                content="```処理終了済み```",
-                                embed=embeds[0]
-                            )
-                            await shop_msg.clear_reactions()
-                            break
-                    shop_em3 = embeds[page_num]
-                    await shop_msg.edit(embed=shop_em3)
+                        shop_em3 = embeds[page_num]
+                        await shop_msg.edit(embed=shop_em3)
                 while buy_mode:
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check3)
