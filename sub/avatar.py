@@ -418,7 +418,7 @@ class Weapon:
             self._player_id = data["player_id"]
             self._name = data["name"]
             self._rank_ = data["rank"]
-            self._emoji =data["emoji"]
+            self.emoji =data["emoji"]
             self._lv = data["lv"]
             self._limit_lv = data["limit_lv"]
 
