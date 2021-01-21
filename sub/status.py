@@ -411,11 +411,13 @@ async def set_weapon(user,ch):
     if player.weapons() != []:
         em = discord.Embed(title="Set Weapon")
         weapons_num = []
+        num = 0
         for weapon in player.weapons():
+            num += 1
             if player.weapon() and weapon.id == player.weapon().id:
-                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"`{num}.`▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
             else:
-                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
             weapons_num.append(weapon)
         await ch.send(content="```装備する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
         def check3(m):
