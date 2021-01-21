@@ -21,7 +21,7 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 client = pg = pg2 = None
 def first_set(c,p):
-    global client, pg
+    global client, pg, pg2
     client = c
     pg = p
     pg2 = client.pg2
