@@ -456,7 +456,7 @@ async def set_weapon(user,ch):
                         num += 1
                         em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                         weapons_num.append(weapon)
-                await ch.send(content="```装備する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
+                msg0 = await ch.send(content="```装備する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
                 def check3(m):
                     if not user.id == m.author.id:return 0
                     if not m.content.isdigit():return 0
@@ -480,4 +480,4 @@ async def set_weapon(user,ch):
                             else:
                                 em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                             weapons_num.append(weapon)
-                        await ch.edit(content="```装備完了```",embed=em)
+                        await msg0.edit(content="```装備完了```",embed=em)
