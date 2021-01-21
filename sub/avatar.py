@@ -92,8 +92,7 @@ class Player:
             weapon = self.create_weapon(name,emoji,rank)
             self.weapon(weapon)
             self.weapons(weapon)
-            await self.user.send(f"あなたの武器が見つからなかったので初期武器を配布しました。開発者の呼びかけがあった場合以下のデータを開発者の指定場所に送信してください。")
-            await self.user.send(f"武器情報: {self.weapon().name} {self.weapon().id}")
+            print(f"新規武器情報: {self.weapon().name} {self.weapon().id}")
              
            
     def ID(self):
