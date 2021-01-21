@@ -262,9 +262,8 @@ async def shop(user, ch):
                             await shop_msg.clear_reactions()
                         if buy_mode:
                             await shop_msg.clear_reactions()
-                            content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`' embeds[page_num]
+                            content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
                     elif msg:
-                        before_page_num = page_num
                         page_num = int(msg.content)
                         if page_num == 0:
                             await shop_msg.edit(
