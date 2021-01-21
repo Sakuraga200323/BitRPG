@@ -406,7 +406,8 @@ async def set_pouch(user,ch,num,item):
 #🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 async def set_weapon(user,ch):
-    player = box.players[user.id]    em = discord.Embed(title="Weapon Inventory Bord")
+    player = box.players[user.id]
+    em = discord.Embed(title="Weapon Inventory Bord")
     if player.weapons() != []:
         em = discord.Embed(title="Set Weapon")
         weapons_num = []
