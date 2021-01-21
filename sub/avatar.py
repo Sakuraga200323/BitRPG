@@ -84,15 +84,15 @@ class Player:
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
+        print(f"NewPlayerClass: {sel.user}")
         weapons = pg2.fetchdict(f"select id from weapon_tb where player_id = {self.user.id} limit 5")
         if not weapons:
-            print("CreateFirstWeapon")
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
             self.weapon(weapon)
             self.weapons(weapon)
-            print(f"新規武器情報: {self.weapon().name} {self.weapon().id}")
+            print(f"NewPlayerClass: {self.weapon().name} {self.weapon().id}")
              
            
     def ID(self):
@@ -410,23 +410,21 @@ class Weapon:
     """
 
     def __init__(self,id):
-        self.client = client
         cmd = f"select * from weapon_tb where id = {id}"
         print(cmd)
-        data =  pg2.fetchdict(cmd)[0]
-        self.dtd = data
-        self.id_ = self.dtd["id"]
-        self.id = self.dtd["id"]
-        self.player_id_ = self.dtd["id"]
-        self.name = self.dtd["name"]
-        self.emoji = self.dtd["emoji"]
-        self.rank_ = self.dtd["rank"]
-        self.lv_ = self.dtd["lv"]
-        self.now_exp_ = self.dtd["now_exp"]
-        self.limit_lv_ = self.dtd["limit_lv"]
+        data =  pg2.fetchdict(cmd)
+        if data:
+	    self._id = data["id"]
+            self._player_id = data["player_id"]
+            self._name = data["name"]
+            self._emoji =data["emoji"]
+            self._rank_ = data["rank"]
+            self._lv = data["lv"]
+            self._limit_lv = data["limit_lv"]
+            print()
 
     def get_data(self, target):
-        return pg2.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
+        return pg2.fetchdict(f"select {target} from weapon_tb where id = {self._id};")[0][target]
     def update_data(self, target, value):
         if target == 'id':
             return None
@@ -446,9 +444,9 @@ class Weapon:
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
-            self.lv_ = self.plus('lv', plus)
-        self.lv_ =  self.get_data("lv")
-        return self.lv_
+            return self.plus('lv', plus)
+        else:
+            return self.get_data("lv")
     
     def rank(self,get_int=False):
         if get_int:
@@ -457,33 +455,23 @@ class Weapon:
             rank_dict={1:"D",2:"C",3:"B",4:"A",5:"S"}
             return rank_dict[self.get_data("rank")]
 
-    def lv(self, plus=None):
-        if isinstance(plus,int):
-            result = self.plus('lv', plus)
-        else:
-            result = self.get_data('lv')
-        return result
-
     def limit_lv(self, plus=None):
         if isinstance(plus,int):
-            result = self.plus('limit_lv', plus)
+            return self.plus('limit_lv', plus)
         else:
-            result = self.get_data('limit_lv')
-        return result
+            return self.get_data('limit_lv')
 
-    def player_id(self, set_owner=None):
-        if set_owner.ID() in box.players:
-            self.update_data('player_id',set_owner.ID())   
-        return self.get_data('player_id')
-
-    def set_owner(self,player):
-        self.player_id(set_owner=player)
+    def player_id(self, set_player=False):
+        if set_player:
+            return self.update_data('player_id',set_player.ID())
+        else:
+            return self.get_data('player_id')
 
     def now_exp(self,num):
-        if isinstance(plus,int):
-            result = self.plus('now_exp', plus)
+        if isinstance(num,int):
+            return self.plus('now_exp', plus)
         else:
-            result = self.get_data('now_exp')
+            return self.get_data('now_exp')
 
     def get_exp(self, exp):
         exp = int(exp)
