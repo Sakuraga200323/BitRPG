@@ -443,6 +443,7 @@ class Weapon:
                 pg2.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
             return self.get_data(target)
 
+    
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
@@ -468,6 +469,13 @@ class Weapon:
             return self.update_data('player_id',set_player.ID())
         else:
             return self.get_data('player_id')
+
+
+    def player_id(self, set_emoji=None):
+        if set_emoji:
+            return self.update_data('emoji',set_emoji.ID())
+        else:
+            return self.get_data('emoji')
 
     def now_exp(self,num):
         if isinstance(num,int):
