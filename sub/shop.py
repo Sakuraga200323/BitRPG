@@ -218,7 +218,6 @@ async def shop(user, ch):
             while True:
                 buy_mode = False
                 if shop_flag is False:
-                    await shop_msg.edit(content="処理済み")
                     break
                 if not buy_mode:
                     for emoji in tuple(box.menu_emojis.values()):
