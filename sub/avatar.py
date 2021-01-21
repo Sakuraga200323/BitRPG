@@ -417,6 +417,7 @@ class Weapon:
             data = data[0]
             self._id = data["id"]
             self.id = data["id"]
+            print(f"NewWeaponClass: {data['name']} {id}")
         else:
             print(f"{id}の武器の取得に失敗")
 
@@ -462,7 +463,7 @@ class Weapon:
 
     def player_id(self, set_player=False):
         if set_player:
-            return self.update_data('player_id',set_player)
+            return self.update_data('player_id',set_player.ID())
         else:
             return self.get_data('player_id')
 
