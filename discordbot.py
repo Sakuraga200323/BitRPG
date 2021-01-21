@@ -131,7 +131,7 @@ signal.signal(signal.SIGTERM, handler)
 async def on_ready():
     await client.change_presence(activity=discord.Game(name=f"起動中…"))
     players_id = [ i["id"] for i in pg.fetchdict("select id from player_tb order by lv desc;")]
-    weapons_id = [ i["id"] for i in pg.fetchdict("select id from weapon_tb order by lv desc;")]
+    weapons_id = [ i["id"] for i in pg.fetchdict("select id from weapon_tb;")]
     for weapon_id in weapons_id:
         weapon = avatar.Weapon(weapon_id)
         box.weapons[weapon_id] = weapon
@@ -672,7 +672,7 @@ async def on_message(message):
                             cmd = ctt.split("psql1 ")[1]
                         result = None
                         if "select" in cmd:
-                            result = f"{PG.fetch(cmd+' LIMIT 10')}\n(DataCount『{len(pg.fetch(cmd))}』)"
+                            result = f"{PG.fetch(cmd + ";")}\n(DataCount『{len(PG.fetch(cmd))}』)"
                         else:
                             try:
                                 PG.execute(cmd)
