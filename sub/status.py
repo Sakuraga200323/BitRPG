@@ -473,11 +473,11 @@ async def set_weapon(user,ch):
                     else:
                         weapon = weapons_num[num-1]
                         player.weapon(weapon=weapon)
-                em = discord.Embed(title="Set Weapon")
-                for weapon in player.weapons():
-                    if player.weapon() and weapon.id == player.weapon().id:
-                        em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
-                    else:
-                        em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
-                    weapons_num.append(weapon)
-                await ch.edit(content="```装備完了```",embed=em)
+                        em = discord.Embed(title="Set Weapon")
+                        for weapon in player.weapons():
+                            if player.weapon() and weapon.id == player.weapon().id:
+                                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
+                            else:
+                                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
+                            weapons_num.append(weapon)
+                        await ch.edit(content="```装備完了```",embed=em)
