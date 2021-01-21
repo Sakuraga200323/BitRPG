@@ -415,9 +415,9 @@ async def set_weapon(user,ch):
         for weapon in player.weapons():
             num += 1
             if player.weapon() and weapon.id == player.weapon().id:
-                em.add_field(name=f"`{num}.`▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"`{num}.`▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
             else:
-                em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
             weapons_num.append(weapon)
         await ch.send(content="```装備する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
         def check3(m):
@@ -425,7 +425,7 @@ async def set_weapon(user,ch):
             if not m.content.isdigit():return 0
             return 1
         try:
-            msg = await client.wait_for("message", timeout=60, check=em)
+            msg = await client.wait_for("message", timeout=60, check=check3)
             await msg.delete()
         except asyncio.TimeoutError:
             await shop_msg.edit(content="```時間経過により処理終了済み```")
@@ -439,8 +439,8 @@ async def set_weapon(user,ch):
         em = discord.Embed(title="Set Weapon")
         for weapon in player.weapons():
             if player.weapon() and weapon.id == player.weapon().id:
-                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
             else:
-                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
             weapons_num.append(weapon)
         await ch.send(content="```装備完了```",embed=em)
