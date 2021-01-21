@@ -56,6 +56,7 @@ def change_abc(a):
     a = str(a).translate(str.maketrans(dict(zip(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),list(temp)))))
     return a
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # ステータス #
 async def open_status(user,ch):
@@ -117,8 +118,7 @@ async def open_status(user,ch):
     log_ch = client.get_channel(766997493195210774)
     await log_ch.send(embed=embed)
 
-
-
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # インベントリ #
 async def i_inventory(player,ch):
@@ -178,6 +178,7 @@ async def open_inventory(user,ch):
         if respons == 2:
             await w_inventory(player,ch)
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # STP振り分け #
 async def share_stp(user, ch):
@@ -247,6 +248,7 @@ async def share_stp(user, ch):
                 description=f"**{target2}**の強化量を**+{point}**しました\n所持StatusPoint: **{player.now_stp()}**\n{target2}強化量: **{target_stp}**")
             await point_msg.edit(embed=em)
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # レベル上限解放 #
 async def up_max_lv(user,ch):
@@ -264,6 +266,7 @@ async def up_max_lv(user,ch):
     await ch.send(embed=em)
     get_item(user,6,-250)
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # アイテムの確保 #
 def get_item(user, item_id, num):
@@ -275,6 +278,8 @@ def get_item(user, item_id, num):
 
 
 material_items = (4,5,6,7)
+
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 # アイテムの使用 #
 async def use_item(user, ch, item):
@@ -367,6 +372,7 @@ async def use_item(user, ch, item):
             item_em.set_thumbnail(url=items_image[item])
         await ch.send(embed=item_em)
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 
 async def open_pouch(user,ch):
     player = box.players[user.id]
@@ -397,3 +403,41 @@ async def set_pouch(user,ch,num,item):
     await ch.send(embed=pouch_em)
     
 
+#🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
+
+async def set_weapon(user,ch):
+    player = box.players[user.id]    em = discord.Embed(title="Weapon Inventory Bord")
+    if player.weapons() != []:
+        em = discord.Embed(title="Set Weapon")
+        weapons_num = []
+        for weapon in player.weapons():
+            if player.weapon() and weapon.id == player.weapon().id:
+                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+            else:
+                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+            weapons_num.append(weapon)
+        await ch.send(content="```装備する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
+        def check3(m):
+            if not user.id == m.author.id:return 0
+            if not m.content.isdigit():return 0
+            return 1
+        try:
+            msg = await client.wait_for("message", timeout=60, check=em)
+            await msg.delete()
+        except asyncio.TimeoutError:
+            await shop_msg.edit(content="```時間経過により処理終了済み```")
+        else:
+            num = int(msg.content)
+            if num == 0:
+                await shop_msg.edit(content="```キャンセルされました```")
+            else:
+                weapon = weapons_num[num-1]
+                player.weapon(weapon=weapon)
+        em = discord.Embed(title="Set Weapon")
+        for weapon in player.weapons():
+            if player.weapon() and weapon.id == player.weapon().id:
+                em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+            else:
+                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+            weapons_num.append(weapon)
+        await ch.send(content="```装備完了```",embed=em)
