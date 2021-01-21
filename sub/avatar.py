@@ -462,7 +462,7 @@ class Weapon:
 
     def player_id(self, set_player=False):
         if set_player:
-            return self.update_data('player_id',set_emoji)
+            return self.update_data('player_id',set_player)
         else:
             return self.get_data('player_id')
 
