@@ -137,9 +137,9 @@ async def w_inventory(player,ch):
     if player.weapons() != []:
         for weapon in player.weapons():
             if player.weapon() and weapon.id == player.weapon().id:
-                em.add_field(name=f"{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
             else:
-                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
     await ch.send(embed=em)
 
 async def open_inventory(user,ch):
