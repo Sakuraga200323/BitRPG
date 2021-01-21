@@ -141,7 +141,7 @@ async def on_ready():
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
             print("Playerデータ挿入： ",player.user)
-    p_num_result = (len(player_ids)==len(box.players))
+    p_num_result = (len(players_id)==len(box.players))
     desc = (
           f"\n+Prefix『^^』"
         + f"\n+Server『{len(client.guilds)}』"
