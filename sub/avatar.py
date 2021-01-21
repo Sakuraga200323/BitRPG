@@ -135,7 +135,7 @@ class Player:
             self.update_data("weapon",weapon.id)
         weapon_ = self.get_data("weapon")
         if weapon_:
-            return box.weaons[weapon_]
+            return box.weapons[weapon_]
         else:
             return None
 
