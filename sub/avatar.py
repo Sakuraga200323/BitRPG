@@ -19,11 +19,12 @@ from sub import box, mob_data, status
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-client = pg = None
+client = pg = pg2 = None
 def first_set(c,p):
     global client, pg
     client = c
     pg = p
+    pg2 = client.pg2
 
 #➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖#
 
@@ -57,8 +58,6 @@ class Player:
         if not self.user:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
             return
-        self.pg = pg
-        self.pg2 = client.pg
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         data_list = [
@@ -409,7 +408,6 @@ class Weapon:
     """
 
     def __init__(self,id):
-        self.pg = client.pg
         self.client = client
         cmd = f"select * from weapon_tb where id = {id}"
         print(cmd)
@@ -426,21 +424,21 @@ class Weapon:
         self.limit_lv_ = self.dtd["limit_lv"]
 
     def get_data(self, target):
-        return self.pg.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
+        return pg2.fetchdict(f"select {target} from weapon_tb where id = {self.id_};")[0][target]
     def update_data(self, target, value):
         if target == 'id':
             return None
         else:
-            self.pg.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
+            pg2.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
             return self.get_data(target)
     def plus(self, target, plus):
         if target == 'id':
             return None
         else:
             if plus < 0:
-                self.pg.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
+                pg2.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
             else:
-                self.pg.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
+                pg2.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
             return self.get_data(target)
 
     # レベル取得
