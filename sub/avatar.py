@@ -415,12 +415,6 @@ class Weapon:
         if data:
             data = data[0]
             self._id = data["id"]
-            self._player_id = data["player_id"]
-            self._name = data["name"]
-            self._rank_ = data["rank"]
-            self.emoji = data["emoji"]
-            self._lv = data["lv"]
-            self._limit_lv = data["limit_lv"]
         else:
             print(f"{id}の武器の取得に失敗")
 
@@ -466,17 +460,21 @@ class Weapon:
 
     def player_id(self, set_player=False):
         if set_player:
-            return self.update_data('player_id',set_player.ID())
+            return self.update_data('player_id',set_emoji)
         else:
             return self.get_data('player_id')
 
 
-    def player_id(self, set_emoji=None):
+    def emoji(self, set_emoji=None):
         if set_emoji:
             return self.update_data('emoji',set_emoji.ID())
         else:
             return self.get_data('emoji')
-
+    def name(self, set=None):
+        if set:
+            return self.update_data('name',set)
+        else:
+            return self.get_data('name')
     def now_exp(self,num):
         if isinstance(num,int):
             return self.plus('now_exp', plus)
