@@ -418,9 +418,11 @@ class Weapon:
             self._player_id = data["player_id"]
             self._name = data["name"]
             self._rank_ = data["rank"]
-            self.emoji =data["emoji"]
+            self.emoji = data["emoji"]
             self._lv = data["lv"]
             self._limit_lv = data["limit_lv"]
+        else:
+            print(f"{id}の武器の取得に失敗")
 
             
     def get_data(self, target):
