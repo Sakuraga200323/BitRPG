@@ -672,10 +672,10 @@ async def on_message(message):
                             cmd = ctt.split("psql1 ")[1]
                         result = None
                         if "select" in cmd:
-                            result = f"{PG.fetch(cmd + ";")}\n(DataCount『{len(PG.fetch(cmd))}』)"
+                            result = f"{PG.fetch(cmd + ';')}\n(DataCount『{len(PG.fetch(cmd))}』)"
                         else:
                             try:
-                                PG.execute(cmd)
+                                PG.execute(cmd + ';')
                             except Exception as error:
                                 result = f"{error}"
                             else:
