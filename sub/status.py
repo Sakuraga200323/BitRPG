@@ -441,7 +441,7 @@ async def set_weapon(user,ch):
         if respons == 0:
             await menu_msg.edit(content="```時間経過により処理終了済み```")
             return
-        if reaspons == 1:
+        if respons == 1:
             w_inventory(player,ch)
         if respons == 2:
             em = discord.Embed(title="Weapon Inventory Bord")
