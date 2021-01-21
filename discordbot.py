@@ -138,7 +138,7 @@ async def on_ready():
             print("Playerデータ挿入： ",player.user)
     weapons_id = [ i["id"] for i in pg.fetchdict("select id from weapon_tb order by lv desc;")]
     for weapon_id in weapons_id:
-        weapon = avatar.Weapon(client, weapon_id)
+        weapon = avatar.Weapon(weapon_id)
         box.weapons[weapon_id] = weapon
         print("Weaponデータ挿入： ", weapon.name, f"Rank.{weapon.rank()} Lv.{weapon.lv()}")
     p_num_result = (len(player_ids)==len(box.players))
