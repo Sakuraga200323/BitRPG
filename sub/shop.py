@@ -238,7 +238,9 @@ async def shop(user, ch):
                         )
                         await shop_msg.clear_reactions()
                         break
+                    content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`'
                     if reaction:
+                        content = ""
                         before_page_num = page_num
                         emoji = str(reaction.emoji)
                         if emoji == box.menu_emojis["right"]:
@@ -258,17 +260,9 @@ async def shop(user, ch):
                             buy_mode = True
                         if before_page_num != page_num:
                             await shop_msg.clear_reactions()
-                            await shop_msg.edit(
-                                content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis["left"]}:一つページを戻す\n{box.menu_emojis["close"]}:処理を終了する\n{box.menu_emojis["right"]}:一つページを進める\n{box.menu_emojis["buy_mode"]}:購入モードに変更`\nMaxRankは購入時にランダムで決められるランクの最大値です`',
-                                embed=embeds[page_num]
-                            )
                         if buy_mode:
                             await shop_msg.clear_reactions()
-                            await shop_msg.edit(
-                                content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`',
-                                embed=embeds[page_num]
-                            )
-                        shop_em3 = embeds[page_num]
+                            content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`' embeds[page_num]
                     elif msg:
                         before_page_num = page_num
                         page_num = int(msg.content)
@@ -279,7 +273,8 @@ async def shop(user, ch):
                             )
                             await shop_msg.clear_reactions()
                             break
-                        shop_em3 = embeds[page_num]
+                    shop_em3 = embeds[page_num]
+                    await shop_msg.edit(embed=shop_em3)
                 while buy_mode:
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check3)
