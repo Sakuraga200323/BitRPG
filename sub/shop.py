@@ -263,7 +263,7 @@ async def shop(user, ch):
                             await shop_msg.clear_reactions()
                             content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
                         shop_em3 = embeds[page_num]
-                        await shop_msg.edit(embed=shop_em3)
+                        await shop_msg.edit(content=content,embed=shop_em3)
                 while buy_mode:
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check3)
