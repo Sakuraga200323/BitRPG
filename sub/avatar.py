@@ -53,7 +53,7 @@ def set_client(c,pg):
 
 #🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 class Player:
-    async def __init__(self, client, id):
+    def __init__(self, client, id):
         self.user = client.get_user(id)
         if not self.user:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
