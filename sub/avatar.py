@@ -133,6 +133,7 @@ class Player:
         client.pg2.execute(f"delete from weapon_tb where id = {w_id};")
         del box.weapons[w_id]
 
+
     def get_weapon(self,weapon):
         if len(self.weapons()) < 5:
             weapon.player_id(self)
