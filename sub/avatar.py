@@ -149,7 +149,7 @@ class Player:
     def weapons(self,weapon=False):
         weapons_ = list(self.get_data("weapons"))
         if weapon:
-            weapons.append(weapon.id)
+            weapons_.append(weapon.id)
             pg.execute(f'update player_tb set weapons=ARRAY{weapons_} where id = {self.user.id};')
         if weapons_ != []:
             weapons_ = [ box.weapons[i] for i in weapons_ if i in box.weapons]
