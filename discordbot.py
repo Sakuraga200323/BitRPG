@@ -506,7 +506,14 @@ async def on_message(message):
                 log_text += ("\n^^rank: "+str(m_author))
                 await rank.open_ranking(m_author,m_ch)
 
-
+            # weapon #
+            if m_ctt.startswith("^^w"):
+                log_text += ("\n^^weapon: "+str(m_author))
+                temp = m_ctt
+                pattern = r"^\^\^(w|weapon)$"
+                result = re.search(pattern, temp)
+                if result:
+                    await status.set_weapon(m_author, m_ch)
 
             if m_ctt == "^^menu":
                 menu_emojis = (
