@@ -84,7 +84,7 @@ class Player:
             self.now_defe = self.max_defe = int(self.max_defe*1.1)
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
-        print(f"NewPlayerClass: {sel.user}")
+        print(f"NewPlayerClass: {self.user}")
         weapons = pg2.fetchdict(f"select id from weapon_tb where player_id = {self.user.id} limit 5")
         if not weapons:
             name = random.choice(list(box.shop_weapons.keys())[:3])
@@ -411,7 +411,6 @@ class Weapon:
 
     def __init__(self,id):
         cmd = f"select * from weapon_tb where id = {id}"
-        print(cmd)
         data =  pg2.fetchdict(cmd)
         if data:
             data = data[0]
@@ -422,7 +421,6 @@ class Weapon:
             self._emoji =data["emoji"]
             self._lv = data["lv"]
             self._limit_lv = data["limit_lv"]
-            print()
 
     def get_data(self, target):
         return pg2.fetchdict(f"select {target} from weapon_tb where id = {self._id};")[0][target]
