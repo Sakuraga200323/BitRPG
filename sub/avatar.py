@@ -129,7 +129,7 @@ class Player:
 
     def get_weapon(self,weapon):
         if len(self.weapons()) < 5:
-            weapon.set_owner(self)
+            weapon.player_id(self)
             self.weapons(weapon)
     
     def weapon(self,weapon=False):
