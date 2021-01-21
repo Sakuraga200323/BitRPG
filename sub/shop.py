@@ -298,7 +298,7 @@ async def shop(user, ch):
                         player.get_weapon(weapon_obj)
                         player.money(-weapon.create_cost)
                         await shop_msg.edit(
-                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji}{weapon_obj.name}(Rank.{weapon_obj.rank_})を購入しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
+                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を購入しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
                             embed=shop_em3)
                         
                         
