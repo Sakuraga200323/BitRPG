@@ -94,7 +94,6 @@ class Player:
             self.weapon(weapon)
             self.weapons(weapon)
              
-
            
     def ID(self):
         return self.user.id
