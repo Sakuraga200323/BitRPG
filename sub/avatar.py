@@ -414,11 +414,11 @@ class Weapon:
         print(cmd)
         data =  pg2.fetchdict(cmd)
         if data:
-	    self._id = data["id"]
+            self._id = data["id"]
             self._player_id = data["player_id"]
             self._name = data["name"]
-            self._emoji =data["emoji"]
             self._rank_ = data["rank"]
+            self._emoji =data["emoji"]
             self._lv = data["lv"]
             self._limit_lv = data["limit_lv"]
             print()
