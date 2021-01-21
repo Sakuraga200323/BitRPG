@@ -79,7 +79,7 @@ async def open_status(user,ch):
     if p_data.magic_class() == "Wolf":
         strength_text += " +10%"
     if p_data.weapon():
-        strength_text += f" {p_data.weapon().emoji}+{p_data.weapon().strength()}"
+        strength_text += f" {p_data.weapon().emoji()}+{p_data.weapon().strength()}"
     strength_text += ")"
     embed.add_field(name=f"Strength", value=strength_text)
     if p_data.magic_class() == "Armadillo":
@@ -137,9 +137,9 @@ async def w_inventory(player,ch):
     if player.weapons() != []:
         for weapon in player.weapons():
             if player.weapon() and weapon.id == player.weapon().id:
-                em.add_field(name=f"{weapon.emoji}{weapon.name}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
             else:
-                em.add_field(name=f"{weapon.emoji}`{weapon.name}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
+                em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`")
     await ch.send(embed=em)
 
 async def open_inventory(user,ch):
