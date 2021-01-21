@@ -127,6 +127,12 @@ class Player:
         box.weapons[weapon_id] = Weapon(weapon_id) 
         return box.weapons[weapon_id]
 
+    def drop_weapon(self,weapon)
+        w_id = weapon.id
+        self.weapons(weapon=wweapon,drop=True)
+        client.pg2.execute(f"delete from weapon_tb where id = {w_id};")
+        del box.weapons[w_id]
+
     def get_weapon(self,weapon):
         if len(self.weapons()) < 5:
             weapon.player_id(self)
@@ -148,10 +154,14 @@ class Player:
         else:
             return None
     
-    def weapons(self,weapon=False):
+    def weapons(self,weapon=False,drop=False):
         weapons_ = list(self.get_data("weapons"))
         if weapon:
-            weapons_.append(weapon.id)
+            if not drop:
+                weapons_.append(weapon.id)
+            else:
+                if weapon.id in weapons_:
+                    weapons_.remove(weapon.id)
             pg.execute(f'update player_tb set weapons=ARRAY{weapons_} where id = {self.user.id};')
         if weapons_ != []:
             weapons_ = [ box.weapons[i] for i in weapons_ if i in box.weapons]
