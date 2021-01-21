@@ -53,7 +53,7 @@ def set_client(c,pg):
 
 #🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨
 class Player:
-    def __init__(self, client, id):
+    async def __init__(self, client, id):
         self.user = client.get_user(id)
         if not self.user:
             print(f"Playerデータ取得失敗: {id}のuserがNone。")
@@ -92,6 +92,8 @@ class Player:
             weapon = self.create_weapon(name,emoji,rank)
             self.weapon(weapon)
             self.weapons(weapon)
+            await self.user.send(f"あなたの武器が見つからなかったので初期武器を配布しました。開発者の呼びかけがあった場合以下のデータを開発者の指定場所に送信してください。")
+            await self.user.send(f"武器情報: {self.weapon().name} {self.weapon().id}")
              
            
     def ID(self):
@@ -430,7 +432,7 @@ class Weapon:
         if target == 'id':
             return None
         else:
-            pg2.execute(f'update weapon_tb set {target}={value} where id = {self.id_};')
+            pg2.execute(f'update weapon_tb set {target}={value} where id = {self.id};')
             return self.get_data(target)
     def plus(self, target, plus):
         if target == 'id':
