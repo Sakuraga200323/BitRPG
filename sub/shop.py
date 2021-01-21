@@ -293,6 +293,7 @@ async def shop(user, ch):
                             if random.random() <= weapon.rate_of_rankup:
                                 rank += 1
                                 if rank == weapon.max_rank:
+                                    buy_mode = False
                                     break
                         weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
                         player.get_weapon(weapon_obj)
@@ -302,6 +303,5 @@ async def shop(user, ch):
                             embed=shop_em3)
                         
                         
-
 
                     
