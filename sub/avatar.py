@@ -414,6 +414,7 @@ class Weapon:
         print(cmd)
         data =  pg2.fetchdict(cmd)
         if data:
+            data = data[0]
             self._id = data["id"]
             self._player_id = data["player_id"]
             self._name = data["name"]
