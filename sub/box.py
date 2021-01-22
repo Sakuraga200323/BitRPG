@@ -74,7 +74,6 @@ items_emoji = {
     28:"<:carbon_powder:800197618286198813>",
     29:"<:carbon_plate:800197618327486584>",
     30:"<:carbon_chip:802069938973704194>",
-    
 }
 # 画像があるアイテムの {名前:画像URL} #
 items_image = {
