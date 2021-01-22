@@ -43,7 +43,7 @@ async def shop(user, ch):
         description=(
             "\n`1.`アイテム購入"
             + "\n`2.`アイテム合成"
-            + "\n`3.`~~武器購入~~"
+            + "\n`3.`武器購入"
     ))
     shop_msg = await ch.send(embed=shop_em)
     def check(m):
@@ -73,15 +73,17 @@ async def shop(user, ch):
         if respons == 1:
             shop_em1 = discord.Embed(title="アイテムショップ",description=f"所持Cell:{player.money()}")
             menu_tuple = (
-                    (f"`1.`{items_emoji_a[2] }HP回復薬",  f"┗━Price: 100cell┃Info: HPを500回復"),
-                    (f"`2.`{items_emoji_a[3] }MP回復薬",  f"┗━Price: 100cell┃Info: MPを500回復"),
-                    (f"`3.`{items_emoji_a[4] }魂の焔",    f"┗━Price: 10cell┃Info: 素材アイテム とある魔法の触媒"),
-                    (f"`4.`{items_emoji_a[5] }砥石",      f"┗━Price: 500cell┃Info: 素材アイテム"),
-                    (f"`5.`{items_emoji_a[6] }魔石",      f"┗━Price: 150cell┃Info: 250個でLv上限開放 素材アイテム"),
-                    (f"`6.`{items_emoji_a[7] }魔晶",      f"┗━Price: 1000cell┃Info: 素材アイテム"),
-                    (f"`7.`{items_emoji_a[8] }魔硬貨",    f"┗━Price: 2000cell┃Info: とある魔法の触媒"),
-                    (f"`8.`{items_emoji_a[9] }HP全回復薬",f"┗━Price: 300cell┃Info: HPを100%回復"),
-                    (f"`9.`{items_emoji_a[10]}MP全回復薬",f"┗━Price: 300cell┃Info: MPを100%回復"),
+                    (f"` 1.`{items_emoji_a[2] }HP回復薬",         f"┗━Price: 100cell┃Info: HPを500回復 素材アイテム"),
+                    (f"` 2.`{items_emoji_a[3] }MP回復薬",         f"┗━Price: 100cell┃Info: MPを500回復"),
+                    (f"` 3.`{items_emoji_a[4] }魂の焔",           f"┗━Price: 10cell┃Info: 素材アイテム とある魔法の触媒"),
+                    (f"` 4.`{items_emoji_a[5] }砥石",             f"┗━Price: 500cell┃Info: 素材アイテム"),
+                    (f"` 5.`{items_emoji_a[6] }魔石",             f"┗━Price: 150cell┃Info: 250個でLv上限開放 素材アイテム"),
+                    (f"` 6.`{items_emoji_a[7] }魔晶",             f"┗━Price: 1000cell┃Info: 素材アイテム"),
+                    (f"` 7.`{items_emoji_a[8] }魔硬貨",           f"┗━Price: 2000cell┃Info: とある魔法の触媒"),
+                    (f"` 8.`{items_emoji_a[9] }HP全回復薬",       f"┗━Price: 300cell┃Info: HPを100%回復"),
+                    (f"` 9.`{items_emoji_a[10]}MP全回復薬",       f"┗━Price: 300cell┃Info: MPを100%回復"),
+                    (f"`10.`{items_emoji_a[26]}型枠-インゴット",   f"┗━Price: 5cell┃Info: 素材アイテム"),
+                    (f"`11.`{items_emoji_a[26]}型枠-強化素材チップ",f"┗━Price: 5cell┃Info: 素材アイテム"),
             )
             for i in menu_tuple:
                 shop_em1.add_field(name=i[0],value=i[1],inline=False)
@@ -109,7 +111,7 @@ async def shop(user, ch):
                         )
                         break
                     item_id, item_num = int(result.group(1))+1, int(result.group(2))
-                    cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300}
+                    cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300,26:5}
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
                             content=f"```{cost_dict[item_id]*item_num-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```",
@@ -126,10 +128,19 @@ async def shop(user, ch):
         elif respons == 2:
             shop_em2 = discord.Embed(title="合成場",description=f"所持Cell:{player.money()}")
             menu_tuple = (
-                    (f"\n`1.`{items_emoji_a[7] }魔晶",      f"┗━Cost: 500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1┃Info: 素材アイテム"),
-                    (f"\n`2.`{items_emoji_a[8] }魔硬貨",    f"┗━Cost: 750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1┃Info: とある魔法の触媒"),
-                    (f"\n`3.`{items_emoji_a[9] }HP全回復薬",f"┗━Cost: 200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]┃Info: HPを100%回復"),
-                    (f"\n`4.`{items_emoji_a[10]}MP全回復薬",f"┗━Cost: 200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]┃Info: MPを100%回復"),
+                    (f"\n` 1.`{items_emoji_a[7] }魔晶",      f"┗━Cost: 500cell {items_emoji_a[5]}×1 {items_emoji_a[6]}×1┃Info: 素材アイテム"),
+                    (f"\n` 2.`{items_emoji_a[8] }魔硬貨",    f"┗━Cost: 750cell {items_emoji_a[4]}×1 {items_emoji_a[5]}×1 {items_emoji_a[7]}×1┃Info: とある魔法の触媒"),
+                    (f"\n` 3.`{items_emoji_a[9] }HP全回復薬",f"┗━Cost: 200cell {items_emoji_a[2]}×1 {items_emoji_a[4]}×10]┃Info: HPを100%回復"),
+                    (f"\n` 4.`{items_emoji_a[10]}MP全回復薬",f"┗━Cost: 200cell {items_emoji_a[3]}×1 {items_emoji_a[4]}×10]┃Info: MPを100%回復"),
+                    (f"\n` 5.`{items_emoji_a[24]}黒色酸化鉄",f"┗━Cost: 100cell {items_emoji_a[23]}×1 {items_emoji_a[4]}×10]┃Info: 武器素材"),
+                    (f"\n` 6.`{items_emoji_a[12]}キャラメル鋼",f"┗━Cost: 100cell {items_emoji_a[11]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n` 7.`{items_emoji_a[14]}ブラッド鋼",f"┗━Cost: 100cell {items_emoji_a[13]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n` 8.`{items_emoji_a[16]}ゴールド鋼",f"┗━Cost: 100cell {items_emoji_a[15]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n` 9.`{items_emoji_a[18]}ダーク鋼",f"┗━Cost: 100cell {items_emoji_a[17]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n`10.`{items_emoji_a[20]}ミスリル鋼",f"┗━Cost: 100cell {items_emoji_a[19]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n`11.`{items_emoji_a[22]}オリハルコン鋼",f"┗━Cost: 100cell {items_emoji_a[21]}×1 {items_emoji_a[4]}×10] {items_emoji_a[26]}×1┃Info: 武器素材"),
+                    (f"\n`12.`{items_emoji_a[29]}カーボンプレート",f"┗━Cost: 100cell {items_emoji_a[28]}×1 {items_emoji_a[4]}×10] {items_emoji_a[9]}×1┃Info: 武器強化素材"),
+                    (f"\n`12.`{items_emoji_a[30]}カーボンチップ",f"┗━Cost: 100cell {items_emoji_a[29]}×1 {items_emoji_a[4]}×10] {items_emoji_a[27]}×1┃Info: 武器強化素材"),
             )
             for i in menu_tuple:
                 shop_em2.add_field(name=i[0],value=i[1],inline=False)
@@ -162,6 +173,14 @@ async def shop(user, ch):
                         8:((4,1),(5,1),(7,1)),
                         9:((2,1),(4,10)),
                         10:((3,1),(4,10)),
+                        12:((11,1),(4,10),(26,1)),
+                        14:((13,1),(4,10),(26,1)),
+                        16:((15,1),(4,10),(26,1)),
+                        18:((17,1),(4,10),(26,1)),
+                        20:((19,1),(4,10),(26,1)),
+                        22:((21,1),(4,10),(26,1)),
+                        29:((28,1),(4,10),(9,1)),
+                        30:((29,1),(4,10),(27,1)),
                     }
                     cost_dict = {7:500,8:750,9:200,10:200}
                     husoku_text = ""
