@@ -83,7 +83,7 @@ async def shop(user, ch):
                     (f"` 8.`{items_emoji_a[9] }HP全回復薬",       f"┗━Price: 300cell┃Info: HPを100%回復"),
                     (f"` 9.`{items_emoji_a[10]}MP全回復薬",       f"┗━Price: 300cell┃Info: MPを100%回復"),
                     (f"`10.`{items_emoji_a[26]}型枠-インゴット",   f"┗━Price: 5cell┃Info: 素材アイテム"),
-                    (f"`11.`{items_emoji_a[26]}型枠-強化素材チップ",f"┗━Price: 5cell┃Info: 素材アイテム"),
+                    (f"`11.`{items_emoji_a[27]}型枠-強化素材チップ",f"┗━Price: 5cell┃Info: 素材アイテム"),
             )
             for i in menu_tuple:
                 shop_em1.add_field(name=i[0],value=i[1],inline=False)
@@ -111,7 +111,7 @@ async def shop(user, ch):
                         )
                         break
                     item_id, item_num = int(result.group(1))+1, int(result.group(2))
-                    cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300,26:5}
+                    cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300,11:5,12:5}
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
                             content=f"```{cost_dict[item_id]*item_num-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```",
