@@ -134,19 +134,19 @@ async def shop(user, ch):
         elif respons == 2:
             shop_em2 = discord.Embed(title="合成場",description=f"所持Cell:{player.money()}")
             menu_tuple = (
-                    (f"\n` 1.`{items_emoji_a[7] }魔晶",      f"┗━Price: 500cell\n┗━Recipe: {items_emoji_a[5]}×1, {items_emoji_a[6]}×1\n┗━Info: 素材アイテム"),
-                    (f"\n` 2.`{items_emoji_a[8] }魔硬貨",    f"┗━Price: 750cell\n┗━Recipe: {items_emoji_a[4]}×1, {items_emoji_a[5]}×1, {items_emoji_a[7]}×1\n┗━Info: とある魔法の触媒"),
-                    (f"\n` 3.`{items_emoji_a[9] }HP全回復薬",f"┗━Price: 200cell\n┗━Recipe: {items_emoji_a[2]}×1, {items_emoji_a[4]}×10\n┗━Info: HPを100%回復"),
-                    (f"\n` 4.`{items_emoji_a[10]}MP全回復薬",f"┗━Price: 200cell\n┗━Recipe: {items_emoji_a[3]}×1, {items_emoji_a[4]}×10\n┗━Info: MPを100%回復"),
-                    (f"\n` 5.`{items_emoji_a[24]}黒色酸化鉄",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[23]}×1, {items_emoji_a[4]}×10\n┗━Info: 武器素材"),
-                    (f"\n` 6.`{items_emoji_a[12]}キャラメル鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[11]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n` 7.`{items_emoji_a[14]}ブラッド鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[13]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n` 8.`{items_emoji_a[16]}ゴールド鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[15]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n` 9.`{items_emoji_a[18]}ダーク鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[17]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n`10.`{items_emoji_a[20]}ミスリル鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[19]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n`11.`{items_emoji_a[22]}オリハルコン鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[21]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
-                    (f"\n`12.`{items_emoji_a[29]}カーボンプレート",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[28]}×1, {items_emoji_a[4]}×10, {items_emoji_a[2]}×1\n┗━Info: 武器強化素材"),
-                    (f"\n`13.`{items_emoji_a[30]}カーボンチップ",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[29]}×1, {items_emoji_a[4]}×10, {items_emoji_a[27]}×1\n┗━Info: 武器強化素材"),
+                    (f"\n` 1.`{items_emoji_a[7] }魔晶",      f"┗━Price: 500cell┃{items_emoji_a[5]}×1, {items_emoji_a[6]}×1\n┗━Info: 素材アイテム"),
+                    (f"\n` 2.`{items_emoji_a[8] }魔硬貨",    f"┗━Price: 750cell┃{items_emoji_a[4]}×1, {items_emoji_a[5]}×1, {items_emoji_a[7]}×1\n┗━Info: とある魔法の触媒"),
+                    (f"\n` 3.`{items_emoji_a[9] }HP全回復薬",f"┗━Price: 200cell┃{items_emoji_a[2]}×1, {items_emoji_a[4]}×10\n┗━Info: HPを100%回復"),
+                    (f"\n` 4.`{items_emoji_a[10]}MP全回復薬",f"┗━Price: 200cell┃{items_emoji_a[3]}×1, {items_emoji_a[4]}×10\n┗━Info: MPを100%回復"),
+                    (f"\n` 5.`{items_emoji_a[24]}黒色酸化鉄",f"┗━Price: 100cell┃{items_emoji_a[23]}×1, {items_emoji_a[4]}×10\n┗━Info: 武器素材"),
+                    (f"\n` 6.`{items_emoji_a[12]}キャラメル鋼",f"┗━Price: 100cell┃{items_emoji_a[11]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n` 7.`{items_emoji_a[14]}ブラッド鋼",f"┗━Price: 100cell┃{items_emoji_a[13]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n` 8.`{items_emoji_a[16]}ゴールド鋼",f"┗━Price: 100cell┃{items_emoji_a[15]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n` 9.`{items_emoji_a[18]}ダーク鋼",f"┗━Price: 100cell┃{items_emoji_a[17]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n`10.`{items_emoji_a[20]}ミスリル鋼",f"┗━Price: 100cell┃{items_emoji_a[19]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n`11.`{items_emoji_a[22]}オリハルコン鋼",f"┗━Price: 100cell┃{items_emoji_a[21]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
+                    (f"\n`12.`{items_emoji_a[29]}カーボンプレート",f"┗━Price: 100cell┃{items_emoji_a[28]}×1, {items_emoji_a[4]}×10, {items_emoji_a[2]}×1\n┗━Info: 武器強化素材"),
+                    (f"\n`13.`{items_emoji_a[30]}カーボンチップ",f"┗━Price: 100cell┃{items_emoji_a[29]}×1, {items_emoji_a[4]}×10, {items_emoji_a[27]}×1\n┗━Info: 武器強化素材"),
             )
             for i in menu_tuple:
                 shop_em2.add_field(name=i[0],value=i[1],inline=True)
@@ -172,6 +172,7 @@ async def shop(user, ch):
                             embed=shop_em2
                         )
                         break
+                    item_id_dict = {1:7,2:8,3:9,4:10,5:24,6:12,7:14,8:16,9:18,10:20,11:22,12:29,13:30}
                     item_id, item_num = int(result.group(1))+6, int(result.group(2))
                     item_name = items_name[item_id]
                     material_dict = {
