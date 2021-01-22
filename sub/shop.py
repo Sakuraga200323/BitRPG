@@ -194,7 +194,7 @@ async def shop(user, ch):
                         29:((28,1),(4,10),(2,1)),
                         30:((29,1),(4,10),(27,1)),
                     }
-                    cost_dict = {7:500,8:750,9:200,10:200}
+                    cost_dict = {7:500,8:750,9:200,10:200,12:100,14:100,16:100,18:100,20:100,22:100,29:100.30:100}
                     husoku_text = ""
                     for data in material_dict[item_id]:
                         i_name = items_name[data[0]]
