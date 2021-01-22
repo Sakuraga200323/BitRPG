@@ -130,7 +130,7 @@ async def shop(user, ch):
             shop_em2 = discord.Embed(title="合成場",description=f"所持Cell:{player.money()}")
             menu_tuple = (
                     (f"\n` 1.`{items_emoji_a[7] }魔晶",      f"┗━Price: 500cell\n┗━Recipe: {items_emoji_a[5]}×1, {items_emoji_a[6]}×1\n┗━Info: 素材アイテム"),
-                    (f"\n` 2.`{items_emoji_a[8] }魔硬貨",    f"┗━Price: 750cell\n┗━Recipe: {items_emoji_a[4]}×1, {items_emoji_a[5]}×1 {items_emoji_a[7]}×1\n┗━Info: とある魔法の触媒"),
+                    (f"\n` 2.`{items_emoji_a[8] }魔硬貨",    f"┗━Price: 750cell\n┗━Recipe: {items_emoji_a[4]}×1, {items_emoji_a[5]}×1, {items_emoji_a[7]}×1\n┗━Info: とある魔法の触媒"),
                     (f"\n` 3.`{items_emoji_a[9] }HP全回復薬",f"┗━Price: 200cell\n┗━Recipe: {items_emoji_a[2]}×1, {items_emoji_a[4]}×10\n┗━Info: HPを100%回復"),
                     (f"\n` 4.`{items_emoji_a[10]}MP全回復薬",f"┗━Price: 200cell\n┗━Recipe: {items_emoji_a[3]}×1, {items_emoji_a[4]}×10\n┗━Info: MPを100%回復"),
                     (f"\n` 5.`{items_emoji_a[24]}黒色酸化鉄",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[23]}×1, {items_emoji_a[4]}×10\n┗━Info: 武器素材"),
@@ -144,7 +144,7 @@ async def shop(user, ch):
                     (f"\n`13.`{items_emoji_a[30]}カーボンチップ",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[29]}×1, {items_emoji_a[4]}×10, {items_emoji_a[27]}×1\n┗━Info: 武器強化素材"),
             )
             for i in menu_tuple:
-                shop_em2.add_field(name=i[0],value=i[1],inline=False)
+                shop_em2.add_field(name=i[0],value=i[1],inline=True)
             await shop_msg.edit(
                 content="```該当するアイテムの番号と購入数を半角スペースを空けて送信してください。0と送信すると終了します。\n例：HP全回復薬を10個合成\n3 10```",
                 embed=shop_em2
