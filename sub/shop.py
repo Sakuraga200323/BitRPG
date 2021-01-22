@@ -211,6 +211,7 @@ async def shop(user, ch):
                         i_name = items_name[data[0]]
                         player.get_item(data[0],-data[1]*item_num)
                     player.get_item(item_id,item_num)
+                    player.get_item(28,item_num)
                     player.money(-cost_dict[item_id]*item_num)
                     shop_em2.description = f"所持Cell:{player.money()}"
                     await shop_msg.edit(
