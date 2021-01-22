@@ -28,6 +28,14 @@ def first_set(c,p):
     client = c
     pg = p
 
+
+def split_list(l, n):
+    l = list(l)
+    if len(l) <= n:
+        return l
+    for idx in range(0, len(l), n):
+        yield l[idx:idx + n]
+
 # ^^i で消費しないアイテムの {ID:名前} #
 constant_items_name = {1:"冒険者カード", 4:"魂の焔", 5:"砥石", 6:"魔石", 7:"魔晶", 8:"魔硬貨"}
 
