@@ -131,7 +131,8 @@ class Player:
         w_id = weapon.id
         self.weapons(weapon=weapon,drop=True)
         client.pg2.execute(f"delete from weapon_tb where id = {w_id};")
-        del box.weapons[w_id]
+        if w_id in box.weapons:
+            del box.weapons[w_id]
 
 
     def get_weapon(self,weapon):
