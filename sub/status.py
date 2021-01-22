@@ -412,7 +412,9 @@ async def set_weapon(user,ch):
         description=(
             "\n`1.`武器一覧"
             + "\n`2.`武器装備"
-            + "\n`3.`武器消去"
+            + "\n`3.`~~武器強化~~"
+            + "\n`4.`武器作成"
+            + "\n`5.`武器消去"
     ))
     menu_msg = await ch.send(embed=menu_em)
     def check(m):
@@ -480,7 +482,126 @@ async def set_weapon(user,ch):
                                 em.add_field(name=f"{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                             weapons_num.append(weapon)
                         await msg0.edit(content="```装備完了```",embed=em)
-        if respons == 3:
+        if respons == 4:
+            split_weapons = tuple(split_list(box.player_weapons,8))
+            em_title = "Player Made Weapon"
+            rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
+            embeds = []
+            weapons = []
+            for page_num,weapons_data in zip(range(1,100),split_weapons):
+                em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
+                for num,weapon_data in zip(range(1,100),weapons_data):
+                    recipe_text = ""
+                    for i,emoji in zip(box.weapons_recipe[num],box.material_emoji):
+                        if i > 0:
+                            recipe_text += f"{emoji}×{i} "
+                    em.add_field(name=f"\n`{num}.`{weapon_data[1]}{weapon_data[0]}",value=f"┗━Price: {box.weapons_price[num-1]}cell┃Recipe: {recipe_text}",inline=False)
+                em.set_footer(text=f"Page.{page_num}/{len(split_weapons)}")
+                embeds.append(em)
+            embeds = tuple(embeds)
+            page_num = 0
+            await shop_msg.edit(
+                content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
+                embed=embeds[0]
+            )
+            shop_flag = True
+            while True:
+                create_mode = False
+                if shop_flag is False:
+                    break
+                if not create_mode:
+                    for emoji in tuple(box.menu_emojis2.values()):
+                        await shop_msg.add_reaction(emoji)
+                    def check_react(r,u):
+                        if r.message.id != shop_msg.id:
+                            return 0
+                        if u.id != user.id:
+                            return 0
+                        if not str(r.emoji) in tuple(box.menu_emojis2.values()):
+                            return 0
+                        return 1
+                    try:
+                        reaction,msg = None,None
+                        reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
+                    except asyncio.TimeoutError:
+                        await shop_msg.edit(
+                            content="```時間経過により処理終了済み```",
+                            embed=embeds[0]
+                        )
+                        await shop_msg.clear_reactions()
+                        break
+                    else:
+                       content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
+                       if reaction:
+                            before_page_num = page_num
+                            emoji = str(reaction.emoji)
+                            if emoji == box.menu_emojis2["right"]:
+                                if page_num < len(embeds)-1:
+                                     page_num += 1
+                            elif emoji == box.menu_emojis2["close"]:
+                                await shop_msg.edit(
+                                    content="```処理終了済み```",
+                                    embed=embeds[0]
+                                )
+                                await shop_msg.clear_reactions()
+                                break
+                            elif emoji == box.menu_emojis2["left"]:
+                                if page_num > 0:
+                                     page_num -= 1
+                            elif emoji == box.menu_emojis2["create_mode"]:
+                                create_mode = True
+                            if before_page_num != page_num:
+                                await shop_msg.clear_reactions()
+                            if create_mode:
+                                await shop_msg.clear_reactions()
+                                content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
+                            shop_em3 = embeds[page_num]
+                            await shop_msg.edit(content=content,embed=shop_em3)
+                while create_mode:
+                    try:
+                        msg = await client.wait_for("message", timeout=60, check=check3)
+                        await msg.delete()
+                    except asyncio.TimeoutError:
+                        await shop_msg.edit(
+                            content="```時間経過により処理終了済み```"
+                        )
+                        create_mode = False
+                        shop_flag = False
+                        break
+                    else:
+                        if msg.content == "0":
+                            await shop_msg.edit(content="```処理終了済み```"
+                            )
+                            create_mode = False
+                            shop_flag = False
+                            break
+                        weapon_id = int(msg.content) + (page_num)*6
+                        weapon = box.npc_weapons[weapon_id]
+                        if len(player.weapons()) >= 5:
+                            await shop_msg.edit(
+                                content=f"```既に５個の武器を所持しています。\n処理終了済み```"
+                            )
+                            shop_flag = False
+                            break
+                        if player.money() < weapon.create_cost:
+                            await shop_msg.edit(
+                                content=f"```{weapon.create_cost-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```"
+                            )
+                            continue
+                        rank = 1
+                        for i in range(1,weapon.max_rank-1):
+                            if random.random() <= weapon.rate_of_rankup:
+                                rank += 1
+                                if rank == weapon.max_rank:
+                                    create_mode = False
+                                    break
+                        weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
+                        player.get_weapon(weapon_obj)
+                        player.money(-weapon.create_cost)
+                        await shop_msg.edit(
+                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を購入しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
+                        )
+        if respons == 5:
             if player.weapons() != []:
                 em = discord.Embed(title="Drop Weapon")
                 weapons_num = []
