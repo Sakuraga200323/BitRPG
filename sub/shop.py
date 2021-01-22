@@ -82,8 +82,8 @@ async def shop(user, ch):
                     (f"` 7.`{items_emoji_a[8] }魔硬貨",           f"┗━Price: 2000cell┃Info: とある魔法の触媒"),
                     (f"` 8.`{items_emoji_a[9] }HP全回復薬",       f"┗━Price: 300cell┃Info: HPを100%回復"),
                     (f"` 9.`{items_emoji_a[10]}MP全回復薬",       f"┗━Price: 300cell┃Info: MPを100%回復"),
-                    (f"`26.`{items_emoji_a[26]}型枠-インゴット",   f"┗━Price: 5cell┃Info: 素材アイテム"),
-                    (f"`27.`{items_emoji_a[27]}型枠-強化素材チップ",f"┗━Price: 5cell┃Info: 素材アイテム"),
+                    (f"`10.`{items_emoji_a[26]}型枠-インゴット",   f"┗━Price: 5cell┃Info: 素材アイテム"),
+                    (f"`11.`{items_emoji_a[27]}型枠-強化素材チップ",f"┗━Price: 5cell┃Info: 素材アイテム"),
             )
             for i in menu_tuple:
                 shop_em1.add_field(name=i[0],value=i[1],inline=False)
@@ -110,7 +110,8 @@ async def shop(user, ch):
                             embed=shop_em1
                         )
                         break
-                    item_id, item_num = int(result.group(1))+1, int(result.group(2))
+                    item_id_dict = {1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9,9:10,10:26,11:27}
+                    item_id, item_num = item_id_dict[int(result.group(1))], int(result.group(2))
                     cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300,26:5,27:5}
                     if player.money() < cost_dict[item_id]*item_num:
                         await shop_msg.edit(
@@ -140,7 +141,7 @@ async def shop(user, ch):
                     (f"\n`10.`{items_emoji_a[20]}ミスリル鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[19]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
                     (f"\n`11.`{items_emoji_a[22]}オリハルコン鋼",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[21]}×1, {items_emoji_a[4]}×10, {items_emoji_a[26]}×1\n┗━Info: 武器素材"),
                     (f"\n`12.`{items_emoji_a[29]}カーボンプレート",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[28]}×1, {items_emoji_a[4]}×10, {items_emoji_a[2]}×1\n┗━Info: 武器強化素材"),
-                    (f"\n`12.`{items_emoji_a[30]}カーボンチップ",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[29]}×1, {items_emoji_a[4]}×10, {items_emoji_a[27]}×1\n┗━Info: 武器強化素材"),
+                    (f"\n`13.`{items_emoji_a[30]}カーボンチップ",f"┗━Price: 100cell\n┗━Recipe: {items_emoji_a[29]}×1, {items_emoji_a[4]}×10, {items_emoji_a[27]}×1\n┗━Info: 武器強化素材"),
             )
             for i in menu_tuple:
                 shop_em2.add_field(name=i[0],value=i[1],inline=False)
