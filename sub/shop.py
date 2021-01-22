@@ -173,7 +173,7 @@ async def shop(user, ch):
                         )
                         break
                     item_id_dict = {1:7,2:8,3:9,4:10,5:24,6:12,7:14,8:16,9:18,10:20,11:22,12:29,13:30}
-                    item_id, item_num = int(result.group(1))+6, int(result.group(2))
+                    item_id, item_num = item_id_dict[int(result.group(1))], int(result.group(2))
                     item_name = items_name[item_id]
                     material_dict = {
                         7:((5,1),(6,1)),
