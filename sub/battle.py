@@ -107,7 +107,7 @@ async def battle_result(player, mob):
         17:(randint(2,5),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare",)),
         19:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
         21:(randint(1,3),(random()<=0.05 and mob.lv()%100==0) or mob.type in ("UltraRare","UltraEro")),
-        23:(randint(3,6),(random()<=0.025 or mob.type in types[2:])),
+        23:(randint(3,6),(random()<=0.025 or mob.type in types[1:])),
         25:(1,mob.name in ("ドワーフ") and random()<=0.001),
     }
     ch = mob.mob
