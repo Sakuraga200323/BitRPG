@@ -111,6 +111,11 @@ async def shop(user, ch):
                         )
                         break
                     item_id_dict = {1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9,9:10,10:26,11:27}
+                    if not result.group(1) in item_id_dict:
+                        await shop_msg.edit(
+                            content="```番号オーバーしてるかもです```",
+                        )
+                        continue
                     item_id, item_num = item_id_dict[int(result.group(1))], int(result.group(2))
                     cost_dict = {2:100,3:100,4:10,5:500,6:150,7:1000,8:2000,9:300,10:300,26:5,27:5}
                     if player.money() < cost_dict[item_id]*item_num:
