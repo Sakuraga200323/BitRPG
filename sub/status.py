@@ -611,6 +611,10 @@ async def set_weapon(user,ch):
                         )
         if respons == 5:
             if player.weapons() != []:
+                def check3(m):
+                    if not user.id == m.author.id:return 0
+                    if not m.content.isdigit():return 0
+                    return 1
                 em = discord.Embed(title="Drop Weapon")
                 weapons_num = []
                 num = 0
@@ -621,34 +625,30 @@ async def set_weapon(user,ch):
                         num += 1
                         em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                         weapons_num.append(weapon)
-                msg0 = await ch.send(content="```消去する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
-                def check3(m):
-                    if not user.id == m.author.id:return 0
-                    if not m.content.isdigit():return 0
-                    return 1
+                drop_weapon_menu_msg = await ch.send(content="```消去する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
                 while True:
                     try:
-                        msg = await client.wait_for("message", timeout=60, check=check3)
-                        await msg.delete()
+                        drop_weapon_num_msg = await client.wait_for("message", timeout=60, check=check3)
+                        await drop_weapon_num_msg.delete()
                     except asyncio.TimeoutError:
-                        await menu_msg.edit(content="```時間経過により処理終了済み```")
+                        await drop_weapon_menu_msg.edit(content="```時間経過により処理終了済み```")
                     else:
-                        weapon_num = int(msg.content)
-                        if num == 0:
+                        drop_weapon_num = int(drop_weapon_num_msg.content)
+                        if drop_weapon_num == 0:
                             await msg0.edit(content="```処理終了済み```")
                             break
                         else:
-                            weapons_num = []
-                            em = discord.Embed(title="Drop Weapon")
+                            weapon = weapons_which_player_has[drop_weapon_num-1]
                             player.drop_weapon(weapon=weapon)
+                            em = discord.Embed(title="Drop Weapon")
+                            weapons_num = []
+                            num = 0
                             for weapon in player.weapons():
-                                num = 0
                                 if player.weapon() and weapon.id == player.weapon().id:
                                     em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                 else:
                                     num += 1
                                     em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                     weapons_num.append(weapon)
-                            weapon = weapons_num[weapon_num-1]
-                            await msg0.edit(content="```消去完了。\n引き続き消去出来ます。\n終了する場合は0を送信。```",embed=em)
+                            await drop_weapon_menu_msg.edit(content="```消去完了。\n引き続き消去出来ます。\n終了する場合は0を送信。```",embed=em)
             
