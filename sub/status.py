@@ -640,6 +640,7 @@ async def set_weapon(user,ch):
                         else:
                             weapons_num = []
                             em = discord.Embed(title="Drop Weapon")
+                            player.drop_weapon(weapon=weapon)
                             for weapon in player.weapons():
                                 num = 0
                                 if player.weapon() and weapon.id == player.weapon().id:
@@ -649,7 +650,5 @@ async def set_weapon(user,ch):
                                     em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                     weapons_num.append(weapon)
                             weapon = weapons_num[weapon_num-1]
-                            player.drop_weapon(weapon=weapon)
-                            num = 0
                             await msg0.edit(content="```消去完了。\n引き続き消去出来ます。\n終了する場合は0を送信。```",embed=em)
             
