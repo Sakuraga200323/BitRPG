@@ -649,7 +649,7 @@ async def set_weapon(user,ch):
                             player.drop_weapon(weapon=weapon)
                             weapon = weapons_which_player_has[drop_weapon_num-1]
                             em = discord.Embed(title="Drop Weapon")
-                            for weapon,num in zip((player.weapons(),range(1,5)):
+                            for weapon,num in zip(player.weapons(),range(1,5)):
                                 if player.weapon() and weapon.id == player.weapon().id:
                                     em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                 else:
