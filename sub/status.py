@@ -641,17 +641,18 @@ async def set_weapon(user,ch):
                             await drop_weapon_menu_msg.edit(content="```処理終了済み```")
                             break
                         else:
-                            weapon = weapons_which_player_has[drop_weapon_num-1]
-                            player.drop_weapon(weapon=weapon)
-                            em = discord.Embed(title="Drop Weapon")
-                            weapons_num = []
+                            weapons_which_player_has = []
                             num = 0
-                            for weapon in player.weapons():
+                            for weapon,num in player.weapons():
+                                if player.weapon() and not weapon.id == player.weapon().id:
+                                    weapons_which_player_has.append(weapon)
+                            player.drop_weapon(weapon=weapon)
+                            weapon = weapons_which_player_has[drop_weapon_num-1]
+                            em = discord.Embed(title="Drop Weapon")
+                            for weapon,num in zip((player.weapons(),range(1,5)):
                                 if player.weapon() and weapon.id == player.weapon().id:
                                     em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                 else:
-                                    num += 1
                                     em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
-                                    weapons_num.append(weapon)
                             await drop_weapon_menu_msg.edit(content="```消去完了。\n引き続き消去出来ます。\n終了する場合は0を送信。```",embed=em)
             
