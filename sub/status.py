@@ -625,6 +625,9 @@ async def set_weapon(user,ch):
                         num += 1
                         em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                         weapons_num.append(weapon)
+                if num == 0:
+                    await ch.send(embed=discord.Embed(title="Drop Weapon",description="現在装備中の武器以外に所持していません。"))
+                    return
                 drop_weapon_menu_msg = await ch.send(content="```消去する武器の番号を送信してください。\n0と送信するとキャンセルします。```",embed=em)
                 while True:
                     try:
@@ -635,7 +638,7 @@ async def set_weapon(user,ch):
                     else:
                         drop_weapon_num = int(drop_weapon_num_msg.content)
                         if drop_weapon_num == 0:
-                            await msg0.edit(content="```処理終了済み```")
+                            await drop_weapon_menu_msg.edit(content="```処理終了済み```")
                             break
                         else:
                             weapon = weapons_which_player_has[drop_weapon_num-1]
