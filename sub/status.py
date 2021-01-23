@@ -643,7 +643,7 @@ async def set_weapon(user,ch):
                         else:
                             weapons_which_player_has = []
                             num = 0
-                            for weapon,num in player.weapons():
+                            for weapon in player.weapons():
                                 if player.weapon() and not weapon.id == player.weapon().id:
                                     weapons_which_player_has.append(weapon)
                             player.drop_weapon(weapon=weapon)
