@@ -633,20 +633,21 @@ async def set_weapon(user,ch):
                     except asyncio.TimeoutError:
                         await menu_msg.edit(content="```時間経過により処理終了済み```")
                     else:
-                        num = int(msg.content)
+                        weapon_num = int(msg.content)
                         if num == 0:
                             await msg0.edit(content="```処理終了済み```")
                             break
                         else:
                             weapons_num = []
                             for weapon in player.weapons():
+                                num = 0
                                 if player.weapon() and weapon.id == player.weapon().id:
                                     em.add_field(name=f"▷{weapon.emoji()}{weapon.name()}",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                 else:
                                     num += 1
                                     em.add_field(name=f"`{num}.`{weapon.emoji()}`{weapon.name()}`",value=f"`Rank.{weapon.rank()}┃Lv.{weapon.lv()}┃Atk.{weapon.strength()}`",inline=False)
                                     weapons_num.append(weapon)
-                            weapon = weapons_num[num-1]
+                            weapon = weapons_num[weapon_num-1]
                             player.drop_weapon(weapon=weapon)
                             em = discord.Embed(title="Drop Weapon")
                             num = 0
