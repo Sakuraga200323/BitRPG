@@ -600,7 +600,7 @@ async def set_weapon(user,ch):
                         weapon_info_id = box.player_weapons[weapon_num - 1][2] - 1
                         weapon_name = box.player_weapons[weapon_num - 1][0]
                         weapon_emoji = box.player_weapons[weapon_num - 1][1]
-                        weapon_price = box.weapons_price[weapon_num - 1][1]
+                        weapon_price = box.weapons_price[weapon_num - 1]
                         weapon_recipe = tuple(recipe_select_by_weapon_num[weapon_num])
                         weapon_rank_rate = rankrate_select_by_weapon_num[weapon_num]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
