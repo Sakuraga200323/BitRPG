@@ -508,7 +508,7 @@ async def set_weapon(user,ch):
                 embeds.append(em)
             embeds = tuple(embeds)
             page_num = 0
-            await shop_msg.edit(
+            weapon_drop_menu_msg = awaitch.send(
                 content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
                 embed=embeds[0]
             )
