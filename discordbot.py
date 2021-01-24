@@ -733,7 +733,7 @@ async def on_message(message):
                                 pattern = r"^(\d+) (\d+)"
                                 result = re.match(pattern, arg)
                                 if result:
-                                    id,num = int(result.group(0)),int(result.group(1))
+                                    id,num = int(result.group(1)),int(result.group(2))
                                     result2 = status.get_item(player.user,id,num)
                                     if result2:
                                         await ch.send("{target_user} got {item_name}x{num}")
