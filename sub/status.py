@@ -500,10 +500,10 @@ async def set_weapon(user,ch):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
                 for weapon_num_on_page,weapon_data in zip(range(1,100),weapons_data):
                     recipe_text = ""
-                    for material_num,emoji in zip(box.weapons_recipe[weapon_data[2]],box.material_emoji):
+                    for material_num,emoji in zip(box.weapons_recipe[weapon_data[2]-1],box.material_emoji):
                         if material_num > 0:
                             recipe_text += f"{emoji}×{material_num} "
-                    em.add_field(name=f"\n`{weapon_num_on_page}.`{weapon_data[1]}{weapon_data[0]}",value=f"┗━Price: {box.weapons_price[weapon_num_on_page-1]}cell┃Recipe: {recipe_text}",inline=False)
+                    em.add_field(name=f"\n`{weapon_num_on_page}.`{weapon_data[1]}{weapon_data[0]}",value=f"┗━Price: {box.weapons_price[weapon_data[2]-1]}cell┃Recipe: {recipe_text}",inline=False)
                 em.set_footer(text=f"Page.{page_num}/{len(split_weapons)}")
                 embeds.append(em)
             embeds = tuple(embeds)
