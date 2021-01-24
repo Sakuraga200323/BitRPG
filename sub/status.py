@@ -521,7 +521,7 @@ async def set_weapon(user,ch):
                     for emoji in tuple(box.menu_emojis2.values()):
                         await weapon_drop_menu_msg.add_reaction(emoji)
                     def check_react(r,u):
-                        if r.message.id != shop_msg.id:
+                        if r.message.id != weapon_drop_menu_msg.id:
                             return 0
                         if u.id != user.id:
                             return 0
@@ -547,7 +547,7 @@ async def set_weapon(user,ch):
                                 if page_num < len(embeds)-1:
                                      page_num += 1
                             elif emoji == box.menu_emojis2["close"]:
-                                await shop_msg.edit(
+                                await weapon_drop_menu_msg.edit(
                                     content="```処理終了済み```",
                                     embed=embeds[0]
                                 )
@@ -561,7 +561,7 @@ async def set_weapon(user,ch):
                             if before_page_num != page_num:
                                 await weapon_drop_menu_msg.clear_reactions()
                             if create_mode:
-                                await shop_msg.clear_reactions()
+                                await weapon_drop_menu_msg.clear_reactions()
                                 content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
                             shop_em3 = embeds[page_num]
                             await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
