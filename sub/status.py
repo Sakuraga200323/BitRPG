@@ -607,14 +607,14 @@ async def set_weapon(user,ch):
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
                             if num < player.item_num(name):
                                 husoku_text += "{emoji}×{num} "
-                        if player.money() < weapons_prie[weapon_info_id]:
-                            husoku_text = f"{weapons_prie[weapon_info_id]-player.money()}Cell " +  husoku_text
+                        if player.money() < weapons_price[weapon_info_id]:
+                            husoku_text = f"{weapons_price[weapon_info_id]-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
                             await weapon_drop_menu_msg.edit(
                                 content=f"```{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。```"
                             )
                             continue
-                        for name,num in zip(weapon_recipe, weapon_recipe):
+                        for name,num in zip(materials_name, weapon_recipe):
                             item_id = box.items_id[name]
                             if num > 0:
                                 status.get_item(user,item_id,-num)
