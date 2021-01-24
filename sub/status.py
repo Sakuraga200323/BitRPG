@@ -512,14 +512,14 @@ async def set_weapon(user,ch):
                 content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
                 embed=embeds[0]
             )
-            shop_flag = True
+            menu_flag = True
             while True:
                 create_mode = False
-                if shop_flag is False:
+                if menu_flag is False:
                     break
                 if not create_mode:
                     for emoji in tuple(box.menu_emojis2.values()):
-                        await shop_msg.add_reaction(emoji)
+                        await weapon_drop_menu_msg.add_reaction(emoji)
                     def check_react(r,u):
                         if r.message.id != shop_msg.id:
                             return 0
@@ -532,11 +532,11 @@ async def set_weapon(user,ch):
                         reaction,msg = None,None
                         reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
                     except asyncio.TimeoutError:
-                        await shop_msg.edit(
+                        await weapon_drop_menu_msg.edit(
                             content="```時間経過により処理終了済み```",
                             embed=embeds[0]
                         )
-                        await shop_msg.clear_reactions()
+                        await weapon_drop_menu_msg.clear_reactions()
                         break
                     else:
                        content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
@@ -551,7 +551,7 @@ async def set_weapon(user,ch):
                                     content="```処理終了済み```",
                                     embed=embeds[0]
                                 )
-                                await shop_msg.clear_reactions()
+                                await weapon_drop_menu_msg.clear_reactions()
                                 break
                             elif emoji == box.menu_emojis2["left"]:
                                 if page_num > 0:
@@ -559,40 +559,40 @@ async def set_weapon(user,ch):
                             elif emoji == box.menu_emojis2["create_mode"]:
                                 create_mode = True
                             if before_page_num != page_num:
-                                await shop_msg.clear_reactions()
+                                await weapon_drop_menu_msg.clear_reactions()
                             if create_mode:
                                 await shop_msg.clear_reactions()
                                 content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
                             shop_em3 = embeds[page_num]
-                            await shop_msg.edit(content=content,embed=shop_em3)
+                            await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
                 while create_mode:
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check3)
                         await msg.delete()
                     except asyncio.TimeoutError:
-                        await shop_msg.edit(
+                        await weapon_drop_menu_msg.edit(
                             content="```時間経過により処理終了済み```"
                         )
                         create_mode = False
-                        shop_flag = False
+                        menu_flag = False
                         break
                     else:
                         if msg.content == "0":
-                            await shop_msg.edit(content="```処理終了済み```"
+                            await weapon_drop_menu_msg.edit(content="```処理終了済み```"
                             )
                             create_mode = False
-                            shop_flag = False
+                            menu_flag = False
                             break
                         weapon_id = int(msg.content) + (page_num)*6
                         weapon = box.npc_weapons[weapon_id]
                         if len(player.weapons()) >= 5:
-                            await shop_msg.edit(
+                            await weapon_drop_menu_msg.edit(
                                 content=f"```既に５個の武器を所持しています。\n処理終了済み```"
                             )
-                            shop_flag = False
+                            menu_flag = False
                             break
                         if player.money() < weapon.create_cost:
-                            await shop_msg.edit(
+                            await weapon_drop_menu_msg.edit(
                                 content=f"```{weapon.create_cost-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```"
                             )
                             continue
@@ -606,7 +606,7 @@ async def set_weapon(user,ch):
                         weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
                         player.get_weapon(weapon_obj)
                         player.money(-weapon.create_cost)
-                        await shop_msg.edit(
+                        await weapon_drop_menu_msg.edit(
                             content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を購入しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
                         )
         if respons == 5:
