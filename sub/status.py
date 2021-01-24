@@ -604,7 +604,7 @@ async def set_weapon(user,ch):
                         weapon_rank_rate = rankrate_select_by_weapon_num[weapon_num]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
                         husoku_text = ""
-                        for name,emoji,num in zip(weapon_recipe, box.material_emoji, weapon_recipe):
+                        for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
                             if num < player.item_num(name):
                                 husoku_text += "{emoji}×{num} "
                         if player.money() < weapons_prie[weapon_info_id]:
