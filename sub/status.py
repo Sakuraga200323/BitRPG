@@ -491,11 +491,14 @@ async def set_weapon(user,ch):
                             weapons_num.append(weapon)
                         await msg0.edit(content="```装備完了```",embed=em)
         if respons == 4:
-            split_weapons = tuple(split_list(box.player_weapons,8))
+            split_num = 8
+            split_weapons = tuple(split_list(box.player_weapons,split_num))
             em_title = "Create Weapon"
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
             embeds = []
             weapons = []
+            recipe_select_by_weapon_num = [ box.weapons_recipe[i-1] for i in box.player_weapons]
+            rankrate_select_by_weapon_num = [ box.rank_rate[i-1] for i in box.player_weapons]
             for page_num,weapons_data in zip(range(1,100),split_weapons):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
                 for weapon_num_on_page,weapon_data in zip(range(1,100),weapons_data):
@@ -583,31 +586,44 @@ async def set_weapon(user,ch):
                             create_mode = False
                             menu_flag = False
                             break
-                        weapon_id = int(msg.content) + (page_num)*6
-                        weapon = box.npc_weapons[weapon_id]
                         if len(player.weapons()) >= 5:
                             await weapon_drop_menu_msg.edit(
                                 content=f"```既に５個の武器を所持しています。\n処理終了済み```"
                             )
                             menu_flag = False
                             break
-                        if player.money() < weapon.create_cost:
+
+                        weapon_num = int(msg.content) + (page_num)*split_num
+                        weapon_info_id = box.player_weapons[weapon_num - 1][2] - 1
+                        weapon_name = box.player_weapons[weapon_num - 1][0]
+                        weapon_emoji = box.player_weapons[weapon_num - 1][1]
+                        weapon_recipe = tuple(recipe_selet_by_weapon_num[weapon_num])
+                        weapon_rank_rate = tuple(rank_rate_selet_by_weapon_num[weapon_num])
+                        materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
+                        husoku_text = ""
+                        for name,emoji,num in zip(weapon_recipe, box.material_emoji, weapon_recipe):
+                            if num < player.item_num(name):
+                                husoku_text += "{emoji}×{num} "
+                        if player.money() < weapons_prie[weapon_info_id]:
+                            husoku_text = f"{weapons_prie[weapon_info_id]-player.money()}Cell " +  husoku_text
+                        if husoku_text != ""
                             await weapon_drop_menu_msg.edit(
                                 content=f"```{weapon.create_cost-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```"
                             )
                             continue
+                        for name,num in zip(weapon_recipe, weapon_recipe):
+                            item_id = box.items_id[name]
+                            if num > 0:
+                                status.get_item(user,item_id,-num)
                         rank = 1
-                        for i in range(1,weapon.max_rank-1):
-                            if random.random() <= weapon.rate_of_rankup:
+                        for i in range(1,6):
+                            if random.random() <=weapon_rank_rate:
                                 rank += 1
-                                if rank == weapon.max_rank:
-                                    create_mode = False
-                                    break
-                        weapon_obj = player.create_weapon(weapon.name,weapon.emoji,rank)
+                        weapon_obj = player.create_weapon(weapon_name,weapon_emoji,rank)
                         player.get_weapon(weapon_obj)
                         player.money(-weapon.create_cost)
                         await weapon_drop_menu_msg.edit(
-                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を購入しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
+                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
                         )
         if respons == 5:
             if player.weapons() != []:
