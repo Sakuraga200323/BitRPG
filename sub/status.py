@@ -606,7 +606,7 @@ async def set_weapon(user,ch):
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
                         husoku_text = ""
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
-                            if num < player.item_num(name):
+                            if num > player.item_num(name):
                                 husoku_text += f"{emoji}×{num} "
                         if player.money() < weapon_price:
                             husoku_text = f"{weapon_price-player.money()}Cell " +  husoku_text
