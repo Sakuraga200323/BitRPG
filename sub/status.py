@@ -1,3 +1,6 @@
+# coding: utf-8
+# Your code here!
+
 import math
 import ast
 import asyncio
@@ -606,7 +609,7 @@ async def set_weapon(user,ch):
                                 husoku_text += "{emoji}×{num} "
                         if player.money() < weapons_prie[weapon_info_id]:
                             husoku_text = f"{weapons_prie[weapon_info_id]-player.money()}Cell " +  husoku_text
-                        if husoku_text != ""
+                        if husoku_text != "":
                             await weapon_drop_menu_msg.edit(
                                 content=f"```{weapon.create_cost-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```"
                             )
