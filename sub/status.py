@@ -618,7 +618,7 @@ async def set_weapon(user,ch):
                         for name,num in zip(materials_name, weapon_recipe):
                             item_id = box.items_id[name]
                             if num > 0:
-                                status.get_item(user,item_id,-num)
+                                get_item(user,item_id,-num)
                         rank = 1
                         for i in range(1,6):
                             if random.random() <=weapon_rank_rate:
