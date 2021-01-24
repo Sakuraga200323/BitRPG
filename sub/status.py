@@ -545,7 +545,7 @@ async def set_weapon(user,ch):
                         await weapon_drop_menu_msg.clear_reactions()
                         break
                     else:
-                       content=f'`リアクション、ページ番号送信でページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
+                       content=f'`リアクションでページ切り替え。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
                        if reaction:
                             before_page_num = page_num
                             emoji = str(reaction.emoji)
@@ -568,7 +568,7 @@ async def set_weapon(user,ch):
                                 await weapon_drop_menu_msg.clear_reactions()
                             if create_mode:
                                 await weapon_drop_menu_msg.clear_reactions()
-                                content=f'`購入モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると購入できません。\n0を送信すると終了します。`'
+                                content=f'`作成モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると作成できません。\n0を送信すると終了します。`'
                             shop_em3 = embeds[page_num]
                             await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
                 while create_mode:
@@ -611,7 +611,7 @@ async def set_weapon(user,ch):
                             husoku_text = f"{weapons_prie[weapon_info_id]-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
                             await weapon_drop_menu_msg.edit(
-                                content=f"```{weapon.create_cost-player.money()}Cell足りません。\nそのまま購入を続けられます。終了する場合は0を送信。```"
+                                content=f"```{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。```"
                             )
                             continue
                         for name,num in zip(weapon_recipe, weapon_recipe):
@@ -626,7 +626,7 @@ async def set_weapon(user,ch):
                         player.get_weapon(weapon_obj)
                         player.money(-weapon.create_cost)
                         await weapon_drop_menu_msg.edit(
-                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま購入を続けられます。終了する場合は0を送信。",
+                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
         if respons == 5:
             if player.weapons() != []:
