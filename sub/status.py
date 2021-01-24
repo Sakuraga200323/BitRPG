@@ -612,7 +612,7 @@ async def set_weapon(user,ch):
                             husoku_text = f"{weapon_price-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
                             await weapon_drop_menu_msg.edit(
-                                content=f"```{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。```"
+                                content=f"{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。"
                             )
                             continue
                         for name,num in zip(materials_name, weapon_recipe):
