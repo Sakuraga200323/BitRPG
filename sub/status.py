@@ -627,7 +627,7 @@ async def set_weapon(user,ch):
                         player.get_weapon(weapon_obj)
                         player.money(-weapon_price)
                         await weapon_drop_menu_msg.edit(
-                            content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
+                            content=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
         if respons == 5:
             if player.weapons() != []:
