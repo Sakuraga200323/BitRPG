@@ -730,11 +730,11 @@ async def on_message(message):
                                 result = player.get_data(arg)
                                 await ch.send("```py\nplayer.{arg} = {result}```")
                             if cmd == "get_item":
-                                pattern = r"^(.+) (\d+)"
+                                pattern = r"^(\d+) (\d+)"
                                 result = re.match(pattern, arg)
                                 if result:
-                                    item_name,num = result.group(0),int(result.group(1))
-                                    result2 = player.get_item(item_name,num)
+                                    id,num = int(result.group(0)),int(result.group(1))
+                                    result2 = status.get_item(player.user,id,num)
                                     if result2:
                                         await ch.send("{target_user} got {item_name}x{num}")
 
