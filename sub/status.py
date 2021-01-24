@@ -500,8 +500,8 @@ async def set_weapon(user,ch):
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
             embeds = []
             weapons = []
-            recipe_select_by_weapon_num = [ box.weapons_recipe[i-1] for i in box.player_weapons]
-            rankrate_select_by_weapon_num = [ box.rank_rate[i-1] for i in box.player_weapons]
+            recipe_select_by_weapon_num = [ box.weapons_recipe[i[2]-1] for i in box.player_weapons]
+            rankrate_select_by_weapon_num = [ box.rank_rate[i[2]-1] for i in box.player_weapons]
             for page_num,weapons_data in zip(range(1,100),split_weapons):
                 em = discord.Embed(title=em_title,description=f"所持Cell:{player.money()}")
                 for weapon_num_on_page,weapon_data in zip(range(1,100),weapons_data):
