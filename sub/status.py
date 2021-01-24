@@ -600,6 +600,7 @@ async def set_weapon(user,ch):
                         weapon_info_id = box.player_weapons[weapon_num - 1][2] - 1
                         weapon_name = box.player_weapons[weapon_num - 1][0]
                         weapon_emoji = box.player_weapons[weapon_num - 1][1]
+                        weapon_price = box.weapons_price[weapon_num - 1][1]
                         weapon_recipe = tuple(recipe_select_by_weapon_num[weapon_num])
                         weapon_rank_rate = rankrate_select_by_weapon_num[weapon_num]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
@@ -607,8 +608,8 @@ async def set_weapon(user,ch):
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
                             if num < player.item_num(name):
                                 husoku_text += "{emoji}×{num} "
-                        if player.money() < weapons_price[weapon_info_id]:
-                            husoku_text = f"{weapons_price[weapon_info_id]-player.money()}Cell " +  husoku_text
+                        if player.money() < weapon_price:
+                            husoku_text = f"{weapon_price-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
                             await weapon_drop_menu_msg.edit(
                                 content=f"```{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。```"
@@ -624,7 +625,7 @@ async def set_weapon(user,ch):
                                 rank += 1
                         weapon_obj = player.create_weapon(weapon_name,weapon_emoji,rank)
                         player.get_weapon(weapon_obj)
-                        player.money(-weapon.create_cost)
+                        player.money(-weapon_price)
                         await weapon_drop_menu_msg.edit(
                             content=f"{weapon.create_cost}cellで{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
