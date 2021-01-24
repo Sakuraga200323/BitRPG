@@ -503,7 +503,7 @@ async def set_weapon(user,ch):
                     for material_num,emoji in zip(box.weapons_recipe[weapon_data[2]],box.material_emoji):
                         if material_num > 0:
                             recipe_text += f"{emoji}×{material_num} "
-                    em.add_field(name=f"\n`{num}.`{weapon_data[1]}{weapon_data[0]}",value=f"┗━Price: {box.weapons_price[num-1]}cell┃Recipe: {recipe_text}",inline=False)
+                    em.add_field(name=f"\n`{weapon_num_on_page}.`{weapon_data[1]}{weapon_data[0]}",value=f"┗━Price: {box.weapons_price[weapon_num_on_page-1]}cell┃Recipe: {recipe_text}",inline=False)
                 em.set_footer(text=f"Page.{page_num}/{len(split_weapons)}")
                 embeds.append(em)
             embeds = tuple(embeds)
