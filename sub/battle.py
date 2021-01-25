@@ -218,12 +218,18 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
             if box.nerf[a_id] <= 0:
                 del box.nerf[a_id]
         if a_id in box.stun:
-            box.stun[a_id] -= 1
-            a_strength = 0
+
             a_was_stun = True
-            irregular_text = f'\n┣━ {a.name} は痺れて動けない！ (Stun×{box.stun[a_id]}, Strength0%)'
-            if box.stun[a_id] <= 0:
-                del box.stun[a_id]
+            if random() <= 0.8:
+                box.stun[a_id] -= 1
+                a_strength = 0
+                irregular_text = f'\n┣━ {a.name} は痺れて動けない！ (Stun×{box.stun[a_id]}, Strength0%)'
+                if box.stun[a_id] <= 0:
+                    del box.stun[a_id]
+            else:
+                a_strength *= 0.8
+                irregular_text = f'\n┣━ {a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
+                
         if a_id in box.fleez:
             a_strength = 0
             irregular_text = f'\n┣━ {a.name} は凍って動けない！ (Strength0%)'
