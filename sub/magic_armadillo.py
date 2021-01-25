@@ -149,7 +149,11 @@ async def magic_4(player,mob):
         heal_num = before_mobhp - mob.now_hp
         player.magic_lv(2)
         player.cut_mp(300)
-    await ch.send(f"```diff\n{text0}``````diff\n{text1}``````diff\n{text2}```")
+    magic_text = f"```diff\n{text0}``````diff\n{text1}``````diff\n{text2}```"
+    result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
+    await ch.send(content=magic_text,embed=result_em)
+    if spawn_em:await ch.send(embed=spawn_em)
+    if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 # PyrobolusLacrima #
 async def magic_5(player,mob):
