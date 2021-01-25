@@ -619,8 +619,8 @@ async def set_weapon(user,ch):
                             item_id = box.items_id[name]
                             if num > 0:
                                 get_item(user,item_id,-num)
-                        rank = 1
-                        for i in (1,2,3,4):
+                        rank = 2
+                        for i in (1,2,3):
                             if random.random() <=weapon_rank_rate:
                                 rank += 1
                         weapon_obj = player.create_weapon(weapon_name,weapon_emoji,rank)
