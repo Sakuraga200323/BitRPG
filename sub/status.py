@@ -31,7 +31,6 @@ def first_set(c,p):
     client = c
     pg = p
 
-
 def split_list(l, n):
     l = list(l)
     if len(l) <= n:
@@ -604,10 +603,13 @@ async def set_weapon(user,ch):
                         weapon_name = box.player_weapons[weapon_num - 1][0]
                         weapon_emoji = box.player_weapons[weapon_num - 1][1]
                         weapon_price = box.weapons_price[weapon_info_id]
-                        weapon_recipe = tuple(box.weapons_recipe[weapon_num])
-                        weapon_rank_rate = box.rank_rate[weapon_num]
+                        weapon_recipe = tuple(box.weapons_recipe[weapon_info_id])
+                        weapon_rank_rate = box.rank_rate[weapon_info_id]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
                         husoku_text = ""
+                        if msg_num > len(embeds)-1 or msg_num < 0:
+                            await weapon_drop_menu_msg.edit(content=f"```{msg_num}は指定できない数値です。```")
+                            continue
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
                             if num > player.item_num(name):
                                 husoku_text += f"{emoji}×{num-player.item_num(name)} "
@@ -632,6 +634,7 @@ async def set_weapon(user,ch):
                         await weapon_drop_menu_msg.edit(
                             content=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
+
         if respons == 5:
             if player.weapons() != []:
                 def check3(m):
