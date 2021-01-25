@@ -220,7 +220,6 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
             if box.nerf[a_id] <= 0:
                 del box.nerf[a_id]
         if a_id in box.stun:
-
             a_was_stun = True
             if random() <= 0.8:
                 box.stun[a_id] -= 1
@@ -259,6 +258,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
                 box.fleez.remove(b.ID())
         battle_text += irregular_text
         a_strength = int(a_strength)
+        print(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
         if a_was_stun and not a_id in box.stun:
