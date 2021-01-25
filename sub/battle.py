@@ -208,7 +208,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
         battle_text = f"{a_mark}■ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
-        if set_strength:
+        if isinstance(set_strength,int):
             a_strength = set_strength
         a_id = a.ID()
         a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
