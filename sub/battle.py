@@ -208,8 +208,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
         battle_text = f"{a_mark}■ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
-        if isinstance(set_strength,int):
-            print(set_strength)
+        if set_strength:
             a_strength = set_strength
         a_id = a.ID()
         a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
@@ -258,9 +257,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
             if b.ID() in box.fleez:
                 box.fleez.remove(b.ID())
         battle_text += irregular_text
-        print(a_strength)
         a_strength = int(a_strength)
-        print(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
         battle_text += f'\n┗━ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
         if a_was_stun and not a_id in box.stun:
