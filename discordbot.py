@@ -283,9 +283,9 @@ async def on_message(message):
                     title=f"{m_author.name} の所属魔法領域を選択",
                     description=("所属する魔法領域の対応番号を半角英数字で送信してください 再選択は出来ません")
                 )
-                magic_type_em.add_field(name="1:Wolf",value="`火力特化`")
-                magic_type_em.add_field(name="2:Armadillo",value="`防御特化`")
-                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化`")
+                magic_type_em.add_field(name="1:Wolf",value="`火力特化\n耐久力が低めです`")
+                magic_type_em.add_field(name="2:Armadillo",value="`防御特化\n通常攻撃力が低めですが、HPの減少に応じて最大500%まで攻撃力が上昇します`")
+                magic_type_em.add_field(name="3:Orca",value="`テクニカル性特化\nうまく使えると非常に強いですが、その分扱いが難しいです`")
                 await m_ch.send(embed=magic_type_em)
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check)
@@ -294,26 +294,23 @@ async def on_message(message):
                     await m_ch.send(embed=msg_em)
                 else:
                     respons = int(msg.content) if msg.content in ("1","2","3") else 0
-                    if not respons in (1,2,3):
-                        msg_em = discord.Embed(description=f"`1,2,3`で答えて下さい ")
+                    if respons in (1,2,3):
+                        select_magic_type = "Wolf" if respons==1 else "Armadillo" if respons==2 else "Orca" 
+                        msg_em = discord.Embed(description=f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
                         await m_ch.send(embed=msg_em)
-                        continue
-                    select_magic_type = "Wolf" if respons==1 else "Armadillo" if respons==2 else "Orca" 
-                    msg_em = discord.Embed(description=f"『{select_magic_type}』で宜しいですか？\nyes -> y\nno -> n")
-                    await m_ch.send(embed=msg_em)
-                    try:
-                        msg = await client.wait_for("message", timeout=10, check=check2)
-                    except asyncio.TimeoutError:
-                        msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい")
-                        await m_ch.send(embed=msg_em)
-                    else:
-                        if msg.content in ("y","Y"):
-                            msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します")
+                        try:
+                            msg = await client.wait_for("message", timeout=10, check=check2)
+                        except asyncio.TimeoutError:
+                            msg_em = discord.Embed(description=f"時間切れです もう一度`^^start`でやり直して下さい")
                             await m_ch.send(embed=msg_em)
-                            magic_type_flag = True
-                        elif msg.content in ("n","N"):
-                            msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります")
-                            await m_ch.send(embed=msg_em)
+                        else:
+                            if msg.content in ("y","Y"):
+                                msg_em = discord.Embed(description=f"『{select_magic_type}』で登録します")
+                                await m_ch.send(embed=msg_em)
+                                magic_type_flag = True
+                            elif msg.content in ("n","N"):
+                                msg_em = discord.Embed(description=f"魔法領域の選択画面に戻ります")
+                                await m_ch.send(embed=msg_em)
             if not magic_type_flag == True:
                 return
             item_jsonb = str({
@@ -341,8 +338,7 @@ async def on_message(message):
                 del box.players[m_author.id]
             box.players[m_author.id] = player
             await status.open_status(m_author, m_ch)
-            await help.help(m_ch, m_author)
-            await m_author.send(embed=msg_em)
+            await m_ch.send(content="**まずは`^^help`でコマンド確認をし、`^^url`でBitRPGの公式サバに入りましょう！**")
             ch = client.get_channel(795810767139373076)
             new_player_em = discord.Embed(title='New Player',description=f'{m_author}({m_author.id}):{respons}')
             await ch.send(embed=new_player_em)
