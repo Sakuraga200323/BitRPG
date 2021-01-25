@@ -231,7 +231,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
             else:
                 a_strength *= 0.8
                 irregular_text = f'\n┣━ {a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
-                
+               
         if a_id in box.fleez:
             a_strength = 0
             irregular_text = f'\n┣━ {a.name} は凍って動けない！ (Strength0%)'
