@@ -494,7 +494,7 @@ async def set_weapon(user,ch):
                             weapons_num.append(weapon)
                         await msg0.edit(content="```装備完了```",embed=em)
         if respons == 4:
-            split_num = 6
+            split_num = 5
             split_weapons = tuple(split_list(box.player_weapons,split_num))
             em_title = "Create Weapon"
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
@@ -515,7 +515,7 @@ async def set_weapon(user,ch):
             embeds = tuple(embeds)
             page_num = 0
             weapon_drop_menu_msg = await ch.send(
-                content=f'`リアクションでページ切り替えです。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
+                content=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
                 embed=embeds[0]
             )
             menu_flag = True
@@ -545,30 +545,33 @@ async def set_weapon(user,ch):
                         await weapon_drop_menu_msg.clear_reactions()
                         break
                     else:
-                       content=f'`リアクションでページ切り替え。`\n{box.menu_emojis2["left"]}:一つページを戻す\n{box.menu_emojis2["close"]}:処理を終了する\n{box.menu_emojis2["right"]}:一つページを進める\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
+                       content=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
                        if reaction:
                             before_page_num = page_num
                             emoji = str(reaction.emoji)
                             if emoji == box.menu_emojis2["right"]:
-                                if page_num < len(embeds)-1:
-                                     page_num += 1
-                            elif emoji == box.menu_emojis2["close"]:
+                                page_num += 1
+                            if emoji == box.menu_emojis2["left"]:
+                                page_num -= 1
+                            if emoji == box.menu_emojis2["right2"]:
+                                page_num += 2
+                            if emoji == box.menu_emojis2["left2"]:
+                                page_num -= 2
+                            if emoji == box.menu_emojis2["create_mode"]:
+                                create_mode = True
+                            if emoji == box.menu_emojis2["close"]:
                                 await weapon_drop_menu_msg.edit(
                                     content="```処理終了済み```",
                                     embed=embeds[0]
                                 )
                                 await weapon_drop_menu_msg.clear_reactions()
                                 break
-                            elif emoji == box.menu_emojis2["left"]:
-                                if page_num > 0:
-                                     page_num -= 1
-                            elif emoji == box.menu_emojis2["create_mode"]:
-                                create_mode = True
                             if before_page_num != page_num:
                                 await weapon_drop_menu_msg.clear_reactions()
                             if create_mode:
                                 await weapon_drop_menu_msg.clear_reactions()
                                 content=f'`作成モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると作成できません。\n0を送信すると終了します。`'
+                            page_num = max(0,(min(page_num,len(embeds)-1)))
                             shop_em3 = embeds[page_num]
                             await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
                 while create_mode:
@@ -600,7 +603,7 @@ async def set_weapon(user,ch):
                         weapon_info_id = box.player_weapons[weapon_num - 1][2] - 1
                         weapon_name = box.player_weapons[weapon_num - 1][0]
                         weapon_emoji = box.player_weapons[weapon_num - 1][1]
-                        weapon_price = box.weapons_price[box.player_weapons[weapon_num - 1][2]]
+                        weapon_price = box.weapons_price[weapon_info_id]
                         weapon_recipe = tuple(recipe_select_by_weapon_num[weapon_num])
                         weapon_rank_rate = rankrate_select_by_weapon_num[weapon_num]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
