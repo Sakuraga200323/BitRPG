@@ -494,7 +494,7 @@ async def set_weapon(user,ch):
                             weapons_num.append(weapon)
                         await msg0.edit(content="```装備完了```",embed=em)
         if respons == 4:
-            split_num = 8
+            split_num = 6
             split_weapons = tuple(split_list(box.player_weapons,split_num))
             em_title = "Create Weapon"
             rank_dict = {1:"D",2:"C",3:"B",4:"A",5:"S"}
@@ -583,19 +583,19 @@ async def set_weapon(user,ch):
                         menu_flag = False
                         break
                     else:
+                        msg_num = int(msg.content)
+                        if msg_num > split_num or msg_num < 0:
+                            await weapon_drop_menu_msg.edit(content=f"```{msg_num}は指定できない数値です。```")
+                            continue
                         if msg.content == "0":
-                            await weapon_drop_menu_msg.edit(content="```処理終了済み```"
-                            )
+                            await weapon_drop_menu_msg.edit(content="```処理終了済み```")
                             create_mode = False
                             menu_flag = False
                             break
                         if len(player.weapons()) >= 5:
-                            await weapon_drop_menu_msg.edit(
-                                content=f"```既に５個の武器を所持しています。\n処理終了済み```"
-                            )
+                            await weapon_drop_menu_msg.edit(content=f"```既に５個の武器を所持しています。\n処理終了済み```")
                             menu_flag = False
                             break
-
                         weapon_num = int(msg.content) + (page_num)*split_num
                         weapon_info_id = box.player_weapons[weapon_num - 1][2] - 1
                         weapon_name = box.player_weapons[weapon_num - 1][0]
