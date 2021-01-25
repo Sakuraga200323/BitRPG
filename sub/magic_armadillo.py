@@ -145,7 +145,7 @@ async def magic_4(player,mob):
     text2 = "耐えきれなかったようだ…"
     if player.now_hp > 0:
         before_mobhp = mob.now_hp
-        text2 = battle.create_battle_text(player,mob,set_strength(player.max_hp - player.now_hp))
+        text2 = battle.create_battle_text(player,mob,set_strength=(player.max_hp - player.now_hp))
         heal_num = before_mobhp - mob.now_hp
         player.magic_lv(2)
         player.cut_mp(300)
