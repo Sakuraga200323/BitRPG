@@ -24,9 +24,11 @@ menu_emojis = {
 }
 
 menu_emojis2 = {
+    "left2":"<:left2:803184312954126357>",
     "left":"<:left:800980952461213706>",
     "close":"<:close:800980952414158908>",
     "right":"<:right:800980952426741770>",
+    "right2":"<:right2:803184312702074922>",
     "create_mode":"<:create_mode:802203960772919316>"
 }
 # items_~ #
