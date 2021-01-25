@@ -131,7 +131,25 @@ async def magic_4(player,mob):
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
     if start_check is False: return
-    parry_percent = min(((player.now_defe/mob.STR()-1) if player.now_defe>0 else 0), 0.75)
+    if player.magic_lv() < 2000:
+        em=discord.Embed(description="魔法練度が不足…！")
+        await ch.send(embed=em)
+        return
+    if player.now_mp < 300:
+        em=discord.Embed(description="MPが不足…！")
+        await ch.send(embed=em)
+        return
+    player.now_defe *= 5
+    text0 = f"{player.name} を護りの波動が包み込む…！"
+    text1 = battle.create_battle_text(mob,player)
+    text2 = "耐えきれなかったようだ…"
+    if player.now_hp > 0:
+        before_mobhp = mob.now_hp
+        text2 = battle.create_battle_text(player,mob,set_strength(player.max_hp - player.now_hp))
+        heal_num = before_mobhp - mob.now_hp
+        player.magic_lv(1)
+        player.cut_mp(130)
+    await ch.send(f"```diff\n{text0}``````diff\n{text1}```diff\n{text2}```")
 
 # PyrobolusLacrima #
 async def magic_5(player,mob):
