@@ -604,8 +604,8 @@ async def set_weapon(user,ch):
                         weapon_name = box.player_weapons[weapon_num - 1][0]
                         weapon_emoji = box.player_weapons[weapon_num - 1][1]
                         weapon_price = box.weapons_price[weapon_info_id]
-                        weapon_recipe = tuple(recipe_select_by_weapon_num[weapon_num])
-                        weapon_rank_rate = rankrate_select_by_weapon_num[weapon_num]
+                        weapon_recipe = tuple(box.weapons_recipe[weapon_num])
+                        weapon_rank_rate = box.rank_rate[weapon_num]
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
                         husoku_text = ""
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
