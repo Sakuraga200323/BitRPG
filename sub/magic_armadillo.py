@@ -94,6 +94,8 @@ async def magic_2(player,mob):
     for id in players:
         p = box.players[id]
         p.now_hp += healing_amount
+        if p.now_h <= 0:
+            continue
         if p.now_hp > p.max_hp: p.now_hp = p.max_hp
         heal_text += f"\n<@{p.user.id}> のHPを{healing_amount}回復！"
     em=discord.Embed(title="HealPrex",description=heal_text)
@@ -139,7 +141,7 @@ async def magic_4(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    player.now_defe *= 5
+    player.now_defe *= min(1 + ((player.magic_lv()-2000)/100000),5)
     text0 = f"{player.name} を護りの波動が包み込む…！"
     text1 = battle.create_battle_text(mob,player)
     text2 = "耐えきれなかったようだ…"
@@ -149,6 +151,7 @@ async def magic_4(player,mob):
         heal_num = before_mobhp - mob.now_hp
         player.magic_lv(2)
         player.cut_mp(300)
+    player.now_defe= player.max_defe
     magic_text = f"```diff\n{text0}``````diff\n{text1}``````diff\n{text2}```"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_text,embed=result_em)
@@ -162,12 +165,14 @@ async def magic_5(player,mob):
 
 async def open_magic(user,ch):
     player = box.players[user.id]
+    m_lv = player.magic_lv()
     magic_em = discord.Embed(title="Player Magic Board",description="各魔法の数値は熟練度による補正を加算済みです。")
-    magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**30**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
-    magic_em.add_field(name="`2.`HealPrex",value=f"必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
-    magic_em.add_field(name="`3.`FlecteImpetus",value=f"必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を半減し代わりに受ける ",inline=False)
-    magic_em.add_field(name="`4.`InversionemAegis",value=f"必要熟練度.**2000**\n消費MP.**300**\n現在のDefence**500%** 後手確定 敵の攻撃で死ななかった場合自分の減少しているHP量の攻撃をする",inline=False)
-    #magic_em.add_field(name="`4.`UnMagicParry",value=f"必要熟練度.**0**\n消費MP.**0**\n敵の攻撃をパリイ 成功すると被ダメを0にし 敵のStunのターン数を+1する Stun状態でない場合も有効 その後Strength**{min(0.8+(player.defe_p()/player.str_p()),20)*100}**%の攻撃 STRとDEFのSTPから計算",inline=False)
+    m1_num = 80+(player.magic_lv()/1000)
+    magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**30**\n攻撃力**{m1_num:.2f}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
+    magic_em.add_field(name="`2.`HealPrex",value=f"{'>>> ' if m_lv>=500 else ''}必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
+    magic_em.add_field(name="`3.`FlecteImpetus",value=f"{'>>> ' if m_lv>=1000 else ''}必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を半減し代わりに受ける ",inline=False)
+    m4_num = min(1 + ((player.magic_lv()-2000)/100000),5)*100
+    magic_em.add_field(name="`4.`InversionemAegis",value=f"{'>>> ' if m_lv>=1000 else ''}必要熟練度.**2000**\n消費MP.**300**\n現在のDefence**{m4_num:.2f}%** 後手確定 敵の攻撃で死ななかった場合自分の減少しているHP量の攻撃をする HPが減っていない場合通常攻撃",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
