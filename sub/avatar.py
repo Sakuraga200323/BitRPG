@@ -217,8 +217,8 @@ class Player:
         if self.weapon():
             result += self.weapon().strength()
         if magic_class == 2:
-            strength_magnification = (1 - (self.now_hp / self.max_hp))*5
-            result *= strength_magnification
+            strength_magnification = (1 - (self.now_hp / self.max_hp))*4
+            result += result*strength_magnification
         return int(result)
 
     def defe(self):
