@@ -257,6 +257,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
             if b.ID() in box.fleez:
                 box.fleez.remove(b.ID())
         battle_text += irregular_text
+        print(a_strength)
         a_strength = int(a_strength)
         print(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
