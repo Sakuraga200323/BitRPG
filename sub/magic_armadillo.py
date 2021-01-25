@@ -166,7 +166,7 @@ async def magic_5(player,mob):
 async def open_magic(user,ch):
     player = box.players[user.id]
     m_lv = player.magic_lv()
-    magic_em = discord.Embed(title="Player Magic Board",description=description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
+    magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     m1_num = 80+(player.magic_lv()/1000)
     magic_em.add_field(name="`1.`DrumFang",value=f">>> 必要熟練度.**0**\n消費MP.**30**\n攻撃力**{m1_num:.2f}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`HealPrex",value=f"{'>>> ' if m_lv>=500 else ''}必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
