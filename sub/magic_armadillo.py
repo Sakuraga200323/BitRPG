@@ -126,7 +126,7 @@ async def magic_3(player,mob):
     player.magic_lv(1)
     player.cut_mp(130)
         
-# UnMagicParry #
+# InversionemAegis #
 async def magic_4(player,mob):
     ch = mob.mob
     start_check = await battle.battle_start(player,mob)
@@ -145,7 +145,7 @@ async def magic_4(player,mob):
     text2 = "耐えきれなかったようだ…"
     if player.now_hp > 0:
         before_mobhp = mob.now_hp
-        text2 = battle.create_battle_text(player,mob,set_strength=(player.max_hp - player.now_hp))
+        text2 = battle.create_battle_text(player,mob,set_strength=(player.max_hp - player.now_hp),atk_word="『InversionemAegis』")
         heal_num = before_mobhp - mob.now_hp
         player.magic_lv(2)
         player.cut_mp(300)
@@ -162,7 +162,7 @@ async def open_magic(user,ch):
     magic_em.add_field(name="`1.`DrumFang",value=f"必要熟練度.**0**\n消費MP.**30**\n攻撃力**{80+(player.magic_lv()/1000)}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`HealPrex",value=f"必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
     magic_em.add_field(name="`3.`FlecteImpetus",value=f"必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を半減し代わりに受ける ",inline=False)
-    magic_em.add_field(name="`4.`未決定",value=f"必要熟練度.**2000**\n消費MP.**300**\n現在のDefence**500%** 後手確定 敵の攻撃で死ななかった場合自分の減少しているHP量の攻撃をする",inline=False)
+    magic_em.add_field(name="`4.`InversionemAegis",value=f"必要熟練度.**2000**\n消費MP.**300**\n現在のDefence**500%** 後手確定 敵の攻撃で死ななかった場合自分の減少しているHP量の攻撃をする",inline=False)
     #magic_em.add_field(name="`4.`UnMagicParry",value=f"必要熟練度.**0**\n消費MP.**0**\n敵の攻撃をパリイ 成功すると被ダメを0にし 敵のStunのターン数を+1する Stun状態でない場合も有効 その後Strength**{min(0.8+(player.defe_p()/player.str_p()),20)*100}**%の攻撃 STRとDEFのSTPから計算",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
