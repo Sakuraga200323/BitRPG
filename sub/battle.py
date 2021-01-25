@@ -127,7 +127,7 @@ async def battle_result(player, mob):
         guild = client.get_guild(719165196861702205)
         if  now in ['23:18']:
             exp *= 16
-            await ch.send("????『幸運を。死したものより祝福を。』")
+            await ch.send("**初代開発者**『明日死ぬかのように生きろ。**闘う者に祝福**あれ。』")
         print(f"『{mob.name}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
         roles_mention = (
             '<@&800263879607189515>', 
@@ -193,7 +193,7 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
+def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name} はやられてしまった"
@@ -208,6 +208,8 @@ def create_battle_text(a,b,str_up_num=1,atk_word="攻撃",buff=0):
         battle_text = f"{a_mark}■ {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*str_up_num)
+        if set_strength:
+            a_strength = set_strength
         a_id = a.ID()
         a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
         if a_id in box.nerf:
