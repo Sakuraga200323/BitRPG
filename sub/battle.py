@@ -98,7 +98,7 @@ async def battle_result(player, mob):
     reward_items = { # {id:(num,item was droped)}
         2:(randint(3,6),random()<=0.05 or mob.type in types[2:]),
         3:(randint(3,6),random()<=0.05 or mob.type in types[2:]),
-        4:(1,True),
+        4:(5,True),
         5:(randint(1,2),mob.name in ("モノリス",'ゴールド-モノリス') or mob.type in types[1:]),
         6:(randint(3,6),random()<=0.03 or mob.type in types[2:]),
         11:(randint(3,6),(random()<=0.05 and mob.lv()%10==0) or mob.type in ("UltraRare",)),
