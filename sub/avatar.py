@@ -211,9 +211,15 @@ class Player:
 
     def STR(self):
         magic_class = self.dtd["magic_class"]
-        if magic_class == 1: return int((self.str()+self.str_p())*1.1)
-        if self.weapon(): return int((self.str()+self.str_p())*1.1) + self.weapon().strength()
-        else: return self.str()+self.str_p()
+        result = self.str()+self.str_p()
+        if magic_class == 1:
+            result = int((self.str()+self.str_p())*1.1)
+        if self.weapon():
+            result += self.weapon().strength()
+        if magic_class == 2:
+            strength_magnification = (1 - (self.now_hp / self.max_hp))*5
+            result *= strength_magnification
+        return int(result)
 
     def defe(self):
         return self.lv() * 10 + 10
