@@ -247,8 +247,8 @@ async def open_magic(user,ch):
     for magic,num in zip(magic_tuple,range(0,6)):
         magic_name = magic[0]
         if not magic_lv < magic[1]:
-            magic_info = '>>> '+magic[2]
-        magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic_info,inline=False)
+            magic[2] = '>>> '+magic[2]
+        magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic[2],inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
