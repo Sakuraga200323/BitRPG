@@ -79,14 +79,14 @@ async def open_status(user,ch):
     embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()}/{p_data.max_lv()}`")
     embed.add_field(name=f"MagicLevel", value=f"`{mc} Lv.{p_data.magic_lv()}`")
     if mc == "Armadillo":
-        embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp} (+10%)", inline=False)
+        embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp}\n(+10%)", inline=False)
     else:
-        embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp}`", inline=False)
+        embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp}", inline=False)
     if mc == "Orca":
-        embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp} (+10%)", inline=False)
+        embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp}\n(+10%)", inline=False)
     else:
         embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp}", inline=False)
-    strength_text = f"{p_data.STR()} (+{p_data.str_p()}"
+    strength_text = f"{p_data.STR()}\n(+{p_data.str_p()}"
     if mc == "Wolf":
         strength_text += "+10%"
     if mc == "Armadillo":
@@ -98,13 +98,13 @@ async def open_status(user,ch):
     strength_text += ")"
     embed.add_field(name=f"Strength", value=strength_text)
     if mc == "Armadillo":
-        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()}｜+10%)")
+        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe}\n(+{p_data.defe_p()}｜+10%)")
     else:
-        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()})")
+        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe}\n(+{p_data.defe_p()})")
     if mc == "Orca":
-        embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()}｜+10%)")
+        embed.add_field(name=f"Agility", value=f"{p_data.AGI()}\n(+{p_data.agi_p()}｜+10%)")
     else:
-        embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()})")
+        embed.add_field(name=f"Agility", value=f"{p_data.AGI()}\n(+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"{p_data.now_stp()}")
     gauge_edge_reft = "<:_end:784330415624290306>"
     gauge_edge_right = "<:end_:784330344748417024>"
