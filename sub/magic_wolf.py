@@ -236,7 +236,7 @@ async def open_magic(user,ch):
         ('BeeRay',0,
             f'必要熟練度.**0   **\n消費MP.**50 **\nStrength**{percent_num_1}(Limit300)**%'),
         ('StrengthRein',500,
-            f'必要熟練度.**500**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% **{hando:.f2}(Limit99)**%の反動 後手確定'),
+            f'必要熟練度.**500**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% **{hando:.2f}(Limit99)**%の反動 後手確定'),
         ('PowerCharge ',1000,
             f'必要熟練度.**1000**\n消費MP.**200**\n『IgnisStrike』のStrength倍率が**50**%上昇'),
         ('IgnisStrike ',2000,
