@@ -193,7 +193,7 @@ async def battle_result(player, mob):
 
 
 
-def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buff=0):
+def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
             battle_text = f"{a.name} はやられてしまった"
@@ -207,7 +207,7 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
             a_mark,b_mark = "-","+"
         battle_text = f"{a_mark}■ {a.name} の{atk_word}"
         irregular_text = ''
-        a_strength = int(a.STR()*str_up_num)
+        a_strength = int(a.STR()*strength_rate)
         if set_strength:
             print(set_strength)
             a_strength = set_strength
@@ -255,8 +255,9 @@ def create_battle_text(a,b,str_up_num=1,set_strength=False,atk_word="攻撃",buf
                     del box.atk_switch[a_id]
                     a_strength *= 0.5
                     irregular_text += f"\n┣━ {b.name} が攻撃を防いだ！ (Target{b.name} Strength50%)"
-            if b.ID() in box.fleez:
-                box.fleez.remove(b.ID())
+            elif 
+        if b.ID() in box.fleez:
+            box.fleez.remove(b.ID())
         battle_text += irregular_text
         a_strength = int(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
