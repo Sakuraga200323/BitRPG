@@ -70,7 +70,6 @@ class Player:
         ]
         [
             self.lv_, self.max_lv_, 
-            self.max_exp_, self.now_exp_, 
             self.now_stp_, self.str_p_, self.defe_p_, self.agi_p_, 
             self.magic_class_, self.magic_lv_, 
             self.kill_count_, self.item_, self.money_
@@ -329,19 +328,18 @@ class Player:
 
     def now_exp(self, plus=None):
         if isinstance(plus,int):
-            self.now_exp_ = self.plus('now_exp', plus)
-        self.now_exp_ =  self.get_data("now_exp")
-        return self.now_exp_
+            self.plus('now_exp', plus)
+        return self.get_data("now_exp")
 
     def max_exp(self, plus=None):
         if isinstance(plus,int):
-            self.max_exp_ = self.plus('max_exp', plus)
-        self.max_exp_ =  self.get_data("max_exp")
-        return self.max_exp_
+            self.plus('max_exp', plus)
+        return self.get_data("max_exp")
 
     def get_exp(self, exp):
         exp = int(exp)
         all_exp = self.now_exp() + exp
+        print(all_exp)
         self.now_exp(-self.now_exp())
         print(self.now_exp())
         lv = self.lv()+1
