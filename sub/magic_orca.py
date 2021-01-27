@@ -243,7 +243,7 @@ async def open_magic(user,ch):
             f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}(Limit1000)**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
-    for magic,num in zip(magic_tuple,range(0,6)):
+    for magic,num in zip(magic_tuple,range(1,6)):
         magic_name = magic[0]
         magic_info = magic[2]
         if magic_lv > magic[1]:
