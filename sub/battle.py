@@ -200,7 +200,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
         else:
             battle_text = f"{a.name} を倒した"
     else:
-        head_text = "."
+        head_text = "・"
         plus_or_minus = ""
         if a.ID() in box.players:
             a_mark,b_mark = "+","-"
@@ -230,7 +230,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 if box.stun[a_id] <= 0:
                     del box.stun[a_id]
             else:
-                a_strength *= 0.8
+                a_strength -= int(a.STR()*0.2)
                 irregular_text = f'\n{head_text}{a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
                
         if a_id in box.fleez:
@@ -239,8 +239,8 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
             a_was_fleeze = True
         if a_strength != 0:
             if random() <= 0.05:
-                a_strength *= 5
-                irregular_text += '\n{head_text}クリティカルヒット！ (Strength500%)'
+                a_strength += a.STR()*4
+                irregular_text += '\n{head_text}クリティカルヒット！ (Strength+400%)'
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0)*dodge_rate, 0.75):
                 if b.ID() in box.stun:
                     if random() <= 0.5:
@@ -254,8 +254,8 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 if b_id in box.players:
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
-                    a_strength *= 0.5
-                    irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength50%)"
+                    a_strength -= int(a.STR()/2)
+                    irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength-50%)"
         if b.ID() in box.fleez:
             box.fleez.remove(b.ID())
         battle_text += irregular_text
