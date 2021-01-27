@@ -341,7 +341,7 @@ class Player:
 
     def get_exp(self, exp):
         exp = int(exp)
-        all_exp = self.now_exp + exp
+        all_exp = self.now_exp() + exp
         self.update_data("now_exp",0)
         self.max_exp(exp)
         lv = self.lv()+1
