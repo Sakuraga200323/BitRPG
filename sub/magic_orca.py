@@ -94,7 +94,7 @@ async def magic_2(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    up_num = min(2 + ((player.magic_lv()-500)/100000),400)
+    up_num = min(2 + ((player.magic_lv()-500)/100000),4)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
         if mob.ID() in box.stun:
@@ -199,7 +199,7 @@ async def magic_5(player,mob):
         buff_num = 1
     else:
         buff_num = 0
-    up_num = min(6 + ((player.magic_lv()-4000)/100000),100)
+    up_num = min(6 + ((player.magic_lv()-4000)/100000),10)
     player.magic_lv(2)
     player.cut_mp(1200)
     text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",strength_rate=up_num,buff=buff_num)
@@ -232,9 +232,9 @@ async def open_magic(user,ch):
        # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
         ('StunRain',0,
-            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}(Limit∞)**% **50**%で敵に3ターンのStun付与'),
+            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}(Limit150)**% **50**%で敵に3ターンのStun付与'),
         ('PainPiscis',500,
-            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}(Limit150[+50])**% 対象がStun状態の時Strength倍率**+50%**'),
+            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}(Limit400[+50])**% 対象がStun状態の時Strength倍率**+50%**'),
         ('GinHex',1000,
             f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}(Limit75)**%で敵に3ターンのStun付与'),
         ('ImmortalRecover',2000,
