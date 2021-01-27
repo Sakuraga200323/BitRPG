@@ -105,18 +105,6 @@ ultraero = {
 
 def select(lv):
     chance = random.random()
-    if chance <= 0.0005:
-        type = "UltraEro"
-        name = random.choice(list(ultraero.keys()))
-        img = ultraero[name]
-    if chance <= 0.001:
-        type = "UltraRare"
-        name = random.choice(list(ultrarare.keys()))
-        img = ultrarare[name]
-    elif chance <= 0.01:
-        type = "Rare"
-        name = random.choice(list(rare.keys()))
-        img = rare[name]
     elif lv % 1000 == 0:
         type = "WorldEnd"
         name = random.choice(list(worldend.keys()))
@@ -129,6 +117,18 @@ def select(lv):
         type = "Elite"
         name = random.choice(list(elite.keys()))
         img = elite[name]
+    elif chance <= 0.01:
+        type = "Rare"
+        name = random.choice(list(rare.keys()))
+        img = rare[name]
+    elif chance <= 0.001:
+        type = "UltraRare"
+        name = random.choice(list(ultrarare.keys()))
+        img = ultrarare[name]
+    elif chance <= 0.0005:
+        type = "UltraEro"
+        name = random.choice(list(ultraero.keys()))
+        img = ultraero[name]
     else:
         type = "Normal"
         name = random.choice(list(normal.keys()))
