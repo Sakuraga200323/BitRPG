@@ -44,7 +44,7 @@ async def magic_1(player,mob):
         em=discord.Embed(description="MPが不足…！")
         await ch.send(embed=em)
         return
-    if random() <= 0.25:
+    if random() <= 0.5:
         buff_num = 2
     else:
         buff_num = 0
@@ -168,11 +168,11 @@ async def open_magic(user,ch):
     m_lv = player.magic_lv()
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{m_lv}**\n小数点第2位未満四捨五入")
     m1_num = min(80+(player.magic_lv()/1000),150)
-    magic_em.add_field(name="`1.`DrumFang",value=f">>> 必要熟練度.**0**\n消費MP.**30**\n攻撃力**{m1_num:.2f}**%の攻撃魔法 **25**%で敵に**5**ターンNerf付与 ",inline=False)
+    magic_em.add_field(name="`1.`DrumFang",value=f">>> 必要熟練度.**0**\n消費MP.**30**\nStrength**{m1_num:.2f}(Max150)**%の攻撃魔法 **50**%で敵に**5**ターンNerf付与 ",inline=False)
     magic_em.add_field(name="`2.`HealPrex",value=f"{'>>> ' if m_lv>=500 else ''}必要熟練度.**500**\n消費MP.**80**\n自分が受けているダメージ量 戦闘に参加している他のプレイヤーのHPを回復",inline=False)
     magic_em.add_field(name="`3.`FlecteImpetus",value=f"{'>>> ' if m_lv>=1000 else ''}必要熟練度.**1000**\n消費MP.**130**\n次に味方が受ける攻撃を半減し代わりに受ける ",inline=False)
-    m4_num = max(min(1 + ((player.magic_lv()-2000)/100000),4),0)*100
-    magic_em.add_field(name="`4.`InversionemAegis",value=f"{'>>> ' if m_lv>=1000 else ''}必要熟練度.**2000**\n消費MP.**300**\n現在のDefenceを**{m4_num:.2f}%**に強化 後手確定 敵の攻撃で死ななかった場合 自分が受けているダメージ量の攻撃をする HPが減っていない場合通常攻撃",inline=False)
+    m4_num = max(min(1 + ((player.magic_lv()-2000)/100000),5),0)*100
+    magic_em.add_field(name="`4.`InversionemAegis",value=f"{'>>> ' if m_lv>=1000 else ''}必要熟練度.**2000**\n消費MP.**300**\n現在のDefenceを**{m4_num:.2f}(Max500)%**に強化 後手確定 敵の攻撃で死ななかった場合 自分が受けているダメージ量の攻撃をする HPが減っていない場合通常攻撃",inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
 
