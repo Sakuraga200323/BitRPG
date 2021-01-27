@@ -224,24 +224,25 @@ async def open_magic(user,ch):
     player = box.players[user.id]
     magic_lv = player.magic_lv()
     use_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
-    percent_num_0 = 1000 + ((magic_lv-4000)/1000) + use_num
-    percent_num_1 = min(150+(magic_lv/1000),300)
-    percent_num_2 = min(300+((magic_lv-500)/1000),600)
-    percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
-    percent_num_5 = min(1000+((magic_lv-4000)/1000),3000)
+    percent_num_0 = mx(1000 + ((magic_lv-4000)/1000),1000) + use_num
+    percent_num_1 = max(min(150+(magic_lv/1000),300),150)
+    percent_num_2 = max(min(300+((magic_lv-500)/1000),600),300)
+    percent_num_4 = max(min(100+((magic_lv-2000)/1000),800),100) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
+    percent_num_5 = max(min(1000+((magic_lv-4000)/1000),3000),1000)
+    hando = max(min((0.5+((player.magic_lv()-500)/100000))*100,99),50)
     magic_tuple = (
         ('FinalSpark  ',4000,
-            f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
-        ('BeeRay      ',0,
-            f'必要熟練度.**0   **\n消費MP.**50 **\nStrength**{percent_num_1}**%'),
+            f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}(Limit∞)**\nStrength**{percent_num_0:.2f}(Limit1000[+∞])**% 後手確定'),
+        ('BeeRay',0,
+            f'必要熟練度.**0   **\n消費MP.**50 **\nStrength**{percent_num_1}(Limit300)**%'),
         ('StrengthRein',500,
-            f'必要熟練度.**500**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% {int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動 後手確定'),
+            f'必要熟練度.**500**\n消費MP.**100**\nStrength**{percent_num_2:.2f}**% **{hando:.f2}(Limit99)**%の反動 後手確定'),
         ('PowerCharge ',1000,
-            f'必要熟練度.**1000**\n消費MP.**200**\n『IgnisStrike』のStrength倍率が**50**%上昇 上限なし'),
+            f'必要熟練度.**1000**\n消費MP.**200**\n『IgnisStrike』のStrength倍率が**50**%上昇'),
         ('IgnisStrike ',2000,
-            f'必要熟練度.**2000**\n消費MP.**10 **\nStrength**{percent_num_4:.2f}**% 『PowerCharge』毎にStrength倍率が**50**%上昇 上限なし'),
+            f'必要熟練度.**2000**\n消費MP.**10 **\nStrength**{percent_num_4:.2f}(Limit800[+∞])**% 『PowerCharge』毎にStrength倍率が**50**%上昇'),
         ('MasterSpark ',4000,
-            f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}**% 後手確定'),
+            f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×32**\nStrength**{percent_num_5:.2f}(Limit3000)**% 後手確定'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     for magic,num in zip(magic_tuple,range(0,6)):
