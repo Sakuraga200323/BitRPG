@@ -61,9 +61,9 @@ class Player:
             return
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
-        self.max_hp = self.now_hp = self.lv_ * 100 + 10
-        self.max_mp = self.now_mp = self.lv_
-        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
+        self.max_hp = self.now_hp = self.lv() * 100 + 10
+        self.max_mp = self.now_mp = self.lv()
+        self.now_defe = self.max_defe = self.lv() * 10 + 10 + self.defe_p()
         self.battle_ch = None
         self.name = str(self.user)
         magic_class = self.dtd["magic_class"]
