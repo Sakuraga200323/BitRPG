@@ -232,15 +232,15 @@ async def open_magic(user,ch):
        # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
         ('StunRain',0,
-            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}(Max∞)**% **50**%で敵に3ターンのStun付与'),
+            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}(Limit∞)**% **50**%で敵に3ターンのStun付与'),
         ('PainPiscis',500,
-            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}(Max150[+50])**% 対象がStun状態の時Strength倍率**+50%**'),
+            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}(Limit150[+50])**% 対象がStun状態の時Strength倍率**+50%**'),
         ('GinHex',1000,
-            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}(Max75)**%で敵に3ターンのStun付与'),
+            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}(Limit75)**%で敵に3ターンのStun付与'),
         ('ImmortalRecover',2000,
             f'必要熟練度.**2000**\n消費MP.**600**\n死亡している全味方をHP**1**で強制復活'),
         ('PermaFrost',4000,
-            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}(Max1000)**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
+            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}(Limit1000)**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     for magic,num in zip(magic_tuple,range(0,6)):
