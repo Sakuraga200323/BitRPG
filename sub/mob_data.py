@@ -105,7 +105,7 @@ ultraero = {
 
 def select(lv):
     chance = random.random()
-    elif lv % 1000 == 0:
+    if lv % 1000 == 0:
         type = "WorldEnd"
         name = random.choice(list(worldend.keys()))
         img = worldend[name]
