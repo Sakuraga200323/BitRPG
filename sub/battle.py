@@ -200,6 +200,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
         else:
             battle_text = f"{a.name} を倒した"
     else:
+        head_text = "."
         plus_or_minus = ""
         if a.ID() in box.players:
             a_mark,b_mark = "+","-"
@@ -217,7 +218,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
             box.nerf[a_id] -= 1
             a_was_nerf = True
             a_strength = int(a_strength/2)
-            irregular_text = f'\n・ {a.name} は力が入らない！ (Nerf×{box.nerf[a_id]}, Strength50%)'
+            irregular_text = f'\n{head_text}{a.name} は力が入らない！ (Nerf×{box.nerf[a_id]}, Strength50%)'
             if box.nerf[a_id] <= 0:
                 del box.nerf[a_id]
         if a_id in box.stun:
@@ -225,49 +226,49 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
             if random() <= 0.8:
                 box.stun[a_id] -= 1
                 a_strength = 0
-                irregular_text = f'\n・ {a.name} は痺れて動けない！ (Stun×{box.stun[a_id]}, Strength0%)'
+                irregular_text = f'\n{head_text}{a.name} は痺れて動けない！ (Stun×{box.stun[a_id]}, Strength0%)'
                 if box.stun[a_id] <= 0:
                     del box.stun[a_id]
             else:
                 a_strength *= 0.8
-                irregular_text = f'\n・ {a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
+                irregular_text = f'\n{head_text}{a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
                
         if a_id in box.fleez:
             a_strength = 0
-            irregular_text = f'\n・ {a.name} は凍って動けない！ (Strength0%)'
+            irregular_text = f'\n{head_text}{a.name} は凍って動けない！ (Strength0%)'
             a_was_fleeze = True
         if a_strength != 0:
             if random() <= 0.05:
                 a_strength *= 5
-                irregular_text += '\n・ クリティカルヒット！ (Strength500%)'
+                irregular_text += '\n{head_text}クリティカルヒット！ (Strength500%)'
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0)*dodge_rate, 0.75):
                 if b.ID() in box.stun:
                     if random() <= 0.5:
                         a_strength = 0
-                        irregular_text += f'\n・ {b.name} はギリギリ避けた！ (Strength0%)'
+                        irregular_text += f'\n{head_text}{b.name} はギリギリ避けた！ (Strength0%)'
                 else:
                     a_strength = 0
-                    irregular_text += f'\n・ {b.name} は華麗に避けた！ (Strength0%)'
+                    irregular_text += f'\n{head_text}{b.name} は華麗に避けた！ (Strength0%)'
             elif a_id in box.atk_switch:
                 b_id = box.atk_switch[a_id]
                 if b_id in box.players:
                     b = box.players[b_id]
                     del box.atk_switch[a_id]
                     a_strength *= 0.5
-                    irregular_text += f"\n・ {b.name} が攻撃を防いだ！ (Target{b.name} Strength50%)"
+                    irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength50%)"
         if b.ID() in box.fleez:
             box.fleez.remove(b.ID())
         battle_text += irregular_text
         a_strength = int(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
-        battle_text += f'\n・ {b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
+        battle_text += f'\n{head_text}{b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
         if a_was_stun and not a_id in box.stun:
-            battle_text += '\n・ Stun から回復'
+            battle_text += '\n{head_text}Stun から回復'
         if a_was_nerf and not a_id in box.nerf:
-            battle_text += '\n・ Nerf から回復'
+            battle_text += '\n{head_text}Nerf から回復'
         if buff in [1,2] and not a.ID() in box.stun:
             buff_dict = {1:"Stun",2:"Nerf"}
-            battle_text += f"\n・ {buff_dict[buff]} 付与"
+            battle_text += f"\n{head_text}{buff_dict[buff]} 付与"
             if buff == 1:
                 box.stun[b.ID()] = 3
             if buff == 2:
