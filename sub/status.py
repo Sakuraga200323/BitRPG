@@ -90,8 +90,9 @@ async def open_status(user,ch):
     if mc == "Wolf":
         strength_text += " +10%"
     if mc == "Armadillo":
-        rate = int((1 - (self.now_hp / self.max_hp))*4*100)
-        strength_text += f" +{rate}%"
+        rate = int((1 - (p_data.now_hp / p_data.max_hp))*4*100)
+        if rate:
+            strength_text += f" +{rate}%"
     if p_data.weapon():
         strength_text += f" {p_data.weapon().emoji()}+{p_data.weapon().strength()}"
     strength_text += ")"
