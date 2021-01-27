@@ -224,7 +224,7 @@ async def open_magic(user,ch):
     player = box.players[user.id]
     magic_lv = player.magic_lv()
     use_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
-    percent_num_0 = mx(1000 + ((magic_lv-4000)/1000),1000) + use_num
+    percent_num_0 = max(1000 + ((magic_lv-4000)/1000),1000) + use_num
     percent_num_1 = max(min(150+(magic_lv/1000),300),150)
     percent_num_2 = max(min(300+((magic_lv-500)/1000),600),300)
     percent_num_4 = max(min(100+((magic_lv-2000)/1000),800),100) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
