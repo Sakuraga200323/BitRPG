@@ -63,7 +63,6 @@ class Player:
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
         data_list = [
             self.dtd["lv"], self.dtd["max_lv"], 
-            self.dtd["max_exp"], self.dtd["now_exp"], 
             self.dtd["now_stp"], self.dtd["str_p"], self.dtd["def_p"], self.dtd["agi_p"], 
             self.dtd["magic_class"], self.dtd["magic_lv"], 
             self.dtd["kill_count"], self.dtd["item"], self.dtd["money"]
