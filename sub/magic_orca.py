@@ -60,7 +60,7 @@ async def magic_1(player,mob):
     if player.AGI() >= mob.agi():
         player.magic_lv(1)
         player.cut_mp(80)
-        text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+        text1 = battle.create_battle_text(player,mob,atk_word="『StunRain』",strength_rate=up_num,buff=buff_num)
         if mob.now_hp > 0:
             text2 = battle.create_battle_text(mob,player)
         else:
@@ -71,7 +71,7 @@ async def magic_1(player,mob):
         if player.now_hp > 0:
             player.magic_lv(1)
             player.cut_mp(80)
-            text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",str_up_num=up_num,buff=buff_num)
+            text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",strength_rate=up_num,buff=buff_num)
         else:
             text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
@@ -101,7 +101,7 @@ async def magic_2(player,mob):
             up_num += 0.5
         player.magic_lv(1)
         player.cut_mp(150)
-        text1 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
+        text1 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",strength_rate=up_num)
         if mob.now_hp > 0:
             text2 = battle.create_battle_text(mob,player)
         else:
@@ -114,7 +114,7 @@ async def magic_2(player,mob):
         if player.now_hp > 0:
             player.magic_lv(1)
             player.cut_mp(150)
-            text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",str_up_num=up_num)
+            text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",strength_rate=up_num)
         else:
             text2 = f'{player.user}はやられてしまった…'
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
@@ -205,7 +205,7 @@ async def magic_5(player,mob):
     up_num = min(6 + ((player.magic_lv()-4000)/100000),100)
     player.magic_lv(2)
     player.cut_mp(1200)
-    text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",str_up_num=up_num,buff=buff_num)
+    text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",strength_rate=up_num,buff=buff_num)
     if mob.now_hp > 0:
         text2 = battle.create_battle_text(mob,player)
         magic_log = f"```diff\n{text1}``````diff\n{text2}```"
@@ -248,10 +248,8 @@ async def open_magic(user,ch):
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     for magic,num in zip(magic_tuple,range(1,6)):
         magic_name = magic[0]
-        magic_info = '>>> '+magic[2]
         if magic_lv < magic[1]:
-            magic_name = f'`{magic[0]}`'
-            magic_info = f"`{magic[2].replace('*','')}`"
+            magic_info = '>>> '+magic[2]
         magic_em.add_field(name=f'`{num}.`'+magic_name,value=magic_info,inline=False)
     magic_em.set_thumbnail(url=user.avatar_url)
     await ch.send(embed=magic_em)
