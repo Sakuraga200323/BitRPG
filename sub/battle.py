@@ -126,8 +126,8 @@ async def battle_result(player, mob):
         exp, money = mob.reward()[0]+1, int(mob.reward()[1]/len(mob.battle_players))
         guild = client.get_guild(719165196861702205)
         if  now in ['23:18']:
-            exp *= 16
-            await ch.send("**初代開発者**『明日死ぬかのように生きろ。**闘う者に祝福**あれ。』")
+            exp *= 2
+            await ch.send("**初代開発者**『今日生きているからといって、明日生きているとは限らない。』")
         print(f"『{mob.name}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
         roles_mention = (
             '<@&800263879607189515>', 
