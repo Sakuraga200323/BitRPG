@@ -335,7 +335,6 @@ class Player:
 
     def max_exp(self, plus=None):
         if isinstance(plus,int):
-            self.now_exp_ = self.plus('now_exp', plus)
             self.max_exp_ = self.plus('max_exp', plus)
         self.max_exp_ =  self.get_data("max_exp")
         return self.max_exp_
