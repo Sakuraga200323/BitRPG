@@ -341,21 +341,24 @@ class Player:
 
     def get_exp(self, exp):
         exp = int(exp)
+        all_exp = self.now_exp + exp
+        self.update_data("now_exp",0)
         self.max_exp(exp)
+        lv = self.lv()+1
         lvup_count = 0
-        now_exp = self.now_exp()
-        lv = self.lv()
-        while now_exp >= lv and self.max_lv() > lv:
+        max_lv = self.max_lv()
+        for i in range(1000000):
+            if (all_exp <= (lv*2 + lvup_count)*lvup_count/2) or (max_lv <= (lv + lvup_count)):
+                break
             lvup_count += 1
-            lv += 1
-            now_exp -= lv
         if lvup_count > 0:
-            self.lv(lvup_count)
-            self.now_exp(now_exp-self.now_exp())
+            all_exp += lv*2 + lvup_count)*lvup_count/2
+            result_lv = self.lv(lvup_count)
+            self.now_exp(all_exp)
             self.now_stp(lvup_count*10)
-            self.max_hp = self.now_hp = self.lv() * 100 + 10
-            self.max_mp = self.now_mp = self.lv()
-            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+            self.max_hp = self.now_hp = result_lv * 100 + 10
+            self.max_mp = self.now_mp = result_lv
+            self.now_defe = self.max_defe = result_lv * 10 + 10 + self.defe_p_
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
