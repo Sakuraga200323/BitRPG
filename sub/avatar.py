@@ -61,21 +61,9 @@ class Player:
             return
         self.client = client
         self.dtd = pg.fetchdict(f"select * from player_tb where id = {self.user.id};")[0]
-        data_list = [
-            self.dtd["lv"], self.dtd["max_lv"], 
-            self.dtd["now_stp"], self.dtd["str_p"], self.dtd["def_p"], self.dtd["agi_p"], 
-            self.dtd["magic_class"], self.dtd["magic_lv"], 
-            self.dtd["kill_count"], self.dtd["item"], self.dtd["money"]
-        ]
-        [
-            self.lv_, self.max_lv_, 
-            self.now_stp_, self.str_p_, self.defe_p_, self.agi_p_, 
-            self.magic_class_, self.magic_lv_, 
-            self.kill_count_, self.item_, self.money_
-        ] = data_list
         self.max_hp = self.now_hp = self.lv_ * 100 + 10
         self.max_mp = self.now_mp = self.lv_
-        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
         self.battle_ch = None
         self.name = str(self.user)
         magic_class = self.dtd["magic_class"]
@@ -179,32 +167,29 @@ class Player:
     # レベル取得
     def lv(self, plus=None):
         if isinstance(plus,int):
-            self.lv_ = self.plus('lv', plus)
-            self.max_hp = self.now_hp = self.lv_ * 100 + 10
-            self.max_mp = self.now_mp = self.lv_
-            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+            lv = self.plus('lv', plus)
+            self.max_hp = self.now_hp = lv * 100 + 10
+            self.max_mp = self.now_mp = lv
+            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
             if magic_class == 3:
                 self.max_mp = self.now_mp = int(self.max_mp*1.1)
-        self.lv_ =  self.get_data("lv")
-        return self.lv_
+        return self.get_data("lv")
 
     def max_lv(self, plus=None):
         if isinstance(plus,int):
-            self.max_lv_ = self.plus('max_lv', plus)
-        self.max_lv_ =  self.get_data("max_lv")
-        return self.max_lv_
+            self.plus('max_lv', plus)
+        return self.get_data("max_lv")
 
     def str(self):
         return self.lv() * 10 + 10
 
     def str_p(self, plus=None):
         if isinstance(plus,int):
-            self.str_p_ = self.plus('str_p', plus)
-        self.str_p_ =  self.get_data("str_p")
-        return self.str_p_
+            self.plus('str_p', plus)
+        return self.get_data("str_p")
 
 
     def STR(self):
@@ -224,9 +209,8 @@ class Player:
 
     def defe_p(self, plus=None):
         if isinstance(plus,int):
-            self.defe_p_ = self.plus('def_p', plus)
-        self.defe_p_ =  self.get_data("def_p")
-        return self.defe_p_
+            self.plus('def_p', plus)
+        return self.get_data("def_p")
 
     def DEFE(self):
         magic_class = self.dtd["magic_class"]
@@ -239,9 +223,8 @@ class Player:
 
     def agi_p(self, plus=None):
         if isinstance(plus,int):
-            self.agi_p_ = self.plus('agi_p', plus)
-        self.agi_p_ =  self.get_data("agi_p")
-        return self.agi_p_
+            self.plus('agi_p', plus)
+        return self.get_data("agi_p")
 
     def AGI(self):
         magic_class = self.dtd["magic_class"]
@@ -250,9 +233,8 @@ class Player:
 
     def now_stp(self, plus=None):
         if isinstance(plus,int):
-            self.now_stp_ = self.plus('now_stp', plus)
-        self.now_stp_ =  self.get_data("now_stp")
-        return self.now_stp_
+            self.plus('now_stp', plus)
+        return self.get_data("now_stp")
    
     def STP(self, plus=None):
         return self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
@@ -288,27 +270,24 @@ class Player:
         
     def kill_count(self, plus=None):
         if isinstance(plus,int):
-            self.kill_count_ = self.plus('kill_count', plus)
-        self.kill_count_ =  self.get_data("kill_count")
-        return self.kill_count_
+            self.plus('kill_count', plus)
+        return self.get_data("kill_count")
 
     def magic_class(self):
-        self.magic_class_ =  self.get_data("magic_class")
-        if self.magic_class_ == 1: return "Wolf"
-        elif self.magic_class_ == 2: return "Armadillo"
-        elif self.magic_class_ == 3: return "Orca"
+        magic_class =  self.get_data("magic_class")
+        if magic_class == 1: return "Wolf"
+        elif magic_class == 2: return "Armadillo"
+        elif magic_class == 3: return "Orca"
 
     def magic_lv(self, plus=None):
         if isinstance(plus,int):
-            self.magic_lv_ = self.plus('magic_lv', plus)
-        self.magic_lv_ =  self.get_data("magic_lv")
-        return self.magic_lv_
+            self.plus('magic_lv', plus)
+        return self.get_data("magic_lv")
 
     def money(self, plus=None):
         if isinstance(plus,int):
-            self.money_ = self.plus('money', plus)
-        self.money_ =  self.get_data("money")
-        return self.money_
+            self.plus('money', plus)
+        return self.get_data("money")
 
     def share_stp(self, target, point):
         self.now_stp(-point)
@@ -318,7 +297,7 @@ class Player:
         if target == "str":
             return self.str_p(point)
         if target == "def":
-            self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+            self.max_defe = self.lv() * 10 + 10 + self.defe_p()
             if magic_class == 2:
                 self.max_defe = int(self.max_defe*1.1)
             return self.defe_p(point)
@@ -356,7 +335,7 @@ class Player:
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = result_lv * 100 + 10
             self.max_mp = self.now_mp = result_lv
-            self.now_defe = self.max_defe = result_lv * 10 + 10 + self.defe_p_
+            self.now_defe = self.max_defe = result_lv * 10 + 10 + self.defe_p()
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
@@ -396,7 +375,7 @@ class Player:
         self.battle_ch = None
         self.max_hp = self.now_hp = self.lv() * 100 + 10
         self.max_mp = self.now_mp = self.lv()
-        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p_
+        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
             self.max_hp = self.now_hp = int(self.max_hp*1.1)
