@@ -147,9 +147,6 @@ async def magic_3(player,mob):
     if random() <= percent:
         box.stun[mob.ID()] = 3
         magic_text += f'\n{mob.name}に3ターンのStunを付与！'
-    if random() <= percent:
-        box.nerf[mob.ID()] = 3
-        magic_text += f'\n{mob.name}に3ターンのNerfを付与！'
     if magic_text == '':
         magic_text = '何も起きなかった…MP無駄消費乙！'
     em = discord.Embed(description=magic_text)
@@ -225,25 +222,25 @@ async def open_magic(user,ch):
     player = box.players[user.id]
     magic_lv = player.magic_lv()
     use_num = battle.pg.fetchdict(f"select item from player_tb where id = {player.ID()};")[0]["item"]["魂の焔"]
-    percent_num_0 = 1000 + ((magic_lv-4000)/1000) + use_num
-    percent_num_1 = min(80+(magic_lv/1000),300)
-    percent_num_2 = min(200+((magic_lv-500)/1000),400)
-    percent_num_3 = min(0.25 + ((player.magic_lv()-500)/100000),0.75)*100
-    percent_num_4 = min(100+((magic_lv-2000)/1000),800) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
-    percent_num_5 = min(600+((magic_lv-4000)/1000),10000)
+    percent_num_0 = max(1000 + ((magic_lv-4000)/1000),1000) + use_num
+    percent_num_1 = min(80+(magic_lv/1000),150)
+    percent_num_2 = max(min(200+((magic_lv-500)/1000),400),200)
+    percent_num_3 = max(min(0.25 + ((player.magic_lv()-500)/100000),0.75),0.25)*100
+    percent_num_4 = max(min(100+((magic_lv-2000)/1000),800),100) + (box.power_charge[user.id]*50 if user.id in box.power_charge else 0)
+    percent_num_5 = max(min(600+((magic_lv-4000)/1000),1000),600)
     magic_tuple = (
        # ('None',4000,
        #     f'必要熟練度.**4000**\n消費MP.**10 **\n消費触媒.**{box.items_emoji[4]}×{use_num}**\nStrength**{percent_num_0:.2f}**% 後手確定'),
         ('StunRain',0,
-            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}**% **50**%で敵に3ターンのStun付与'),
+            f'必要熟練度.**0   **\n消費MP.**80 **\nStrength**{percent_num_1:.2f}(Max∞)**% **50**%で敵に3ターンのStun付与'),
         ('PainPiscis',500,
-            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}**% 対象がStun状態の時Strength倍率+50%'),
+            f'必要熟練度.**500 **\n消費MP.**150**\nStrength**{percent_num_2:.2f}(Max150[+50])**% 対象がStun状態の時Strength倍率**+50%**'),
         ('GinHex',1000,
-            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}**%で敵に3ターンのStun付与 **{percent_num_3:.2f}**%で敵に3ターンのNerf付与'),
+            f'必要熟練度.**1000**\n消費MP.**300**\nアンチマジックエリアをレジスト **{percent_num_3:.2f}(Max75)**%で敵に3ターンのStun付与'),
         ('ImmortalRecover',2000,
             f'必要熟練度.**2000**\n消費MP.**600**\n死亡している全味方をHP**1**で強制復活'),
-       ('PermaFrost',4000,
-            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
+        ('PermaFrost',4000,
+            f'必要熟練度.**4000**\n消費MP.**1200**\nStrength**{percent_num_5:.2f}(Max1000)**% 先手確定 **50**%で敵に3ターンのStun付与 **50**%で敵をFreeze状態にする'),
     )
     magic_em = discord.Embed(title="Player Magic Board",description=f"魔法熟練度.**{magic_lv}**\n小数点第2位未満四捨五入")
     for magic,num in zip(magic_tuple,range(1,6)):
