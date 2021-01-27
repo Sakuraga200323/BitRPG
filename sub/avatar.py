@@ -259,18 +259,6 @@ class Player:
     def STP(self, plus=None):
         return self.str_p() + self.defe_p() + self.agi_p() + self.now_stp()
 
-    def now_exp(self, plus=None):
-        if isinstance(plus,int):
-            self.now_exp_ = self.plus('now_exp', plus)
-        self.now_exp_ =  self.get_data("now_exp")
-        return self.now_exp_
-
-    def max_exp(self, plus=None):
-        if isinstance(plus,int):
-            self.now_exp_ = self.plus('now_exp', plus)
-            self.max_exp_ = self.plus('max_exp', plus)
-        self.max_exp_ =  self.get_data("max_exp")
-        return self.max_exp_
 
     def item_num(self, target):
         if target in box.items_name:
@@ -339,6 +327,19 @@ class Player:
         if target == "agi":
             return self.agi_p(point)
 
+    def now_exp(self, plus=None):
+        if isinstance(plus,int):
+            self.now_exp_ = self.plus('now_exp', plus)
+        self.now_exp_ =  self.get_data("now_exp")
+        return self.now_exp_
+
+    def max_exp(self, plus=None):
+        if isinstance(plus,int):
+            self.now_exp_ = self.plus('now_exp', plus)
+            self.max_exp_ = self.plus('max_exp', plus)
+        self.max_exp_ =  self.get_data("max_exp")
+        return self.max_exp_
+
     def get_exp(self, exp):
         exp = int(exp)
         all_exp = self.now_exp() + exp
@@ -348,13 +349,13 @@ class Player:
         lvup_count = 0
         max_lv = self.max_lv()
         def get_lvup_count(a,c):
-            n = -a+math.sqrt(a**2+(2*c))
+            n = math.sqrt(a**2+(2*c))-a
             return int(n)
         lvup_count = min(get_lvup_count(lv,all_exp),max_lv)
+        self.now_exp(all_exp)
         if lvup_count > 0:
-            all_exp += (lv*2 + lvup_count)*lvup_count/2
+            all_exp -= (lv*2 + lvup_count)*lvup_count/2
             result_lv = self.lv(lvup_count)
-            self.now_exp(all_exp)
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = result_lv * 100 + 10
             self.max_mp = self.now_mp = result_lv
