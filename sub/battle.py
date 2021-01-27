@@ -240,7 +240,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
         if a_strength != 0:
             if random() <= 0.05:
                 a_strength += a.STR()*4
-                irregular_text += '\n{head_text}クリティカルヒット！ (Strength+400%)'
+                irregular_text += f'\n{head_text}クリティカルヒット！ (Strength+400%)'
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0)*dodge_rate, 0.75):
                 if b.ID() in box.stun:
                     if random() <= 0.5:
