@@ -73,31 +73,34 @@ async def open_status(user,ch):
     if not user.id in box.players:
         return
     p_data = box.players[user.id]
-    mc = p_data.magic_class_
+    mc = p_data.magic_class()
     embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff)
     embed.add_field(name=f"Player", value=f"{p_data.user.mention}", inline=False)
     embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()}/{p_data.max_lv()}`")
-    embed.add_field(name=f"MagicLevel", value=f"`{p_data.magic_class()} Lv.{p_data.magic_lv()}`")
-    if p_data.magic_class() == "Armadillo":
+    embed.add_field(name=f"MagicLevel", value=f"`{mc} Lv.{p_data.magic_lv()}`")
+    if mc == "Armadillo":
         embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp} (+10%)", inline=False)
     else:
         embed.add_field(name=f"HitPoint (Now/Max)", value=f"{p_data.now_hp}/{p_data.max_hp}`", inline=False)
-    if p_data.magic_class() == "Orca":
+    if mc == "Orca":
         embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp} (+10%)", inline=False)
     else:
         embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp}", inline=False)
     strength_text = f"{p_data.STR()} (+{p_data.str_p()}"
-    if p_data.magic_class() == "Wolf":
+    if mc == "Wolf":
         strength_text += " +10%"
+    if mc == "Armadillo":
+        rate = int((1 - (self.now_hp / self.max_hp))*4*100)
+        strength_text += f" +{rate}%"
     if p_data.weapon():
         strength_text += f" {p_data.weapon().emoji()}+{p_data.weapon().strength()}"
     strength_text += ")"
     embed.add_field(name=f"Strength", value=strength_text)
-    if p_data.magic_class() == "Armadillo":
+    if mc == "Armadillo":
         embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()} +10%)")
     else:
         embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()})")
-    if p_data.magic_class() == "Orca":
+    if mc == "Orca":
         embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()} +10%)")
     else:
         embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()})")
