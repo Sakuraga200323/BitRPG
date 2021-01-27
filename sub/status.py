@@ -88,7 +88,7 @@ async def open_status(user,ch):
         embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp}", inline=False)
     strength_text = f"{p_data.STR()}\n(+{p_data.str_p()}"
     if mc == "Wolf":
-        strength_text += "+10%"
+        strength_text += "｜+10%"
     if mc == "Armadillo":
         rate = int((1 - (p_data.now_hp / p_data.max_hp))*4*100)
         if rate:
