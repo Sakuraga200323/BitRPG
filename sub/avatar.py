@@ -351,6 +351,7 @@ class Player:
             n = math.sqrt(a**2+(2*c))-a
             return int(n)
         lvup_count = min(get_lvup_count(lv,all_exp),max_lv-lv)
+        print(lvup_count)
         self.now_exp(all_exp-((2*lv+lvup_count-1)*lvup_count/2))
         self.max_exp(exp)
         if lvup_count > 0:
