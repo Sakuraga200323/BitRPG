@@ -375,19 +375,14 @@ class Player:
         return self.now_mp
 
     def cut_defe(self, strength):
+        dmg = int(strength) - self.now_defe
         if self.now_defe <= 0:
-            dmg = strength
-            defe = 0
             self.now_defe = self.max_defe
         else:
-            if strength > self.now_defe:
-                dmg = strength - self.now_defe
-                defe = 0
-                self.now_defe = 0
-            elif strength < self.now_defe:
-                dmg = 0
-                self.now_defe -= strength
-                defe = self.now_defe
+            if self.now_defe <= 0:
+                self.now_defe = self.max_defe
+            else:
+                self.now_defe = max(self.now_defe-strength,0)
         return dmg, defe
 
     def damaged(self,strength):
