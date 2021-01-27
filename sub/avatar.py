@@ -342,7 +342,7 @@ class Player:
     def get_exp(self, exp):
         exp = int(exp)
         all_exp = self.now_exp() + exp
-        self.update_data("now_exp",0)
+        self.now_exp(-self.now_exp())
         self.max_exp(exp)
         lv = self.lv()+1
         lvup_count = 0
@@ -350,10 +350,9 @@ class Player:
         def get_lvup_count(a,c):
             n = math.sqrt(a**2+(2*c))-a
             return int(n)
-        lvup_count = min(get_lvup_count(lv,all_exp),max_lv)
-        self.now_exp(all_exp)
+        lvup_count = min(get_lvup_count(lv,all_exp),max_lv-lv)
+        self.now_exp(all_exp-((2*lv+lv_up_count)*lv_up_count/2))
         if lvup_count > 0:
-            all_exp -= (lv*2 + lvup_count)*lvup_count/2
             result_lv = self.lv(lvup_count)
             self.now_stp(lvup_count*10)
             self.max_hp = self.now_hp = result_lv * 100 + 10
