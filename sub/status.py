@@ -74,7 +74,7 @@ async def open_status(user,ch):
         return
     p_data = box.players[user.id]
     mc = p_data.magic_class()
-    embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == 1 else 0x8f6200 if mc == 2 else 0x2e3cff)
+    embed = discord.Embed(title="Player Status Board",color=0xe1ff00 if mc == "Wolf" else 0x8f6200 if mc == "Armadillo" else 0x2e3cff if mc == "Orca" else discord.color.red())
     embed.add_field(name=f"Player", value=f"{p_data.user.mention}", inline=False)
     embed.add_field(name=f"Level (Now/Limit)", value=f"`{p_data.lv()}/{p_data.max_lv()}`")
     embed.add_field(name=f"MagicLevel", value=f"`{mc} Lv.{p_data.magic_lv()}`")
@@ -88,21 +88,21 @@ async def open_status(user,ch):
         embed.add_field(name=f"MagicPoint (Now/Max)", value=f"{p_data.now_mp}/{p_data.max_mp}", inline=False)
     strength_text = f"{p_data.STR()} (+{p_data.str_p()}"
     if mc == "Wolf":
-        strength_text += " +10%"
+        strength_text += "+10%"
     if mc == "Armadillo":
         rate = int((1 - (p_data.now_hp / p_data.max_hp))*4*100)
         if rate:
-            strength_text += f" +{rate}%"
+            strength_text += f"｜+{rate}%"
     if p_data.weapon():
-        strength_text += f" {p_data.weapon().emoji()}+{p_data.weapon().strength()}"
+        strength_text += f"｜+{p_data.weapon().strength()}{p_data.weapon().emoji()}"
     strength_text += ")"
     embed.add_field(name=f"Strength", value=strength_text)
     if mc == "Armadillo":
-        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()} +10%)")
+        embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()}｜+10%)")
     else:
         embed.add_field(name=f"Defense (Now/Limit)", value=f"{p_data.now_defe}/{p_data.max_defe} (+{p_data.defe_p()})")
     if mc == "Orca":
-        embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()} +10%)")
+        embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()}｜+10%)")
     else:
         embed.add_field(name=f"Agility", value=f"{p_data.AGI()} (+{p_data.agi_p()})")
     embed.add_field(name=f"StatusPoint", value=f"{p_data.now_stp()}")
