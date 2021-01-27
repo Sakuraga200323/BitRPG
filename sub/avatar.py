@@ -170,7 +170,7 @@ class Player:
             lv = self.plus('lv', plus)
             self.max_hp = self.now_hp = lv * 100 + 10
             self.max_mp = self.now_mp = lv
-            self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
+            self.now_defe = self.max_defe = self.lv() * 10 + 10 + self.defe_p()
             magic_class = self.dtd["magic_class"]
             if magic_class == 2:
                 self.max_defe = self.now_defe = int(self.max_defe*1.1)
@@ -375,7 +375,7 @@ class Player:
         self.battle_ch = None
         self.max_hp = self.now_hp = self.lv() * 100 + 10
         self.max_mp = self.now_mp = self.lv()
-        self.now_defe = self.max_defe = self.lv_ * 10 + 10 + self.defe_p()
+        self.now_defe = self.max_defe = self.lv() * 10 + 10 + self.defe_p()
         magic_class = self.dtd["magic_class"]
         if magic_class == 2:
             self.max_hp = self.now_hp = int(self.max_hp*1.1)
