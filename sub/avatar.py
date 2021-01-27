@@ -352,7 +352,7 @@ class Player:
                 break
             lvup_count += 1
         if lvup_count > 0:
-            all_exp += lv*2 + lvup_count)*lvup_count/2
+            all_exp += (lv*2 + lvup_count)*lvup_count/2
             result_lv = self.lv(lvup_count)
             self.now_exp(all_exp)
             self.now_stp(lvup_count*10)
