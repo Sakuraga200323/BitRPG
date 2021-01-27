@@ -252,10 +252,13 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
             elif a_id in box.atk_switch:
                 b_id = box.atk_switch[a_id]
                 if b_id in box.players:
-                    b = box.players[b_id]
-                    del box.atk_switch[a_id]
                     a_strength -= int(a.STR()/2)
-                    irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength-50%)"
+                    if b_id == b.ID():
+                        irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength-50%)"
+                    else:
+                        b = box.players[b_id]
+                        irregular_text += f"\n{head_text}{b.name} は攻撃を見切った！ (Target{b.name} Strength-50%)"
+                    del box.atk_switch[a_id]
         if b.ID() in box.fleez:
             box.fleez.remove(b.ID())
         battle_text += irregular_text
