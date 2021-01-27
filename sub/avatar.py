@@ -379,7 +379,7 @@ class Player:
         if self.now_defe <= 0:
             self.now_defe = self.max_defe
         else:
-            self.now_defe = max(self.now_defe-strength,0)
+            self.now_defe = max(self.now_defe-int(strength),0)
         return max(dmg,0), self.now_defe
 
     def damaged(self,strength):
