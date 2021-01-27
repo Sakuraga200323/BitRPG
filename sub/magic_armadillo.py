@@ -52,12 +52,12 @@ async def magic_1(player,mob):
     player.magic_lv(1)
     # 戦闘処理（Player先手） #
     if player.AGI() >= mob.agi():
-        text1 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+        text1 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",strength_rate=up_num,buff=buff_num)
         text2 = battle.create_battle_text(mob,player)
     # 戦闘処理（Player後手） #
     else:
         text1 = battle.create_battle_text(mob,player)
-        text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",str_up_num=up_num,buff=buff_num)
+        text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",strength_rate=up_num,buff=buff_num)
     magic_log = f"```diff\n{text1}``````diff\n{text2}```"
     player.magic_lv(1)
     player.cut_mp(30)
