@@ -347,10 +347,10 @@ class Player:
         lv = self.lv()+1
         lvup_count = 0
         max_lv = self.max_lv()
-        for i in range(1000000):
-            if (all_exp <= (lv*2 + lvup_count)*lvup_count/2) or (max_lv <= (lv + lvup_count)):
-                break
-            lvup_count += 1
+        def get_lvup_count(a,c):
+            n = -a+math.sqrt(a**2+(2*c))
+            return int(n)
+        lvup_count = min(get_lvup_count(lv,all_exp),max_lv)
         if lvup_count > 0:
             all_exp += (lv*2 + lvup_count)*lvup_count/2
             result_lv = self.lv(lvup_count)
