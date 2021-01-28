@@ -534,8 +534,24 @@ class Mob:
     def lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('lv', plus)
-            self.max_hp = self.now_hp = result * 100
-            self.now_defe = self.max_defe = result * 10
+            self.max_hp = result * 100
+            self.max_defe = result * 10
+            if self.type == "UltraRare":
+                self.max_defe *= 5
+                self.max_hp *= 5
+            elif self.lv() % 1000 == 0:
+                self.max_defe *= 5
+                self.max_hp *= 5
+            elif self.lv() % 100 == 0:
+                self.max_defe *= 2
+                self.max_hp *= 2
+            elif self.lv() % 10 == 0:
+                self.max_defe *= 1.5
+                self.max_hp *= 1.5
+            self.max_hp = int(self.max_hp)
+            self.max_defe = int(self.max_defe)
+            self.now_defe = self.max_defe
+            self.now_hp = self.max_hp
         else:
             result = self.get_data('lv')
         return result
@@ -625,7 +641,7 @@ class Mob:
         return dmg, defe, hp
 
     def spawn(self):
-        set = mob_data.select(self.lv())
+        set = self.lv()
         self.type, self.name, self.img_url = set.values()
         self.max_hp = self.now_hp = self.lv() * 100
         embed=discord.Embed(
@@ -652,6 +668,6 @@ class Mob:
         for p_id in self.battle_players:
             if p_id in box.players:
                 box.players[p_id].battle_end()
-        self.now_defe = self.max_defe = self.dtd["lv"] * 10
+        self.now_defe = self.max_defe = self.lv() * 10
         self.battle_players = []
         return self.spawn()
