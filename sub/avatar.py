@@ -639,7 +639,7 @@ class Mob:
         set = mob_data.select(self.lv())
         self.type, self.name, self.img_url = set.values()
         if True:
-            result = self.plus('lv', plus)
+            result = self.lv()
             self.max_hp = result * 100
             self.max_defe = result * 10
             if self.type == "UltraRare":
