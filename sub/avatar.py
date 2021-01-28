@@ -546,8 +546,8 @@ class Mob:
                 self.max_defe *= 2
                 self.max_hp *= 2
             elif self.lv() % 10 == 0:
-                self.max_defe *= 1.5
-                self.max_hp *= 1.5
+                self.max_defe *= 2
+                self.max_hp *= 2
             self.max_hp = int(self.max_hp)
             self.max_defe = int(self.max_defe)
             self.now_defe = self.max_defe
