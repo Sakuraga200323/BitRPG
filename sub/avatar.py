@@ -534,8 +534,8 @@ class Mob:
     def lv(self, plus=None):
         if isinstance(plus,int):
             result = self.plus('lv', plus)
-            self.max_hp = self.now_hp = self.lv() * 100
-            self.now_defe = self.max_defe = self.dtd["lv"] * 10
+            self.max_hp = self.now_hp = result * 100
+            self.now_defe = self.max_defe = result * 10
         else:
             result = self.get_data('lv')
         return result
@@ -588,7 +588,7 @@ class Mob:
         elif self.type == "Rare":
             exp *= 5
             money *= 5
-        if self.lv() % 1000 == 0:
+        elif self.lv() % 1000 == 0:
             exp *= 100
             money *= 100
         elif self.lv() % 100 == 0:
