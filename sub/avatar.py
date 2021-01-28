@@ -555,7 +555,7 @@ class Mob:
             self.max_defe = int(self.max_defe)
             self.now_defe = self.max_defe
             self.now_hp = self.max_hp
-        print(self.now_defe,self.now_hp)
+            print(self.now_defe,self.now_hp)
         else:
             result = self.get_data('lv')
         return result
