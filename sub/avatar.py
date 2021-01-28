@@ -560,11 +560,6 @@ class Mob:
             result = self.get_data('lv')
         return result
 
-    def weapon(self,get_all=True,get_using=False,sort='lv'):
-        if get_all:
-            return self.get_data('weapons')
-        
-
     def str(self):
         num = self.lv() * 10
         if self.type == "UltraRare":num*=5
@@ -574,11 +569,7 @@ class Mob:
         return num
 
     def defe(self):
-        num = self.lv() * 10
-        if self.type == "UltraRare":num*=5
-        elif self.lv() % 1000 == 0:num*=10
-        elif self.lv() % 100 == 0:num*=5
-        elif self.lv() % 10 == 0:num*=2
+        num = self.max_defe
         return num
 
     def agi(self):
@@ -593,7 +584,7 @@ class Mob:
         num = self.str()
         return num
     def DEFE(self):
-        num = self.defe()
+        num = self.max_defe
         return num
     def AGI(self):
         num = self.agi()
@@ -647,7 +638,29 @@ class Mob:
     def spawn(self):
         set = mob_data.select(self.lv())
         self.type, self.name, self.img_url = set.values()
-        self.max_hp = self.now_hp = self.lv() * 100
+        if True:
+            result = self.plus('lv', plus)
+            self.max_hp = result * 100
+            self.max_defe = result * 10
+            if self.type == "UltraRare":
+                self.max_defe *= 5
+                self.max_hp *= 5
+            elif self.lv() % 1000 == 0:
+                self.max_defe *= 5
+                self.max_hp *= 5
+            elif self.lv() % 100 == 0:
+                self.max_defe *= 2
+                self.max_hp *= 2
+            elif self.lv() % 10 == 0:
+                self.max_defe *= 2
+                self.max_hp *= 2
+            else:
+                self.max_defe *= 2
+                self.max_hp *= 2
+            self.max_hp = int(self.max_hp)
+            self.max_defe = int(self.max_defe)
+            self.now_defe = self.max_defe
+            self.now_hp = self.max_hp
         embed=discord.Embed(
             title=f"<{self.type}> {self.name} が出現！",
             description=f"Lv.{self.lv()} HP.{self.max_hp}"
