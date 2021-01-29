@@ -203,10 +203,10 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
         head_text = "・"
         plus_or_minus = ""
         if a.ID() in box.players:
-            a_mark,b_mark = "+","-"
+            a_mark,b_mark = "<:emoji_33:804704525860208650>","<:emoji_34:804704652305236038>"
         else:
-            a_mark,b_mark = "-","+"
-        battle_text = f"{a_mark}▶ {a.name} の{atk_word}"
+            b_mark,a_mark = "<:emoji_33:804704525860208650>","<:emoji_34:804704652305236038>"
+        battle_text = f"{a_mark} {a.name} の{atk_word}"
         irregular_text = ''
         a_strength = int(a.STR()*strength_rate)
         if set_strength:
@@ -352,7 +352,7 @@ async def cbt_proc(user, ch):
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
 
-    battle_log = f">>> {text1}\n{text2}```"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊{text2}"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
