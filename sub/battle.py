@@ -325,7 +325,7 @@ def create_defe_gauge(max_defe,now_defe):
         empty_gauge_num -= 1
     full_gauge = box.gauge_emoji["defe_full"]*full_gauge_num
     half_gauge = box.gauge_emoji["defe_half"]*half_gauge_num
-    empty_gauge = box.gauge_emoji["defe_empty"]*int(empty_gauge_num
+    empty_gauge = box.gauge_emoji["defe_empty"]*(empty_gauge_num)
     gauge = full_gauge + half_gauge + empty_gauge
     if max_defe <= now_defe:
         end_gauge = box.gauge_emoji["hp_end_full"]
