@@ -51,6 +51,8 @@ damaged_gauge_emoji = {
 'hp_end_full':'<:emoji_35:804843027586875474>',
 }
 
+hp_box = {}
+
 # items_~ #
 items_name = {
     1:"冒険者カード",
