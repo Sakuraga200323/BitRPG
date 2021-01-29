@@ -276,7 +276,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark}▷ {b.name} の状態\n{old_def_gauge(b_now_def,b.DEFE())}\n{old_hp_gauge(b_now_hp,b.max_hp)}"
+        battle_text += f"\n\n{b_mark}▷ [#{b.name}](https:/)\n{create_def_gauge((b.DEFE()b_now_defe)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
     return battle_text
 
 gauge_design = '|'
@@ -318,7 +318,7 @@ async def cbt_proc(user, ch):
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
 
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    battle_log = f">>> {text1}\n>>> {text2}"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
