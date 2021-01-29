@@ -312,7 +312,7 @@ def create_hp_gauge(max_hp,now_hp):
     if max_hp <= now_hp:
         end_gauge = box.gauge_emoji["hp_end_full"]
     gauge = head_gauge + gauge + end_gauge
-return gauge
+    return gauge
 
 def create_defe_gauge(max_defe,now_defe):
     hp_ratio = now_defe/max_defe
@@ -330,7 +330,7 @@ def create_defe_gauge(max_defe,now_defe):
     if max_defe <= now_defe:
         end_gauge = box.gauge_emoji["hp_end_full"]
     gauge = head_gauge + gauge + end_gauge
-return gauge
+    return gauge
 
 # ダメージがない場合のメッセージ #
 def zero_dmg_text():
