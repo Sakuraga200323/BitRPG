@@ -549,13 +549,12 @@ class Mob:
                 self.max_defe *= 2
                 self.max_hp *= 2
             else:
-                self.max_defe *= 2
-                self.max_hp *= 2
+                self.max_defe *= 1.1
+                self.max_hp *= 1.1
             self.max_hp = int(self.max_hp)
             self.max_defe = int(self.max_defe)
             self.now_defe = self.max_defe
             self.now_hp = self.max_hp
-            print(self.now_defe,self.now_hp)
         else:
             result = self.get_data('lv')
         return result
