@@ -18,42 +18,11 @@ from sub import box, status, avatar, calc,  magic_wolf, magic_orca, magic_armadi
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-item_emoji = {
-    1:"<:card:786514637289947176>",
-    2:"<a:hp_potion_a:786982694479200336>",
-    3:"<a:mp_potion_a:786982694839124021>",
-    4:"<:soul_fire:786513145010454538>",
-    5:"<a:toishi_a:786974865777229864>",
-    6:"<:maseki:785641515561123921>",
-    7:"<a:masuisyou_a:786982694948306974>",
-    8:"<a:magic_coin_a:786966211594289153>",
-    9:"<:hp_full_potion:788668620074385429>",
-    10:"<:mp_full_potion:788668620314116106>",
-}
-
-item_emoji_a = {
-    1:"<:card:786514637289947176>",
-    2:"<a:hp_potion_a:786982694479200336>",
-    3:"<a:mp_potion_a:786982694839124021>",
-    4:"<:soul_fire:786513145010454538>",
-    5:"<a:toishi_a:786974865777229864>",
-    6:"<:maseki:785641515561123921>",
-    7:"<a:masuisyou_a:786982694948306974>",
-    8:"<a:magic_coin_a:786966211594289153>",
-    9:"<:hp_full_potion:788668620074385429>",
-    10:"<:mp_full_potion:788668620314116106>",
-}
-
-
-
 client = pg = None
 def first_set(c,p):
     global client, pg
     client = c
     pg = p
-
-
-
 
 async def battle_start(player, mob):
     ch = mob.mob
@@ -128,7 +97,7 @@ async def battle_result(player, mob):
         if  now in ['23:18']:
             exp *= 2
             await ch.send("**初代開発者**『今日生きているからといって、明日生きているとは限らない。』")
-        print(f"『{mob.name}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
+        print(f"『{mob.name:　<10}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
         roles_mention = (
             '<@&800263879607189515>', 
             '<@&800262422774415381>',
@@ -214,57 +183,57 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
             a_strength = set_strength
         a_id = a.ID()
         a_was_stun,a_was_nerf,a_was_fleeze = False,False,False
-        if a_id in box.nerf:
-            box.nerf[a_id] -= 1
-            a_was_nerf = True
-            a_strength = int(a_strength/2)
-            irregular_text = f'\n{head_text}{a.name} は力が入らない！ (Nerf×{box.nerf[a_id]}, Strength50%)'
-            if box.nerf[a_id] <= 0:
-                del box.nerf[a_id]
-        if a_id in box.stun:
+               
+        if a_id in box.fleez and a_strength:
+            a_strength = 0
+            irregular_text = f'\n{head_text}凍って動けない！ (Strength0%)'
+            a_was_fleeze = True
+        if a_id in box.stun and a_strength:
             a_was_stun = True
-            if random() <= 0.8:
+            if random() <= 0.8 or a_id in box.nerf:
                 box.stun[a_id] -= 1
                 a_strength = 0
-                irregular_text = f'\n{head_text}{a.name} は痺れて動けない！ (Stun×{box.stun[a_id]}, Strength0%)'
+                irregular_text = f'\n{head_text}痺れて動けない！ (Stun×**{box.stun[a_id]}**, Strength**0%**)'
                 if box.stun[a_id] <= 0:
                     del box.stun[a_id]
             else:
                 a_strength -= int(a.STR()*0.2)
-                irregular_text = f'\n{head_text}{a.name} は痺れてうまく攻撃できない！ (Stun×{box.stun[a_id]}, Strength80%)'
-               
-        if a_id in box.fleez:
-            a_strength = 0
-            irregular_text = f'\n{head_text}{a.name} は凍って動けない！ (Strength0%)'
-            a_was_fleeze = True
+                irregular_text = f'\n{head_text}痺れてうまく攻撃できない！ (Stun×**{box.stun[a_id]}**, Strength**80%**)'
+        if a_id in box.nerf and a_strength:
+            box.nerf[a_id] -= 1
+            a_was_nerf = True
+            a_strength = int(a_strength/2)
+            irregular_text = f'\n{head_text}力が入らない！ (Nerf×**{box.nerf[a_id]}**, Strength**50%**)'
+            if box.nerf[a_id] <= 0:
+                del box.nerf[a_id]
         if a_strength != 0:
             if random() <= 0.05:
                 a_strength += a.STR()*4
-                irregular_text += f'\n{head_text}クリティカルヒット！ (Strength+400%)'
+                irregular_text += f'\n{head_text}クリティカルヒット！ (Strength+**400%**)'
             elif random() <= min(((b.AGI()/a.AGI() - 1) if a.AGI()>0 else 0)*dodge_rate, 0.75):
                 if b.ID() in box.stun:
                     if random() <= 0.5:
                         a_strength = 0
-                        irregular_text += f'\n{head_text}{b.name} はギリギリ避けた！ (Strength0%)'
+                        irregular_text += f'\n{head_text}{b.name} はギリギリ避けた！ (Strength**0%**)'
                 else:
                     a_strength = 0
-                    irregular_text += f'\n{head_text}{b.name} は華麗に避けた！ (Strength0%)'
+                    irregular_text += f'\n{head_text}{b.name} は華麗に避けた！ (Strength**0%**)'
             elif a_id in box.atk_switch:
                 b_id = box.atk_switch[a_id]
                 if b_id in box.players:
                     a_strength -= int(a.STR()/2)
                     if b_id == b.ID():
-                        irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target{b.name} Strength-50%)"
+                        irregular_text += f"\n{head_text}{b.name} が攻撃を防いだ！ (Target**{b.name}** Strength**-50%**)"
                     else:
                         b = box.players[b_id]
-                        irregular_text += f"\n{head_text}{b.name} は攻撃を見切った！ (Target{b.name} Strength-50%)"
+                        irregular_text += f"\n{head_text}{b.name} は攻撃を見切った！ (Target**{b.name}** Strength**-50%**)"
                     del box.atk_switch[a_id]
         if b.ID() in box.fleez:
             box.fleez.remove(b.ID())
         battle_text += irregular_text
         a_strength = int(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
-        battle_text += f'\n{head_text}{b_dmg}ダメージ (Damage-{a_strength-b_dmg})'
+        battle_text += f'\n{head_text}**{b_dmg}**ダメージ (Damage-**{a_strength-b_dmg}**)'
         if a_was_stun and not a_id in box.stun:
             battle_text += '\n{head_text}Stun から回復'
         if a_was_nerf and not a_id in box.nerf:
@@ -352,7 +321,7 @@ async def cbt_proc(user, ch):
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
 
-    battle_log = f">>> {text1}\n＊　＊　＊　＊{text2}"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
