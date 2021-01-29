@@ -245,7 +245,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
+        battle_text += f"\n\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp,b.ID())}"
     return battle_text
 
 gauge_design = '|'
@@ -263,7 +263,7 @@ def old_def_gauge(a,b):
     gauge_1 = f"{gauge_1:<20}"
     return (('-┏DEF╋' if num<5 else "+┏DEF┣")) + ("---- Break Down ----" if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
 
-def create_hp_gauge(max_hp,now_hp):
+def create_hp_gauge(max_hp,now_hp,id):
     hp_ratio = now_hp/max_hp
     num = 10*hp_ratio
     full_gauge_num = int(num)
@@ -272,20 +272,25 @@ def create_hp_gauge(max_hp,now_hp):
     if (full_gauge_num+empty_gauge_num) <= 0 and not now_hp <= 0:
         half_gauge_num = 1
         empty_gauge_num -= 1
-    if not half_gauge_num and (now_hp > 0 or now_hp!=max_hp):
+    if not half_gauge_num and (now_hp > 0 and now_hp < max_hp):
         full_gauge_num -= 1
         full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num + "<:emoji_32:804676170355310612>"
     else:
         full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num
     half_gauge = box.gauge_emoji["hp_half"]*half_gauge_num
     empty_gauge = box.gauge_emoji["hp_empty"]*empty_gauge_num
-    end_gauge = box.gauge_emoji["hp_end_empty"]
-    head_gauge = box.gauge_emoji["hp_head"]
-    gauge = full_gauge + half_gauge + empty_gauge
     if max_hp <= now_hp:
         end_gauge = box.gauge_emoji["hp_end_full"]
-    gauge = head_gauge + gauge + end_gauge
-    return gauge
+    else:
+        end_gauge = box.gauge_emoji["hp_end_empty"]
+    head_gauge = box.gauge_emoji["hp_head"]
+    gauge = full_gauge + half_gauge + empty_gauge + end_gauge
+    gauge_list = [ '<'+i for i in gauge.split('<')[1:] ]
+    for a,b in zip(gauge_list,box.hp_box[id]):
+        if b != a and not b in (box.gauge_emoji['hp_empty'],box.gauge_emoji['hp_end_empty']:
+            gauge_list[gauge_list.index(b)] = box.damaged_gauge[b]
+    corect_gauge = head_gauge + (','.join(gauge_list)).replace(',','')
+    return corect_gauge
 
 def create_defe_gauge(max_defe,now_defe):
     hp_ratio = now_defe/max_defe
