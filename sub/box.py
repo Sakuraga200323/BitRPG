@@ -31,6 +31,19 @@ menu_emojis2 = {
     "right2":"<:right2:803184312702074922>",
     "create_mode":"<:create_mode:802203960772919316>"
 }
+
+gauge_emoji = {
+    "hp_head":"<:emoji_25:804370116409032704>",
+    "hp_full":"<:emoji_23:804366539284807680>",
+    "hp_half":"<:emoji_24:804369368196579370>",
+    "hp_empty":"<:emoji_31:804616997932892231>",
+    "hp_end_full":"<:emoji_26:804486128450928691>",
+    "hp_end_empty":"<:emoji_27:804486160621371483>",
+    "defe_full":"<:emoji_28:804490050935062528>",
+    "defe_half":"<:emoji_29:804490083478536263>",
+    "defe_empty":"<:emoji_30:804490107574943765>",
+}
+
 # items_~ #
 items_name = {
     1:"冒険者カード",
