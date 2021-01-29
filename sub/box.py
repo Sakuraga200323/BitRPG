@@ -44,6 +44,13 @@ gauge_emoji = {
     "defe_empty":"<:emoji_30:804490107574943765>",
 }
 
+damaged_gauge_emoji = {
+'hp_joit':'<:emoji_36:804843054015840307>',
+'hp_half':'<:emoji_38:804844577156497438>',
+'hp_full':'<:emoji_37:804843399902920714>',
+'hp_end_full':'<:emoji_35:804843027586875474>',
+}
+
 # items_~ #
 items_name = {
     1:"冒険者カード",
