@@ -233,7 +233,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
         battle_text += irregular_text
         a_strength = int(a_strength)
         b_dmg,b_now_def,b_now_hp = b.damaged(a_strength)
-        battle_text += f'\n{head_text}**{b_dmg}**ダメージ (Damage-**{a_strength-b_dmg}**)'
+        battle_text += f'\n{head_text}**{b_dmg}**ダメージ (-**{a_strength-b_dmg}**)'
         if a_was_stun and not a_id in box.stun:
             battle_text += '\n{head_text}Stun から回復'
         if a_was_nerf and not a_id in box.nerf:
@@ -245,7 +245,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark}▷ {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
+        battle_text += f"\n\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
     return battle_text
 
 gauge_design = '|'
@@ -272,7 +272,11 @@ def create_hp_gauge(max_hp,now_hp):
     if (full_gauge_num+empty_gauge_num) <= 0 and not now_hp <= 0:
         half_gauge_num = 1
         empty_gauge_num -= 1
-    full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num
+    if not(not half_gauge_num and not now_hp <= 0):
+        full_gauge_num -= 1
+        full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num + "<:emoji_32:804676170355310612>"
+    else:
+        full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num
     half_gauge = box.gauge_emoji["hp_half"]*half_gauge_num
     empty_gauge = box.gauge_emoji["hp_empty"]*empty_gauge_num
     end_gauge = box.gauge_emoji["hp_end_empty"]
