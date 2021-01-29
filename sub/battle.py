@@ -329,7 +329,7 @@ def create_defe_gauge(max_defe,now_defe):
     gauge = full_gauge + half_gauge + empty_gauge
     if max_defe <= now_defe:
         end_gauge = box.gauge_emoji["hp_end_full"]
-    gauge = head_gauge + gauge + end_gauge
+    gauge = gauge + end_gauge
     return gauge
 
 # ダメージがない場合のメッセージ #
