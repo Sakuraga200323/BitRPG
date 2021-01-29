@@ -276,7 +276,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark}▷ {b.name} の状態\n{create_def_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
+        battle_text += f"\n\n{b_mark}▷ {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
     return battle_text
 
 gauge_design = '|'
