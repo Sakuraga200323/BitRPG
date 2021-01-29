@@ -272,7 +272,7 @@ def create_hp_gauge(max_hp,now_hp):
     if (full_gauge_num+empty_gauge_num) <= 0 and not now_hp <= 0:
         half_gauge_num = 1
         empty_gauge_num -= 1
-    if not half_gauge_num and now_hp > 0:
+    if not half_gauge_num and (now_hp > 0 or now_hp!=max_hp):
         full_gauge_num -= 1
         full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num + "<:emoji_32:804676170355310612>"
     else:
