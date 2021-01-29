@@ -276,7 +276,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark}▷ [#{b.name}](https:/)\n{create_def_gauge((b.DEFE()b_now_defe)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
+        battle_text += f"\n\n{b_mark}▷ {b.name} の状態\n{create_def_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp)}"
     return battle_text
 
 gauge_design = '|'
@@ -294,6 +294,43 @@ def old_def_gauge(a,b):
     gauge_1 = f"{gauge_1:<20}"
     return (('-┏DEF╋' if num<5 else "+┏DEF┣")) + ("---- Break Down ----" if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
 
+def create_hp_gauge(max_hp,now_hp):
+    hp_ratio = now_hp/max_hp
+    num = 10*hp_ratio
+    full_gauge_num = int(num)
+    half_gauge_num = 0 if (num-full_gauge_num) < 0.5 else 1
+    empty_gauge_num = 10 - full_gauge_num - half_gauge_num
+    if (full_gauge_num+empty_gauge_num) <= 0 and not now_hp <= 0:
+        half_gauge_num = 1
+        empty_gauge_num -= 1
+    full_gauge = box.gauge_emoji["hp_full"]*full_gauge_num
+    half_gauge = box.gauge_emoji["hp_half"]*half_gauge_num
+    empty_gauge = box.gauge_emoji["hp_empty"]*empty_gauge_num
+    end_gauge = box.gauge_emoji["hp_end_empty"]
+    head_gauge = box.gauge_emoji["hp_head"]
+    gauge = full_gauge + half_gauge + empty_gauge
+    if max_hp <= now_hp:
+        end_gauge = box.gauge_emoji["hp_end_full"]
+    gauge = head_gauge + gauge + end_gauge
+return gauge
+
+def create_defe_gauge(max_defe,now_defe):
+    hp_ratio = now_defe/max_defe
+    num = 10*hp_ratio
+    full_gauge_num = int(num)
+    half_gauge_num = 0 if (num-full_gauge_num) < 0.5 else 1
+    empty_gauge_num = 10 - full_gauge_num - half_gauge_num
+    if (full_gauge_num+empty_gauge_num) <= 0 and not now_defe <= 0:
+        half_gauge_num = 1
+        empty_gauge_num -= 1
+    full_gauge = box.gauge_emoji["defe_full"]*full_gauge_num
+    half_gauge = box.gauge_emoji["defe_half"]*half_gauge_num
+    empty_gauge = box.gauge_emoji["defe_empty"]*int(empty_gauge_num
+    gauge = full_gauge + half_gauge + empty_gauge
+    if max_defe <= now_defe:
+        end_gauge = box.gauge_emoji["hp_end_full"]
+    gauge = head_gauge + gauge + end_gauge
+return gauge
 
 # ダメージがない場合のメッセージ #
 def zero_dmg_text():
@@ -318,7 +355,7 @@ async def cbt_proc(user, ch):
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
 
-    battle_log = f">>> {text1}\n>>> {text2}"
+    battle_log = f">>> {text1}\n>>> {text2}```"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
