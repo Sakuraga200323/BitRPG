@@ -295,8 +295,11 @@ def create_hp_gauge(max_hp,now_hp,id):
             box.gauge_emoji["hp_full"],box.gauge_emoji["hp_full"],
             box.gauge_emoji["hp_end_full"]]
     for a,b in zip(gauge_list,box.hp_box[id]):
+        if b in list(box.damaged_gauge_emoji.values()):
+            b = box.gauge_emoji['hp_empty']
         if b != a and not b in (box.gauge_emoji['hp_empty'],box.gauge_emoji['hp_end_empty']):
-            gauge_list[gauge_list.index(b)] = box.damaged_gauge[b]
+            gauge_list[gauge_list.index(a)] = box.damaged_gauge_emoji[b]
+            
     corect_gauge = head_gauge + (','.join(gauge_list)).replace(',','')
     box.hp_box[id] = gauge_list
     return corect_gauge
