@@ -298,10 +298,12 @@ def create_hp_gauge(max_hp,now_hp,id):
         if b in list(box.damaged_gauge_emoji.values()):
             b = box.gauge_emoji['hp_empty']
         if b != a and not b in (box.gauge_emoji['hp_empty'],box.gauge_emoji['hp_end_empty']):
-            if (b,a) == (box.gauge_emoji['hp_full'],box.gauge_emoji['hp_half']):
+            if (b,a) in ((box.gauge_emoji['hp_full'],box.gauge_emoji['hp_half']),((box.gauge_emoji['hp_full'],'<:emoji_32:804676170355310612>')):
                 after_emoji = box.damaged_gauge_emoji['full_half']
             else:
                 after_emoji = box.damaged_gauge_emoji[b]
+            if num > 0 and gauge_list[num-1] == box.gauge_emoji['hp_full'] and a in ('<:emoji_37:804843399902920714>',):
+                after_emoji = '<:emoji_39:805060168689516607>'
             gauge_list[num] = after_emoji
             
     corect_gauge = head_gauge + (','.join(gauge_list)).replace(',','')
