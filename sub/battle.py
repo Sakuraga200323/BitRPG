@@ -91,11 +91,11 @@ async def battle_result(player, mob):
         if mob.mob.id in box.stun:
             del box.stun[mob.mob.id]
         result_desc = ""
-        now = datetime.now(JST).strftime("%H:%M")
+        now = datetime.now(JST).strftime("%H:%M %b")
         exp, money = mob.reward()[0]+1, int(mob.reward()[1]/len(mob.battle_players))
         guild = client.get_guild(719165196861702205)
-        if  now in ['23:18']:
-            exp *= 2
+        if  now in ['23:18 Sat']:
+            exp *= 3
             await ch.send("**初代開発者**『今日生きているからといって、明日生きているとは限らない。』")
         print(f"『{mob.name:　<10}』(Lv.{mob.lv()})を{[ str(client.get_user(i)) for i in mob.battle_players]}が討伐")
         roles_mention = (
