@@ -14,6 +14,11 @@ atk_switch = {}
 anti_magic = []
 exp_up_buff = []
 fleez = []
+power_up = {}
+sleep = {}
+berserk = {}
+poison = {}
+angry = {}
 
 #gui emoji
 menu_emojis = {
