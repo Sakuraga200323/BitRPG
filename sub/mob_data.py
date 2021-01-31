@@ -101,6 +101,11 @@ ultrarare = {
 
 ultraero = {
 '初代開発者が所持していたエロ画像act.1':'https://cdn.discordapp.com/attachments/794581744954114048/794581767435976724/images.jpeg',
+'初代開発者が所持していたエロ画像act.2':https://cdn.discordapp.com/attachments/794581744954114048/805232191243681802/images_2.jpeg',
+'初代開発者が所持していたエロ画像act.3':https://cdn.discordapp.com/attachments/794581744954114048/805232191432163388/images_3.jpeg',
+'初代開発者が所持していたエロ画像act.4':https://cdn.discordapp.com/attachments/794581744954114048/805232191713706004/images_4.jpeg',
+'初代開発者が所持していたエロ画像act.5':https://cdn.discordapp.com/attachments/794581744954114048/805232191863783454/images.jpeg',
+'初代開発者が所持していたエロ画像act.6':https://cdn.discordapp.com/attachments/794581744954114048/805232192128155688/images_1.jpeg',
 }
 
 def select(lv):
@@ -125,7 +130,7 @@ def select(lv):
         type = "UltraRare"
         name = random.choice(list(ultrarare.keys()))
         img = ultrarare[name]
-    elif chance <= 0.0005:
+    elif chance <= 0.0009:
         type = "UltraEro"
         name = random.choice(list(ultraero.keys()))
         img = ultraero[name]
