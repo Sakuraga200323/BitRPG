@@ -225,7 +225,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,criti
             irregular_text = f'\n{head_text}[`Angry`]急所率大幅上昇！ (Angry×**{box.angry[a_id]}**)'
             box.angry[a_id] -= 1
             if box.angry[a_id] <= 0:
-                del box.[a_id]
+                del box.angry[a_id]
         if (a_id in box.berserk and a_strength) :
             a_was_berserk = True
             a_strength += a.STR()*200
