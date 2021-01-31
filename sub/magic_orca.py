@@ -74,7 +74,7 @@ async def magic_1(player,mob):
             text2 = battle.create_battle_text(player,mob,atk_word="『StunRain』",strength_rate=up_num,buff=buff_num)
         else:
             text2 = f'{player.user}はやられてしまった…'
-    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+    magic_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
@@ -117,7 +117,7 @@ async def magic_2(player,mob):
             text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",strength_rate=up_num)
         else:
             text2 = f'{player.user}はやられてしまった…'
-    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+    magic_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
@@ -205,14 +205,14 @@ async def magic_5(player,mob):
     text1 = battle.create_battle_text(player,mob,atk_word="『PermaFrost』",strength_rate=up_num,buff=buff_num)
     if mob.now_hp > 0:
         text2 = battle.create_battle_text(mob,player)
-        magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+        magic_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
         if random() <= 0.5:
             text3 = f"{mob.name}は凍りついた！"
-            magic_log += f"```diff\n{text3}```"
+            magic_log += f"\n＊　＊　＊　＊\n{text3}"
             box.fleez.append(mob.ID())
     else:
         text2 = f'{mob.name}を倒した！'
-        magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+        magic_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
