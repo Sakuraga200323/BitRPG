@@ -231,7 +231,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,criti
                 del box.angry[a_id]
         if (a_id in box.berserk and a_strength) :
             a_was_berserk = True
-            a_strength += a.STR()*200
+            a_strength += a.STR()*2
             irregular_text = f'\n{head_text}[`Berserk`]攻撃力上昇、防御力**0**！ (Berserk×**{box.berserk[a_id]}**)'
             box.berserk[a_id] -= 1
             if box.berserk[a_id] <= 0:
