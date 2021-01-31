@@ -24,6 +24,8 @@ def first_set(c,p):
     client = c
     pg = p
 
+
+# ⬜⬜⬜BattleStartチェック⬜⬜⬜ #
 async def battle_start(player, mob):
     ch = mob.mob
     user = player.user
@@ -59,9 +61,7 @@ async def battle_start(player, mob):
     return True
 
 
-
-
-
+# ⬜⬜⬜BattleResultEmbed作成⬜⬜⬜ #
 async def battle_result(player, mob):
     types = ("Normal","Elite","Catastrophe","WorldEnd","Rare","UltraRare","UltraEro")
     reward_items = { # {id:(num,item was droped)}
@@ -161,7 +161,7 @@ async def battle_result(player, mob):
     return result_em, spawn_em, anti_magic_em
 
 
-
+# ⬜⬜⬜BattleText作成⬜⬜⬜ #
 def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_word="攻撃",buff=0):
     if a.now_hp <= 0:
         if a.ID() in box.players:
@@ -245,24 +245,11 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,atk_w
                 box.stun[b.ID()] = 3
             if buff == 2:
                 box.nerf[b.ID()] = 5
-        battle_text += f"\n\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp,b.ID())}"
+        battle_text += f"\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp,b.ID())}"
     return battle_text
 
-gauge_design = '|'
 
-# HPゲージ作成関数 #
-def old_hp_gauge(a,b):
-    num = int((a/b)*20)
-    gauge_1 = (num)*gauge_design
-    gauge_1 = f"{gauge_1:<20}"
-    return (('-┏HP ╋' if num<5 else "+┏HP ┣")) + ("--- You Are Dead ---" if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
-# DEFゲージ作成関数 #
-def old_def_gauge(a,b):
-    num = int((a/b)*20)
-    gauge_1 = (num)*gauge_design
-    gauge_1 = f"{gauge_1:<20}"
-    return (('-┏DEF╋' if num<5 else "+┏DEF┣")) + ("---- Break Down ----" if a<=0 else gauge_1) + '┫' + f"\n ┗━━━({a}/{b})"
-
+# ⬜⬜⬜HPGauge作成⬜⬜⬜ #
 def create_hp_gauge(max_hp,now_hp,id):
     hp_ratio = now_hp/max_hp
     num = 10*hp_ratio
@@ -310,6 +297,8 @@ def create_hp_gauge(max_hp,now_hp,id):
     box.hp_box[id] = gauge_list
     return corect_gauge
 
+
+# ⬜⬜⬜DefenceGauge作成⬜⬜⬜ #
 def create_defe_gauge(max_defe,now_defe):
     hp_ratio = now_defe/max_defe
     num = 10*hp_ratio
@@ -325,13 +314,8 @@ def create_defe_gauge(max_defe,now_defe):
     gauge = full_gauge + half_gauge + empty_gauge
     return gauge
 
-# ダメージがない場合のメッセージ #
-def zero_dmg_text():
-    text = ("華麗に躱した","完全に防いだ","当たらなかった","効かなかったようだ","無駄無駄無駄無駄無駄ァ！")
-    return choice(text)
 
-
-# 戦闘 #
+# ⬜⬜⬜attack﻿⬜⬜⬜ #
 async def cbt_proc(user, ch):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
@@ -355,7 +339,7 @@ async def cbt_proc(user, ch):
     if anti_magic_em:await ch.send(embed=anti_magic_em)
 
 
-# 戦闘から離脱 #
+# ⬜⬜⬜戦闘から離脱⬜⬜⬜ #
 async def reset(user, ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if not user.id in box.players:
@@ -368,11 +352,11 @@ async def reset(user, ch):
             print(f"Mobデータ挿入(battle.py->cbt_proc)： {mob.name}")
     if not player.battle_ch:
         player.now_hp = player.max_hp
-        await ch.send(f"戦闘に参加していなかったのでHPを全回復しました。")
+        await ch.send(embed=discord.Embed(description=f"戦闘に参加していなかったのでHPを全回復しました。"))
         return
     now_ch = client.get_channel(player.battle_ch)
     if player.battle_ch != ch.id:
-        await ch.send(f"<@{player.user.id}> は現在『{now_ch.mention}』で戦闘中です。")
+        await ch.send(embed=discord.Embed(description=f"<@{player.user.id}> は現在『{now_ch.mention}』で戦闘中です。"))
         return
     mob.battle_end()
     if player.ID() in box.power_charge:
@@ -384,21 +368,12 @@ async def reset(user, ch):
     await ch.send(embed = mob.spawn())
     if mob.type in ("Elite","UltraRare","Catastrophe"):
         if not mob.ID() in box.anti_magic:
-           box.anti_magic.append(mob.ID())
+            box.anti_magic.append(mob.ID())
         anti_magic_em = discord.Embed(description=f"{mob.name}のアンチマジックエリアが発動！")
         await ch.send(embed=anti_magic_em)
                     
 
-
-
-
-
-
-
-
-# Magic #
-
-
+# ⬜⬜⬜魔法一覧⬜⬜⬜ #
 async def open_magic(user,ch):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if player.magic_class() == "Wolf":
@@ -408,6 +383,7 @@ async def open_magic(user,ch):
     if player.magic_class() == "Orca":
         await magic_orca.open_magic(user,ch)
 
+# ⬜⬜⬜魔法使用⬜⬜⬜ #
 async def use_magic(user,ch,target):
     player,mob = box.players[user.id],box.mobs[ch.id]
     if ch.id in box.anti_magic:
