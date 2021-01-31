@@ -58,7 +58,7 @@ async def magic_1(player,mob):
     else:
         text1 = battle.create_battle_text(mob,player)
         text2 = battle.create_battle_text(player,mob,atk_word="『DrumFang』",strength_rate=up_num,buff=buff_num)
-    magic_log = f"```diff\n{text1}``````diff\n{text2}```"
+    magic_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     player.magic_lv(1)
     player.cut_mp(30)
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
@@ -152,7 +152,7 @@ async def magic_4(player,mob):
         player.magic_lv(2)
         player.cut_mp(300)
     player.now_defe= player.max_defe
-    magic_text = f"```diff\n{text0}``````diff\n{text1}``````diff\n{text2}```"
+    magic_text = f">>> {text0}\n＊　＊　＊　＊\n{text1}\n＊　＊　＊　＊　\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=magic_text,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
