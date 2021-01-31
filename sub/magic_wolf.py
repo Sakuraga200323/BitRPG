@@ -58,7 +58,7 @@ async def magic_1(player,mob):
             text2 = battle.create_battle_text(player,mob,atk_word="『BeeRay』",strength_rate=up_num)
         else:
             text2 = f"{player.user} はやられてしまった…"
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     player.magic_lv(1)
     player.cut_mp(50)
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
@@ -83,7 +83,7 @@ async def magic_2(player,mob):
     text = f"『命を力に…！』 {player.user}に{int(player.max_hp*(0.5+((player.magic_lv()-500)/100000)))}の反動"
     if 0 >= now_hp:
         text += f"\n{player.user}は死んでしまった！"
-        await ch.send(f"```c\n{text}```")
+        await ch.send(f"{text}")
         return
     up_num = min(3 + ((player.magic_lv()-500)/100000),6)
     # 戦闘処理（Player後手） #
@@ -94,7 +94,7 @@ async def magic_2(player,mob):
         text2 = battle.create_battle_text(player,mob,atk_word="『StrengthRein』",strength_rate=up_num)
     else:
         text2 = f"{player.user} はやられてしまった…"
-    battle_log = f"```c\n{text}``````diff\n{text1}``````diff\n{text2}```"
+    battle_log = f">>> {text}\n＊　＊　＊　＊\n{text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
@@ -134,7 +134,7 @@ async def magic_3(player,mob):
             text2 += f"『IgnisStrike』の攻撃力が{100 + power_charge_amount}%に上昇!"
         else:
             text2 = f"{player.user} はやられてしまった…"
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
@@ -159,7 +159,7 @@ async def magic_4(player,mob):
         num = box.power_charge[player.ID()]*0.5
         up_num += num
         del box.power_charge[player.ID()]
-        str_up_text = f"```diff\nDischarge!! {up_num*100}%(+{num*100}%)```"
+        str_up_text = f"Discharge!! {up_num*100}%(+{num*100}%)"
     else:
         str_up_text = ""
     # 戦闘処理（Player後手） #
@@ -168,7 +168,7 @@ async def magic_4(player,mob):
         player.magic_lv(2)
         player.cut_mp(10)
     text2 = battle.create_battle_text(player,mob,atk_word="『IgnisStrike』",strength_rate=up_num)
-    battle_log = f"```diff\n{text1}```{str_up_text}```diff\n{text2}```"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊\n{str_up_text}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
@@ -195,7 +195,7 @@ async def magic_5(player,mob,final=False):
             em=discord.Embed(description="触媒が足りないようだ…")
             await ch.send(embed=em)
             return
-        magic_name = "ᶠᵢⁿₐᶪᴤᵖₐᵣᵏ"
+        magic_name = "ᶠ ᵢ ⁿ ₐ ᶪ ᴤ ᵖ ₐ ᵣ ᵏ"
         use_num = soul_fire_num
         up_num = 10 + ((player.magic_lv()-4000)/100000) + (use_num/100)
     elif not final:
@@ -213,7 +213,7 @@ async def magic_5(player,mob,final=False):
         text2 = battle.create_battle_text(player,mob,atk_word=f"『{magic_name}』",strength_rate=up_num)
     else:
         text2 = f"{player.user} はやられてしまった…"
-    battle_log = f"```diff\n{text1}``````diff\n{text2}```"
+    battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle.battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
     if spawn_em:await ch.send(embed=spawn_em)
