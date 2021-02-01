@@ -224,8 +224,8 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,criti
                 del box.nerf[a_id]
         if (a_id in box.angry and a_strength) :
             a_was_angry = True
-            critical_rate = 0.5
-            irregular_text = f'\n{head_text}[`Angry`]急所率大幅上昇！ (Angry×**{box.angry[a_id]}**)'
+            critical_rate = 0.1
+            irregular_text = f'\n{head_text}[`Angry`]急所率上昇！ (Angry×**{box.angry[a_id]}**)'
             box.angry[a_id] -= 1
             if box.angry[a_id] <= 0:
                 del box.angry[a_id]
