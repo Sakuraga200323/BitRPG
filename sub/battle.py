@@ -160,7 +160,7 @@ async def battle_result(player, mob):
             box.anti_magic.append(mob.ID())
             irregular_text += f"{mob.name} のアンチマジックエリアが発動！"
         if mob.type in ("WoldEnd","UltraRare",""):
-            box.sleep[mob.ID()] = 1
+            box.sleep[mob.ID()] = 3
             irregular_text += f"\n{mob.name} は眠っている…"
         if irregular_text != '':
             anti_magic_em = discord.Embed(description=irregular_text)
