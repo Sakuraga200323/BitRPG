@@ -531,6 +531,8 @@ async def set_weapon(user,ch):
                         await menu_msg.edit(embed=weapons_em)
                         break
                     if not weapon_num in range(1,len(weapons_obj)+1):
+                        weapons_em.set_footer(text="該当する武器がありません。")
+                        await menu_msg.edit(embed=weapons_em)
                         continue
                     target_weapon_obj = player.weapons()[weapon_num-1]
                     buildup_em = discord.Embed(title="Buildup Weapon")
