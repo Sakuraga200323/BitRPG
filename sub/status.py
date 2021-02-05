@@ -537,7 +537,7 @@ async def set_weapon(user,ch):
                         continue
                     target_weapon_obj = player.weapons()[weapon_num-1]
                     buildup_em = discord.Embed(title="Buildup Weapon")
-                    buildup_em.add_field(name=f"{target_weapon_obj.emoji}{target_weapon_obj.name}")
+                    buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji}{target_weapon_obj.name}")
                     material_text = ""
                     for i in (29,30):
                         num = player_item_num(i)
