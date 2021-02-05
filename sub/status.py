@@ -520,6 +520,7 @@ async def set_weapon(user,ch):
             while not client.is_closed:
                 try:
                     re_msg = await client.wait_for("message",timeout=60,check=check3)
+                    await re_msg.delete()
                 except asyncio.TimeoutError:
                     weapons_em = reload_em()
                     weapons_em.set_footer("処理終了")
