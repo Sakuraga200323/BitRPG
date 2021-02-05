@@ -508,9 +508,9 @@ async def set_weapon(user,ch):
                 weapons_em = discord.Embed(title="Buildup Weapon")
                 for num,obj in zip(range(1,len(weapons_obj)+1),weapons_obj):
                     if obj.id == weapon_obj.id:
-                        name = f"`{num}.`{obj.emoji}**{obj.name}**"
+                        name = f"`{num}.`{obj._emoji()}**{obj.name()}**"
                     else:
-                        name = f"`{num}.`{obj.emoji}{obj.name}"
+                        name = f"`{num}.`{obj.emoji()}{obj.name()}"
                     value = f"Rank.{obj.rank()}┃Lv.{obj.lv()}/{obj.limit_lv()}┃Atk.{obj.strength()}"
                     weapons_em.add_field(name=name,value=value,inline=False)
                 return weapons_em
