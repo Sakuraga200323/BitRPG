@@ -517,7 +517,7 @@ async def set_weapon(user,ch):
             weapons_em = reload_em()
             weapons_em.set_footer(text="強化する武器の番号を送信してください。")
             menu_msg = await ch.send(embed=weapons_em)
-            while not client.is_closed:
+            while True:
                 try:
                     re_msg = await client.wait_for("message",timeout=60,check=check3)
                     await re_msg.delete()
