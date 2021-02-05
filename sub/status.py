@@ -519,7 +519,7 @@ async def set_weapon(user,ch):
             menu_msg = await ch.send(embed=weapons_em)
             while not client.is_closed:
                 try:
-                    re_msg = await client.wait_for("massage",timeout=60,check=check3)
+                    re_msg = await client.wait_for("message",timeout=60,check=check3)
                 except asyncio.TimeoutError:
                     weapons_em = reload_em()
                     weapons_em.set_footer("処理終了")
