@@ -503,8 +503,8 @@ async def set_weapon(user,ch):
                         await msg0.edit(embed=msg0.embeds[0])
         if respons == 3:
             def reload_em():
-                weapons_obj = player.weapons
-                weapon_obj = player.weapon
+                weapons_obj = player.weapons()
+                weapon_obj = player.weapon()
                 weapons_em = discord.Embed(title="Buildup Weapon")
                 for num,obj in zip(range(1,len(weapons_obj)+1),weapons_obj):
                     if obj.id == weapon_id:
