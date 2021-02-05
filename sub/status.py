@@ -531,7 +531,7 @@ async def set_weapon(user,ch):
                         weapons_em.set_footer(text="処理終了")
                         await menu_msg.edit(embed=weapons_em)
                         break
-                    if not weapon_num in range(1,len(weapons_obj)+1):
+                    if not weapon_num in range(1,len(player.weapons()+1):
                         weapons_em.set_footer(text="該当する武器がありません。")
                         await menu_msg.edit(embed=weapons_em)
                         continue
