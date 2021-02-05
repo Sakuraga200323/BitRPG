@@ -512,7 +512,7 @@ async def set_weapon(user,ch):
                     else:
                         name = f"`{num}.`{obj.emoji}{obj.name}"
                     value = f"Rank.{obj.rank()}┃Lv.{obj.lv()}/{obj.limit_lv()}┃Atk.{obj.strength()}"
-                    weapons_em.add_filed(name=name,value=value,inline=False)
+                    weapons_em.add_field(name=name,value=value,inline=False)
                 return weapons_em
             weapons_em = reload_em()
             weapons_em.set_footer(text="強化する武器の番号を送信してください。")
