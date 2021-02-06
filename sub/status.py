@@ -637,7 +637,7 @@ async def set_weapon(user,ch):
                         await msg.delete()
                     except asyncio.TimeoutError:
                         footer_text="処理終了"
-                        if len(weapon_drop_menu_msg.embeds)
+                        if len(weapon_drop_menu_msg.embeds):
                             weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                             await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                         create_mode = False
@@ -647,13 +647,13 @@ async def set_weapon(user,ch):
                         msg_num = int(msg.content)
                         if msg_num > split_num or msg_num < 0:
                             footer_text=f"{msg_num}は指定できない数値です。"
-                            if len(weapon_drop_menu_msg.embeds)
+                            if len(weapon_drop_menu_msg.embeds):
                                 weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         if msg.content == "0":
                             footer_text=f"処理終了"
-                            if len(weapon_drop_menu_msg.embeds)
+                            if len(weapon_drop_menu_msg.embeds):
                                 weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             create_mode = False
@@ -661,7 +661,7 @@ async def set_weapon(user,ch):
                             break
                         if len(player.weapons()) >= 5:
                             footer_text=f"武器インベントリがいっぱいなので処理を終了しました。"
-                            if len(weapon_drop_menu_msg.embeds)
+                            if len(weapon_drop_menu_msg.embeds):
                                 weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             menu_flag = False
@@ -677,7 +677,7 @@ async def set_weapon(user,ch):
                         husoku_text = ""
                         if msg_num > len(embeds)-1 or msg_num < 0:
                             footer_text=f"{msg_num}は指定できない数値です。"
-                            if len(weapon_drop_menu_msg.embeds)
+                            if len(weapon_drop_menu_msg.embeds):
                                 weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
@@ -688,7 +688,7 @@ async def set_weapon(user,ch):
                             husoku_text = f"{weapon_price-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
                             footer_text=f"{husoku_text} が足りません。終了する場合は0を送信。"
-                            if len(weapon_drop_menu_msg.embeds)
+                            if len(weapon_drop_menu_msg.embeds):
                                 weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
@@ -707,7 +707,7 @@ async def set_weapon(user,ch):
                             content=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
                         footer_text=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。終了する場合は0を送信。"
-                        if len(weapon_drop_menu_msg.embeds)
+                        if len(weapon_drop_menu_msg.embeds):
                             weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
                             await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
 
