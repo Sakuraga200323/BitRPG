@@ -473,17 +473,13 @@ class Weapon:
             return self.get_data('now_exp')
 
     def get_exp(self, exp):
-        exp = int(exp)
-        lvup_count = 0
-        now_exp = self.now_exp()
+        exp = int(exp) + self.now_exp()
+        self.now_exp(num=-self.now_exp())
         lv = self.lv()
-        while now_exp >= lv and self.limit_lv() > lv:
-            lvup_count += 1
-            lv += 1
-            now_exp -= lv
+        lvup_count = int(exp / 10)
         if lvup_count > 0:
             self.lv(lvup_count)
-            self.now_exp(now_exp-self.now_exp())
+            self.now_exp(exp-(lvup_count*10))
         return lvup_count
 
     def strength(self,x=False):
