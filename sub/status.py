@@ -540,7 +540,7 @@ async def set_weapon(user,ch):
                     buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji}{target_weapon_obj.name}")
                     material_text = ""
                     for i in (29,30):
-                        num = player_item_num(i)
+                        num = player.item_num(i)
                         if num:
                             material_text += f"{box.items_emoji[i]}×{num} "
                     buildup_weapon.add_field(name=f"強化素材",value=material_text)
