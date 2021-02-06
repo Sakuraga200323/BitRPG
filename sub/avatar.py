@@ -466,15 +466,15 @@ class Weapon:
             return self.update_data('name',set)
         else:
             return self.get_data('name')
-    def now_exp(self,num="0"):
-        if isinstance(num,int):
+    def now_exp(self,plus="0"):
+        if isinstance(plus,int):
             return self.plus('now_exp', plus)
         else:
             return self.get_data('now_exp')
 
     def get_exp(self, exp):
         exp = int(exp) + self.now_exp()
-        self.now_exp(num=-self.now_exp())
+        self.now_exp(plus=-self.now_exp())
         lv = self.lv()
         lvup_count = int(exp / 10)
         if lvup_count > 0:
