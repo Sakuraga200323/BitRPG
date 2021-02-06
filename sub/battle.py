@@ -288,7 +288,7 @@ def create_battle_text(a,b,set_strength=False,strength_rate=1,dodge_rate=1,criti
             if buff == 2:
                 box.nerf[b.ID()] = 5
         battle_text += f"\n{b_mark} {b.name} の状態\n{create_defe_gauge(b.DEFE(),b_now_def)}\n{create_hp_gauge(b.max_hp,b_now_hp,b.ID())}"
-        if b_is_mob and b.now_hp > 0:
+        if b_is_mob and b.now_hp > 0 and b.type in ("UltraRare","WorldEnd"):
             if b.now_hp <= (b.max_hp*0.5):
                 box.angry[b.ID()] = 5
                 battle_text += f'\n{head_text}怒り狂っている…！(Angry×**5**)'
