@@ -423,9 +423,9 @@ class Weapon:
             return None
         else:
             if plus < 0:
-                pg2.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id_};')
+                pg2.execute(f'update weapon_tb set {target}={target}{plus} where id = {self.id};')
             else:
-                pg2.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id_};')
+                pg2.execute(f'update weapon_tb set {target}={target}+{plus} where id = {self.id};')
             return self.get_data(target)
 
     
