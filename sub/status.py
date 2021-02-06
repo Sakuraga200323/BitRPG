@@ -570,14 +570,14 @@ async def set_weapon(user,ch):
                         if material_num > 0:
                             recipe_text += f"{emoji}×{material_num} "
                     em.add_field(name=f"\n`{weapon_num_on_page}.`{weapon_data[1]}{weapon_data[0]}",value=f"**Price**: {box.weapons_price[weapon_data[2]-1]}cell\n**Recipe**: {recipe_text}",inline=False)
-                em.set_footer(text=f"Page.{page_num}/{len(split_weapons)}")
+                em.set_auth0r(name=f"Page.{page_num}/{len(split_weapons)}")
                 embeds.append(em)
             embeds = tuple(embeds)
             page_num = 0
-            weapon_drop_menu_msg = await ch.send(
-                content=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更',
-                embed=embeds[0]
+            embeds[0].set_footer(
+                text=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
             )
+            weapon_drop_menu_msg = await ch.send(embed=embeds[0])
             menu_flag = True
             while True:
                 create_mode = False
@@ -598,14 +598,12 @@ async def set_weapon(user,ch):
                         reaction,msg = None,None
                         reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
                     except asyncio.TimeoutError:
-                        await weapon_drop_menu_msg.edit(
-                            content="```時間経過により処理終了済み```",
-                            embed=embeds[0]
-                        )
+                        embeds[0].set_footer(text="処理終了")
+                        await weapon_drop_menu_msg.edit(embed=embeds[0])
                         await weapon_drop_menu_msg.clear_reactions()
                         break
                     else:
-                       content=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
+                       footer_text=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
                        if reaction:
                             before_page_num = page_num
                             emoji = str(reaction.emoji)
@@ -620,43 +618,52 @@ async def set_weapon(user,ch):
                             if emoji == box.menu_emojis2["create_mode"]:
                                 create_mode = True
                             if emoji == box.menu_emojis2["close"]:
-                                await weapon_drop_menu_msg.edit(
-                                    content="```処理終了済み```",
-                                    embed=embeds[0]
-                                )
+                                embeds[0].set_footer(text="処理終了")
+                                await weapon_drop_menu_msg.edit(embed=embeds[0])
                                 await weapon_drop_menu_msg.clear_reactions()
                                 break
                             if before_page_num != page_num:
                                 await weapon_drop_menu_msg.clear_reactions()
                             if create_mode:
                                 await weapon_drop_menu_msg.clear_reactions()
-                                content=f'`作成モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると作成できません。\n0を送信すると終了します。`'
+                                footer_text=f'作成モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると作成できません。\n`0`を送信すると終了します。'
                             page_num = max(0,(min(page_num,len(embeds)-1)))
                             shop_em3 = embeds[page_num]
+                            shop_em3.set_footer(text=footer_text)
                             await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
                 while create_mode:
                     try:
                         msg = await client.wait_for("message", timeout=60, check=check3)
                         await msg.delete()
                     except asyncio.TimeoutError:
-                        await weapon_drop_menu_msg.edit(
-                            content="```時間経過により処理終了済み```"
-                        )
+                        footer_text="処理終了"
+                        if len(weapon_drop_menu_msg.embeds)
+                            weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                            await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                         create_mode = False
                         menu_flag = False
                         break
                     else:
                         msg_num = int(msg.content)
                         if msg_num > split_num or msg_num < 0:
-                            await weapon_drop_menu_msg.edit(content=f"```{msg_num}は指定できない数値です。```")
+                            footer_text=f"{msg_num}は指定できない数値です。"
+                            if len(weapon_drop_menu_msg.embeds)
+                                weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                                await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         if msg.content == "0":
-                            await weapon_drop_menu_msg.edit(content="```処理終了済み```")
+                            footer_text=f"処理終了"
+                            if len(weapon_drop_menu_msg.embeds)
+                                weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                                await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             create_mode = False
                             menu_flag = False
                             break
                         if len(player.weapons()) >= 5:
-                            await weapon_drop_menu_msg.edit(content=f"```既に５個の武器を所持しています。\n処理終了済み```")
+                            footer_text=f"武器インベントリがいっぱいなので処理を終了しました。"
+                            if len(weapon_drop_menu_msg.embeds)
+                                weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                                await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             menu_flag = False
                             break
                         weapon_num = int(msg.content) + (page_num)*split_num
@@ -669,7 +676,10 @@ async def set_weapon(user,ch):
                         materials_name = ("魂の焔","キャラメル鋼","ブラッド鋼","ゴールド鋼","ダーク鋼","ミスリル鋼","オリハルコン鋼","鉄")
                         husoku_text = ""
                         if msg_num > len(embeds)-1 or msg_num < 0:
-                            await weapon_drop_menu_msg.edit(content=f"```{msg_num}は指定できない数値です。```")
+                            footer_text=f"{msg_num}は指定できない数値です。"
+                            if len(weapon_drop_menu_msg.embeds)
+                                weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                                await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
                             if num > player.item_num(name):
@@ -677,9 +687,10 @@ async def set_weapon(user,ch):
                         if player.money() < weapon_price:
                             husoku_text = f"{weapon_price-player.money()}Cell " +  husoku_text
                         if husoku_text != "":
-                            await weapon_drop_menu_msg.edit(
-                                content=f"{husoku_text} が足りません。\nそのまま作成を続けられます。終了する場合は0を送信。"
-                            )
+                            footer_text=f"{husoku_text} が足りません。終了する場合は0を送信。"
+                            if len(weapon_drop_menu_msg.embeds)
+                                weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                                await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         for name,num in zip(materials_name, weapon_recipe):
                             item_id = box.items_id[name]
@@ -695,6 +706,10 @@ async def set_weapon(user,ch):
                         await weapon_drop_menu_msg.edit(
                             content=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。\nそのまま作成を続けられます。終了する場合は0を送信。",
                         )
+                        footer_text=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。終了する場合は0を送信。"
+                        if len(weapon_drop_menu_msg.embeds)
+                            weapon_drop_menu_msg.embeds[0].set_footer(text=footer_text)
+                            await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
 
         if respons == 5:
             if player.weapons() != []:
