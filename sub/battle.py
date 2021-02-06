@@ -380,7 +380,7 @@ async def cbt_proc(user, ch):
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
     if player.now_hp > 0:
-        player.weapon().get_exp(5)
+        player.weapon().get_exp(2)
     battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
