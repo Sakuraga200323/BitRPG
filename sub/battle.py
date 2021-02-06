@@ -364,7 +364,7 @@ def create_defe_gauge(max_defe,now_defe):
     return gauge
 
 
-# ⬜⬜⬜attack﻿⬜⬜⬜ #
+# ⬜⬜⬜attack⬜⬜⬜ #
 async def cbt_proc(user, ch):
     player = box.players[user.id]
     mob = box.mobs[ch.id]
@@ -375,12 +375,12 @@ async def cbt_proc(user, ch):
     if player.AGI() >= mob.agi():
         text1 = create_battle_text(player,mob)
         text2 = create_battle_text(mob,player)
-
     # 戦闘処理（Player後手） #
     else:
         text1 = create_battle_text(mob,player)
         text2 = create_battle_text(player,mob)
-
+    if player.now_hp > 0:
+        player.weapon.get_exp(5)
     battle_log = f">>> {text1}\n＊　＊　＊　＊\n{text2}"
     result_em,spawn_em,anti_magic_em = await battle_result(player, mob)
     await ch.send(content=battle_log,embed=result_em)
