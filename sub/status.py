@@ -548,10 +548,11 @@ async def set_weapon(user,ch):
                     buildup_em.add_field(name=f"強化素材",value=material_text)
                     buildup_em.set_footer(text="使用する強化素材を`番号 使用数`と送信して選択して下さい。`0`と送信すると強化を開始します。")
                     await menu_msg.edit(embed=buildup_em)
+                    '''
                     while True:
                         try:
                             re_material_num_msg = await client.wait_for("message",timeout=60,check=check_buy)
-                         
+                    '''    
         if respons == 4:
             split_num = 5
             split_weapons = tuple(split_list(box.player_weapons,split_num))
