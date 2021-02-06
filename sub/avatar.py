@@ -480,7 +480,7 @@ class Weapon:
         lvup_count = int(exp / 10)
         if lvup_count > 0:
             self.lv(lvup_count)
-            self.now_exp(exp-lvup_count*10)
+            self.now_exp(-lvup_count*10)
         return lvup_count
 
     def strength(self,x=False):
