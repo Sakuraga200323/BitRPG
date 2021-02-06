@@ -543,8 +543,8 @@ async def set_weapon(user,ch):
                         num = player.item_num(i)
                         if num:
                             material_text += f"{box.items_emoji[i]}×{num} "
-                    buildup_weapon.add_field(name=f"強化素材",value=material_text)
-                    await menu_msg.edit(embed=buildup_weapon)
+                    buildup_em.add_field(name=f"強化素材",value=material_text)
+                    await menu_msg.edit(embed=buildup_em)
         if respons == 4:
             split_num = 5
             split_weapons = tuple(split_list(box.player_weapons,split_num))
