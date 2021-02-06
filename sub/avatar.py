@@ -466,7 +466,7 @@ class Weapon:
             return self.update_data('name',set)
         else:
             return self.get_data('name')
-    def now_exp(self,num):
+    def now_exp(self,num="0"):
         if isinstance(num,int):
             return self.plus('now_exp', plus)
         else:
