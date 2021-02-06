@@ -523,7 +523,7 @@ async def set_weapon(user,ch):
                     await re_msg.delete()
                 except asyncio.TimeoutError:
                     weapons_em = reload_em()
-                    weapons_em.set_footer("処理終了")
+                    weapons_em.set_footer(text="処理終了")
                     await menu_msg.edit(embed=weapons_em)
                 else:
                     weapon_num = int(re_msg.content)
