@@ -473,8 +473,10 @@ class Weapon:
             return self.get_data('now_exp')
 
     def get_exp(self, exp):
+        print("WeaponGetExp:",exp)
         exp = int(exp) + self.now_exp()
         self.now_exp(plus=-self.now_exp())
+        print("WeaponHaveExp:",exp)
         lv = self.lv()
         lvup_count = int(exp / 10)
         if lvup_count > 0:
