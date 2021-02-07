@@ -153,8 +153,8 @@ async def battle_result(player, mob):
         if mob.lv() % 100 == 0:
             player.money(1000)
             result_em.add_field(name=f"Last Attack Bonus",value=f"<@{user.id}>\n>>> Cell+1000")
-        if len([ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('⚙️lv1-')]):
-            ch_name = [ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('🔒lvup-')][0].split('🔒lvup-')[1]
+        if len([ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('🔧lock_lv1-')]):
+            ch_name = [ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('🔧lock_lv1-')][0].split('🔧lock_lv1-')[1]
             if not mob.mob.name.startswith(ch_name):
                 mob.lv(update=1)
         else:
