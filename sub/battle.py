@@ -156,7 +156,8 @@ async def battle_result(player, mob):
         if len([ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('🔧lock_lv1-')]):
             ch_name = [ch.name for ch in mob.mob.guild.text_channels if ch.name.startswith('🔧lock_lv1-')][0].split('🔧lock_lv1-')[1]
             if not mob.mob.name.startswith(ch_name):
-                mob.lv(update=1)
+                lv_1_num = mob.lv()-1
+                mob.lv(plus=-lv_1_num)
         else:
             mob.lv(plus=1)
         spawn_em = mob.battle_end()
