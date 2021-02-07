@@ -497,6 +497,7 @@ class Mob:
             self.pg = pg
             self.client = client
             self.battle_players = []
+            self.id = id
             try:
                 pg.execute(f"insert into mob_tb (id,lv) values ({id},1);")
             except psycopg2.errors.UniqueViolation:
@@ -525,10 +526,18 @@ class Mob:
             else:
                 pg.execute(f'update mob_tb set {target}={target}+{plus} where id = {self.mob.id};')
             return self.get_data(target)
-
-    def lv(self, plus=None):
-        if isinstance(plus,int):
-            result = self.plus('lv', plus)
+    def update_data(self, target, value):
+        if target == 'id':
+            return None
+        else:
+            pg.execute(f'update mob_tb set {target}={value} where id = {self.id};')
+            return self.get_data(target)
+    def lv(self, plus=None, update=None):
+        if isinstance(plus,int) or isinstance(update,int):
+            if isinstance(update,int):
+                result = self.update_data('lv',update)
+            else:
+                result = self.plus('lv', plus)
             self.max_hp = result * 100
             self.max_defe = result * 10
             if self.type == "UltraRare":
