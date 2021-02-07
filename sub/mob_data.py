@@ -95,7 +95,7 @@ rare = {
 
 ultrarare = {
 "古月":"https://media.discordapp.net/attachments/719489738939301938/750412647203209266/download20200903025142.png?width=585&height=585",
-'スターウィザード':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
+'スターウィッチ':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/ea470cf0eb57c3fd397c76dd8033db03.png',
 'ネクロマンサー':'http://darts-x.sakura.ne.jp/m/wp-content/uploads/2019/01/a793f38be632f4b3bc001c69a3ae0ec8.png',
 }
 
@@ -126,14 +126,14 @@ def select(lv):
         type = "Rare"
         name = random.choice(list(rare.keys()))
         img = rare[name]
-    elif chance <= 0.001:
-        type = "UltraRare"
-        name = random.choice(list(ultrarare.keys()))
-        img = ultrarare[name]
     elif chance <= 0.0009:
         type = "UltraEro"
         name = random.choice(list(ultraero.keys()))
         img = ultraero[name]
+    elif chance <= 0.001:
+        type = "UltraRare"
+        name = random.choice(list(ultrarare.keys()))
+        img = ultrarare[name]
     else:
         type = "Normal"
         name = random.choice(list(normal.keys()))
