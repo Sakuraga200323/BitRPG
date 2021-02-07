@@ -238,8 +238,11 @@ async def on_message(message):
     m_ch = message.channel
     m_guild = message.guild
     m_author = message.author
-
-
+    if m_author.id == 715203558357598240:
+        return
+    if m_ch.type == discord.ChannelType.private:
+        await m_ch.send(embed=discord.Embed(description='BitRPGは**2021/2/8**からDM非対応となりました\n|ω・｀)ｺﾞﾒﾝﾈ…'))
+        return
     if m_ctt.startswith("^^") and not m_author.id in check_macro.macro_checking and not m_author.bot:
 
         if cmd_lock.get(m_ch.id) is True:
