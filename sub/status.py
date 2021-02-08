@@ -483,10 +483,6 @@ async def set_weapon(user,ch):
                 em = create_em()
                 em.add_field(name="※tips",value="装備する武器の番号を送信してください。\n0と送信するとキャンセルします。")
                 set_weapon_menu_msg = await ch.send(embed=em)
-                def check3(m):
-                    if not user.id == m.author.id:return 0
-                    if not m.content.isdigit():return 0
-                    return 1
                 try:
                     msg = await client.wait_for("message", timeout=60, check=check3)
                     await msg.delete()
