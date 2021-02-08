@@ -498,7 +498,7 @@ async def set_weapon(user,ch):
                         weapon = weapons_num[num-1]
                         player.weapon(weapon=weapon)
                         em = create_em()
-                        em..add_field(name="`tips`",value="処理終了")
+                        em.add_field(name="`tips`",value="処理終了")
                         await set_weapon_menu_msg.edit(embed=em)
         if respons == 3:
             def reload_em():
@@ -522,7 +522,7 @@ async def set_weapon(user,ch):
                     await re_msg.delete()
                 except asyncio.TimeoutError:
                     weapons_em = reload_em()
-                    weapons_em..add_field(name="`tips`",value="処理終了")
+                    weapons_em.add_field(name="`tips`",value="処理終了")
                     await menu_msg.edit(embed=weapons_em)
                 else:
                     weapon_num = int(re_msg.content)
