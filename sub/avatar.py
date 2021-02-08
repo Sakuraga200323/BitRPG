@@ -136,11 +136,8 @@ class Player:
             return None
 
     def weapon_id(self):
-        if self.weapon():
-            weapon_ = box.weapons[self.weapon().id]
-            return weapon_
-        else:
-            return None
+        id = self.get_data("weapon")
+        return id
     
     def weapons(self,weapon=False,drop=False):
         weapons_ = list(self.get_data("weapons"))
@@ -158,11 +155,7 @@ class Player:
             return []
 
     def weapons_id(self):
-        if self.weapons() != []:
-            weapon_ = [ box.weapons[i] for i in self.weapons()]
-            return weapon_
-        else:
-            return []
+        return self.get_data(weapons)
 
     # レベル取得
     def lv(self, plus=None):
