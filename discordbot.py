@@ -135,11 +135,14 @@ async def on_ready():
     for weapon_id in weapons_id:
         weapon = avatar.Weapon(weapon_id)
         box.weapons[weapon_id] = weapon
+    all_weapons_id = []
     for player_id in players_id:
         if client.get_user(player_id):
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
+            all_weapons_id += player.weapons
     p_num_result = (len(players_id)==len(box.players))
+    
     desc = (
           f"\n+Prefix『^^』"
         + f"\n+Server『{len(client.guilds)}』"
@@ -624,11 +627,11 @@ async def on_message(message):
                 em = discord.Embed(description='もしかしてコマンド処理が終わらないんじゃない?\n`y/n`')
                 await m_ch.send(embed=em)
                 try:
-                    re_m,user = await client.wait_for('message', timeout=60, check=check)
+                    re_msg = await client.wait_for('message', timeout=60, check=check)
                 except asyncio.TimeoutError:
                     await m_ch.send('答えないんなら次行くね?')
                 else:
-                    answer = re_m.content
+                    answer = re_msg.content
                     if answer == 'y':
                         cmd_lock[m_ch.id] = False
             embed = discord.Embed(description='これで全部かな?\nお待たせしてごめんね、修理完了したよ!\n今後ともBitRPGをよろしく!!')
