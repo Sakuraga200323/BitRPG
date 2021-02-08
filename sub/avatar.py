@@ -155,7 +155,7 @@ class Player:
             return []
 
     def weapons_id(self):
-        return self.get_data(weapons)
+        return self.get_data("weapons")
 
     # レベル取得
     def lv(self, plus=None):
