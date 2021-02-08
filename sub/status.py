@@ -580,7 +580,7 @@ async def set_weapon(user,ch):
                             result = re.match("re_content",r"^(\d+) (\b+)$")
                             if result:
                                 item_num, use_num = result.group(1),result.group(2)
-                                if player.item_num(materials[]) >= use_num:
+                                if player.item_num(materials_info_set[item_num-1][1]) >= use_num:
                                     materials.append((item_num,use_num))
                                     buildup_em = reload_em2()
                                     buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
