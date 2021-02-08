@@ -140,7 +140,7 @@ async def on_ready():
         if client.get_user(player_id):
             player = avatar.Player(client, player_id)
             box.players[player_id] = player
-            weapons_id_from_box_weapons += player.weapons_id()
+            weapons_id_from_players_tb += player.weapons_id()
     p_num_result = (len(players_id)==len(box.players))
     weapons_id_from_weapons_tb = [ i["id"] for i in pg2.fetchdict("select id from weapon_tb;")]
     weapons_id_from_box_weapons = list(box.weapons.keys())
