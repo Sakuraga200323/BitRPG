@@ -17,6 +17,7 @@ import re
 import traceback
 from sub import box, calc
 
+
 JST = timezone(timedelta(hours=+9), 'JST')
 
 dsn = os.environ.get('DATABASE_URL')
