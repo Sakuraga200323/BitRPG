@@ -1,6 +1,9 @@
 # coding: utf-8
 # Your code here!
 
+# coding: utf-8
+# Your code here!
+
 import math
 import ast
 import asyncio
@@ -560,9 +563,9 @@ async def set_weapon(user,ch):
                             use_material_text = "未選択"
                         buildup_em.add_field(name=f"使用する強化素材",value=use_material_text)
                         return buildup_em
-                        buildup_em = reload_em2()
-                        buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
-                        await menu_msg.edit(embed=buildup_em)
+                    buildup_em = reload_em2()
+                    buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
+                    await menu_msg.edit(embed=buildup_em)
                     while True:
                         try:
                             re_material_num_msg = await client.wait_for("message",timeout=60,check=check_buy)
