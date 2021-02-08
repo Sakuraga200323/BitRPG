@@ -589,7 +589,7 @@ async def set_weapon(user,ch):
                     materials = tuple(materials)
                     if materials != ():
                         for num,material_info in zip(range(1,len(materials)+1),materials):
-                            get_item(user, materials_info_set[ material_info[0]-1 ]][2], material_info[1])
+                            get_item(user, materials_info_set[ material_info[0]-1 ][1], material_info[1])
                             
 
         if respons == 4:
