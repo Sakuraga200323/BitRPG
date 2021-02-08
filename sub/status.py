@@ -447,10 +447,12 @@ async def set_weapon(user,ch):
         if not m.content.isdigit():return 0
         return 1
     def check_buy(m):
-        if not user.id == m.author.id:return 0
+        if user.id != m.author.id:
+            return 0
         pattern = r'^(\d+) (\d+)$'
-        if not re.search(pattern, m.content) and not m.content == "0":return 0
-        return 1
+        result = re.search(pattern, m.content)
+        if result or m.content == "0":
+            return 1
     try:
         msg = await client.wait_for("message", timeout=60, check=check3)
     except asyncio.TimeoutError:
