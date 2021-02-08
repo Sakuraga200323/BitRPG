@@ -153,7 +153,7 @@ async def on_ready():
     embed.timestamp = datetime.now(JST)
     ch = client.get_channel(784271793640833035)
     await ch.send(embed = embed)
-    print(f"player_tb:{len(weapons_id_from_players_tb)}\nweapon_tb:{weapons_id_from_weapons_tb}\nbox.weapon:{weapons_id_from_box_weapons}")
+    print(f"player_tb:{len(weapons_id_from_players_tb)}\nweapon_tb:{len(weapons_id_from_weapons_tb)}\nbox.weapon:{len(weapons_id_from_box_weapons)}")
     print("""
 ⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜
 ⬛⬜⬜⬛⬛⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬛⬜⬜⬜⬛
