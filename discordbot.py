@@ -176,7 +176,6 @@ async def on_ready():
 
 
 
-
 log_text = ""
 @tasks.loop(seconds=10)
 async def loop():
