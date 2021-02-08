@@ -544,10 +544,10 @@ async def set_weapon(user,ch):
                         buildup_em = discord.Embed(title="Buildup Weapon")
                         buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji()}{target_weapon_obj.name()}")
                         material_text = ""
-                            for item_info in materials_info_set:
-                                num = player.item_num(item_info[1])
-                                if num:
-                                    material_text += f"[{item_info[0]}]{box.items_emoji[item_info[1]]}×{num} "
+                        for item_info in materials_info_set:
+                            num = player.item_num(item_info[1])
+                            if num:
+                                material_text += f"[{item_info[0]}]{box.items_emoji[item_info[1]]}×{num} "
                         if material_text == "":
                             material_text = "強化素材がありません"
                         buildup_em.add_field(name=f"強化素材",value=material_text)
