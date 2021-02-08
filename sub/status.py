@@ -450,13 +450,13 @@ async def set_weapon(user,ch):
     try:
         msg = await client.wait_for("message", timeout=60, check=check3)
     except asyncio.TimeoutError:
-        menu_msg.embeds[0].add_field(name="`tips`",value="処理終了")
+        menu_msg.embeds[0].add_field(name="※tips",value="処理終了")
         await menu_msg.edit(embed=menu_msg.embeds[0])
     else:
         await msg.delete()
         respons = int(msg.content)
         if respons == 0:
-            menu_msg.embeds[0].add_field(name="`tips`",value="処理終了")
+            menu_msg.embeds[0].add_field(name="※tips",value="処理終了")
             await menu_msg.edit(embed=menu_msg.embeds[0])
         if respons == 1:
             await w_inventory(player,ch)
@@ -477,7 +477,7 @@ async def set_weapon(user,ch):
                             weapons_num.append(weapon)
                     return em
                 em = create_em()
-                em.add_field(name="`tips`",value="装備する武器の番号を送信してください。\n0と送信するとキャンセルします。")
+                em.add_field(name="※tips",value="装備する武器の番号を送信してください。\n0と送信するとキャンセルします。")
                 set_weapon_menu_msg = await ch.send(embed=em)
                 def check3(m):
                     if not user.id == m.author.id:return 0
@@ -487,19 +487,21 @@ async def set_weapon(user,ch):
                     msg = await client.wait_for("message", timeout=60, check=check3)
                     await msg.delete()
                 except asyncio.TimeoutError:
-                    set_weapon_menu_msg.embeds[0].add_field(name="`tips`",valuet="処理終了")
-                    await set_weapon_menu_msg.edit(embed=menu_msg.embeds[0])
+                    em = create_em()
+                    em.add_field(name="※tips",valuet="処理終了")
+                    await set_weapon_menu_msg.edit(embed=em)
                 else:
                     num = int(msg.content)
                     if num == 0:
-                        menu_msg.embeds[0].add_field(name="`tips`",value="処理終了")
-                        await menu_msg.edit(embed=menu_msg.embeds[0])
+                        em = create_em()
+                        em.add_field(name="※tips",value="処理終了")
+                        await menu_msg.edit(embed=em)
                     else:
                         weapon = weapons_num[num-1]
                         player.weapon(weapon=weapon)
                         em = create_em()
-                        em.add_field(name="`tips`",value="処理終了")
-                        await set_weapon_menu_msg.edit(embed=em)
+                        em.add_field(name="※tips",value="処理終了")
+                        await menu_msg.edit(embed=em)
         if respons == 3:
             def reload_em():
                 weapons_obj = player.weapons()
@@ -514,7 +516,7 @@ async def set_weapon(user,ch):
                     weapons_em.add_field(name=name,value=value,inline=False)
                 return weapons_em
             weapons_em = reload_em()
-            weapons_em.add_field(name="`tips`",value="強化する武器の番号を送信してください。")
+            weapons_em.add_field(name="※tips",value="強化する武器の番号を送信してください。")
             menu_msg = await ch.send(embed=weapons_em)
             while True:
                 try:
@@ -522,36 +524,73 @@ async def set_weapon(user,ch):
                     await re_msg.delete()
                 except asyncio.TimeoutError:
                     weapons_em = reload_em()
-                    weapons_em.add_field(name="`tips`",value="処理終了")
+                    weapons_em.add_field(name="※tips",value="処理終了")
                     await menu_msg.edit(embed=weapons_em)
+                    break
                 else:
                     weapon_num = int(re_msg.content)
                     if weapon_num == 0:
-                        weapons_em.add_field(name="`tips`",value="処理終了")
+                        weapons_em.add_field(name="※tips",value="処理終了")
                         await menu_msg.edit(embed=weapons_em)
                         break
                     if not weapon_num in range(1,len(player.weapons())+1):
-                        weapons_em.add_field(name="`tips`",value="該当する武器がありません。")
+                        weapons_em.add_field(name="※tips",value="該当する武器がありません。")
                         await menu_msg.edit(embed=weapons_em)
                         continue
                     target_weapon_obj = player.weapons()[weapon_num-1]
-                    buildup_em = discord.Embed(title="Buildup Weapon")
-                    buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji()}{target_weapon_obj.name()}")
-                    material_text = ""
-                    for item_num,i in zip((1,2,3,4),(29,30)):
-                        num = player.item_num(i)
-                        if num:
-                            material_text += f"{item_num}{box.items_emoji[i]}×{num} "
-                    if material_text == "":
-                        material_text = "強化素材がありません"
-                    buildup_em.add_field(name=f"強化素材",value=material_text)
-                    buildup_em.add_field(name="`tips`",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。`0`と送信すると強化を開始します。")
-                    await menu_msg.edit(embed=buildup_em)
-                    '''
+                    materials = []
+                    materials_info_set = ((1,29,5),(2,30,15))
+                    def reload_em2():
+                        buildup_em = discord.Embed(title="Buildup Weapon")
+                        buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji()}{target_weapon_obj.name()}")
+                        material_text = ""
+                            for item_info in materials_info_set:
+                                num = player.item_num(item_info[1])
+                                if num:
+                                    material_text += f"[{item_info[0]}]{box.items_emoji[item_info[1]]}×{num} "
+                        if material_text == "":
+                            material_text = "強化素材がありません"
+                        buildup_em.add_field(name=f"強化素材",value=material_text)
+                        if materials != []:
+                            use_material_text = ""
+                            for item in materials:
+                                use_material_text += f"{box.items_emoji[item[0]]}×{item[1]} "
+                        else:
+                            use_material_text = "未選択"
+                        buildup_em.add_field(name=f"使用する強化素材",value=use_material_text)
+                        return buildup_em
+                        buildup_em = reload_em2()
+                        buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
+                        await menu_msg.edit(embed=buildup_em)
                     while True:
                         try:
                             re_material_num_msg = await client.wait_for("message",timeout=60,check=check_buy)
-                    '''    
+                        except asyncio.TimeoutError:
+                            weapons_em = reload_em()
+                            weapons_em.add_field(name="※tips",value="処理終了")
+                            await menu_msg.edit(embed=weapons_em)
+                        else:
+                            re_content = re_material_num_msg.content
+                            if re_content == "0":
+                                buildup_em = reload_em2()
+                                buildup_em.add_field(name="※tips",value="武器強化を開始します。")
+                                await menu_msg.edit(embed=buildup_em)
+                                break
+                            result = re.match("re_content",r"^(\d+) (\b+)$")
+                            if result:
+                                item_num, use_num = result.group(1),result.group(2)
+                                if player.item_num(materials[]) >= use_num:
+                                    materials.append((item_num,use_num))
+                                    buildup_em = reload_em2()
+                                    buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
+                                    await menu_msg.edit(embed=buildup_em)
+                                continue
+                    materials = tuple(materials)
+                    if materials != ():
+                        for num,material_info in zip(range(1,len(materials)+1),materials):
+                            get_item(user, materials_info_set[ material_info[0]-1 ]][2], material_info[1])
+                            
+
         if respons == 4:
             split_num = 5
             split_weapons = tuple(split_list(box.player_weapons,split_num))
@@ -574,7 +613,7 @@ async def set_weapon(user,ch):
             embeds = tuple(embeds)
             page_num = 0
             embeds[0].add_field(
-                name="`tips`",
+                name="※tips",
                 value=f'{box.menu_emojis2["left"]}{box.menu_emojis2["right"]}:ページ切り替え\n{box.menu_emojis2["close"]}:処理終了\n{box.menu_emojis2["create_mode"]}:作成モードに変更'
             )
             weapon_drop_menu_msg = await ch.send(embed=embeds[0])
@@ -598,7 +637,7 @@ async def set_weapon(user,ch):
                         reaction,msg = None,None
                         reaction, user = await client.wait_for("reaction_add",check=check_react,timeout=60.0)
                     except asyncio.TimeoutError:
-                        embeds[0].add_field(name="`tips`",value="処理終了")
+                        embeds[0].add_field(name="※tips",value="処理終了")
                         await weapon_drop_menu_msg.edit(embed=embeds[0])
                         await weapon_drop_menu_msg.clear_reactions()
                         break
@@ -618,7 +657,7 @@ async def set_weapon(user,ch):
                             if emoji == box.menu_emojis2["create_mode"]:
                                 create_mode = True
                             if emoji == box.menu_emojis2["close"]:
-                                embeds[0].add_field(name="`tips`",value="処理終了")
+                                embeds[0].add_field(name="※tips",value="処理終了")
                                 await weapon_drop_menu_msg.edit(embed=embeds[0])
                                 await weapon_drop_menu_msg.clear_reactions()
                                 break
@@ -629,7 +668,7 @@ async def set_weapon(user,ch):
                                 footer_text=f'作成モードです。対応する武器の番号を送信してください。武器スロットが５枠すべて埋まっていると作成できません。\n`0`を送信すると終了します。'
                             page_num = max(0,(min(page_num,len(embeds)-1)))
                             shop_em3 = embeds[page_num]
-                            shop_em3.add_field(name="`tips`",value=footer_text)
+                            shop_em3.add_field(name="※tips",value=footer_text)
                             await weapon_drop_menu_msg.edit(content=content,embed=shop_em3)
                 while create_mode:
                     try:
@@ -638,7 +677,7 @@ async def set_weapon(user,ch):
                     except asyncio.TimeoutError:
                         footer_text="処理終了"
                         if len(weapon_drop_menu_msg.embeds):
-                            weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                            weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                             await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                         create_mode = False
                         menu_flag = False
@@ -648,13 +687,13 @@ async def set_weapon(user,ch):
                         if msg_num > split_num or msg_num < 0:
                             footer_text=f"{msg_num}は指定できない数値です。"
                             if len(weapon_drop_menu_msg.embeds):
-                                weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                                weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         if msg.content == "0":
                             footer_text=f"処理終了"
                             if len(weapon_drop_menu_msg.embeds):
-                                weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                                weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             create_mode = False
                             menu_flag = False
@@ -662,7 +701,7 @@ async def set_weapon(user,ch):
                         if len(player.weapons()) >= 5:
                             footer_text=f"武器インベントリがいっぱいなので処理を終了しました。"
                             if len(weapon_drop_menu_msg.embeds):
-                                weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                                weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             menu_flag = False
                             break
@@ -678,7 +717,7 @@ async def set_weapon(user,ch):
                         if msg_num > len(embeds)-1 or msg_num < 0:
                             footer_text=f"{msg_num}は指定できない数値です。"
                             if len(weapon_drop_menu_msg.embeds):
-                                weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                                weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         for name,emoji,num in zip(materials_name, box.material_emoji, weapon_recipe):
@@ -689,7 +728,7 @@ async def set_weapon(user,ch):
                         if husoku_text != "":
                             footer_text=f"{husoku_text} が足りません。終了する場合は0を送信。"
                             if len(weapon_drop_menu_msg.embeds):
-                                weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                                weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                                 await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
                             continue
                         for name,num in zip(materials_name, weapon_recipe):
@@ -705,7 +744,7 @@ async def set_weapon(user,ch):
                         player.money(-weapon_price)
                         footer_text=f"{weapon_obj.emoji()}{weapon_obj.name()}(Rank.{weapon_obj.rank()})を作成しました。終了する場合は0を送信。"
                         if len(weapon_drop_menu_msg.embeds):
-                            weapon_drop_menu_msg.embeds[0].add_field(name="`tips`",value=footer_text)
+                            weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                             await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
 
         if respons == 5:
@@ -726,23 +765,23 @@ async def set_weapon(user,ch):
                     return em
                 em = create_em()
                 if len(player.weapons()) <= 0:
-                    em.add_field(name="`tips`",value="捨てられる武器がありません。\n処理終了")
+                    em.add_field(name="※tips",value="捨てられる武器がありません。\n処理終了")
                     await ch.send(embed=em)
                     return
-                em.add_field(name="`tips`",value="捨てる武器の番号を送信して下さい。\n`0`を送信すると処理停止。")
+                em.add_field(name="※tips",value="捨てる武器の番号を送信して下さい。\n`0`を送信すると処理停止。")
                 drop_weapon_menu_msg = await ch.send(embed=em)
                 while True:
                     try:
                         drop_weapon_num_msg = await client.wait_for("message", timeout=60, check=check3)
                         await drop_weapon_num_msg.delete()
                     except asyncio.TimeoutError:
-                        em.add_field(name="`tips`",value="処理終了")
+                        em.add_field(name="※tips",value="処理終了")
                         await drop_weapon_menu_msg.edit(embed=em)
                         break
                     else:
                         drop_weapon_num = int(drop_weapon_num_msg.content)
                         if drop_weapon_num == 0:
-                            em.add_field(name="`tips`",value="処理終了")
+                            em.add_field(name="※tips",value="処理終了")
                             await drop_weapon_menu_msg.edit(embed=em)
                             break
                         else:
@@ -754,6 +793,6 @@ async def set_weapon(user,ch):
                             player.drop_weapon(weapon=weapon)
                             weapon = weapons_which_player_has[drop_weapon_num-1]
                             em = create_em()
-                            em.add_field(name="`tips`",value="指定武器を捨てました。\n`0`と送信すると処理終了。")
+                            em.add_field(name="※tips",value="指定武器を捨てました。\n`0`と送信すると処理終了。")
                             await drop_weapon_menu_msg.edit(embed=em)
             
