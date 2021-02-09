@@ -578,7 +578,7 @@ async def set_weapon(user,ch):
                                 buildup_em.add_field(name="※tips",value="武器強化を開始します。")
                                 await menu_msg.edit(embed=buildup_em)
                                 break
-                            result = re.match("re_content",r"^(\d+) (\b+)$")
+                            result = re.search("re_content",r"^(\d+) (\d+)$")
                             if result:
                                 item_num, use_num = result.group(1),result.group(2)
                                 if player.item_num(materials_info_set[item_num-1][1]) >= use_num:
