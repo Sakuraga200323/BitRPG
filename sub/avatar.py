@@ -93,7 +93,7 @@ class Player:
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
                 w_list.remove(w_id)
         if not self.weapon_id() in w_list:
-            self.weapon(Weapons(w_list[0]))
+            self.weapon(Weapon(w_list[0]))
         if w_list != w_list_buckup:
             pg.execute(f"update player_tb set weapons = ARRAY{w_list} where id = {id};")
            
