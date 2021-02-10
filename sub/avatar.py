@@ -86,9 +86,8 @@ class Player:
         # 所持武器が武器テーブルに含まれているかなどのデータの正確性の確認
         w_list = self.weapons_id()
         w_list_buckup = w_list
-        print(w_list)
         if len(w_list) > 5:
-            w_list = w_list[:-4]
+            w_list = w_list[0:5]
         for w_id in self.weapons_id():
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
                 w_list.remove(w_id)
