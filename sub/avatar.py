@@ -79,10 +79,12 @@ class Player:
             weapon = self.create_weapon(name,emoji,rank)
             self.weapon(weapon)
             self.weapons(weapon)
-            print(f"NewPlayerClass: {self.weapon().name} {self.weapon().id}")
+            print(f"NewWeaponClass: {self.weapon().name} {self.weapon().id}")
         for w_id in self.weapons_id():
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
-                self.weapons_id().remove(w_id)
+                w_list = self.weapons_id()
+                print(w_list)
+                w_list.remove(w_id)
                 pg.execute(f'update player_tb set weapons=ARRAY{weapons} where id = {self.user.id};')
              
            
