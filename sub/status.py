@@ -573,11 +573,6 @@ async def set_weapon(user,ch):
                             await menu_msg.edit(embed=weapons_em)
                         else:
                             re_content = re_material_num_msg.content
-                            if re_content == "0":
-                                buildup_em = reload_em2()
-                                buildup_em.add_field(name="※tips",value="武器強化を開始します。")
-                                await menu_msg.edit(embed=buildup_em)
-                                break
                             result = re.search("re_content",r"^(\d+) (\d+)$")
                             if result:
                                 item_num, use_num = result.group(1),result.group(2)
@@ -587,10 +582,16 @@ async def set_weapon(user,ch):
                                     buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
                                     await menu_msg.edit(embed=buildup_em)
                                 continue
+                            elif re_content == "0":
+                                buildup_em = reload_em2()
+                                buildup_em.add_field(name="※tips",value="武器強化を開始します。")
+                                await menu_msg.edit(embed=buildup_em)
+                                break
                     materials = tuple(materials)
                     if materials != ():
                         for num,material_info in zip(range(1,len(materials)+1),materials):
                             get_item(user, materials_info_set[ material_info[0]-1 ][1], material_info[1])
+                    
                             
 
         if respons == 4:
