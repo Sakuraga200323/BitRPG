@@ -72,6 +72,8 @@ class Player:
         if magic_class == 3:
             self.max_mp = self.now_mp = int(self.max_mp*1.1)
         print(f"NewPlayerClass: {self.user}")
+
+        # 武器の有無を確認
         weapons = pg2.fetchdict(f"select id from weapon_tb where player_id = {self.user.id} limit 5")
         if not weapons:
             name = random.choice(list(box.shop_weapons.keys())[:3])
@@ -80,13 +82,20 @@ class Player:
             self.weapon(weapon)
             self.weapons(weapon)
             print(f"NewWeaponClass: {self.weapon().name} {self.weapon().id}")
+
+        # 所持武器が武器テーブルに含まれているかなどのデータの正確性の確認
+        w_list = self.weapons_id()
+        w_list_buckup = w_list
+        print(w_list)
+        if len(w_list) > 5:
+            w_list = w_list[:-4]
         for w_id in self.weapons_id():
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
-                w_list = self.weapons_id()
-                print(w_list)
                 w_list.remove(w_id)
-                pg.execute(f'update player_tb set weapons=ARRAY{weapons} where id = {self.user.id};')
-             
+        if not self.weapon_id() in w_list:
+            self.weapon(Weapons(w_list[0]))
+        if w_list != w_list_buckup:
+            pg.execute(f"update player_tb set weapons = ARRAY{w_list} where id = {id};")
            
     def ID(self):
         return self.user.id
