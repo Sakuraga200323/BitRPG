@@ -248,6 +248,8 @@ async def on_message(message):
     m_ch = message.channel
     m_guild = message.guild
     m_author = message.author
+    await m_ch.send(embed=discord.Embed(description='BitRPGは**2021/2/14**にサービス終了致しました。現在復旧予定はありません。\n約1年間のご利用、誠に有難う御座いました。'))
+    return
     if m_author.id == 715203558357598240:
         return
     if m_ch.type == discord.ChannelType.private:
