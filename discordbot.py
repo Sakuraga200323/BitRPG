@@ -155,8 +155,6 @@ async def on_ready():
             pg2.execute(f"delete from weapon_tb where id = {weapon_id};")
     embed = discord.Embed(title="起動ログ", description=f"```diff\n{desc}```")
     embed.timestamp = datetime.now(JST)
-    ch = client.get_channel(784271793640833035)
-    await ch.send(embed = embed)
     weapons_id_from_weapons_tb = [ i["id"] for i in pg2.fetchdict("select id from weapon_tb;")]
     weapons_id_from_box_weapons = list(box.weapons.keys())
     print(f"player_tb:{len(weapons_id_from_players_tb)}\nweapon_tb:{len(weapons_id_from_weapons_tb)}\nbox.weapon:{len(weapons_id_from_box_weapons)}")
