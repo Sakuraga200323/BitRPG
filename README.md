@@ -4,7 +4,7 @@
 # BitRPG
 ターン制を採用したコマンド操作式の**RPGBot**です。貴方のサーバーに刺激的な戦いと、ほんの僅かな楽しみを与えます。  
 # 開発および運営陣紹介
-#### 初代開発者-ClearanceLevel4
+#### 初代開発者-ClearanceLevel5
 * **Amanohashi**#6870
 * **Amanohashi**#9999 ※同一人物、故人。
 #### 二代目開発者群-ClearanceLevel5
