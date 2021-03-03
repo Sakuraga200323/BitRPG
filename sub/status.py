@@ -545,7 +545,14 @@ async def set_weapon(user,ch):
                         continue
                     target_weapon_obj = player.weapons()[weapon_num-1]
                     materials = []
-                    materials_info_set = ((1,29,5),(2,30,15))
+                    materials_info_set = (
+                        (1,29,5),
+                        (2,30,15)
+                    )
+                    material_exp_dict = {
+                        29:5,
+                        30:15
+                    }
                     def reload_em2():
                         buildup_em = discord.Embed(title="Buildup Weapon")
                         buildup_em.add_field(name='強化武器',value=f"{target_weapon_obj.emoji()}{target_weapon_obj.name()}")
@@ -573,6 +580,8 @@ async def set_weapon(user,ch):
                     for item_info in materials_info_set:
                         item_id = item_info[1]
                         item_num = player.item_num(item_id)
+                        if item_num <= 0:
+                            continue
                         em = discord.Embed(description=f"{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
                         await material_msg.edit(embed=em)
                         try:
@@ -598,10 +607,12 @@ async def set_weapon(user,ch):
                                 em = discord.Embed(desciprion=f"所持数以下の数値にしてください。\n{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
                                 await material_msg.edit(embed=em)
                     materials = tuple(materials)
-                    print(materials)
-                    if materials != ():
-                        for num,material_info in zip(range(1,len(materials)+1),materials):
-                            get_item(user, materials_info_set[ material_info[0]-1 ][1], material_info[1])
+                    all_exp = 0
+                    if len(materials) > 0:
+                        for item_id, item_num in zip(materials[0],materials[0]):
+                            all_exp += material_exp_dict[item_id]*item_num
+                            # get_item(user, item_id,item_num)
+                        await ch.send(content="現在未実装ですが、実際に強化した場合Exp**{all_exp}**の経験値を取得できます。")
                     
                             
 
