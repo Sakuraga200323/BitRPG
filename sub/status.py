@@ -572,7 +572,7 @@ async def set_weapon(user,ch):
                     material_msg = await ch.send(embed=material_num_em)
                     for item_info in materials_info_set:
                         print("a")
-                        item_id = box.items_emoji[item_info[1]]
+                        item_id = [item_info[1]]
                         item_num = player.item_num(item_id)
                         em = dsicord.Embed(desciprion=f"{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
                         await material_msg.edit(embed=em)
