@@ -505,6 +505,10 @@ async def set_weapon(user,ch):
                         em.add_field(name="※tips",value="処理終了")
                         await menu_msg.edit(embed=em)
         if respons == 3:
+            def check4(m):
+                if not user.id == m.author.id:return 0
+                if not m.content.isdigit() and not m.content=="ok":return 0
+                return 1
             def reload_em():
                 weapons_obj = player.weapons()
                 weapon_obj = player.weapon()
@@ -549,7 +553,7 @@ async def set_weapon(user,ch):
                         for item_info in materials_info_set:
                             num = player.item_num(item_info[1])
                             if num:
-                                material_text += f"[{item_info[0]}]{box.items_emoji[item_info[1]]}×{num} "
+                                material_text += f"{box.items_emoji[item_info[1]]}×{num} "
                         if material_text == "":
                             material_text = "強化素材がありません"
                         buildup_em.add_field(name=f"強化素材",value=material_text)
@@ -562,32 +566,39 @@ async def set_weapon(user,ch):
                         buildup_em.add_field(name=f"使用する強化素材",value=use_material_text)
                         return buildup_em
                     buildup_em = reload_em2()
-                    buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
+                    buildup_em.add_field(name="※tips",value="素材の使用数を順番に入力してください。0も可能です。\n`ok`と送信すると強化を開始します。")
                     await menu_msg.edit(embed=buildup_em)
-                    while True:
+                    material_num_em = discord.Embed()
+                    material_msg = await ch.send(embed=material_num_em)
+                    for item_info in materials_info_set:
+                        item_id = box.items_emoji[item_info[1]]
+                        item_num = player.item_num(item_id)
+                        em = dsicord.Embed(desciprion=f"{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
+                        await material_msg.edit(embed=em)
                         try:
-                            re_material_num_msg = await client.wait_for("message",timeout=60,check=check_buy)
+                            re_material_num_msg = await client.wait_for("message",timeout=60,check=check3)
                         except asyncio.TimeoutError:
                             weapons_em = reload_em()
                             weapons_em.add_field(name="※tips",value="処理終了")
                             await menu_msg.edit(embed=weapons_em)
                         else:
-                            re_content = re_material_num_msg.content
-                            result = re.search("re_content",r"^(\d+) (\d+)$")
-                            if result:
-                                item_num, use_num = result.group(1),result.group(2)
-                                if player.item_num(materials_info_set[item_num-1][1]) >= use_num:
-                                    materials.append((item_num,use_num))
-                                    buildup_em = reload_em2()
-                                    buildup_em.add_field(name="※tips",value="使用する強化素材を`番号 使用数`と送信して選択して下さい。\n`0`と送信すると強化を開始します。")
-                                    await menu_msg.edit(embed=buildup_em)
-                                continue
-                            elif re_content == "0":
+                            if re_material_num_msg.content == "ok":
                                 buildup_em = reload_em2()
                                 buildup_em.add_field(name="※tips",value="武器強化を開始します。")
                                 await menu_msg.edit(embed=buildup_em)
                                 break
+                            use_num = int(re_material_num_msg.content)
+                            if item_num >= use_num:
+                                materials.append((item_id,use_num))
+                                buildup_em = reload_em2()
+                                buildup_em.add_field(name="※tips",value="素材の使用数を順番に入力してください。0も可能です。\n`ok`と送信すると強化を開始します。")
+                                await menu_msg.edit(embed=buildup_em)
+                            else:
+                                buildup_em = reload_em2()
+                                em = dsicord.Embed(desciprion=f"所持数以下の数値にしてください。\n{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
+                                await material_msg.edit(embed=em)
                     materials = tuple(materials)
+                    print(materials)
                     if materials != ():
                         for num,material_info in zip(range(1,len(materials)+1),materials):
                             get_item(user, materials_info_set[ material_info[0]-1 ][1], material_info[1])
