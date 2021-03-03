@@ -608,8 +608,10 @@ async def set_weapon(user,ch):
                                 await material_msg.edit(embed=em)
                     materials = tuple(materials)
                     all_exp = 0
+                    await material_msg.delete()
                     if len(materials) > 0:
-                        for item_id, item_num in zip(materials[0],materials[1]):
+                        for info_set in materials:
+                            item_id, item_num = info_set
                             all_exp += material_exp_dict[item_id]*item_num
                             # get_item(user, item_id,item_num)
                         await ch.send(content="現在未実装ですが、実際に強化した場合Exp**{all_exp}**の経験値を取得できます。")
