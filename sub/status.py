@@ -574,7 +574,7 @@ async def set_weapon(user,ch):
                         print("a")
                         item_id = item_info[1]
                         item_num = player.item_num(item_id)
-                        em = dsicord.Embed(desciprion=f"{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
+                        em = discord.Embed(desciprion=f"{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
                         await material_msg.edit(embed=em)
                         try:
                             re_material_num_msg = await client.wait_for("message",timeout=60,check=check3)
@@ -596,7 +596,7 @@ async def set_weapon(user,ch):
                                 await menu_msg.edit(embed=buildup_em)
                             else:
                                 buildup_em = reload_em2()
-                                em = dsicord.Embed(desciprion=f"所持数以下の数値にしてください。\n{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
+                                em = discord.Embed(desciprion=f"所持数以下の数値にしてください。\n{box.items_emoji[item_id]}**{box.items_name[item_id]}**\n所持数: `{item_num}`")
                                 await material_msg.edit(embed=em)
                     materials = tuple(materials)
                     print(materials)
