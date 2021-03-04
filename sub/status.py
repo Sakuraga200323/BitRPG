@@ -613,7 +613,7 @@ async def set_weapon(user,ch):
                             item_id, item_num = info_set
                             all_exp += material_exp_dict[item_id]*item_num
                             # get_item(user, item_id,item_num)
-                        await ch.send(content=f"現在未実装ですが、実際に強化した場合Exp**{all_exp}**の経験値を取得できます。")
+                        await ch.send(content=f"現在未実装ですが、計算上**{all_exp}**Expを取得できます。")
                     
                             
 
