@@ -74,23 +74,23 @@ class Player:
         print(f"NewPlayerClass: {self.user}")
 
         # 武器の有無を確認
-        weapons = pg2.fetchdict(f"select id from weapon_tb where player_id = {self.user.id} limit 5")
-        if not weapons:
+        weapons_id_from_weapon_tb = pg2.fetchdict(f"select id from weapon_tb where player_id = {self.user.id} limit 5")
+        if not weapons_id_from_weapon_tb:
             name = random.choice(list(box.shop_weapons.keys())[:3])
             emoji,rank = box.shop_weapons[name][0],2
             weapon = self.create_weapon(name,emoji,rank)
             self.weapon(weapon)
             self.weapons(weapon)
             print(f"NewWeaponClass: {self.weapon().name} {self.weapon().id}")
-
+        
         # 所持武器が武器テーブルに含まれているかなどのデータの正確性の確認
         w_list = self.weapons_id()
         w_list_buckup = w_list
-        # 所持数が5戸を超えている場合は強制的に5個までの判定にする
+        # 所持数が5個を超えている場合は強制的に5個までの判定にする
         if len(w_list) > 5:
             w_list = w_list[0:5]
         if len(w_list) <= 0:
-            print(f"{self.user}の所持武器数が0")
+            print(f"⚠{self.user}の所持武器数が0")
         # playerのweaponsに登録されているweapon_idの内、weapon_tbに存在しないものがある場合はw_listから取り除く
         for w_id in self.weapons_id():
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
@@ -163,17 +163,16 @@ class Player:
         return id
     
     def weapons(self,weapon=False,drop=False):
-        weapons_ = list(self.get_data("weapons"))
+        weapons_id_from_player_tb_weapons = list(self.get_data("weapons"))
         if weapon:
             if not drop:
-                weapons_.append(weapon.id)
+                weapons_id_from_player_tb_weapons.append(weapon.id)
             else:
-                if weapon.id in weapons_:
+                if weapon.id in weapons_id_from_player_tb_weapons:
                     weapons_.remove(weapon.id)
-            pg.execute(f'update player_tb set weapons=ARRAY{weapons_} where id = {self.user.id};')
-        if weapons_ != []:
-            weapons_ = [ box.weapons[i] for i in weapons_ if i in box.weapons]
-            return weapons_
+            pg.execute(f'update player_tb set weapons=ARRAY{weapons_id_from_player_tb_weapons} where id = {self.user.id};')
+        if weapons_id_from_player_tb_weapons != []:
+            return [ box.weapons[i] for i in weapons_id_from_player_tb_weapons if i in box.weapons ]
         else:
             return []
 
