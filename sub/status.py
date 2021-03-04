@@ -614,8 +614,8 @@ async def set_weapon(user,ch):
                             all_exp += material_exp_dict[item_id]*item_num
                             # get_item(user, item_id,item_num)
                         await ch.send(content=f"現在未実装ですが、計算上**{all_exp}**Expを取得できます。")
-                    
-                            
+
+
 
         if respons == 4:
             split_num = 5
@@ -772,6 +772,8 @@ async def set_weapon(user,ch):
                         if len(weapon_drop_menu_msg.embeds):
                             weapon_drop_menu_msg.embeds[0].add_field(name="※tips",value=footer_text)
                             await weapon_drop_menu_msg.edit(embed=weapon_drop_menu_msg.embeds[0])
+
+
 
         if respons == 5:
             if player.weapons() != []:
