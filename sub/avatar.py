@@ -86,11 +86,16 @@ class Player:
         # 所持武器が武器テーブルに含まれているかなどのデータの正確性の確認
         w_list = self.weapons_id()
         w_list_buckup = w_list
+        # 所持数が5戸を超えている場合は強制的に5個までの判定にする
         if len(w_list) > 5:
             w_list = w_list[0:5]
+        if len(w_list) <= 0:
+            print(f"{self.user}の所持武器数が0")
+        # playerのweaponsに登録されているweapon_idの内、weapon_tbに存在しないものがある場合はw_listから取り除く
         for w_id in self.weapons_id():
             if not pg2.fetchdict(f"select id from weapon_tb where id = {w_id};"):
                 w_list.remove(w_id)
+        # weaponに登録されているweapon_idがweapons_idにない場合、所持武器の一つ目を強制的にweaponにセットする
         if not self.weapon_id() in w_list:
             if w_list[0] in box.weapons:
                 add_weapon_class = box.weapons[w_list[0]]
